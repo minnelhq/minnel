@@ -10,7 +10,7 @@ Everything the methodology builds — the `code-reviewer` and `test-writer` suba
 
 A **plugin** is the smallest unit of distribution for a Claude Code setup: one directory that bundles agents, skills, commands, hooks, and MCP wiring, with a small manifest, installable into any project in one step. So the practical payoff is that your operating model stops being per-project scaffolding and becomes one versioned thing you drop in anywhere.
 
-The strategic payoff matters more, and it is the reason to treat this as the natural conclusion of the whole exercise. An advisory or productised-methodology offering aimed at experienced engineers sells far better as an *installable, opinionated harness* — "here is my Claude Code operating model, `plugin install` it" — than as a document of principles. The methodology doc is the explanation; the plugin is the thing people actually adopt and keep. For a methodology meant for others, the plugin is what people adopt and the document explains why.
+The strategic payoff matters more, and it is the reason to treat this as the natural conclusion of the whole exercise. A methodology aimed at experienced engineers travels further as an *installable, opinionated harness* ("here is my Claude Code operating model, `plugin install` it") than as a document of principles. For a methodology meant for others, the plugin is what people adopt and the document explains why.
 
 > **Versioning note.** Plugin mechanics are moving quickly. The structure below was current as of mid-2026; confirm the manifest schema and directory conventions against the official plugins reference before building, and update Claude Code if `/plugin` is not recognised.
 
@@ -101,4 +101,4 @@ If the methodology is already running in a project, conversion is mechanical:
 
 Don't build the whole plugin up front. Run the methodology unpackaged in one real project until the agents, hooks, and a handful of skills have earned their place through actual use — the retro habit (§8) is what tells you which pieces are worth keeping. *Then* package the proven set. A plugin assembled from battle-tested components is a product; one assembled from speculation is a liability you have to maintain.
 
-For a methodology meant for others, the plugin and the document are a pair: ship the plugin as the adoptable artefact, keep the document as the rationale that explains *why* each component is shaped the way it is. The document earns trust; the plugin earns adoption.
+When you package it for others, the plugin and the document are a pair: ship the plugin as the adoptable artefact, keep the document as the rationale that explains *why* each component is shaped the way it is. The document earns trust; the plugin earns adoption.
