@@ -19,6 +19,11 @@ versions follow SemVer.
   far, no outside feedback yet. `docs/packaging-as-a-plugin.md` and `docs/methodology.md` §11
   drop the author-facing "advisory" framing for wording that addresses any reader.
 
+### Fixed
+- `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"
+  date (both files changed on 2026-06-20 but read 19/06/2026), now in ISO format. A follow-up
+  moves the rest of the repo to ISO to match.
+
 ## [0.2.0] — 20/06/2026
 
 ### Added
