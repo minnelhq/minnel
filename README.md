@@ -1,7 +1,8 @@
 # A File-First Operating Model for Claude Code
 
-Written for experienced solo developers and small teams, it treats the harness, Claude Code's
-settings, subagents, hooks and commands, as an engineered environment: the discipline lives in
+Written for experienced solo developers and small teams, it treats the harness,
+[Claude Code](https://code.claude.com/docs/en/overview)'s settings, subagents, hooks and commands,
+as an engineered environment: the discipline lives in
 what you persist to files and what you enforce deterministically, not in clever prompting.
 
 Adopted, it keeps a plan alive through compaction and session restarts, and makes the rules that
@@ -23,9 +24,10 @@ it, and the drop-in artefacts can be adopted one at a time.
   loop, end to end.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md` with the conventions baked in.
 - `.claude/` — the methodology running live: the five ritual commands (`/plan`, `/accept`,
-  `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent, the Definition of Done
-  rule, a `PostToolUse` consistency hook (flags dangling §/appendix references, broken
-  intra-repo links, and US spellings on edit), and an `add-section` skill (the section/appendix cross-reference
+  `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent (a task-scoped helper with its own
+  context), the Definition of Done rule (the bar a change must clear), a `PostToolUse` consistency
+  hook (a script Claude Code runs after each edit) that flags dangling §/appendix references, broken
+  intra-repo links, and US spellings, and an `add-section` skill (the section/appendix cross-reference
   ripple), all tuned for this docs project (see *Dogfooding*).
 
 ## Using it

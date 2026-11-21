@@ -10,6 +10,9 @@ versions follow SemVer.
   hooks and commands. README now also says what adopting the method gets you (a plan that survives
   compaction and restarts, rules that hold without the model remembering them, artefacts adopted
   one at a time).
+- README: link the Claude Code documentation at first mention and gloss its terms (the
+  `code-reviewer` subagent, the Definition of Done rule, the `PostToolUse` hook) so the index
+  reads without prior knowledge.
 
 ## [0.2.0] — 20/06/2026
 
