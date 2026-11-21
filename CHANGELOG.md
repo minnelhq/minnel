@@ -15,6 +15,9 @@ versions follow SemVer.
   reads without prior knowledge.
 - `docs/methodology.md` §1: cite the Claude Code cost guidance for "move instructions from
   `CLAUDE.md` to skills, and offload processing to hooks", previously an uncited claim.
+- README Status rewritten in the first person to say where the project stands: sole adopter so
+  far, no outside feedback yet. `docs/packaging-as-a-plugin.md` and `docs/methodology.md` §11
+  drop the author-facing "advisory" framing for wording that addresses any reader.
 
 ## [0.2.0] — 20/06/2026
 

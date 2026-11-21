@@ -68,8 +68,9 @@ worked example: it adapts the appendix drop-ins to a real repo rather than pasti
 
 ## Status
 
-Early and evolving. The intended destination is a Claude Code plugin (see the packaging
-doc) with the document as its rationale.
+I wrote this in June 2026 and run it on my own projects. I'm its only adopter so far, so it has
+had no outside feedback yet, and it may be too rigid to suit everyone. The intended destination is
+a Claude Code plugin (see the packaging doc), with the document as its rationale.
 
 ## Licence
 
