@@ -1,8 +1,12 @@
 # A File-First Operating Model for Claude Code
 
-Written for experienced solo developers and small teams, it treats the harness as an
-engineered environment: the discipline lives in what you persist to files and what you
-enforce deterministically, not in clever prompting.
+Written for experienced solo developers and small teams, it treats the harness, Claude Code's
+settings, subagents, hooks and commands, as an engineered environment: the discipline lives in
+what you persist to files and what you enforce deterministically, not in clever prompting.
+
+Adopted, it keeps a plan alive through compaction and session restarts, and makes the rules that
+matter hold without the model having to remember them. Each piece comes with the reasoning behind
+it, and the drop-in artefacts can be adopted one at a time.
 
 ## What's here
 

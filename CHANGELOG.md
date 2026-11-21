@@ -5,7 +5,11 @@ versions follow SemVer.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Changed
+- README and `docs/index.md` opening: gloss the harness as Claude Code's settings, subagents,
+  hooks and commands. README now also says what adopting the method gets you (a plan that survives
+  compaction and restarts, rules that hold without the model remembering them, artefacts adopted
+  one at a time).
 
 ## [0.2.0] — 20/06/2026
 
