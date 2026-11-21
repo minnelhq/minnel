@@ -13,6 +13,8 @@ versions follow SemVer.
 - README: link the Claude Code documentation at first mention and gloss its terms (the
   `code-reviewer` subagent, the Definition of Done rule, the `PostToolUse` hook) so the index
   reads without prior knowledge.
+- `docs/methodology.md` §1: cite the Claude Code cost guidance for "move instructions from
+  `CLAUDE.md` to skills, and offload processing to hooks", previously an uncited claim.
 
 ## [0.2.0] — 20/06/2026
 
