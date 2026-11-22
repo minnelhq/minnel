@@ -1,0 +1,14 @@
+{
+  "name": "methodology",
+  "description": "The file-first Claude Code operating model, as a plugin.",
+  "owner": {
+    "name": "Tomas Crossland"
+  },
+  "plugins": [
+    {
+      "name": "methodology",
+      "source": "./plugin",
+      "description": "A file-first Claude Code operating model, packaged."
+    }
+  ]
+}
