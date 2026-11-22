@@ -13,5 +13,5 @@ file, with its kind.
   L /retro, M /release, N /wrap
 
 The plugin in `plugin/` ships Appendices A and B, the Appendix C guards, and J–N, and its
-`/minnel:scaffold` skill writes D–H into a
-project (see [Packaging as a plugin](../packaging-as-a-plugin.md)). I and O stay as documentation.
+`/minnel:scaffold` skill writes D–H into a project (see
+[Packaging as a plugin](../packaging-as-a-plugin.md)). I and O stay as documentation.

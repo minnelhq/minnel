@@ -69,11 +69,11 @@ docs under `docs/`, the curated root `CHANGELOG.md`, and the contents of `.claud
 ritual commands, the `code-reviewer` subagent, the Definition of Done rule, the consistency
 hook, and the `add-section` skill) are not illustrations; they are how the work here gets done.
 
-They are tuned to a documentation project. The Markdown source has no build or test step (the
-plugin's guard scripts have `plugin/scripts/tests/guards.sh`), and the doc
-site is an optional publish build. Verification rests on British English and the
-internal-consistency invariant (§ cross-references and appendix letters A–O), enforced by the
-`PostToolUse` consistency hook and review rather than a test suite. That tuning doubles as a
+They are tuned to a documentation project. The Markdown source has no build or test step, and the
+doc site is an optional publish build. Verification of the Markdown rests on British English and
+the internal-consistency invariant (§ cross-references and appendix letters A–O), enforced by the
+`PostToolUse` consistency hook and review rather than a test suite. The plugin adds
+`plugin/scripts/tests/guards.sh` and `claude plugin validate`. That tuning doubles as a
 worked example: it adapts the appendix drop-ins to a real repo rather than pasting them verbatim.
 
 ## Status

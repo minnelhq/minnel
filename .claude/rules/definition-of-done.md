@@ -18,8 +18,9 @@ paths:
 
 A change is not done until ALL of these hold. Do not report a task complete until you have
 checked each one and can say which evidence confirms it. The Markdown source has no build, test
-or lint step; the bar is consistency and review, not a green suite. The plugin has its own item. (The doc site
-is an optional publish build — see the site-build item below and ADRs 0002 and 0003.)
+or lint step; the bar is consistency and review, not a green suite. The plugin has its own item.
+(The doc site is an optional publish build — see the site-build item below and ADRs 0002 and
+0003.)
 
 - [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
 - [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–O) touched

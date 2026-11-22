@@ -61,5 +61,13 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   commands for rituals, while the plugin ships them as skills with `disable-model-invocation:
   true`, which behave like commands; say so, so §10 and the packaging doc read as one.
 
+- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
+  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
+  Model for Claude Code"; choose one before the first release that ships the plugin.
+- Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
+  doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
+  and C and this repo's `.claude/settings.json` leave `$CLAUDE_PROJECT_DIR` unquoted, and project
+  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone.
+
 ## Parked (with reason)
 - (none)
