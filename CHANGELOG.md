@@ -5,6 +5,12 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Added
+- A Claude Code plugin in `plugin/`, listed by a marketplace at the repo root, that packages the
+  appendix artefacts. It ships the `code-reviewer` and `test-writer` subagents (Appendices A, B).
+  Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
+  plugin's own hooks.
+
 ## [0.3.1] — 2026-11-22
 
 ### Fixed

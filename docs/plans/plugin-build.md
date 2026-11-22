@@ -1,6 +1,6 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 2 of 6
+**Status:** in progress — Stage 3 of 6 (Stage 2 live check pending)
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
 
 ## Goal
@@ -48,15 +48,16 @@ plugin/
   missing `version` as the only allowed warning. In a scratch repo,
   `claude --plugin-dir <repo>/plugin` starts and `/plugin` lists the plugin.
 
-## Stage 2 — Agents   [current]
-- [ ] `plugin/agents/code-reviewer.md`, from Appendix A (the generic copy, not this repo's
+## Stage 2 — Agents   [done, live check pending]
+- [x] `plugin/agents/code-reviewer.md`, from Appendix A (the generic copy, not this repo's
       tuned one).
-- [ ] `plugin/agents/test-writer.md`, from Appendix B without its frontmatter `hooks:` block.
+- [x] `plugin/agents/test-writer.md`, from Appendix B without its frontmatter `hooks:` block.
+- [ ] Live check: run both agents once in a scratch repo (see Deviations).
 - Acceptance: in a scratch repo with a small diff, `/agents` lists both as `methodology:<name>`.
   The code-reviewer returns a review grouped by priority with no file edits. test-writer writes
   a file under `tests/`.
 
-## Stage 3 — Hooks   [not started]
+## Stage 3 — Hooks   [current]
 - [ ] `plugin/scripts/bash-guard.sh` and `git-guard.sh`, from Appendix C. git-guard skips only
       its commit/push block when a per-project env var is `0`. The env var's name gets the
       plugin prefix chosen in Stage 6. A project sets it in its `.claude/settings.json` `env`.
@@ -137,6 +138,9 @@ plugin/
 ## Deviations
 - 2026-11-22, Stage 1 — acceptance checked with `claude --plugin-dir ./plugin plugin details methodology`
   (prints the component inventory without a session) instead of `/plugin` in a scratch repo.
+- 2026-11-22, Stage 2 — `plugin details` lists both agents. The live run (`claude -p
+  --plugin-dir`) failed with an expired CLI sign-in, so it waits for the maintainer to sign in
+  again or run it in a session; Stage 3 starts meanwhile.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
