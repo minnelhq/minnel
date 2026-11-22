@@ -27,8 +27,8 @@ it, and the drop-in artefacts can be adopted one at a time.
   `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent (a task-scoped helper with its own
   context), the Definition of Done rule (the bar a change must clear), a `PostToolUse` consistency
   hook (a script Claude Code runs after each edit) that flags dangling §/appendix references, broken
-  intra-repo links, and US spellings, and an `add-section` skill (the section/appendix cross-reference
-  ripple), all tuned for this docs project (see *Dogfooding*).
+  intra-repo links, US spellings and `DD/MM/YYYY` dates, and an `add-section` skill (the
+  section/appendix cross-reference ripple), all tuned for this docs project (see *Dogfooding*).
 
 ## Using it
 

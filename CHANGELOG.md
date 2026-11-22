@@ -5,6 +5,11 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Added
+- Consistency hook Check D flags a British `DD/MM/YYYY` date in an in-scope file, backstopping
+  the ISO date format the way Checks A–C backstop cross-references, spellings, and links. Code
+  fences are skipped, as for the link check, so an illustrative date inside a fence is not flagged.
+
 ### Changed
 - README and `docs/index.md` opening: gloss the harness as Claude Code's settings, subagents,
   hooks and commands. README now also says what adopting the method gets you (a plan that survives
