@@ -9,16 +9,15 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- (none)
+- Build the methodology as a plugin (the stated endpoint — `docs/packaging-as-a-plugin.md`) — feat ·
+  value H · effort H — why now: deferred until the unpackaged setup has earned its pieces through
+  real use ("Recommended sequencing"); note the Definition of Done must ship as a skill or a
+  `CLAUDE.md` block, since a plugin cannot bundle `.claude/rules/` (verified 2026-06-19).
 
 ## Later / maybe
 - Christen the methodology — choose the name and command/plugin namespace — chore · value M · effort L
   — why now: the working name is settled; lock the public name (`plugin.json` `name` plus the
   `/<name>:command` namespace) when the plugin ships, since renaming after publish is costly.
-- Build the methodology as a plugin (the stated endpoint — `docs/packaging-as-a-plugin.md`) — feat ·
-  value H · effort H — why now: deferred until the unpackaged setup has earned its pieces through
-  real use ("Recommended sequencing"); note the Definition of Done must ship as a skill or a
-  `CLAUDE.md` block, since a plugin cannot bundle `.claude/rules/` (verified 2026-06-19).
 
 ## Parked (with reason)
 - (none)
