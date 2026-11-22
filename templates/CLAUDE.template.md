@@ -51,8 +51,8 @@ docs/plans/<task-name>.md — Stage <N> of <M>
 ## Working agreement
 
 These rules govern *how* we work, not what the code does. Global working rules
-(worktree hygiene, verify-before-asserting) live in `~/.claude/CLAUDE.md` and apply on
-top of these.
+(worktree hygiene, verify-before-asserting) live in `~/.claude/CLAUDE.md` and apply
+alongside these; neither scope automatically overrides the other, so keep them consistent.
 
 - **Plan before you leap.** If the approach isn't obvious — a structural refactor, or
   anything touching an invariant above — drop into plan mode and agree the approach
