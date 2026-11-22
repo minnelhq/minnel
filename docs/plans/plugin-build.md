@@ -105,8 +105,9 @@ plugin/
   - It applies to an appendix fenced block that follows a backticked project path, such as
     `` `.claude/agents/code-reviewer.md` ``.
   - A table in the script maps the block to its plugin file.
-  - It normalises the listed intended differences before comparing: hook paths, B's dropped
-    `hooks:` block, the opt-out lines, and the skill frontmatter.
+  - It normalises the listed intended differences before comparing: B's dropped
+    `hooks:` block, the opt-out lines, and the skill-only frontmatter keys. Each plugin skill
+    must also keep `disable-model-invocation: true`.
   - On a mismatch it names the appendix and the file.
   - It runs on edits to either side.
 - [x] `docs/packaging-as-a-plugin.md`:
@@ -190,6 +191,16 @@ plugin/
   Check E, both `validate` runs and the strict site build all passed. Live: the `MINNEL_` opt-out
   let a commit through, and `/minnel:release 9.9.9` received its argument. The methodology's own
   title is unchanged; whether the docs take the name is left to the maintainer.
+- 2026-11-23, review — the code-reviewer found no Critical issues and five Warnings, all
+  addressed. Another session switched the shared checkout mid-review, so the branch moved to its
+  own worktree, `.claude/worktrees/feat-plugin`. origin/main had moved (PRs #8 and #9), so it was
+  merged in rather than rebased, because every stage touches the same backlog line. Main's new
+  backlog items were kept and rewritten against what shipped. `${CLAUDE_PLUGIN_ROOT}` is now
+  quoted, and the test-directory guard refuses paths outside the project or through `..`.
+  Check E's skill normaliser is a plugin-side deny-list, `drop_hooks` stops at the first
+  unindented line, and every skill must keep `disable-model-invocation`. Skill names are
+  namespaced in the docs, the "no build or test step" claims are qualified, and the Definition
+  of Done gains a plugin item.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`

@@ -12,5 +12,6 @@ file, with its kind.
 - **[skills-and-commands.md](skills-and-commands.md)** — I example skill, J /plan, K /accept,
   L /retro, M /release, N /wrap
 
-The plugin in `plugin/` ships Appendices A–C and J–N, and its `/scaffold` skill writes D–H into a
+The plugin in `plugin/` ships Appendices A and B, the Appendix C guards, and J–N, and its
+`/minnel:scaffold` skill writes D–H into a
 project (see [Packaging as a plugin](../packaging-as-a-plugin.md)). I and O stay as documentation.

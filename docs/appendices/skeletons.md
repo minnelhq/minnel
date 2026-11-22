@@ -4,7 +4,7 @@ Drop-in document skeletons for the methodology — plan, Definition of Done, bac
 
 ## Appendix D — plan file with folded status
 
-The plugin's `/scaffold` skill writes this skeleton into a project's `docs/plans/README.md`.
+The plugin's `/minnel:scaffold` skill writes this skeleton into a project's `docs/plans/README.md`.
 
 `docs/plans/<task-name>.md`
 
@@ -59,7 +59,7 @@ changes, so `docs/plans/` shows just what is live.
 
 ## Appendix E — Definition of Done
 
-The plugin's `/scaffold` skill writes this to a project's `.claude/rules/definition-of-done.md`.
+The plugin's `/minnel:scaffold` skill writes this to a project's `.claude/rules/definition-of-done.md`.
 
 `.claude/rules/definition-of-done.md`
 
@@ -82,7 +82,7 @@ If any item cannot be met, stop and say so rather than working around it.
 
 ## Appendix F — `docs/backlog.md` skeleton
 
-The plugin's `/scaffold` skill writes this to a project's `docs/backlog.md`.
+The plugin's `/minnel:scaffold` skill writes this to a project's `docs/backlog.md`.
 
 ```markdown
 # Backlog
@@ -108,7 +108,7 @@ reference items. When an item ships, move its user-facing outcome to CHANGELOG.m
 
 ## Appendix G — ADR skeleton
 
-The plugin's `/scaffold` skill writes this skeleton into a project's `docs/design/README.md`.
+The plugin's `/minnel:scaffold` skill writes this skeleton into a project's `docs/design/README.md`.
 
 `docs/design/NNNN-<slug>.md`. Write one only when the decision is costly to reverse and likely to be questioned later; lighter decisions stay in the plan file's decision log.
 
@@ -133,7 +133,7 @@ The plugin's `/scaffold` skill writes this skeleton into a project's `docs/desig
 
 ## Appendix H — `CHANGELOG.md` skeleton (repo root)
 
-The plugin's `/scaffold` skill writes the header and an empty `[Unreleased]` section to a project's `CHANGELOG.md`.
+The plugin's `/minnel:scaffold` skill writes the header and an empty `[Unreleased]` section to a project's `CHANGELOG.md`.
 
 Keep a Changelog format; versions follow SemVer. Curated by hand from drafts.
 

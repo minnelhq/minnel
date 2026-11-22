@@ -24,7 +24,7 @@ it, and the drop-in artefacts can be adopted one at a time.
   loop, end to end.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md` with the conventions baked in.
 - `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
-  guards, the five rituals as skills, and a `/scaffold` skill that writes the project files.
+  guards, the five rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
   `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live: the five ritual commands (`/plan`, `/accept`,
   `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent (a task-scoped helper with its own
@@ -69,7 +69,8 @@ docs under `docs/`, the curated root `CHANGELOG.md`, and the contents of `.claud
 ritual commands, the `code-reviewer` subagent, the Definition of Done rule, the consistency
 hook, and the `add-section` skill) are not illustrations; they are how the work here gets done.
 
-They are tuned to a documentation project. The source has no build or test step, and the doc
+They are tuned to a documentation project. The Markdown source has no build or test step (the
+plugin's guard scripts have `plugin/scripts/tests/guards.sh`), and the doc
 site is an optional publish build. Verification rests on British English and the
 internal-consistency invariant (§ cross-references and appendix letters A–O), enforced by the
 `PostToolUse` consistency hook and review rather than a test suite. That tuning doubles as a

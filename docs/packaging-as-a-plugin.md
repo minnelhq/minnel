@@ -37,7 +37,7 @@ What else is active once installed:
 
 - The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.
 - The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`) and any `git commit` or `git push`. A project that lets Claude commit turns off the commit and push block by setting `MINNEL_GIT_GUARD_COMMITS` to `"0"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on.
-- A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`.
+- A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`. It catches slips rather than a determined workaround: a file written through `Bash` isn't covered.
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.
 
@@ -89,7 +89,7 @@ The manifest needs only a `name`; `claude plugin validate` warns when `version`,
 Four rules that prevent the usual silent failures:
 
 - **Component folders live at the plugin root, never inside `.claude-plugin/`.** Nesting them there makes the plugin load while its components silently vanish — the single most common structural mistake.
-- **Use `${CLAUDE_PLUGIN_ROOT}` for every intra-plugin path.** A hook that references `./scripts/git-guard.sh` by an absolute or home-relative path works on your machine and breaks on anyone else's. `${CLAUDE_PLUGIN_ROOT}/scripts/git-guard.sh` is portable.
+- **Use `${CLAUDE_PLUGIN_ROOT}` for every intra-plugin path.** A hook that references `./scripts/git-guard.sh` by an absolute or home-relative path works on your machine and breaks on anyone else's. `${CLAUDE_PLUGIN_ROOT}/scripts/git-guard.sh` is portable. Quote it in a hook command, as in `"${CLAUDE_PLUGIN_ROOT}"/scripts/git-guard.sh`, so an install path with a space still runs.
 - **`.claude/rules/` is not a plugin component directory.** Rules load from the *project*, not from a plugin. Verified on Claude Code v2.1.181 (2026-06-19): with a test plugin enabled, its bundled `rules/` (and `.claude/rules/`) never fired while its commands did, and the plugin component reference omits `rules/` from the auto-discovered set. The 2026-11-23 docs check agrees, and adds that a plugin's own `CLAUDE.md` is not loaded either. So ship project conventions — the Definition of Done especially — as a skill that writes them into the project, as this plugin's scaffold does, or as instructions in the agents that need them.
 - **Prefer `skills/` to `commands/`.** The plugin docs call `commands/` the older format; it still loads. A skill with `disable-model-invocation: true` runs only when you invoke it by name, which is the property §10 wants from a ritual command.
 
