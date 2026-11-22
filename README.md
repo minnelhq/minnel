@@ -40,8 +40,9 @@ it, and the drop-in artefacts can be adopted one at a time.
 
 ## Reading it as a site
 
-The docs render as a site built with [Zensical](https://zensical.org/): the same Markdown, with
-search and navigation. To build it locally:
+The docs are published as a site at <https://tcrossland.github.io/claude-code-methodology/>,
+built with [Zensical](https://zensical.org/): the same Markdown, with search and navigation. To
+build it locally:
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -49,9 +50,9 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
 The site build is optional, never a prerequisite for reading or editing the Markdown (see
-`docs/design/0002-publish-as-doc-site.md` and `docs/design/0003-build-site-with-zensical.md`). It is not yet deployed: publishing to a neutral
-domain waits until the public name is locked. CI carries the build; the deploy step is gated to a
-manual run.
+`docs/design/0002-publish-as-doc-site.md` and `docs/design/0003-build-site-with-zensical.md`).
+CI builds and checks the site on every pull request and every push to `main`; publishing it to
+GitHub Pages is a manual run of the `docs` workflow.
 
 ## Dogfooding
 

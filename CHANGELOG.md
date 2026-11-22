@@ -34,6 +34,8 @@ versions follow SemVer.
   (`zensical build --strict`).
 
 ### Fixed
+- README: say the doc site is published at <https://tcrossland.github.io/claude-code-methodology/>,
+  deployed by a manual CI run. It still said the site was not yet deployed.
 - `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"
   date (both files changed on 2026-06-20 but read 2026-06-19).
 - `docs/methodology.md` §11: correct the plugin-trust claim. Anthropic scans each plugin version
