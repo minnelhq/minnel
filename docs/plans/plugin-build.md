@@ -162,8 +162,9 @@ plugin/
   blocked. That confirms a project's `env` reaches a plugin hook in a headless session.
 - 2026-11-23, Stage 4 — a probe showed that in skills and in commands alike, `$1` is the second
   argument (`$0` and `$ARGUMENTS[0]` are the first). Appendix M's `$1` therefore misses the
-  version, so the plugin's release skill uses `$ARGUMENTS`. Fixing Appendix M and this repo's
-  own `/release` is raised with the maintainer and kept out of this plan.
+  version, so the plugin's release skill uses `$ARGUMENTS`. At the maintainer's request, Appendix
+  M and this repo's own `/release` were fixed the same way in a separate commit, so Check E has no
+  difference to allow for here.
 - 2026-11-23, Stage 4 — the scaffold's templates adapt the appendices rather than copy them.
   The Appendix D and G skeletons are wrapped in `docs/plans/README.md` and
   `docs/design/README.md`. The CHANGELOG template keeps Appendix H's header and an empty

@@ -119,8 +119,8 @@ Prepare a changelog update — draft only, do not edit files until I approve.
 3. Sort them into Keep a Changelog categories: Added, Changed, Deprecated,
    Removed, Fixed, Security. Omit empty categories.
 4. Propose these under `## [Unreleased]` in CHANGELOG.md.
-5. If a version was given ($1), also propose renaming Unreleased to
-   `## [$1] — <today's date>`.
+5. If a version was given ($ARGUMENTS), also propose renaming Unreleased to
+   `## [$ARGUMENTS] — <today's date>`.
 
 Exclude internal-only changes (refactors, test scaffolding, doc tweaks) unless an
 installer would notice. I will curate before anything is committed.

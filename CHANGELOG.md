@@ -20,6 +20,11 @@ versions follow SemVer.
   files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
   `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
 
+### Fixed
+- Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
+  arguments from zero, so `$1` is the second argument, and `/release 1.2.0` used to drop the
+  version. §10 now says arguments count from zero (`$0`, `$1` and so on).
+
 ## [0.3.1] — 2026-11-22
 
 ### Fixed
