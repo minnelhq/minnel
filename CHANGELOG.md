@@ -10,6 +10,11 @@ versions follow SemVer.
   appendix artefacts. It ships the `code-reviewer` and `test-writer` subagents (Appendices A, B).
   Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
   plugin's own hooks.
+- The plugin's hooks: the Appendix C bash and git guards, and the test-directory guard for
+  `test-writer`, which acts only on that agent's edits. A project that lets Claude commit can turn
+  off the commit and push block by setting `METHODOLOGY_GIT_GUARD_COMMITS=0` in its
+  `.claude/settings.json` `env`. The block on blanket staging stays on. `plugin/scripts/tests/guards.sh`
+  checks each guard against sample tool calls.
 
 ## [0.3.1] — 2026-11-22
 

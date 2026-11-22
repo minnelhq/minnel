@@ -1,0 +1,20 @@
+{
+  "description": "Guards from the methodology: destructive commands, blanket staging and unreviewed commits or pushes (Appendix C), and test-writer's test-directory scope (Appendix B).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/bash-guard.sh" },
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/git-guard.sh" }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/tests-dir-guard.sh" }
+        ]
+      }
+    ]
+  }
+}

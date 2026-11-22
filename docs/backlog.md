@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- Build the methodology as a plugin — `docs/plans/plugin-build.md`, Stage 3 of 6 — feat · value H ·
+- Build the methodology as a plugin — `docs/plans/plugin-build.md`, Stage 4 of 6 — feat · value H ·
   effort H — why now: the reviewer, Definition of Done, git guard and rituals have proved
   themselves across three releases here, so the packaged set is ready to ship.
 
