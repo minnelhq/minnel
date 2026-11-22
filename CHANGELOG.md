@@ -5,6 +5,11 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Fixed
+- §1 context table: the nested-`CLAUDE.md` line no longer reads "closest-to-cwd wins", which
+  asserted the same recency-as-override the adjacent "No automatic precedence between scopes" note
+  cautions against. It now says nested files append, closest read last, with no automatic override.
+
 ## [0.3.0] — 2026-11-22
 
 ### Added
