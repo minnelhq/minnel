@@ -16,8 +16,8 @@ versions follow SemVer.
 - `docs/methodology.md` §1: cite the Claude Code cost guidance for "move instructions from
   `CLAUDE.md` to skills, and offload processing to hooks", previously an uncited claim.
 - README Status rewritten in the first person to say where the project stands: sole adopter so
-  far, no outside feedback yet. `docs/packaging-as-a-plugin.md` and `docs/methodology.md` §11
-  drop the author-facing "advisory" framing for wording that addresses any reader.
+  far, no outside feedback yet. `docs/packaging-as-a-plugin.md`, `docs/methodology.md` §11, and
+  ADR 0002 drop the author-facing "advisory" framing for wording that addresses any reader.
 
 ### Fixed
 - `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"
