@@ -1,6 +1,6 @@
-# Plan: split appendices into docs/appendices/ (grouped) + security-checklist appendix   (approved 20/06/2026)
+# Plan: split appendices into docs/appendices/ (grouped) + security-checklist appendix   (approved 2026-06-20)
 
-**Status:** done (20/06/2026) — all 7 stages complete; appendices in `docs/appendices/` (A–O),
+**Status:** done (2026-06-20) — all 7 stages complete; appendices in `docs/appendices/` (A–O),
 hook reads cross-file, ADR recorded, full hook sweep + reviewer clean.
 <!-- Completed in-session; archived under docs/plans/archive/ (§3). -->
 <!-- Friction logged: the live hook flags plan files that *discuss* references — backlog item to
@@ -75,11 +75,11 @@ Create files → update hook → strip body → index → ripple → ADR → ver
 throws a transient false dangling-reference.
 
 ## Deviations
-- 20/06/2026 — the live hook flagged this plan repeatedly for *discussing* references (forward §-refs, named test values, the not-yet-created checklist appendix); non-defects, logged as a backlog item to scope docs/plans/ out of the hook.
+- 2026-06-20 — the live hook flagged this plan repeatedly for *discussing* references (forward §-refs, named test values, the not-yet-created checklist appendix); non-defects, logged as a backlog item to scope docs/plans/ out of the hook.
 
 ## Decisions
-- 20/06/2026 — group appendices by artefact type (4 files + index) rather than one companion file
+- 2026-06-20 — group appendices by artefact type (4 files + index) rather than one companion file
   or one-per-appendix — organises the reference rather than relocating the lump; one-per-appendix
   over-fragments the short skeletons and pre-builds deferred plugin structure.
-- 20/06/2026 — append-only letters: the new checklist takes the next free letter (O) but lives in
+- 2026-06-20 — append-only letters: the new checklist takes the next free letter (O) but lives in
   the skeletons file with its kind. The letter is an identifier, not a position.

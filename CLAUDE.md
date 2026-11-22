@@ -7,7 +7,7 @@ editing the Markdown; see `docs/design/0002-publish-as-doc-site.md`.)
 
 ## Invariants
 
-- British English throughout (DD/MM/YYYY, £/€ before figures).
+- British English throughout (£/€ before figures); dates in ISO `YYYY-MM-DD`.
 - Keep this file lean; it loads every turn. Detailed material lives under `docs/`.
 - Docs live under `docs/`; the curated changelog stays at the repo root as `CHANGELOG.md`.
 - The methodology must stay internally consistent: section cross-references (§N) and

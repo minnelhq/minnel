@@ -1,6 +1,6 @@
 # ADR 0002 — Publish the methodology as a MkDocs Material site
 
-**Status:** accepted   **Date:** 20/06/2026
+**Status:** accepted   **Date:** 2026-06-20
 
 ## Context
 The methodology is public and linked from a content series, and needs an *owned* home — a

@@ -1,6 +1,6 @@
-# Plan: Publish the methodology as a doc site (MkDocs Material)   (approved 20/06/2026)
+# Plan: Publish the methodology as a doc site (MkDocs Material)   (approved 2026-06-20)
 
-**Status:** done (20/06/2026) — all four stages complete; the methodology renders as an optional
+**Status:** done (2026-06-20) — all four stages complete; the methodology renders as an optional
 MkDocs Material site (`mkdocs build --strict` clean), with gated GitHub Pages CI, ADR 0002, and
 the `no build` invariant reconciled. Reviewed clean and merged to main.
 <!-- Active plan; pointer set in docs/backlog.md ## Now (this plan). Branch: feat/doc-site. -->

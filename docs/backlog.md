@@ -3,7 +3,7 @@
 Ordered top to bottom; the top item is what gets picked up next. Tag each — type
 (feat/fix/debt/chore), value (H/M/L), effort (H/M/L) — with a one-line *why now*. When an
 item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line
-here (§8). British English; dates DD/MM/YYYY.
+here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
 - (none — no active plan)
@@ -18,7 +18,7 @@ here (§8). British English; dates DD/MM/YYYY.
 - Build the methodology as a plugin (the stated endpoint — `docs/packaging-as-a-plugin.md`) — feat ·
   value H · effort H — why now: deferred until the unpackaged setup has earned its pieces through
   real use ("Recommended sequencing"); note the Definition of Done must ship as a skill or a
-  `CLAUDE.md` block, since a plugin cannot bundle `.claude/rules/` (verified 19/06/2026).
+  `CLAUDE.md` block, since a plugin cannot bundle `.claude/rules/` (verified 2026-06-19).
 
 ## Parked (with reason)
 - (none)

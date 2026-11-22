@@ -7,7 +7,7 @@ Drop-in document skeletons for the methodology — plan, Definition of Done, bac
 `docs/plans/<task-name>.md`
 
 ```markdown
-# Plan: <task name>   (approved DD/MM/YYYY)
+# Plan: <task name>   (approved YYYY-MM-DD)
 
 **Status:** in progress — Stage 2 of 3
 <!-- The active-plan pointer (e.g. in CLAUDE.md, docs/plans/README.md, or your backlog) names this file. -->
@@ -37,10 +37,10 @@ Drop-in document skeletons for the methodology — plan, Definition of Done, bac
 ---
 
 ## Deviations
-- DD/MM/YYYY, Stage 2 — changed X because Y.
+- YYYY-MM-DD, Stage 2 — changed X because Y.
 
 ## Decisions
-- DD/MM/YYYY — <decision> — because <reason>.
+- YYYY-MM-DD — <decision> — because <reason>.
   <!-- If architecturally significant and costly to reverse, promote to docs/design/ as an ADR. -->
 ```
 
@@ -51,7 +51,7 @@ Active-plan pointer — a single line kept current, e.g. in `CLAUDE.md`:
 docs/plans/<task-name>.md — Stage 2 of 3
 ```
 
-On completion, set `**Status:** done (DD/MM/YYYY)`, clear the active-plan pointer, and move the
+On completion, set `**Status:** done (YYYY-MM-DD)`, clear the active-plan pointer, and move the
 file to `docs/plans/archive/`. The plan stays versioned as project history; only its location
 changes, so `docs/plans/` shows just what is live.
 
@@ -97,7 +97,7 @@ reference items. When an item ships, move its user-facing outcome to CHANGELOG.m
 - <item> — debt — <one line; deliberately not committing yet>
 
 ## Parked (with reason)
-- <item> — parked DD/MM/YYYY because <reason>
+- <item> — parked YYYY-MM-DD because <reason>
 ```
 
 ## Appendix G — ADR skeleton
@@ -107,7 +107,7 @@ reference items. When an item ships, move its user-facing outcome to CHANGELOG.m
 ```markdown
 # ADR NNNN — <title>
 
-**Status:** accepted   **Date:** DD/MM/YYYY
+**Status:** accepted   **Date:** YYYY-MM-DD
 <!-- later: superseded by ADR-NNNN -->
 
 ## Context
@@ -138,7 +138,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Fixed
 - <bug fix>
 
-## [0.2.0] — DD/MM/YYYY
+## [0.2.0] — YYYY-MM-DD
 ### Added
 - <feature>
 ### Changed
@@ -146,7 +146,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Removed
 - <removed feature>
 
-## [0.1.0] — DD/MM/YYYY
+## [0.1.0] — YYYY-MM-DD
 ### Added
 - Initial release.
 ```

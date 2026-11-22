@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # docs-consistency.sh — PostToolUse hook (matcher: Edit|Write|MultiEdit).
 #
-# Catches, at edit time, three defect classes the code-reviewer keeps finding by
+# Catches, at edit time, four defect classes the code-reviewer keeps finding by
 # hand in the product docs:
 #   A) dangling cross-references — a §N or "Appendix X" that points at no real
 #      heading (sections validated against methodology.md, appendices against
 #      docs/appendices/*.md);
 #   B) US spellings — the house style is British (-ise); a curated, exact-word
-#      list flags the unambiguous American forms; and
+#      list flags the unambiguous American forms;
 #   C) broken intra-repo links — a [text](path) whose target file does not exist,
-#      resolved relative to the edited file (fenced code blocks are skipped).
+#      resolved relative to the edited file (fenced code blocks are skipped); and
+#   D) British DD/MM/YYYY dates — the repo's date format is ISO YYYY-MM-DD, so a
+#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C).
 #
 # The edited file arrives as .tool_input.file_path in the JSON on stdin (the
 # field is identical for Edit, Write and MultiEdit). PostToolUse runs after the
@@ -137,11 +139,26 @@ done <<EOF
 $c_hits
 EOF
 
+# --- Check D: dates are ISO YYYY-MM-DD, not British DD/MM/YYYY ---
+# The repo migrated from DD/MM/YYYY to ISO; a dd/mm/yyyy date in an in-scope file
+# is a regression. $stripped (from Check C) already blanks fenced code blocks, so
+# an illustrative DD/MM/YYYY inside a fence is not flagged. The pattern is
+# digits-only, so the literal "DD/MM/YYYY" format token (letters) never matches.
+d_hits=$(printf '%s\n' "$stripped" | grep -noE '[0-9]{2}/[0-9]{2}/[0-9]{4}' 2>/dev/null || true)
+while IFS= read -r hit; do
+  [ -n "$hit" ] || continue
+  ln=${hit%%:*}
+  date=${hit#*:}
+  findings="${findings}  British date '${date}' — use ISO YYYY-MM-DD (line ${ln})\n"
+done <<EOF
+$d_hits
+EOF
+
 if [ -n "$findings" ]; then
   {
     echo "docs-consistency: issues in ${REL}:"
     printf '%b' "$findings"
-    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English."
+    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD."
   } >&2
   exit 2
 fi

@@ -9,7 +9,7 @@ Completed plans move from `docs/plans/` to `docs/plans/archive/`, staying versio
 
 Where it is described (keep these consistent on any future edit):
 - `docs/methodology.md` §3 closing paragraph (~line 85, after the appendix split) — "when a plan is done, move it to `docs/plans/archive/` and clear the active-plan pointer".
-- Appendix D — now in `docs/appendices/skeletons.md` (~line 54, moved out of methodology.md by the 06/2026 appendix split) — completion note: set `**Status:** done (DD/MM/YYYY)`, clear pointer, move to archive.
+- Appendix D — now in `docs/appendices/skeletons.md` (~line 54, moved out of methodology.md by the 06/2026 appendix split) — completion note: set `**Status:** done (YYYY-MM-DD)` (ISO since the date migration), clear pointer, move to archive.
 
 **Why:** keeps the active plan set scannable for a cold-start session.
 

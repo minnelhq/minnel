@@ -1,6 +1,6 @@
-# Plan: Worked example — add a link-resolution check, traced through the loop   (approved 20/06/2026)
+# Plan: Worked example — add a link-resolution check, traced through the loop   (approved 2026-06-20)
 
-**Status:** done (20/06/2026) — all four stages complete; Check C (link resolution) live in
+**Status:** done (2026-06-20) — all four stages complete; Check C (link resolution) live in
 `docs-consistency.sh` and the worked-example companion shipped, both reviewer- and DoD-clean.
 
 ## Context
@@ -70,4 +70,4 @@ the third check; methodology §2 pointer added.)
   link → exit 2 (correct line) under both bash and sh; fenced-identical link → exit 0; fail-open
   on missing/out-of-repo/non-md/.claude paths.
 
-<!-- Completed in-session 20/06/2026; archived under docs/plans/archive/ (§3). The worked example doubled as the test case for its own subject — Check C flagged a placeholder link in the draft. -->
+<!-- Completed in-session 2026-06-20; archived under docs/plans/archive/ (§3). The worked example doubled as the test case for its own subject — Check C flagged a placeholder link in the draft. -->

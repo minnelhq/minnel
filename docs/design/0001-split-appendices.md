@@ -1,6 +1,6 @@
 # ADR 0001 — Split appendices into a grouped companion directory
 
-**Status:** accepted   **Date:** 20/06/2026
+**Status:** accepted   **Date:** 2026-06-20
 
 ## Context
 `docs/methodology.md` had grown to ~690 lines, of which ~63% (Appendices A–N) were drop-in
