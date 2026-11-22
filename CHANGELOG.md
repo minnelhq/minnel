@@ -9,6 +9,9 @@ versions follow SemVer.
 - Consistency hook Check D flags a British `DD/MM/YYYY` date in an in-scope file, backstopping
   the ISO date format the way Checks A–C backstop cross-references, spellings, and links. Code
   fences are skipped, as for the link check, so an illustrative date inside a fence is not flagged.
+- `templates/CLAUDE.template.md` Conventions: a line for a gitignored private-notes location that
+  Claude reads when relevant but never commits, so an adopter can declare their own path or omit
+  it. Makes the private-notes convention a configurable choice rather than a fixed location.
 
 ### Changed
 - The consistency hook and `add-section` skill skip files by git-ignore status rather than a

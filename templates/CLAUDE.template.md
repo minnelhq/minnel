@@ -40,6 +40,7 @@ the whole document into every turn).
 - <Language/spelling, e.g. British English in user-facing strings and comments.>
 - <Code style: point at the formatter rather than restating its rules.>
 - Commit style: <e.g. Conventional Commits; imperative mood; one concern per commit.>
+- <Private/working notes: a gitignored path Claude reads when relevant but never commits. Name yours here, or omit if you keep none.>
 - <Anything non-obvious about how the project is laid out.>
 
 ## Active plan
