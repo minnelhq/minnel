@@ -28,6 +28,10 @@ versions follow SemVer.
   and every date across the docs, this changelog, the plan/ADR/changelog skeletons, and the
   `/release` and `/close-plan` guidance follows the new format. Prose stays British English
   otherwise.
+- The doc site is built with [Zensical](https://zensical.org/) instead of MkDocs Material, which
+  reaches end of life on 2027-05-05 (ADR 0003). It keeps `mkdocs.yml`, uses the modern theme with
+  a system, light and dark toggle, and CI still fails the build on a broken link
+  (`zensical build --strict`).
 
 ### Fixed
 - `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"

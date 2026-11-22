@@ -29,8 +29,8 @@ For Markdown / prose (`*.md`) — the bulk of this repo:
   line; the changelog is curated, not a commit dump.
 - **Doc-site build** — when the diff touches `mkdocs.yml`, `requirements.txt`, or a published
   doc (under `docs/`, excluding `backlog.md`, `plans/`, `design/`, `local/`), confirm
-  `mkdocs build --strict` is clean. You have Bash and the build is read-only, so run it rather
-  than eyeballing links.
+  `.venv/bin/zensical build --strict` is clean. You have Bash and the build only writes the
+  gitignored `site/`, so run it rather than eyeballing links.
 
 For shell scripts, JSON/YAML, and any executable config — CI workflows, hooks, manifests (when present):
 - No exposed secrets, keys, or personal endpoints/paths.

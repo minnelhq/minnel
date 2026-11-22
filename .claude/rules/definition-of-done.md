@@ -12,8 +12,8 @@ paths:
 
 A change is not done until ALL of these hold. Do not report a task complete until you have
 checked each one and can say which evidence confirms it. This repo has no test or lint step and
-no build for the source; the bar is consistency and review, not a green suite. (The MkDocs site
-is an optional publish build — see the site-build item below and ADR 0002.)
+no build for the source; the bar is consistency and review, not a green suite. (The doc site
+is an optional publish build — see the site-build item below and ADRs 0002 and 0003.)
 
 - [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
 - [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–O) touched
@@ -32,8 +32,9 @@ is an optional publish build — see the site-build item below and ADR 0002.)
       *Changed* entry until there is a released baseline.)
 - [ ] **Doc-site build (when touched)** — if the change edits `mkdocs.yml`, `requirements.txt`,
       or a published doc (anything under `docs/` except `backlog.md`, `plans/`, `design/`,
-      `local/`), `mkdocs build --strict` completes cleanly. (The one deliberately-broken link in
-      `docs/worked-example.md` lives inside a code fence, so MkDocs does not parse it.) See ADR 0002.
+      `local/`), `zensical build --strict` completes cleanly. (The one deliberately-broken link in
+      `docs/worked-example.md` lives inside a code fence, so the build does not parse it.) See
+      ADRs 0002 and 0003.
 - [ ] **`code-reviewer` subagent run on the diff**, with no Critical findings outstanding.
 - [ ] **Active plan in `docs/plans/` advanced** if one is live (stage, ticked steps, deviations).
 

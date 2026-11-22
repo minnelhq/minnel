@@ -1,3 +1,4 @@
+# Built with Zensical, which reads this MkDocs-format config as-is (ADR 0003).
 site_name: A File-First Operating Model for Claude Code
 site_description: A file-first Claude Code operating model for solo developers and small teams.
 repo_url: https://github.com/tcrossland/claude-code-methodology
@@ -16,18 +17,23 @@ exclude_docs: |
 
 theme:
   name: material
+  variant: modern
   palette:
-    # Follows the system preference, with a header toggle to override.
+    # Starts by following the system preference; the header toggle cycles system, light, dark.
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: lucide/sun-moon
+        name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       toggle:
-        icon: material/brightness-7
+        icon: lucide/sun
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+        icon: lucide/moon
+        name: Switch to system preference
   features:
     - navigation.sections
     - navigation.top
@@ -60,11 +66,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.details
 
-# Broken intra-repo links are caught by `mkdocs build --strict` in CI (ADR 0002). The one
-# illustrative dangling link in docs/worked-example.md lives inside a code fence, so MkDocs
-# never parses it — no special-casing needed.
-validation:
-  links:
-    # Keep `warn`, not `error`: `--strict` promotes warnings to failures, so this still fails
-    # the CI build on a broken link, while a plain local `mkdocs serve/build` stays usable.
-    not_found: warn
+# Link checking: Zensical warns by default on a link to a missing page or anchor, and CI runs
+# `zensical build --strict`, which fails the build on any warning (ADR 0003). A plain local
+# `zensical serve` or `build` only warns. The one illustrative dangling link in
+# docs/worked-example.md sits inside a code fence, so it is never parsed.

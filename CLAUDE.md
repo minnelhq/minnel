@@ -2,8 +2,8 @@
 
 This repository is the methodology itself: reference docs, a CLAUDE.md template, and
 (eventually) a Claude Code plugin. It is a documentation project: the source has no build or
-runtime. (The MkDocs site is an *optional* publish build — never a prerequisite for reading or
-editing the Markdown; see `docs/design/0002-publish-as-doc-site.md`.)
+runtime. (The doc site is an *optional* publish build — never a prerequisite for reading or
+editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
 
 ## Invariants
 
@@ -21,7 +21,8 @@ editing the Markdown; see `docs/design/0002-publish-as-doc-site.md`.)
 - `templates/CLAUDE.template.md` — the starter template artefact.
 - `CHANGELOG.md` — user-facing changes (Keep a Changelog, SemVer).
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F).
-- `mkdocs.yml` + `requirements.txt` — optional doc-site build (ADR 0002); `docs/` is the source.
+- `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);
+  `docs/` is the source.
 
 ## Conventions
 
