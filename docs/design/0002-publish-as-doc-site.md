@@ -3,8 +3,8 @@
 **Status:** accepted   **Date:** 20/06/2026
 
 ## Context
-The methodology is public and linked from a content series, and needs an *owned* home — an
-advisory front-door — on a neutral domain, rebrandable when the public name is locked (the
+The methodology is public and linked from a content series, and needs an *owned* home — a
+public front-door — on a neutral domain, rebrandable when the public name is locked (the
 "Christen" backlog item). The source is plain Markdown under `docs/`, readable as-is on GitHub,
 but a browsable site with search and navigation reads as a product rather than a repo.
 
@@ -65,7 +65,7 @@ Render the site with **MkDocs Material**. Configuration choices:
 
 ## Alternatives considered
 - **mdBook** — rejected: lightest build (single Rust binary) but a plainer look and far less
-  theme flexibility for the rebrandable advisory front-door; search and navigation are weaker
+  theme flexibility for the rebrandable public front-door; search and navigation are weaker
   than Material's.
 - **Starlight (Astro/JS)** — rejected: would pull a Node/npm toolchain into a repo that has
   none, the heaviest dependency footprint of the three site options, for no benefit Material

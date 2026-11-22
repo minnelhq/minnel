@@ -1,8 +1,13 @@
 # A File-First Operating Model for Claude Code
 
-Written for experienced solo developers and small teams, it treats the harness as an
-engineered environment: the discipline lives in what you persist to files and what you
-enforce deterministically, not in clever prompting.
+Written for experienced solo developers and small teams, it treats the harness,
+[Claude Code](https://code.claude.com/docs/en/overview)'s settings, subagents, hooks and commands,
+as an engineered environment: the discipline lives in
+what you persist to files and what you enforce deterministically, not in clever prompting.
+
+Adopted, it keeps a plan alive through compaction and session restarts, and makes the rules that
+matter hold without the model having to remember them. Each piece comes with the reasoning behind
+it, and the drop-in artefacts can be adopted one at a time.
 
 ## What's here
 
@@ -19,9 +24,10 @@ enforce deterministically, not in clever prompting.
   loop, end to end.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md` with the conventions baked in.
 - `.claude/` — the methodology running live: the five ritual commands (`/plan`, `/accept`,
-  `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent, the Definition of Done
-  rule, a `PostToolUse` consistency hook (flags dangling §/appendix references, broken
-  intra-repo links, and US spellings on edit), and an `add-section` skill (the section/appendix cross-reference
+  `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent (a task-scoped helper with its own
+  context), the Definition of Done rule (the bar a change must clear), a `PostToolUse` consistency
+  hook (a script Claude Code runs after each edit) that flags dangling §/appendix references, broken
+  intra-repo links, and US spellings, and an `add-section` skill (the section/appendix cross-reference
   ripple), all tuned for this docs project (see *Dogfooding*).
 
 ## Using it
@@ -62,8 +68,9 @@ worked example: it adapts the appendix drop-ins to a real repo rather than pasti
 
 ## Status
 
-Early and evolving. The intended destination is a Claude Code plugin (see the packaging
-doc) with the document as its rationale.
+I wrote this in June 2026 and run it on my own projects. I'm its only adopter so far, so it has
+had no outside feedback yet, and it may be too rigid to suit everyone. The intended destination is
+a Claude Code plugin (see the packaging doc), with the document as its rationale.
 
 ## Licence
 

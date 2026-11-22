@@ -5,7 +5,26 @@ versions follow SemVer.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Changed
+- README and `docs/index.md` opening: gloss the harness as Claude Code's settings, subagents,
+  hooks and commands. README now also says what adopting the method gets you (a plan that survives
+  compaction and restarts, rules that hold without the model remembering them, artefacts adopted
+  one at a time).
+- README: link the Claude Code documentation at first mention and gloss its terms (the
+  `code-reviewer` subagent, the Definition of Done rule, the `PostToolUse` hook) so the index
+  reads without prior knowledge.
+- `docs/methodology.md` §1: cite the Claude Code cost guidance for "move instructions from
+  `CLAUDE.md` to skills, and offload processing to hooks", previously an uncited claim.
+- README Status rewritten in the first person to say where the project stands: sole adopter so
+  far, no outside feedback yet. `docs/packaging-as-a-plugin.md`, `docs/methodology.md` §11, and
+  ADR 0002 drop the author-facing "advisory" framing for wording that addresses any reader.
+
+### Fixed
+- `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"
+  date (both files changed on 2026-06-20 but read 19/06/2026), now in ISO format.
+- `docs/methodology.md` §11: correct the plugin-trust claim. Anthropic scans each plugin version
+  and reviews new listings; the old text said it did not security-audit plugins. Cite the
+  directory publishing page and keep the "treat them like any dependency" guidance.
 
 ## [0.2.0] — 20/06/2026
 
