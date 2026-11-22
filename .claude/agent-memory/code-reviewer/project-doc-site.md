@@ -29,8 +29,10 @@ current before relying on it.
   ADRs 0002/0003. If one is edited, check the others did not drift back to a bare "no build" or
   to "not yet deployed".
 - The site build is the gate for any published doc / `mkdocs.yml` / `requirements.txt` change.
-  Published = under `docs/` except `backlog.md`, `plans/`, `design/`, `local/` (`exclude_docs` in
-  mkdocs.yml). Run `.venv/bin/zensical build --strict --clean`.
+  Published = under `docs/` minus the `exclude_docs` list in `mkdocs.yml` (`backlog.md`,
+  `style.md`, `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
+  list, not keyed off git-ignore, so a new gitignored docs path the hook skips would still need
+  adding here. Run `.venv/bin/zensical build --strict --clean`.
 - The DoD is path-scoped (`paths:` frontmatter), so it only loads when a matching file is touched.
   If a new site/build config file or CI file is introduced, check the DoD's `paths:` still covers
   it, and that the site-build item's own trigger list agrees with what `paths:` loads it for.

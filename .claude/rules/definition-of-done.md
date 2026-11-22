@@ -34,8 +34,9 @@ is an optional publish build — see the site-build item below and ADRs 0002 and
       (Pre-release: corrections to not-yet-released content stay under *Added*; no separate
       *Changed* entry until there is a released baseline.)
 - [ ] **Doc-site build (when touched)** — if the change edits `mkdocs.yml`, `requirements.txt`,
-      `.github/workflows/docs.yml`, or a published doc (anything under `docs/` except `backlog.md`, `plans/`, `design/`,
-      `local/`), `zensical build --strict` completes cleanly. (The one deliberately-broken link in
+      `.github/workflows/docs.yml`, or a published doc (anything under `docs/` except the working
+      artefacts `exclude_docs` lists in `mkdocs.yml`, such as `backlog.md`, `plans/` and `design/`),
+      `zensical build --strict` completes cleanly. (The one deliberately-broken link in
       `docs/worked-example.md` lives inside a code fence, so the build does not parse it.) See
       ADRs 0002 and 0003.
 - [ ] **`code-reviewer` subagent run on the diff**, with no Critical findings outstanding.

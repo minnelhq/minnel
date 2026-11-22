@@ -18,7 +18,7 @@
 # edit, so it cannot block; exit 2 surfaces findings to Claude as actionable
 # feedback. Exit 0 when the file is clean or out of scope.
 #
-# Scope: docs/**/*.md (except docs/local/ and docs/plans/), README.md,
+# Scope: docs/**/*.md (except gitignored files and docs/plans/), README.md,
 # CHANGELOG.md, templates/*.md. Out: .claude/** (quoted config and tool names
 # trip the spelling list), docs/plans/ (plans and meta-docs legitimately discuss
 # references that don't resolve yet), LICENSE/NOTICE (intentionally American),
@@ -59,8 +59,13 @@ case "$REL" in
   *.md) ;;                       # Markdown only
   *)    exit 0 ;;
 esac
+# Skip anything git ignores (local-only working notes live outside version
+# control), keyed off git-ignore status rather than a hardcoded path. Fail open
+# to the normal scope gate if git is absent or cannot answer — never block.
+if command -v git >/dev/null 2>&1; then
+  git -C "$ROOT" check-ignore -q -- "$REL" 2>/dev/null && exit 0
+fi
 case "$REL" in
-  docs/local/*) exit 0 ;;        # private working notes — never checked
   docs/plans/*) exit 0 ;;        # plans/meta-docs legitimately discuss refs that don't resolve yet
 esac
 case "$REL" in
