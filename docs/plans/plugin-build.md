@@ -1,6 +1,6 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 4 of 6 (Stage 2 and 3 live checks pending)
+**Status:** in progress — Stage 4 of 6
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
 
 ## Goal
@@ -48,16 +48,16 @@ plugin/
   missing `version` as the only allowed warning. In a scratch repo,
   `claude --plugin-dir <repo>/plugin` starts and `/plugin` lists the plugin.
 
-## Stage 2 — Agents   [done, live check pending]
+## Stage 2 — Agents   [done]
 - [x] `plugin/agents/code-reviewer.md`, from Appendix A (the generic copy, not this repo's
       tuned one).
 - [x] `plugin/agents/test-writer.md`, from Appendix B without its frontmatter `hooks:` block.
-- [ ] Live check: run both agents once in a scratch repo (see Deviations).
+- [x] Live check: run both agents once in a scratch repo (see Deviations).
 - Acceptance: in a scratch repo with a small diff, `/agents` lists both as `methodology:<name>`.
   The code-reviewer returns a review grouped by priority with no file edits. test-writer writes
   a file under `tests/`.
 
-## Stage 3 — Hooks   [done, live check pending]
+## Stage 3 — Hooks   [done]
 - [x] `plugin/scripts/bash-guard.sh` and `git-guard.sh`, from Appendix C. git-guard skips only
       its commit/push block when a per-project env var is `0`. The env var's name gets the
       plugin prefix chosen in Stage 6. A project sets it in its `.claude/settings.json` `env`.
@@ -67,7 +67,7 @@ plugin/
 - [x] `plugin/hooks/hooks.json` wires the three scripts on `PreToolUse` (`Bash` and
       `Write|Edit`) through `${CLAUDE_PLUGIN_ROOT}/scripts/`.
 - [x] A table-driven check script in `plugin/scripts/tests/` that can be rerun.
-- [ ] Live check: in a scratch repo session, `git add -A` is refused; with the opt-out in the
+- [x] Live check: in a scratch repo session, `git add -A` is refused; with the opt-out in the
       project's `.claude/settings.json` `env`, `git commit` goes through.
 - Acceptance:
   - The check script feeds sample tool-call JSON to each guard.
@@ -150,6 +150,16 @@ plugin/
   a project's `env` reaches a plugin hook: `env` applies to "every session and its subprocesses"
   and hooks inherit "the parent environment", so it follows, and the live check confirms it.
   The guard also matches `MultiEdit`, as this repo's own hook does.
+- 2026-11-23, Stages 2–3 — live checks passed after the maintainer signed in again (`claude -p
+  --plugin-dir` in a scratch repo). code-reviewer returned findings grouped by priority and
+  edited nothing. test-writer wrote `tests/test_calc.py` and `tests/conftest.py`. The
+  shipped test-writer declines a write outside `tests/` on its own instructions, so the
+  hook was probed with a scratch copy of the plugin whose test-writer has no such constraint.
+  `tests-dir-guard.sh` blocked `src/hook_probe.txt` and allowed `tests/hook_probe.txt`,
+  which confirms `agent_type` arrives as `methodology:test-writer`. git-guard blocked
+  `git add -A` and `git commit`. With `METHODOLOGY_GIT_GUARD_COMMITS=0` in the scratch
+  project's `.claude/settings.json` `env`, `git commit` went through and `git add -A` was still
+  blocked. That confirms a project's `env` reaches a plugin hook in a headless session.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
