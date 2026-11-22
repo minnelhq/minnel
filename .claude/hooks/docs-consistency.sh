@@ -77,7 +77,7 @@ fence_part() { # file marker
 normalise() { # mode, stdin
   case "$1" in
     drop_hooks)      awk '/^hooks:/ { d = 1; next } d && /^---$/ { d = 0 } !d' ;;
-    drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /METHODOLOGY_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
+    drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /MINNEL_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
     skill_fm)        awk 'NR == 1 && /^---$/ { fm = 1; print; next }
                           fm && /^---$/ { fm = 0; print; next }
                           fm { if (/^description:/) print; next } { print }' ;;

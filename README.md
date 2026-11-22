@@ -43,7 +43,7 @@ it, and the drop-in artefacts can be adopted one at a time.
    all at once.
 
 To skip the copying, install the plugin instead (see "Install this plugin" in
-`docs/packaging-as-a-plugin.md`). Its `/methodology:scaffold` writes the `CLAUDE.md` template and
+`docs/packaging-as-a-plugin.md`). Its `/minnel:scaffold` writes the `CLAUDE.md` template and
 the file layout into a project for you.
 
 ## Reading it as a site

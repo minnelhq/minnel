@@ -23,7 +23,7 @@ for experienced solo developers and small teams.
 3. Adopt the loop, the file layout, and the appendix artefacts as they earn their place, not
    all at once.
 
-Or install the plugin and let its `/methodology:scaffold` write the template and file layout for
+Or install the plugin and let its `/minnel:scaffold` write the template and file layout for
 you: see [Packaging as a plugin](packaging-as-a-plugin.md#install-this-plugin).
 
 The source is plain Markdown, readable on its own; this site renders it. It is licensed

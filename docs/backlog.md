@@ -14,10 +14,7 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none)
 
 ## Later / maybe
-- Christen the methodology — choose the name and command/plugin namespace — chore · value M · effort L
-  — why now: the working name is settled; lock the public name (`plugin.json` `name` plus the
-  `/<name>:command` namespace) when the plugin ships, since renaming after publish is costly.
-  Folded into Stage 6 of the plugin plan.
+- (none)
 
 ## Parked (with reason)
 - (none)

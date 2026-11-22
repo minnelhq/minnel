@@ -26,17 +26,17 @@ check 2 git-guard.sh  "$(bash_call 'git commit -m x')"     'git commit'
 check 2 git-guard.sh  "$(bash_call 'git push')"            'git push'
 check 0 git-guard.sh  "$(bash_call 'git add docs/x.md')"   'git add <path>'
 check 0 git-guard.sh  "$(bash_call 'git status')"          'git status'
-check 0 git-guard.sh  "$(bash_call 'git commit -m x')"     'git commit, opted out' METHODOLOGY_GIT_GUARD_COMMITS=0
-check 2 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, opted out' METHODOLOGY_GIT_GUARD_COMMITS=0
+check 0 git-guard.sh  "$(bash_call 'git commit -m x')"     'git commit, opted out' MINNEL_GIT_GUARD_COMMITS=0
+check 2 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, opted out' MINNEL_GIT_GUARD_COMMITS=0
 
 check 2 bash-guard.sh "$(bash_call 'rm -rf /tmp/x')"       'rm -rf'
 check 2 bash-guard.sh "$(bash_call 'git push --force')"    'git push --force'
 check 0 bash-guard.sh "$(bash_call 'ls -la')"              'ls -la'
 
-check 2 tests-dir-guard.sh "$(write_call methodology:test-writer /proj/src/a.py)"        'test-writer, src/'
-check 0 tests-dir-guard.sh "$(write_call methodology:test-writer /proj/tests/test_a.py)" 'test-writer, tests/'
-check 0 tests-dir-guard.sh "$(write_call methodology:test-writer /proj/pkg/__tests__/a.js)" 'test-writer, __tests__/'
+check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/src/a.py)"        'test-writer, src/'
+check 0 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/tests/test_a.py)" 'test-writer, tests/'
+check 0 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/pkg/__tests__/a.js)" 'test-writer, __tests__/'
 check 0 tests-dir-guard.sh "$(write_call '' /proj/src/a.py)"                             'main session, src/'
-check 0 tests-dir-guard.sh "$(write_call methodology:code-reviewer /proj/src/a.py)"      'other agent, src/'
+check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"      'other agent, src/'
 
 exit $fail

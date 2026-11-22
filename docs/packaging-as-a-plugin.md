@@ -22,21 +22,21 @@ This repository ships the methodology as a plugin in `plugin/`, listed by a mark
 
 ```bash
 claude plugin marketplace add tcrossland/claude-code-methodology
-claude plugin install methodology@methodology
+claude plugin install minnel@minnel
 ```
 
 Pass `--scope project` or `--scope local` to the install to limit it to one project. Inside a session, `/plugin` opens the same catalogue.
 
 Then, in each project that adopts it:
 
-1. Run `/methodology:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
-2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/methodology:accept` checks against them.
-3. Use the rituals as §10 describes: `/methodology:plan`, `/methodology:accept`, `/methodology:retro`, `/methodology:release` and `/methodology:wrap`. They run only when you invoke them.
+1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
+2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/minnel:accept` checks against them.
+3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release` and `/minnel:wrap`. They run only when you invoke them.
 
 What else is active once installed:
 
-- The `code-reviewer` and `test-writer` subagents, listed as `methodology:code-reviewer` and `methodology:test-writer`.
-- The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`) and any `git commit` or `git push`. A project that lets Claude commit turns off the commit and push block by setting `METHODOLOGY_GIT_GUARD_COMMITS` to `"0"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on.
+- The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.
+- The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`) and any `git commit` or `git push`. A project that lets Claude commit turns off the commit and push block by setting `MINNEL_GIT_GUARD_COMMITS` to `"0"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on.
 - A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`.
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.
@@ -112,7 +112,7 @@ How this plugin maps the methodology's appendices:
 
 Each shipped artefact also appears in its appendix, so the document stays readable without the plugin. This repository's consistency hook compares every pair and flags drift.
 
-**One important agent caveat.** Plugin-shipped subagents support `name`, `description`, `model`, `effort`, `maxTurns`, `tools`, `disallowedTools`, `skills`, `memory`, `background`, `isolation` (only `worktree`) and a few others. For security reasons they do **not** support `hooks`, `mcpServers`, `permissionMode` or `initialPrompt` in frontmatter; those are silently ignored when an agent loads from a plugin. So the `test-writer` agent's frontmatter `PreToolUse` guard (Appendix B) will not travel inside the plugin. This plugin moves that guard to `hooks/hooks.json`. A `PreToolUse` hook receives `agent_type` (here `methodology:test-writer`) when a subagent makes the call, so `tests-dir-guard.sh` acts on that agent's edits and lets every other edit through.
+**One important agent caveat.** Plugin-shipped subagents support `name`, `description`, `model`, `effort`, `maxTurns`, `tools`, `disallowedTools`, `skills`, `memory`, `background`, `isolation` (only `worktree`) and a few others. For security reasons they do **not** support `hooks`, `mcpServers`, `permissionMode` or `initialPrompt` in frontmatter; those are silently ignored when an agent loads from a plugin. So the `test-writer` agent's frontmatter `PreToolUse` guard (Appendix B) will not travel inside the plugin. This plugin moves that guard to `hooks/hooks.json`. A `PreToolUse` hook receives `agent_type` (here `minnel:test-writer`) when a subagent makes the call, so `tests-dir-guard.sh` acts on that agent's edits and lets every other edit through.
 
 **Curate, do not dump.** The fastest way to build a bad plugin is to copy your whole `.claude/` directory into it. That carries your machine-specific paths, personal endpoints, and experiment-grade half-skills into something other people install. A plugin is a product, not a backup of your setup. Decide deliberately what is general (ships) versus what is project-specific or personal (stays local). This repository's own `.claude/`, tuned for a documentation project, stays out of the plugin for that reason.
 

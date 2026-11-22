@@ -1,6 +1,6 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 6 of 6 (needs the public name)
+**Status:** in progress — Stage 6 of 6 (install from GitHub after the push)
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
 
 ## Goal
@@ -53,7 +53,7 @@ plugin/
       tuned one).
 - [x] `plugin/agents/test-writer.md`, from Appendix B without its frontmatter `hooks:` block.
 - [x] Live check: run both agents once in a scratch repo (see Deviations).
-- Acceptance: in a scratch repo with a small diff, `/agents` lists both as `methodology:<name>`.
+- Acceptance: in a scratch repo with a small diff, `/agents` lists both as `minnel:<name>`.
   The code-reviewer returns a review grouped by priority with no file edits. test-writer writes
   a file under `tests/`.
 
@@ -94,9 +94,9 @@ plugin/
   It lists what it will write, skips any file that already exists unless told otherwise, and
   fills no placeholders by guessing.
 - Acceptance:
-  - In an empty scratch repo, `/methodology:scaffold` writes exactly those files.
+  - In an empty scratch repo, `/minnel:scaffold` writes exactly those files.
   - A second run writes nothing.
-  - `/methodology:accept` then walks the written Definition of Done item by item.
+  - `/minnel:accept` then walks the written Definition of Done item by item.
   - Each of the five rituals appears in the `/` menu, and none is auto-invoked during an
     ordinary request.
 
@@ -126,14 +126,14 @@ plugin/
     reference touched still resolves.
 
 ## Stage 6 — Christen and publish   [current]
-- [ ] The maintainer chooses the public name. Rename the placeholder across `plugin.json`,
+- [x] The maintainer chooses the public name. Rename the placeholder across `plugin.json`,
       `marketplace.json`, the opt-out env var, the docs, README and CHANGELOG. Then re-run
       Check E and the Stage 3 checks.
 - [ ] After the push, run
       `claude plugin marketplace add tcrossland/claude-code-methodology` and
       `claude plugin install …` in a scratch repo. Confirm every component appears under the new
       namespace and that a guard fires.
-- [ ] Delete the naming item from the backlog.
+- [x] Delete the naming item from the backlog.
 - Acceptance: a clean install from GitHub passes the Stage 2–4 checks under the new name.
 
 ---
@@ -183,12 +183,20 @@ plugin/
   links, because `plugin/` is outside the site's `docs_dir` and `--strict` would fail on them.
   The install section keeps to what `claude plugin install --help` documents (`--scope`) and
   makes no claim about how collaborators are offered a project-scoped plugin.
+- 2026-11-23, Stage 6 — the maintainer chose Minnel. The plugin and its marketplace are both
+  named `minnel` (install `minnel@minnel`), the manifest gets `displayName: Minnel`, the skills
+  become `/minnel:<name>`, and the opt-out becomes `MINNEL_GIT_GUARD_COMMITS`. Dated entries
+  above keep the placeholder name they were written under. After the rename, `guards.sh` (18/18),
+  Check E, both `validate` runs and the strict site build all passed. Live: the `MINNEL_` opt-out
+  let a commit through, and `/minnel:release 9.9.9` received its argument. The methodology's own
+  title is unchanged; whether the docs take the name is left to the maintainer.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
   lists it with `"source": "./plugin"`. That keeps the document and the plugin under one version
   and one CHANGELOG.
-- 2026-11-22 — It's built under the placeholder name `methodology`. The public name is chosen
+- 2026-11-22 — It's built under the placeholder name `methodology` (replaced by `minnel` on
+  2026-11-23, Stage 6). The public name is chosen
   in Stage 6, before the first publish. Renaming before publishing costs nothing; renaming
   after does.
 - 2026-11-22 — The plugin files are the source. The appendices keep their embedded copies so

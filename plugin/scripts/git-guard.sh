@@ -10,9 +10,9 @@ if echo "$COMMAND" | grep -iE '\bgit add\b.*[[:space:]](-A|--all|\./?)([[:space:
   exit 2
 fi
 
-# Plugin opt-out: a project that lets Claude commit sets METHODOLOGY_GIT_GUARD_COMMITS=0
+# Plugin opt-out: a project that lets Claude commit sets MINNEL_GIT_GUARD_COMMITS=0
 # in its .claude/settings.json "env". The blanket-staging block above still applies.
-[ "${METHODOLOGY_GIT_GUARD_COMMITS:-1}" = 0 ] && exit 0
+[ "${MINNEL_GIT_GUARD_COMMITS:-1}" = 0 ] && exit 0
 
 # Commits and pushes go through you, not the agent.
 if echo "$COMMAND" | grep -iE '\bgit (commit|push)\b' > /dev/null; then
