@@ -30,8 +30,7 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
    truth — run it and update every hit; the list below is a starting checklist, not a complete one
    (carriers drift, so trust the grep):
    ```bash
-   grep -rnE 'A–[A-Z]|[0-9]+ drop-in|[Ff]ourteen|[Ff]ifteen|[Ss]ixteen' --include='*.md' . \
-     | grep -v docs/local | grep -v docs/plans/archive
+   git grep -nE 'A–[A-Z]|[0-9]+ drop-in|[Ff]ourteen|[Ff]ifteen|[Ss]ixteen' -- '*.md' ':!docs/plans/archive'
    ```
    Usual carriers: `README.md` (the count, the invariant mention, the What's-here entry),
    `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the appendices pointer at the end of
@@ -40,7 +39,7 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
    `.claude/agent-memory/code-reviewer/project-repo-shape.md`.
 3. **Add a `CHANGELOG.md` `[Unreleased]` line** if the change is user-facing (most are).
 4. **Run the consistency hook** on every edited *in-scope* Markdown file (`docs/` except
-   `docs/local/` and `docs/plans/`, plus `README.md`, `CHANGELOG.md`, `templates/`; it no-ops on
+   gitignored files and `docs/plans/`, plus `README.md`, `CHANGELOG.md`, `templates/`; it no-ops on
    `.claude/`) — confirms no dangling reference:
    ```bash
    printf '{"tool_input":{"file_path":"%s"}}' "$PWD/<file>" \

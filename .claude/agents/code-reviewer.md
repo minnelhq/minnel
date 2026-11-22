@@ -28,7 +28,7 @@ For Markdown / prose (`*.md`) — the bulk of this repo:
 - **Changelog discipline** — a user-facing change has a matching `CHANGELOG.md [Unreleased]`
   line; the changelog is curated, not a commit dump.
 - **Doc-site build** — when the diff touches `mkdocs.yml`, `requirements.txt`,
-  `.github/workflows/docs.yml`, or a published doc (under `docs/`, excluding `backlog.md`, `plans/`, `design/`, `local/`), confirm
+  `.github/workflows/docs.yml`, or a published doc (under `docs/`, excluding `backlog.md`, `plans/`, `design/`), confirm
   `.venv/bin/zensical build --strict` is clean. You have Bash and the build only writes the
   gitignored `site/`, so run it rather than eyeballing links.
 

@@ -11,6 +11,11 @@ versions follow SemVer.
   fences are skipped, as for the link check, so an illustrative date inside a fence is not flagged.
 
 ### Changed
+- The consistency hook and `add-section` skill skip files by git-ignore status rather than a
+  hardcoded path, so any gitignored location is left unchecked, not one fixed folder. The hook uses
+  `git check-ignore` (failing open to the normal scope gate when git cannot answer), the skill's
+  ripple grep switched to `git grep`, and the scope describers it touches no longer name the folder
+  by path.
 - README and `docs/index.md` opening: gloss the harness as Claude Code's settings, subagents,
   hooks and commands. README now also says what adopting the method gets you (a plan that survives
   compaction and restarts, rules that hold without the model remembering them, artefacts adopted
