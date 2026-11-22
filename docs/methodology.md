@@ -25,7 +25,7 @@ The governing distinction is **always-loaded vs loaded-on-demand**. `CLAUDE.md` 
 
 | Layer | File(s) | Loading | What belongs here |
 |---|---|---|---|
-| Global rules | `~/.claude/CLAUDE.md` | Always, all projects | Personal conventions: language/spelling, commit style, "ask before X", default tooling |
+| Global rules | `~/.claude/CLAUDE.md` | Always, all projects | Personal conventions: language/spelling, tone, commit style, "ask before X", default tooling |
 | Project rules + invariants | `./CLAUDE.md` (+ nested `./module/CLAUDE.md`) | Always | Hard constraints/invariants, build/test commands, a pointer to the active plan (one pointer; see §3), links into `docs/`. Nested files append; closest-to-cwd wins. Keep it lean |
 | Path-specific / conditional rules | `.claude/rules/*.md` | When the path or rule matches | Anything that applies to *some* of the tree, not all of it, including the Definition of Done |
 | Architecture (explanatory) | `docs/architecture.md` | On demand (linked; read when relevant) | Component breakdown, diagrams, data model, rationale: everything that is *not* a must-obey constraint |
