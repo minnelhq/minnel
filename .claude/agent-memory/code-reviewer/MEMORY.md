@@ -9,3 +9,4 @@
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
 - [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard path escapes, hook quoting, validate runs
 - [Memory-scope precedence and loading](project-memory-scope-precedence.md) — §1 table loading column and no-precedence note: what the docs state vs observed, traps
+- [Session-concurrency guidance](project-session-concurrency-guidance.md) — §9 shared-checkout/owner and §11 peer-session text (2026-11-22): git worktree list misreading, desktop Worktree default, approval wording
