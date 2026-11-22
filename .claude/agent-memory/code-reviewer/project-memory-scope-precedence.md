@@ -16,10 +16,11 @@ changing it (see the auto-memory `verify-version-gated-claude-code-claims`).
 
 **How to apply:**
 - Keep the note's cross-scope claim distinct from the §1 table's within-project-nesting line
-  "Nested files append; closest-to-cwd wins". They are different axes (scope vs directory
-  depth). Any edit that lets the note's "later in context does not make it win" reach into the
-  nested-project case contradicts the table. Flagged this tension at the 0.3.0 review as a
-  readability risk, not a hard contradiction.
+  "Nested files append, closest-to-cwd read last (not an automatic override)". They are
+  different axes (scope vs directory depth) but now carry the same no-override point, so the two
+  no longer appear to conflict. The 0.3.0 review flagged the old wording "closest-to-cwd wins" as
+  asserting the same recency-as-override the note cautions against; tightened in a post-0.3.0
+  follow-up to "read last (not an automatic override)".
 - The matching working-agreement wording ("apply alongside these; neither scope automatically
   overrides the other, so keep them consistent") lives in both `CLAUDE.md` and
   `templates/CLAUDE.template.md` — they must stay identical. Grep `apply alongside` / `apply on
