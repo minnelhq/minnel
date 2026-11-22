@@ -15,6 +15,10 @@ versions follow SemVer.
   off the commit and push block by setting `METHODOLOGY_GIT_GUARD_COMMITS=0` in its
   `.claude/settings.json` `env`. The block on blanket staging stays on. `plugin/scripts/tests/guards.sh`
   checks each guard against sample tool calls.
+- The plugin's ritual skills, `/plan`, `/accept`, `/retro`, `/release` and `/wrap`, from Appendices
+  J–N. They run only when invoked by name, as commands do. A `/scaffold` skill writes the project
+  files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
+  `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
 
 ## [0.3.1] — 2026-11-22
 

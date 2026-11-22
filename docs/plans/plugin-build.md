@@ -1,6 +1,6 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 4 of 6
+**Status:** in progress — Stage 5 of 6
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
 
 ## Goal
@@ -79,11 +79,11 @@ plugin/
   - Live in a scratch repo, Claude Code refuses `git add -A`, and the `env` opt-out reaches the
     hook (see Deviations).
 
-## Stage 4 — Rituals and project scaffolding   [current]
-- [ ] `plugin/skills/{plan,accept,retro,release,wrap}/SKILL.md`, from Appendices J–N with
+## Stage 4 — Rituals and project scaffolding   [done]
+- [x] `plugin/skills/{plan,accept,retro,release,wrap}/SKILL.md`, from Appendices J–N with
       `disable-model-invocation: true`. They point at project files only (`docs/plans/`,
       `.claude/rules/definition-of-done.md`, `CHANGELOG.md`), never at plugin paths.
-- [ ] `plugin/skills/scaffold/` writes the project-level pieces a plugin can't bundle:
+- [x] `plugin/skills/scaffold/` writes the project-level pieces a plugin can't bundle:
   - `.claude/rules/definition-of-done.md` (E)
   - `docs/plans/` (D)
   - `docs/backlog.md` (F)
@@ -100,7 +100,7 @@ plugin/
   - Each of the five rituals appears in the `/` menu, and none is auto-invoked during an
     ordinary request.
 
-## Stage 5 — Keep appendices and plugin in step; docs   [not started]
+## Stage 5 — Keep appendices and plugin in step; docs   [current]
 - [ ] Check E in `.claude/hooks/docs-consistency.sh`.
   - It applies to an appendix fenced block that follows a backticked project path, such as
     `` `.claude/agents/code-reviewer.md` ``.
@@ -160,6 +160,19 @@ plugin/
   `git add -A` and `git commit`. With `METHODOLOGY_GIT_GUARD_COMMITS=0` in the scratch
   project's `.claude/settings.json` `env`, `git commit` went through and `git add -A` was still
   blocked. That confirms a project's `env` reaches a plugin hook in a headless session.
+- 2026-11-23, Stage 4 — a probe showed that in skills and in commands alike, `$1` is the second
+  argument (`$0` and `$ARGUMENTS[0]` are the first). Appendix M's `$1` therefore misses the
+  version, so the plugin's release skill uses `$ARGUMENTS`. Fixing Appendix M and this repo's
+  own `/release` is raised with the maintainer and kept out of this plan.
+- 2026-11-23, Stage 4 — the scaffold's templates adapt the appendices rather than copy them.
+  The Appendix D and G skeletons are wrapped in `docs/plans/README.md` and
+  `docs/design/README.md`. The CHANGELOG template keeps Appendix H's header and an empty
+  `[Unreleased]` and drops the example versions. Check E has to allow for both.
+- 2026-11-23, Stage 4 — headless sessions won't write under `.claude/` even with an allow rule,
+  so the Definition of Done copy was approved by hand in the scratch repo, and the skill now says
+  that write will ask for approval. Otherwise the scaffold wrote the other five files, kept an
+  existing edited file, and a third run changed nothing. `/methodology:accept` walked the
+  Definition of Done item by item, and an ordinary planning request invoked no plugin skill.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
