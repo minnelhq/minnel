@@ -1,5 +1,6 @@
 .claude/worktrees/
 .claude/settings.local.json
+CLAUDE.local.md
 .DS_Store
 docs/local/
 site/
