@@ -30,7 +30,7 @@ editing the Markdown; see `docs/design/0002-publish-as-doc-site.md`.)
   corrected guidance, `refactor` restructuring, `chore` repo plumbing; reserve `docs` for
   trivial infra. Types mirror the backlog's feat/fix/debt/chore (§8) and pre-sort into
   CHANGELOG categories at `/release`.
-- Internal/private material lives in gitignored `docs/local/`; never name or describe its
+- Internal/private material lives in a gitignored local-notes folder; never name it or describe its
   contents in tracked files or commit messages — use neutral "local" terminology.
 - Prose in the public docs follows the house voice in `docs/style.md`.
 

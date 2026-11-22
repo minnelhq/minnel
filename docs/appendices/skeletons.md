@@ -155,7 +155,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 
 Run when you add a tool, plugin or MCP server, change permissions, or before you distribute — not every task. Each item is the actionable form of a thread in §11.
 
-- [ ] **Secrets** — none in tracked files, `CLAUDE.md`, or pasted context; keys in environment / OS keychain / secret manager; `.gitignore` and the gitignored `docs/local/` convention cover private material; `/security-review` clean on the diff.
+- [ ] **Secrets** — none in tracked files, `CLAUDE.md`, or pasted context; keys in environment / OS keychain / secret manager; `.gitignore` and the gitignored local-notes convention cover private material; `/security-review` clean on the diff.
 - [ ] **Least privilege** — each subagent's `tools` list is the minimum it needs; permission mode is `acceptEdits` on a branch or worktree, not `bypassPermissions`; deny rules cover the paths and commands that must never run; Bash sandboxing in force where available.
 - [ ] **Guards wired** — `PreToolUse` bash-guard (destructive commands) and git-guard (blanket staging, unreviewed commit or push) present and firing.
 - [ ] **Untrusted content** — nothing auto-acts on fetched, tool-returned, issue or PR text without a human at the irreversible or outward-facing step; external content is treated as data, not instructions.
