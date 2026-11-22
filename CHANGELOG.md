@@ -19,10 +19,22 @@ versions follow SemVer.
   J–N. They run only when invoked by name, as commands do. A `/scaffold` skill writes the project
   files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
   `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
+- "Install this plugin" in `docs/packaging-as-a-plugin.md`: the install commands, the scaffold
+  step, what is active once installed, the guards' `jq` dependency, and which pieces have had
+  less use. README, the site's home page and the appendix index point to it, and each
+  appendix names the plugin file that ships its artefact.
 - Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
   as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
   either side, ignores the listed intended differences (such as the git guard's opt-out), and
   flags a pair it cannot extract rather than passing it.
+
+### Changed
+- `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
+  hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
+  `commands/` the older format. The mapping table says what ships and what stays out
+  (Appendices I and O). The agent caveat adds `initialPrompt` to the ignored fields and shows the
+  `test-writer` guard moved to the plugin's hooks via `agent_type`. The migration path adds
+  `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
 - Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional

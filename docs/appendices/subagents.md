@@ -4,6 +4,8 @@ Drop-in subagent definitions for the methodology. Companion to `../methodology.m
 
 ## Appendix A — `code-reviewer` subagent
 
+The plugin ships this as `plugin/agents/code-reviewer.md`.
+
 `.claude/agents/code-reviewer.md`
 
 ```markdown
@@ -39,6 +41,8 @@ patterns in your memory so reviews improve over time.
 ```
 
 ## Appendix B — `test-writer` subagent
+
+The plugin ships this as `plugin/agents/test-writer.md`, without the frontmatter `hooks:` block, which plugin agents ignore. Its guard runs from the plugin's hooks as `plugin/scripts/tests-dir-guard.sh`.
 
 `.claude/agents/test-writer.md`
 

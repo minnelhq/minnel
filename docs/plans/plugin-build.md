@@ -1,6 +1,6 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 5 of 6
+**Status:** in progress — Stage 6 of 6 (needs the public name)
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
 
 ## Goal
@@ -100,8 +100,8 @@ plugin/
   - Each of the five rituals appears in the `/` menu, and none is auto-invoked during an
     ordinary request.
 
-## Stage 5 — Keep appendices and plugin in step; docs   [current]
-- [ ] Check E in `.claude/hooks/docs-consistency.sh`.
+## Stage 5 — Keep appendices and plugin in step; docs   [done]
+- [x] Check E in `.claude/hooks/docs-consistency.sh`.
   - It applies to an appendix fenced block that follows a backticked project path, such as
     `` `.claude/agents/code-reviewer.md` ``.
   - A table in the script maps the block to its plugin file.
@@ -109,15 +109,15 @@ plugin/
     `hooks:` block, the opt-out lines, and the skill frontmatter.
   - On a mismatch it names the appendix and the file.
   - It runs on edits to either side.
-- [ ] `docs/packaging-as-a-plugin.md`:
+- [x] `docs/packaging-as-a-plugin.md`:
   - an "Install this plugin" section, with commands that need no prompts
   - the tree and mapping table aligned with what ships (rituals as skills, why, and the
     scaffold)
   - the "build your own" rationale kept
-- [ ] Appendices A–C and E–N: one line each naming the plugin file that ships the artefact.
-- [ ] Update the "Using it" and "Status" sections of `README.md`, and the pointer in
+- [x] Appendices A–C and E–N: one line each naming the plugin file that ships the artefact.
+- [x] Update the "Using it" and "Status" sections of `README.md`, and the pointer in
       `docs/index.md`.
-- [ ] Add Added entries under `[Unreleased]` in `CHANGELOG.md`, in the same commits as the
+- [x] Add Added entries under `[Unreleased]` in `CHANGELOG.md`, in the same commits as the
       changes they describe.
 - Acceptance:
   - Check E flags a deliberate one-word drift in Appendix J and passes once it's reverted.
@@ -125,7 +125,7 @@ plugin/
   - The consistency hook passes on every doc this stage touches, and every § and appendix
     reference touched still resolves.
 
-## Stage 6 — Christen and publish   [not started]
+## Stage 6 — Christen and publish   [current]
 - [ ] The maintainer chooses the public name. Rename the placeholder across `plugin.json`,
       `marketplace.json`, the opt-out env var, the docs, README and CHANGELOG. Then re-run
       Check E and the Stage 3 checks.
@@ -174,6 +174,15 @@ plugin/
   that write will ask for approval. Otherwise the scaffold wrote the other five files, kept an
   existing edited file, and a third run changed nothing. `/methodology:accept` walked the
   Definition of Done item by item, and an ordinary planning request invoked no plugin skill.
+- 2026-11-23, Stage 5 — Check E compares 15 pairs: A, B, both Appendix C guards, D–H, J–N, and
+  `templates/CLAUDE.template.md` against the scaffold's copy. It is not limited to appendices.
+  It also flags a pair it can't extract, so a moved marker can't pass as empty against empty.
+  Mutation tests: a one-word drift in Appendix J and in the plugin's `git-guard.sh` were
+  flagged, an edit confined to the opt-out lines was not, and a renamed Appendix G heading was
+  flagged as not extracted. All passed once reverted. Appendix pointers are plain paths, not
+  links, because `plugin/` is outside the site's `docs_dir` and `--strict` would fail on them.
+  The install section keeps to what `claude plugin install --help` documents (`--scope`) and
+  makes no claim about how collaborators are offered a project-scoped plugin.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`

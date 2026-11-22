@@ -33,6 +33,8 @@ decision (ADR).
 
 ## Appendix J — `/plan` command
 
+The plugin ships this as the `plan` skill, `plugin/skills/plan/SKILL.md`.
+
 `.claude/commands/plan.md`
 
 ```markdown
@@ -61,6 +63,8 @@ Work read-only until I approve a plan. Do not edit files.
 
 ## Appendix K — `/accept` command
 
+The plugin ships this as the `accept` skill, `plugin/skills/accept/SKILL.md`.
+
 `.claude/commands/accept.md`
 
 ```markdown
@@ -84,6 +88,8 @@ every item is verified — you will not do this for me unless asked, so I am ask
 
 ## Appendix L — `/retro` command
 
+The plugin ships this as the `retro` skill, `plugin/skills/retro/SKILL.md`.
+
 `.claude/commands/retro.md`
 
 ```markdown
@@ -104,6 +110,8 @@ review first.
 ```
 
 ## Appendix M — `/release` command
+
+The plugin ships this as the `release` skill, `plugin/skills/release/SKILL.md`.
 
 `.claude/commands/release.md`
 
@@ -127,6 +135,8 @@ installer would notice. I will curate before anything is committed.
 ```
 
 ## Appendix N — `/wrap` command
+
+The plugin ships this as the `wrap` skill, `plugin/skills/wrap/SKILL.md`.
 
 `.claude/commands/wrap.md`
 

@@ -18,16 +18,20 @@ it, and the drop-in artefacts can be adopted one at a time.
   plugin/MCP trust).
 - `docs/appendices/` — the fifteen drop-in artefacts (subagents, hooks, document skeletons, the
   example skill and the ritual commands; Appendices A–O), grouped by type. See its `README.md` index.
-- `docs/packaging-as-a-plugin.md` — how to package the methodology as a distributable
-  Claude Code plugin, and why that's the natural endpoint.
+- `docs/packaging-as-a-plugin.md` — how to install the plugin, how to package your own, and
+  why a plugin is the natural endpoint.
 - `docs/worked-example.md` — one real task (adding a link-resolution check) traced through the
   loop, end to end.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md` with the conventions baked in.
+- `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
+  guards, the five rituals as skills, and a `/scaffold` skill that writes the project files.
+  `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live: the five ritual commands (`/plan`, `/accept`,
   `/retro`, `/release`, `/wrap`), the `code-reviewer` subagent (a task-scoped helper with its own
   context), the Definition of Done rule (the bar a change must clear), a `PostToolUse` consistency
   hook (a script Claude Code runs after each edit) that flags dangling §/appendix references, broken
-  intra-repo links, US spellings and `DD/MM/YYYY` dates, and an `add-section` skill (the
+  intra-repo links, US spellings, `DD/MM/YYYY` dates and drift between an appendix and the plugin
+  file it ships as, and an `add-section` skill (the
   section/appendix cross-reference ripple), all tuned for this docs project (see *Dogfooding*).
 
 ## Using it
@@ -37,6 +41,10 @@ it, and the drop-in artefacts can be adopted one at a time.
 3. Adopt the loop, the file layout (`docs/plans/`, `docs/design/`, `CHANGELOG.md`) and the
    appendix artefacts (subagents, hooks, skills, commands) as they earn their place, not
    all at once.
+
+To skip the copying, install the plugin instead (see "Install this plugin" in
+`docs/packaging-as-a-plugin.md`). Its `/methodology:scaffold` writes the `CLAUDE.md` template and
+the file layout into a project for you.
 
 ## Reading it as a site
 
@@ -70,8 +78,8 @@ worked example: it adapts the appendix drop-ins to a real repo rather than pasti
 ## Status
 
 I wrote this in June 2026 and run it on my own projects. I'm its only adopter so far, so it has
-had no outside feedback yet, and it may be too rigid to suit everyone. The intended destination is
-a Claude Code plugin (see the packaging doc), with the document as its rationale.
+had no outside feedback yet, and it may be too rigid to suit everyone. It now also ships as a
+Claude Code plugin (`plugin/`), with the document as its rationale.
 
 ## Licence
 
