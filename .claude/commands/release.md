@@ -10,7 +10,7 @@ Prepare a changelog update — draft only, do not edit files until I approve.
    template changes as user-facing.
 3. Sort them into Keep a Changelog categories: Added, Changed, Deprecated, Removed, Fixed,
    Security. Omit empty categories.
-4. Propose these under `## [Unreleased]` in `CHANGELOG.md`. Use `DD/MM/YYYY` for any date.
+4. Propose these under `## [Unreleased]` in `CHANGELOG.md`. Use ISO `YYYY-MM-DD` for any date.
 5. If a version was given ($1), also propose renaming Unreleased to
    `## [$1] — <today's date>`.
 

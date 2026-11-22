@@ -1,6 +1,6 @@
-# Plan: verify whether a plugin can bundle `.claude/rules/`   (started 19/06/2026)
+# Plan: verify whether a plugin can bundle `.claude/rules/`   (started 2026-06-19)
 
-**Status:** done (19/06/2026) — claim CONFIRMED empirically; docs updated; `code-reviewer` clean.
+**Status:** done (2026-06-19) — claim CONFIRMED empirically; docs updated; `code-reviewer` clean.
 <!-- Completed; the CLAUDE.md active-plan pointer has been cleared. -->
 
 ## Result
@@ -32,7 +32,7 @@ directory like `commands/`/`agents/`/`skills/`/`hooks/`? (b) can a plugin delive
       list? Any changelog entry adding plugin-bundled rules?
 - Acceptance: an authoritative statement (with citation) on (a), and on whether the docs
   say anything about (b). Per our own lesson, doc silence on a negative is *inconclusive*.
-- **Finding (19/06/2026, docs current today):** the plugin component list (plugins-reference.md)
+- **Finding (2026-06-19, docs current today):** the plugin component list (plugins-reference.md)
   authoritatively enumerates `.claude-plugin/`, `skills/`, `commands/`, `agents/`, `hooks/`,
   `.mcp.json`, `.lsp.json`, `monitors/`, `bin/`, `settings.json` — `rules/` is absent. No manifest
   field, skill/agent path, or changelog entry delivers bundled rules. This is an *exhaustive*
@@ -64,7 +64,7 @@ directory like `commands/`/`agents/`/`skills/`/`hooks/`? (b) can a plugin delive
 See `/tmp/plugin-rules-test/HOWTO.txt` (written in Stage 2).
 
 ## Deviations
-- 19/06/2026, Stage 3 — no `claude` on PATH; the desktop app (Claude.app) bundles the CLI at
+- 2026-06-19, Stage 3 — no `claude` on PATH; the desktop app (Claude.app) bundles the CLI at
   `…/Application Support/Claude/claude-code/2.1.181/claude.app/Contents/MacOS/claude`. That binary
   runs headless but reports "Not logged in" — desktop auth isn't shared with a terminal CLI, so the
   in-process headless run is blocked without a separate `claude /login`. Tier 2 is therefore gated on
@@ -72,5 +72,5 @@ See `/tmp/plugin-rules-test/HOWTO.txt` (written in Stage 2).
   the primary basis; deciding whether that suffices or to do the empirical run.
 
 ## Decisions
-- 19/06/2026 — verify both sub-questions; treat Tier 1 doc-silence as inconclusive for a
+- 2026-06-19 — verify both sub-questions; treat Tier 1 doc-silence as inconclusive for a
   negative and rely on the Tier 2 empirical control to decide. Because [[verify-version-gated-claude-code-claims]].

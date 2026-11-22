@@ -16,7 +16,7 @@ When invoked:
 2. Focus on the modified files. Begin immediately — do not wait to be asked.
 
 For Markdown / prose (`*.md`) — the bulk of this repo:
-- **British English** — spelling, `DD/MM/YYYY` dates, `£`/`€` before figures.
+- **British English** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
 - **Internal consistency (load-bearing)** — every `§N` cross-reference and appendix letter
   (A–O) the diff touches resolves to the right target. When a number or letter moved, every
   reference to it moved too. This is the single easiest thing to break here.

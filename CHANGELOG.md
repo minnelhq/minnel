@@ -18,15 +18,20 @@ versions follow SemVer.
 - README Status rewritten in the first person to say where the project stands: sole adopter so
   far, no outside feedback yet. `docs/packaging-as-a-plugin.md`, `docs/methodology.md` §11, and
   ADR 0002 drop the author-facing "advisory" framing for wording that addresses any reader.
+- Dates use ISO `YYYY-MM-DD`, replacing British `DD/MM/YYYY`. The *British English throughout*
+  invariant (`CLAUDE.md`, the Definition of Done, the code-reviewer agent) now sets dates as ISO,
+  and every date across the docs, this changelog, the plan/ADR/changelog skeletons, and the
+  `/release` and `/close-plan` guidance follows the new format. Prose stays British English
+  otherwise.
 
 ### Fixed
 - `docs/methodology.md` and `docs/packaging-as-a-plugin.md`: correct the stale "Last updated"
-  date (both files changed on 2026-06-20 but read 19/06/2026), now in ISO format.
+  date (both files changed on 2026-06-20 but read 2026-06-19).
 - `docs/methodology.md` §11: correct the plugin-trust claim. Anthropic scans each plugin version
   and reviews new listings; the old text said it did not security-audit plugins. Cite the
   directory publishing page and keep the "treat them like any dependency" guidance.
 
-## [0.2.0] — 20/06/2026
+## [0.2.0] — 2026-06-20
 
 ### Added
 - Documentation site (MkDocs Material): `mkdocs.yml`, a lean front-door landing (`docs/index.md`),
@@ -49,7 +54,7 @@ versions follow SemVer.
 - Restructured the `/plan` command (Appendix J) so step 2 *decides* whether to plan and step 3
   *drafts* it, removing the overlap where both gated the same decision.
 
-## [0.1.0] — 20/06/2026
+## [0.1.0] — 2026-06-20
 
 The initial version of *A File-First Operating Model for Claude Code* (the methodology).
 Everything here is initial content, so it is all *Added* — there is no

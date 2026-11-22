@@ -1,6 +1,6 @@
-# Plan: Tighten the public prose to the house voice   (approved 20/06/2026)
+# Plan: Tighten the public prose to the house voice   (approved 2026-06-20)
 
-**Status:** all stages complete (20/06/2026) — all four narrative docs tightened to the house
+**Status:** all stages complete (2026-06-20) — all four narrative docs tightened to the house
 voice; em-dashes cut in flowing prose (methodology.md 100→26, remainder are list/table dashes),
 meaning preserved, `mkdocs build --strict` and the consistency hook clean. Pending review + merge.
 <!-- Active plan; pointer in docs/backlog.md ## Now. Branch: chore/tighten-prose. -->

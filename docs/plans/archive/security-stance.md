@@ -1,6 +1,6 @@
-# Plan: §11 Security — consolidate the stance   (approved 20/06/2026)
+# Plan: §11 Security — consolidate the stance   (approved 2026-06-20)
 
-**Status:** done (20/06/2026) — §11 written, consistency wired up, hook + reviewer clean.
+**Status:** done (2026-06-20) — §11 written, consistency wired up, hook + reviewer clean.
 <!-- Completed in-session; no active-plan pointer was set. Archived under docs/plans/archive/ (§3). -->>
 
 ## Goal
@@ -11,13 +11,13 @@ Bash sandboxing. Prose-only — no new appendix — so the A–N invariant is un
 §11 so no existing section renumbers and no §-reference breaks.
 
 Claude Code security facts grounding the section were verified via claude-code-guide against
-current docs on 20/06/2026 (folder-trust prompt, Bash sandboxing Seatbelt/bubblewrap, WebFetch
+current docs on 2026-06-20 (folder-trust prompt, Bash sandboxing Seatbelt/bubblewrap, WebFetch
 separate-context, command-injection detection, fail-closed Bash, `bypassPermissions` semantics,
 MCP/plugin reviewed-for-listing-not-security-audited).
 
 ## Out of scope
 - A new security-checklist appendix (it would extend the appendix range past N) — deferred;
-  sketch shown to the user 20/06/2026 for a later decision.
+  sketch shown to the user 2026-06-20 for a later decision.
 - An injection-guard hook in Appendix C — prompt injection is not reliably script-detectable;
   a hook there would over-promise.
 - The MCP tool-surface **context-cost** treatment — separate backlog item; §11 covers trust only.
@@ -41,7 +41,7 @@ MCP/plugin reviewed-for-listing-not-security-audited).
 - [x] Consistency hook clean on every edited file; `code-reviewer` on the diff.
 
 ## Deviations
-- 20/06/2026, Stage 1 — the consistency hook fired *live* on this plan file and flagged its
+- 2026-06-20, Stage 1 — the consistency hook fired *live* on this plan file and flagged its
   forward-references to §11 (not yet written) and a deliberately-hypothetical checklist appendix
   named with a post-N letter. Both were expected, not defects: the §11 refs resolved once §11 was
   written; the appendix literal was reworded to not imply such an appendix exists. Real signal
@@ -49,7 +49,7 @@ MCP/plugin reviewed-for-listing-not-security-audited).
   and meta-docs *discuss* references) — captured as a backlog candidate.
 
 ## Decisions
-- 20/06/2026 — prose-only §11, no new appendix — keeps the A–N invariant untouched; the
+- 2026-06-20 — prose-only §11, no new appendix — keeps the A–N invariant untouched; the
   checklist drop-in is deferred pending the user's view on the sketch.
-- 20/06/2026 — append as §11 rather than insert mid-document — preserves every existing
+- 2026-06-20 — append as §11 rather than insert mid-document — preserves every existing
   §-reference; the alternative (a security section earlier in the flow) would renumber.

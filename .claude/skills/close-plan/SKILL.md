@@ -17,9 +17,9 @@ a stage was dropped or deviated, record that in the plan rather than ticking it 
 
 1. **Set the done status.** Edit the plan's `**Status:**` line to:
    ```
-   **Status:** done (DD/MM/YYYY) — <one-line summary: stages complete + the headline outcome>.
+   **Status:** done (YYYY-MM-DD) — <one-line summary: stages complete + the headline outcome>.
    ```
-   Use British DD/MM/YYYY (today, from the environment's current date). If a stage deviated or
+   Use ISO YYYY-MM-DD (today, from the environment's current date). If a stage deviated or
    was cut, say so here in a clause rather than pretending it was clean.
 2. **Tick every stage marker.** Replace each `## Stage N — … [current]` or `[not started]` (the
    skeleton's three marker states are `[done]`/`[current]`/`[not started]`) with `[done]`, and

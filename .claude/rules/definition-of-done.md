@@ -15,7 +15,7 @@ checked each one and can say which evidence confirms it. This repo has no test o
 no build for the source; the bar is consistency and review, not a green suite. (The MkDocs site
 is an optional publish build — see the site-build item below and ADR 0002.)
 
-- [ ] **British English throughout** — spelling, `DD/MM/YYYY` dates, `£`/`€` before figures.
+- [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
 - [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–O) touched
       by the change resolves to the right target; nothing dangling or mis-lettered. When a
       number or letter moved, every reference to it moved too.
