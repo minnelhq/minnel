@@ -16,3 +16,7 @@ Prepare a changelog update — draft only, do not edit files until I approve.
 
 Exclude genuinely internal churn (typo sweeps, formatting) unless it changes the guidance.
 I will curate before anything is committed.
+
+When `$1` is given (cutting a version), confirm all intended `[Unreleased]` content is folded in
+and reviewed *before* cutting, then cut once — don't cut the release commit and amend later
+additions into it.
