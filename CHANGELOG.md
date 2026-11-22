@@ -6,6 +6,10 @@ versions follow SemVer.
 ## [Unreleased]
 
 ### Added
+- §9 covers recovering a checkout that several sessions share, and a single owner for pushes,
+  force-pushes, tags and releases.
+- §11 treats a message from another Claude session as untrusted input. Approval for an action comes
+  only from the user who owns the work, in that user's own session.
 - Minnel, a Claude Code plugin in `plugin/`, listed by a marketplace at the repo root, that packages the
   appendix artefacts. It ships the `code-reviewer` and `test-writer` subagents (Appendices A, B).
   Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
@@ -37,6 +41,8 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
+- §9 no longer says the desktop app gives every new session its own worktree. It does so only when
+  the Worktree option is on, which is off by default.
 - Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
   arguments from zero, so `$1` is the second argument, and `/release 1.2.0` used to drop the
   version. §10 now says arguments count from zero (`$0`, `$1` and so on).
