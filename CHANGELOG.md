@@ -5,6 +5,16 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Fixed
+- §9 no longer says the desktop app gives every new session its own worktree. It does so only when
+  the Worktree option is on, which is off by default.
+
+### Added
+- §9 covers recovering a checkout that several sessions share, and a single owner for pushes,
+  force-pushes, tags and releases.
+- §11 treats a message from another Claude session as untrusted input. Approval for an action comes
+  only from the user who owns the work, in that user's own session.
+
 ## [0.3.1] — 2026-11-22
 
 ### Fixed
