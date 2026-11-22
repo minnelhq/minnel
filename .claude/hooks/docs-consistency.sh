@@ -35,6 +35,8 @@
 # under-flagging, not a block). (3) Check C resolves only inline [text](path)
 # links to relative paths; reference-style links, absolute "/..." paths, scheme
 # links (anything with a colon), and links inside fenced code blocks are not checked.
+# (4) Check E compares only the artefact itself: the prose the scaffold wraps around
+# the D and G skeletons, and Appendix H's example versions, are never compared.
 #
 # POSIX sh only (no process substitution, no arrays), so a lost exec bit that
 # routes this through /bin/sh still parses and runs rather than failing closed.
@@ -64,10 +66,13 @@ esac
 # the first line containing the marker. Normalisers remove the intended differences:
 #   drop_hooks       B's frontmatter hooks: block (plugin agents ignore it)
 #   drop_optout      git-guard's plugin opt-out lines
-#   skill_fm         frontmatter reduced to its description: line (command vs skill)
+#   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint,
+#                    disable-model-invocation); applied to the plugin side only, so
+#                    any other frontmatter field on either side is still compared
 #   head_unreleased  Appendix H up to [Unreleased] (the template drops the examples)
 # Blank-line runs are squeezed on both sides. Every pair is compared on each
-# relevant edit, so a change to either side surfaces the drift.
+# relevant edit, so a change to either side surfaces the drift. Each plugin skill
+# must also keep disable-model-invocation: true, which the docs promise.
 fence_part() { # file marker
   if [ "$2" = whole ]; then cat "$1"; return; fi
   awk -v m="$2" '!found { if (index($0, m)) found = 1; next }
@@ -76,11 +81,12 @@ fence_part() { # file marker
 }
 normalise() { # mode, stdin
   case "$1" in
-    drop_hooks)      awk '/^hooks:/ { d = 1; next } d && /^---$/ { d = 0 } !d' ;;
+    drop_hooks)      awk '/^hooks:/ { d = 1; next } d && /^[^ ]/ { d = 0 } !d' ;;
     drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /MINNEL_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
-    skill_fm)        awk 'NR == 1 && /^---$/ { fm = 1; print; next }
-                          fm && /^---$/ { fm = 0; print; next }
-                          fm { if (/^description:/) print; next } { print }' ;;
+    drop_skill_keys) awk 'NR == 1 && /^---$/ { fm = 1; print; next }
+                          fm && /^---$/ { fm = 0 }
+                          fm && /^(name|argument-hint|disable-model-invocation):/ { next }
+                          { print }' ;;
     head_unreleased) awk '{ print } /^## \[Unreleased\]/ { exit }' ;;
     *)               cat ;;
   esac | awk 'NF || !b { print } { b = !NF }'
@@ -108,18 +114,22 @@ docs/appendices/skeletons.md|## Appendix E|-|plugin/skills/scaffold/templates/de
 docs/appendices/skeletons.md|## Appendix F|-|plugin/skills/scaffold/templates/backlog.md|whole|-|Appendix F
 docs/appendices/skeletons.md|## Appendix G|-|plugin/skills/scaffold/templates/design-README.md|Skeleton:|-|Appendix G
 docs/appendices/skeletons.md|## Appendix H|head_unreleased|plugin/skills/scaffold/templates/CHANGELOG.md|whole|-|Appendix H
-docs/appendices/skills-and-commands.md|`.claude/commands/plan.md`|skill_fm|plugin/skills/plan/SKILL.md|whole|skill_fm|Appendix J
-docs/appendices/skills-and-commands.md|`.claude/commands/accept.md`|skill_fm|plugin/skills/accept/SKILL.md|whole|skill_fm|Appendix K
-docs/appendices/skills-and-commands.md|`.claude/commands/retro.md`|skill_fm|plugin/skills/retro/SKILL.md|whole|skill_fm|Appendix L
-docs/appendices/skills-and-commands.md|`.claude/commands/release.md`|skill_fm|plugin/skills/release/SKILL.md|whole|skill_fm|Appendix M
-docs/appendices/skills-and-commands.md|`.claude/commands/wrap.md`|skill_fm|plugin/skills/wrap/SKILL.md|whole|skill_fm|Appendix N
+docs/appendices/skills-and-commands.md|`.claude/commands/plan.md`|-|plugin/skills/plan/SKILL.md|whole|drop_skill_keys|Appendix J
+docs/appendices/skills-and-commands.md|`.claude/commands/accept.md`|-|plugin/skills/accept/SKILL.md|whole|drop_skill_keys|Appendix K
+docs/appendices/skills-and-commands.md|`.claude/commands/retro.md`|-|plugin/skills/retro/SKILL.md|whole|drop_skill_keys|Appendix L
+docs/appendices/skills-and-commands.md|`.claude/commands/release.md`|-|plugin/skills/release/SKILL.md|whole|drop_skill_keys|Appendix M
+docs/appendices/skills-and-commands.md|`.claude/commands/wrap.md`|-|plugin/skills/wrap/SKILL.md|whole|drop_skill_keys|Appendix N
 templates/CLAUDE.template.md|whole|-|plugin/skills/scaffold/templates/CLAUDE.md|whole|-|CLAUDE template
 PAIRS
+  for sk in plan accept retro release wrap scaffold; do
+    grep -qx 'disable-model-invocation: true' "$ROOT/plugin/skills/$sk/SKILL.md" 2>/dev/null ||
+      e_out="${e_out}  drift: plugin/skills/$sk/SKILL.md lacks disable-model-invocation: true\n"
+  done
 }
 e_findings=""
 case "$REL" in
   docs/appendices/*|plugin/*|templates/CLAUDE.template.md)
-    [ -d "$ROOT/plugin" ] && check_e && e_findings="$e_out" ;;
+    if [ -d "$ROOT/plugin" ]; then check_e; e_findings=$e_out; fi ;;
 esac
 case "$REL" in
   plugin/*)                      # only Check E applies to plugin files

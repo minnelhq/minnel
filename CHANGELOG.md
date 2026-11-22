@@ -29,8 +29,9 @@ versions follow SemVer.
   appendix names the plugin file that ships its artefact.
 - Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
   as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
-  either side, ignores the listed intended differences (such as the git guard's opt-out), and
-  flags a pair it cannot extract rather than passing it.
+  either side, ignores only the listed intended differences (such as the git guard's opt-out),
+  flags a pair it cannot extract rather than passing it, and requires every plugin skill to keep
+  `disable-model-invocation: true`.
 
 ### Changed
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
