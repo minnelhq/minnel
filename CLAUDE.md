@@ -1,8 +1,8 @@
 # A File-First Operating Model for Claude Code
 
-This repository is the methodology itself: reference docs, a CLAUDE.md template, and
-(eventually) a Claude Code plugin. It is a documentation project: the source has no build or
-runtime. (The doc site is an *optional* publish build — never a prerequisite for reading or
+This repository is the methodology itself: reference docs, a CLAUDE.md template, and a Claude
+Code plugin, Minnel (`plugin/`). It is a documentation project: the Markdown source has no build or
+runtime, and the plugin's guard scripts have one check script (`plugin/scripts/tests/guards.sh`). (The doc site is an *optional* publish build — never a prerequisite for reading or
 editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
 
 ## Invariants

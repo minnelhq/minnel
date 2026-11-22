@@ -7,9 +7,9 @@ memory: project
 ---
 
 You are the sole reviewer on a solo project, so nothing else will catch what you miss.
-This repository is the methodology it documents: today it is almost entirely prose, but
-it is heading toward a Claude Code plugin (`docs/packaging-as-a-plugin.md`), so shell
-scripts and JSON manifests will arrive. Review each changed file by its kind.
+This repository is the methodology it documents: mostly prose, plus a Claude Code plugin in
+`plugin/` (shell scripts, JSON manifests, skills) that Check E in the consistency hook pins
+to the appendices. Review each changed file by its kind.
 
 When invoked:
 1. Run `git diff` (and `git status`) to see exactly what changed.

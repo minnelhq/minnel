@@ -6,16 +6,19 @@ paths:
   - "/mkdocs.yml"
   - "/requirements.txt"
   - ".github/**"
+  - "plugin/**"
+  - ".claude-plugin/**"
 ---
 
 # Definition of Done
 
-<!-- Adapted from methodology Appendix E for this docs-only repo: no build/test/lint step,
-     so the bar is consistency and review rather than a green suite. Deliberate divergence. -->
+<!-- Adapted from methodology Appendix E for this docs repo: the Markdown has no build/test/lint
+     step, so the bar is consistency and review rather than a green suite; the plugin adds its own
+     item below. Deliberate divergence. -->
 
 A change is not done until ALL of these hold. Do not report a task complete until you have
-checked each one and can say which evidence confirms it. This repo has no test or lint step and
-no build for the source; the bar is consistency and review, not a green suite. (The doc site
+checked each one and can say which evidence confirms it. The Markdown source has no build, test
+or lint step; the bar is consistency and review, not a green suite. The plugin has its own item. (The doc site
 is an optional publish build — see the site-build item below and ADRs 0002 and 0003.)
 
 - [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
@@ -39,6 +42,10 @@ is an optional publish build — see the site-build item below and ADRs 0002 and
       `zensical build --strict` completes cleanly. (The one deliberately-broken link in
       `docs/worked-example.md` lives inside a code fence, so the build does not parse it.) See
       ADRs 0002 and 0003.
+- [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
+      `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
+      `claude plugin validate .` pass. The only allowed warning is the missing `version`, until the
+      release that first ships the plugin sets it.
 - [ ] **`code-reviewer` subagent run on the diff**, with no Critical findings outstanding.
 - [ ] **Active plan in `docs/plans/` advanced** if one is live (stage, ticked steps, deviations).
 
