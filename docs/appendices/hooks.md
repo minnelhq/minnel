@@ -53,7 +53,8 @@ INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
 # Blanket adds sweep up other sessions' files and ignored artefacts.
-if echo "$COMMAND" | grep -iE '\bgit add\b.*(-A|\.|--all)\b' > /dev/null; then
+# Match -A, --all or a bare . (or ./) as its own argument, so a path like docs/x.md passes.
+if echo "$COMMAND" | grep -iE '\bgit add\b.*[[:space:]](-A|--all|\./?)([[:space:]]|$)' > /dev/null; then
   echo "Blocked: stage explicit paths (git add <path>), not the whole tree." >&2
   exit 2
 fi

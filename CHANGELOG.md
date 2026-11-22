@@ -9,6 +9,10 @@ versions follow SemVer.
 - §1 context table: the nested-`CLAUDE.md` line no longer reads "closest-to-cwd wins", which
   asserted the same recency-as-override the adjacent "No automatic precedence between scopes" note
   cautions against. It now says nested files append, closest read last, with no automatic override.
+- Appendix C git-guard: the blanket-staging check now blocks `git add -A`, `git add --all` and
+  `git add .`, and lets explicit paths through. The old pattern blocked any path containing a dot,
+  such as `git add docs/methodology.md`, and let `git add ./` through (and, with GNU grep,
+  `git add .`).
 
 ## [0.3.0] — 2026-11-22
 
