@@ -19,6 +19,10 @@ versions follow SemVer.
   J–N. They run only when invoked by name, as commands do. A `/scaffold` skill writes the project
   files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
   `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
+- Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
+  as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
+  either side, ignores the listed intended differences (such as the git guard's opt-out), and
+  flags a pair it cannot extract rather than passing it.
 
 ### Fixed
 - Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
