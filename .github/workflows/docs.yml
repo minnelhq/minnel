@@ -1,10 +1,9 @@
 name: docs
 
-# Build/validate the MkDocs site on every push and PR. Deployment is deliberately gated to
-# manual runs only, so nothing goes live under a non-final name/domain before the brand is
-# locked (ADR 0002). To publish later: enable Pages in repo settings (Source: GitHub Actions),
-# then add `deploy` to the push trigger — i.e. drop the `workflow_dispatch` gate on the deploy
-# job below.
+# Build and validate the doc site with Zensical (ADR 0003) on every PR and every push to main.
+# The site is published on GitHub Pages (Source: GitHub Actions), but only by a manual run: a
+# push to main builds without deploying, so the live site lags main until someone runs this. To
+# auto-deploy instead, drop the `workflow_dispatch` gates on the upload step and deploy job.
 on:
   push:
     branches: [main]
@@ -29,7 +28,8 @@ jobs:
         with:
           python-version: '3.x'
       - run: pip install -r requirements.txt
-      - run: mkdocs build --strict
+      # --strict fails the build on any warning, including a link to a missing page or anchor.
+      - run: zensical build --strict --clean
       - name: Upload Pages artifact
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
@@ -37,7 +37,7 @@ jobs:
           path: site
 
   deploy:
-    # Gated: manual runs only, until the brand/domain is locked (ADR 0002).
+    # Gated: manual runs only (ADR 0003).
     if: github.event_name == 'workflow_dispatch'
     needs: build
     runs-on: ubuntu-latest

@@ -3,5 +3,5 @@
 - [Plugin-cannot-bundle-rules claim](project-plugin-rules-claim.md) — the verified empirical claim and how its wording must stay honest
 - [Reviewing the bash hooks](feedback-hook-script-review.md) — portability, exec-bit, scope-gate and fail-open traps to check in `.claude/hooks/`
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
-- [Doc-site (MkDocs Material)](project-doc-site.md) — recurring checks for the site build, CI gating, fenced broken-link, and blob-URL rebrand debt
+- [Doc-site (Zensical, was MkDocs Material)](project-doc-site.md) — recurring checks for the site build, CI gating, fenced broken-link, and blob-URL rebrand debt
 - [House voice guide](project-house-voice.md) — docs/style.md governs prose in the 4 narrative docs; check prose edits against it, and it must obey itself
