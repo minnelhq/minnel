@@ -15,7 +15,7 @@ REL=${FILE#"${CLAUDE_PROJECT_DIR:-$PWD}"/}
 
 # Outside the project, or climbing out of a directory with "..": never a test file.
 case "$REL" in
-  /*|../*|*/../*|..) REL="" ;;
+  /*|../*|*/../*|*/..|..) REL="" ;;
 esac
 # Allowed when any directory in the path is a test directory.
 case "/$REL" in

@@ -121,9 +121,11 @@ docs/appendices/skills-and-commands.md|`.claude/commands/release.md`|-|plugin/sk
 docs/appendices/skills-and-commands.md|`.claude/commands/wrap.md`|-|plugin/skills/wrap/SKILL.md|whole|drop_skill_keys|Appendix N
 templates/CLAUDE.template.md|whole|-|plugin/skills/scaffold/templates/CLAUDE.md|whole|-|CLAUDE template
 PAIRS
-  for sk in plan accept retro release wrap scaffold; do
-    grep -qx 'disable-model-invocation: true' "$ROOT/plugin/skills/$sk/SKILL.md" 2>/dev/null ||
-      e_out="${e_out}  drift: plugin/skills/$sk/SKILL.md lacks disable-model-invocation: true\n"
+  for sk in "$ROOT"/plugin/skills/*/SKILL.md; do  # every plugin skill, frontmatter only
+    [ -f "$sk" ] || continue
+    awk 'NR == 1 && /^---$/ { fm = 1; next } fm && /^---$/ { exit } fm && /^disable-model-invocation: true$/ { found = 1 }
+      END { exit !found }' "$sk" ||
+      e_out="${e_out}  drift: ${sk#"$ROOT"/} lacks disable-model-invocation: true in its frontmatter\n"
   done
 }
 e_findings=""
