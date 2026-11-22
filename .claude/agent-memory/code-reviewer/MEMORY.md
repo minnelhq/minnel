@@ -5,3 +5,4 @@
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
 - [Doc-site (Zensical, was MkDocs Material)](project-doc-site.md) — recurring checks for the site build, CI gating, fenced broken-link, and blob-URL rebrand debt
 - [House voice guide](project-house-voice.md) — docs/style.md governs prose in the 4 narrative docs; check prose edits against it, and it must obey itself
+- [Memory-scope precedence note](project-memory-scope-precedence.md) — §1 "no automatic precedence" claim: verification date, and the within-scope vs cross-scope line to keep clean
