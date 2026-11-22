@@ -30,8 +30,8 @@ Render the site with **MkDocs Material**. Configuration choices:
   the appendices (index + the four grouped files) → the packaging companion. `README.md` stays
   the *repo* landing for GitHub browsers; `index.md` is the *site* front-door, kept lean so the
   two do not drift.
-- `exclude_docs` for the working artefacts that are not published reference — `backlog.md`,
-  `plans/`, and `design/` (these ADRs).
+- `exclude_docs` for the working artefacts that are not published reference, such as `backlog.md`,
+  `plans/` and `design/` (these ADRs).
 - CI builds with `mkdocs build --strict`, so a genuinely broken intra-repo link fails the build.
   The one deliberately-broken link in `worked-example.md` (`does/not/exist.md`, demonstrating the
   project's own consistency hook) lives inside a code fence, so MkDocs never parses it — no
