@@ -36,6 +36,8 @@ check 0 bash-guard.sh "$(bash_call 'ls -la')"              'ls -la'
 check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/src/a.py)"        'test-writer, src/'
 check 0 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/tests/test_a.py)" 'test-writer, tests/'
 check 0 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/pkg/__tests__/a.js)" 'test-writer, __tests__/'
+check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/tests/../src/a.py)"  'test-writer, tests/../src/'
+check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /tmp/tests/a.py)"          'test-writer, outside project'
 check 0 tests-dir-guard.sh "$(write_call '' /proj/src/a.py)"                             'main session, src/'
 check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"      'other agent, src/'
 

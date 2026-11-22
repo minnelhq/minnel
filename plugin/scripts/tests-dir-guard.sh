@@ -13,6 +13,10 @@ FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
 [ -z "$FILE" ] && exit 0
 REL=${FILE#"${CLAUDE_PROJECT_DIR:-$PWD}"/}
 
+# Outside the project, or climbing out of a directory with "..": never a test file.
+case "$REL" in
+  /*|../*|*/../*|..) REL="" ;;
+esac
 # Allowed when any directory in the path is a test directory.
 case "/$REL" in
   */test/*|*/tests/*|*/__tests__/*|*/spec/*|*/specs/*) exit 0 ;;
