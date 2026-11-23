@@ -39,7 +39,7 @@ To move to a later release, update the plugin:
 claude plugin update minnel@minnel
 ```
 
-It refreshes the marketplace before it looks for a new version; `claude plugin marketplace update minnel` refreshes only the catalogue and leaves the install where it is. Installs don't move by themselves, because auto-update is off by default for a third-party marketplace. You can turn it on in `/plugin`'s Marketplaces tab. The update finds the install's scope by itself (from Claude Code 2.1.281); if you installed at more than one scope, pass `--scope` to update the others. The new version loads in your next session, or after `/reload-plugins`. An install moves only when a release raises the plugin's version, and `CHANGELOG.md` says what each release changed.
+The command refreshes the marketplace before it looks for a new version; `claude plugin marketplace update minnel` refreshes only the catalogue and leaves the install where it is. Installs don't move by themselves, because auto-update is off by default for a third-party marketplace. You can turn it on in `/plugin`'s Marketplaces tab. The update finds the install's scope by itself (from Claude Code 2.1.281); if you installed at more than one scope, pass `--scope` to update the others. The new version loads in your next session, or after `/reload-plugins`. An install moves only when a release raises the plugin's version. `CHANGELOG.md` says what each release changed.
 
 Then, in each project that adopts it:
 

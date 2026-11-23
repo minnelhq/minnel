@@ -85,8 +85,8 @@ the project detail they need comes from `CLAUDE.md` and the Definition of Done, 
 adopter. The settings install the plugin from GitHub's `main`, but a merged edit to `plugin/`
 reaches that install only once a release raises the plugin's version. Even then, the install
 moves only after `claude plugin update minnel@minnel`, which refreshes the marketplace first.
-The new version loads in the next session. To try an edit
-before then, start Claude Code with `claude --plugin-dir ./plugin`.
+The new version loads in the next session. To try an edit before then, start Claude Code with
+`claude --plugin-dir ./plugin`.
 
 ## Status
 
