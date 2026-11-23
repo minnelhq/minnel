@@ -7,7 +7,7 @@ user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8
 English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 4 of 4
+- (none — no active plan)
 
 ## Next
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a

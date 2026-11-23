@@ -1,6 +1,8 @@
 # Plan: Prepare release 0.5.0   (approved 2026-11-24)
 
-**Status:** in progress — Stage 4 of 4
+**Status:** done (2026-11-24) — Stages 0–4 complete on one branch: release targets, the `/triage`
+ritual (Appendix P), the Mermaid diagrams and the 0.5.0 release commit. Tagging `v0.5.0` and
+checking the deploy follow the merge.
 
 ## Context
 `[Unreleased]` already holds a `feat` (§9 on `.worktreeinclude`), so the next release is a minor:
@@ -92,14 +94,15 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
 - Acceptance: diagrams render on both; no third-party script on the site; strict build clean;
   reviewer run.
 
-## Stage 4 — Cut 0.5.0 and close the plan   [current]
+## Stage 4 — Cut 0.5.0 and close the plan   [done]
 On the maintainer's go only.
-- [ ] Review `[Unreleased]` as a whole; turn it into `## [0.5.0] - YYYY-MM-DD`; raise
+- [x] Review `[Unreleased]` as a whole; turn it into `## [0.5.0] - YYYY-MM-DD`; raise
   `plugin.json`'s `version` to 0.5.0 in the same commit — files: `CHANGELOG.md`,
   `plugin/.claude-plugin/plugin.json`
-- [ ] Close the plan with `close-plan` (status done, clear the pointer, archive) — files:
+- [x] Close the plan with `close-plan` (status done, clear the pointer, archive) — files:
   `docs/plans/…`, `docs/backlog.md`
-- [ ] After merge: tag `v0.5.0` on the merge commit; check the deploy run and the live site
+- [ ] After merge: tag `v0.5.0` on the merge commit; check the deploy run and the live site (open
+  at archive: it can only follow the merge; see Deviations)
 - Acceptance: tag on GitHub; `claude plugin update minnel@minnel` moves an install to 0.5.0.
 
 ---
@@ -116,6 +119,9 @@ On the maintainer's go only.
   on every page; only the methodology page has diagrams. The §2 diagram drops the "next task"
   back-edge, which made the layout put the build row above the planning row; the text after the
   stage table says the loop repeats.
+- 2026-11-24 — Stage 4: the plan is archived in the PR that carries the release commit, so the
+  post-merge step (tag `v0.5.0`, check the deploy and the live site) stays open here and is done
+  after the merge.
 
 ## Decisions
 - 2026-11-24 — Release targets are an inline `target: X.Y.Z` tag on Next items — keeps Next one
@@ -129,3 +135,5 @@ Per stage: the consistency hook on each edited file (Check E for every pair touc
 build --strict`, and for plugin changes `plugin/scripts/tests/guards.sh` plus both `claude plugin
 validate` runs; one reviewer run per branch. At the end: the post-merge deploy run passes, the site
 shows the diagrams with no unpkg request, and an install updates to 0.5.0.
+
+<!-- Completed in-session; archived under docs/plans/archive/ (§3). -->
