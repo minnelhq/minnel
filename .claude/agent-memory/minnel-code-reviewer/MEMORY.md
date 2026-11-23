@@ -5,7 +5,7 @@
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
 - [Doc-site (Zensical, was MkDocs Material)](project-doc-site.md) — recurring checks for the site build, CI gating, fenced broken-link, and blob-URL rebrand debt
 - [House voice guide](project-house-voice.md) — .claude/rules/house-voice.md: 5 narrative docs plus changelog/plan notes; `*.md` path matching, voice-pass slips and the GitHub-vs-site heading-anchor trap
-- [Minnel plugin and Check E](project-plugin-minnel.md) — plugin/ pinned to appendices by Check E; namespacing, normaliser gaps found and fixed, no-test-step carriers
+- [Minnel plugin and Check E](project-plugin-minnel.md) — plugin/ pinned to appendices by Check E; namespacing, normaliser gaps, version pin, "read-only" reviewer
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
 - [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard escapes, hook quoting, awk segmenter probes, guards CI logs
 - [Memory-scope precedence and loading](project-memory-scope-precedence.md) — §1 table loading column and no-precedence note: what the docs state vs observed, traps

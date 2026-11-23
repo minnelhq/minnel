@@ -78,4 +78,15 @@ appendix and its plugin file is now a defect class like a dangling §N.
   is 2.1.292. The validator's one-step advice quotes 2.1.275 (the slash form). Any doc giving a
   minimum for the shell form must say 2.1.292; grep the raw changelog, it outranks `--help`.
 
+- **Pinned version (from 0.4.0).** Branch claude/stage-6 (2026-11-23) set `"version": "0.4.0"`.
+  Per the plugins docs ("Versions and updates", loading.md, read 2026-11-23) the manifest version
+  wins over the commit SHA, so every install, this repo's own included, keeps its cached copy until
+  the string changes. `/minnel:release` does not touch `plugin.json`. Each release review: check a
+  release that changes `plugin/` raises the version, and that dogfooding prose ("installs from
+  GitHub's `main`") doesn't imply merged plugin edits run here before that.
+- **"Read-only" reviewer claims.** The sub-agents docs say `memory:` auto-enables Read, Write and
+  Edit (observed too: this reviewer's session has Write and Edit), and `Bash` can write anyway.
+  So "(no Edit/Write)" in §4's roster and any "can't change the code" wording is false; only the
+  prompt's instruction restrains it. Backlog item opened 2026-11-23.
+
 See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].
