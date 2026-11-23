@@ -5,9 +5,17 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Added
+- §9: what a `.worktreeinclude` copies and when. Claude Code copies the gitignored files it lists,
+  such as local notes, once as it creates each worktree. Later edits don't pass between the
+  worktree and the main checkout. A `.worktreeinclude` that names a private path can stay
+  untracked.
+
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
   release.
+- The doc site is published on every push to `main` instead of by a manual run, so it follows
+  `main` and can show changes no release includes yet (ADR 0005).
 
 ### Fixed
 - `NOTICE` names the product Minnel, as the README, the site and the plugin do.

@@ -1,6 +1,6 @@
 # ADR 0002 — Publish the methodology as a MkDocs Material site
 
-**Status:** accepted; superseded in part by ADR 0003 (toolchain, deploy)   **Date:** 2026-06-20
+**Status:** accepted; superseded in part by ADR 0003 (toolchain, deploy) and ADR 0005 (deploy on push)   **Date:** 2026-06-20
 
 ## Context
 The methodology is public and linked from a content series, and needs an *owned* home — a
