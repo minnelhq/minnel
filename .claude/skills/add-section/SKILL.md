@@ -30,12 +30,15 @@ stale count ("sixteen") or range ("A–P"), so those are on you.
    truth — run it and update every hit; the list below is a starting checklist, not a complete one
    (carriers drift, so trust the grep):
    ```bash
-   git grep -nE 'A–[A-Z]|J–[A-Z]|[0-9]+ drop-in|[Ff]ifteen|[Ss]ixteen|[Ss]eventeen|([Ff]ive|[Ss]ix|[Ss]even) (ritual|skill)' -- '*.md' '*.json' ':!docs/plans/archive'
+   git grep -nE 'A–[A-Z]|J–[A-Z]|[0-9]+ drop-in|[Ff]ifteen|[Ss]ixteen|[Ss]eventeen|([Ff]ive|[Ss]ix|[Ss]even) (ritual|skill)' -- '*.md' ':!docs/plans/archive'
    ```
    Usual carriers: `README.md` (the count, the invariant mention, the What's-here entry),
    `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the appendices pointer at the end of
    `docs/methodology.md`, `.claude/rules/definition-of-done.md`, and the reviewer's
-   `.claude/agent-memory/minnel-code-reviewer/project-repo-shape.md`.
+   `.claude/agent-memory/minnel-code-reviewer/project-repo-shape.md`. A new ritual also
+   lands in lists that name the rituals without counting them, which the grep misses: both
+   plugin manifests' descriptions, `plugin/README.md`, and the packaging doc's intro, install
+   steps, tree and table.
 3. **Add a `CHANGELOG.md` `[Unreleased]` line** if the change is user-facing (most are).
 4. **Run the consistency hook** on every edited *in-scope* Markdown file (`docs/` except
    gitignored files and `docs/plans/`, plus `README.md`, `CHANGELOG.md`, `templates/`; it no-ops on

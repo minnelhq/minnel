@@ -23,7 +23,7 @@ Triage the backlog in `docs/backlog.md`. Draft only: do not edit files until I a
    release's version from its items' types: under Conventional Commits a `feat` makes a
    minor release, a `fix` a patch and a breaking change a major. A `debt` or `chore`
    item needs no release of its own unless an installer would notice it.
-5. Show any grouping that includes private items only in this chat, or write it to the
+5. Show a grouping that includes private items in this chat only, or write it to the
    private notes. The tracked backlog groups tracked items only, and names a private
    blocker in general terms.
 6. Present the draft as changes to the backlog, one line of reason each. I choose what

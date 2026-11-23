@@ -18,8 +18,8 @@ versions follow SemVer.
 - Appendix P, a `/triage` ritual, shipped in the plugin as `/minnel:triage`. It drafts a backlog
   triage for approval: which items have shipped, gone stale or duplicate another, a new order for
   Next, and release targets. When the conventions name a gitignored notes path, a backlog kept
-  there is read too, but the combined view stays in the chat or those notes. §10's ritual table lists it, and the counts and
-  ranges now say six rituals and Appendices A–P.
+  there is read too, but the combined view stays in the chat or those notes. §10's ritual table
+  lists it, and the counts and ranges now say six rituals and Appendices A–P.
 
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
