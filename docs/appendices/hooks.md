@@ -6,6 +6,10 @@ Drop-in project hooks for the methodology. Companion to `../methodology.md`; the
 
 The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/scripts/git-guard.sh`, wired in `plugin/hooks/hooks.json`. Its `git-guard.sh` adds per-project settings for how it treats commits and pushes.
 
+Both guards read the command through `command-segments.awk`, which splits a command line into the commands it runs. So they match `rm` or `git push` where a command starts, not where a quoted string, a `grep` pattern or a heredoc mentions it. Keep the three files in one directory.
+
+The guards are tripwires. They catch the slips an agent makes in passing: a blanket `git add`, a push nobody approved, a forced recursive delete. They read text, not a shell, so a determined command gets past them: one hidden in a variable or an alias, or run through `sh -c` or `eval`. The plugin's `plugin/scripts/tests/guards.sh` lists these accepted misses beside the cases the guards catch.
+
 `.claude/settings.json` (excerpt)
 
 ```json
@@ -15,7 +19,7 @@ The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/sc
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/bash-guard.sh" }
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/bash-guard.sh" }
         ]
       }
     ],
@@ -23,7 +27,7 @@ The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/sc
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/format-and-test.sh" }
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/format-and-test.sh" }
         ]
       }
     ]
@@ -31,18 +35,32 @@ The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/sc
 }
 ```
 
-`.claude/hooks/bash-guard.sh` — block a destructive command class
+Quote `$CLAUDE_PROJECT_DIR` as above, so a project path with a space still runs.
+
+`.claude/hooks/bash-guard.sh` — block a forced recursive delete, a force push and `DROP TABLE`
 
 ```bash
 #!/bin/bash
 # Reads the tool call as JSON on stdin; exit 2 blocks and returns stderr to Claude.
+# A tripwire for slips, not a sandbox: command-segments.awk, kept beside this script, reads the
+# command as text, so a command hidden in a variable, an alias or sh -c '...' gets past it.
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$(dirname "$0")/command-segments.awk")
 
-if echo "$COMMAND" | grep -iE '\brm -rf\b|\bgit push --force\b|\bDROP TABLE\b' > /dev/null; then
-  echo "Blocked: destructive command. Run it yourself if you really mean it." >&2
+block() {
+  echo "Blocked: $1. Run it yourself if you really mean it." >&2
   exit 2
-fi
+}
+
+# rm with a recursive and a force flag, in any order or cluster.
+echo "$SEGMENTS" | grep -E '^rm ' | grep -E ' (-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)( |$)' |
+  grep -E ' (-[a-zA-Z]*f[a-zA-Z]*|--force)( |$)' > /dev/null && block "a recursive, forced rm"
+# A force push (--force, -f or a +refspec). --force-with-lease passes to the git guard's prompt.
+echo "$SEGMENTS" | grep -E '^git push ' |
+  grep -E ' (--force|-[a-zA-Z]*f[a-zA-Z]*|\+[^ ]+)( |$)' > /dev/null && block "a force push"
+# SQL sits inside an argument, so this one matches anywhere in the command, quotes included.
+echo "$COMMAND" | grep -iE '\bDROP TABLE\b' > /dev/null && block "DROP TABLE"
 exit 0
 ```
 
@@ -51,18 +69,24 @@ exit 0
 ```bash
 #!/bin/bash
 # Add as a second PreToolUse "Bash" hook, or fold into bash-guard.sh.
+# A tripwire for slips, not a sandbox: command-segments.awk, kept beside this script, reads the
+# command as text, so a command hidden in a variable, an alias or sh -c '...' gets past it.
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$(dirname "$0")/command-segments.awk")
 
-# Blanket adds sweep up other sessions' files and ignored artefacts.
-# Match -A, --all or a bare . (or ./) as its own argument, so a path like docs/x.md passes.
-if echo "$COMMAND" | grep -iE '\bgit add\b.*[[:space:]](-A|--all|\./?)([[:space:]]|$)' > /dev/null; then
+# Blanket adds sweep up other sessions' files and ignored artefacts: -A, --all, -u, --update,
+# or the whole tree as a path (., .., ./, :/, *). A path such as docs/x.md passes.
+if echo "$SEGMENTS" | grep -E '^git add ' |
+  grep -E ' (-[a-zA-Z]*[Au][a-zA-Z]*|--all|--update|\.\.?/?|:/|\*)( |$)' > /dev/null; then
   echo "Blocked: stage explicit paths (git add <path>), not the whole tree." >&2
   exit 2
 fi
-# git commit -a (or --all) stages every tracked change, so it sweeps the same way.
-if echo "$COMMAND" | grep -iE '\bgit commit\b.*[[:space:]](-a[a-zA-Z]*|--all)([[:space:]]|$)' > /dev/null; then
-  echo "Blocked: git commit -a or --all stages every tracked change. Stage explicit paths (git add <path>) and commit without it; if -a or --all appears later on the line, split the command." >&2
+# git commit -a (or --all) stages every tracked change, so it sweeps the same way. In a
+# cluster, a letter after one that takes a value (-m, -F, -C, -c, -t, -S, -u) is that value.
+if echo "$SEGMENTS" | grep -E '^git commit ' |
+  grep -E ' (-[^-mFCctSu ]*a[a-zA-Z]*|--all)( |$)' > /dev/null; then
+  echo "Blocked: git commit -a or --all stages every tracked change. Stage explicit paths (git add <path>) and commit without it." >&2
   exit 2
 fi
 
@@ -77,8 +101,8 @@ strictest() { # the stricter of two decisions: block over ask over allow
   case "$1 $2" in *block*) echo block ;; *ask*) echo ask ;; *) echo allow ;; esac
 }
 DECISION=allow
-echo "$COMMAND" | grep -iE '\bgit commit\b' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
-echo "$COMMAND" | grep -iE '\bgit push\b' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
+echo "$SEGMENTS" | grep -E '^git commit( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
+echo "$SEGMENTS" | grep -E '^git push( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
 
 case "$DECISION" in
   block)
@@ -93,3 +117,92 @@ esac
 exit 0
 ```
 
+`.claude/hooks/command-segments.awk` — split a command line into the commands it runs
+
+```awk
+# Prints each command a shell command line runs, one per line, so a guard can match a command
+# where it starts rather than a phrase anywhere in the text. Reads the command line on stdin.
+# - Quoted text becomes Q, except a bare ".", "..", "./", "../", ":/" or "*", which stays.
+# - A heredoc's body is data, so it is skipped.
+# - ; & | ( ) { } ` and a newline end a command; find's -exec, -execdir, -ok and -okdir start one.
+# - VAR=value words and wrappers (sudo, env, xargs, timeout, ...) before rm or git are dropped,
+#   a path is stripped from rm and git, and git's global options are dropped, so
+#   "sudo /bin/rm -rf d" reads "rm -rf d" and "git -C d push" reads "git push".
+# It reads text, not a shell. A variable, an alias, a command inside sh -c '...' or eval, and
+# a script fed to a shell as a heredoc all get past it.
+{ text = text $0 "\n" }
+END {
+  out = ""; q = ""; quoted = ""; nd = 0
+  n = length(text)
+  for (i = 1; i <= n; i++) {
+    c = substr(text, i, 1)
+    if (q != "") {
+      if (c == q) { out = out kept(quoted); q = ""; quoted = ""; continue }
+      if (q == "\"" && c == "\\" && i < n) { i++; quoted = quoted substr(text, i, 1); continue }
+      quoted = quoted c
+      continue
+    }
+    if (c == "'" || c == "\"") { q = c; continue }
+    if (c == "\\" && i < n) { i++; c = substr(text, i, 1); out = out (c == "\n" ? " " : c); continue }
+    if (substr(text, i, 3) == "<<<") { out = out "<<<"; i += 2; continue }
+    if (substr(text, i, 2) == "<<") { i = heredoc(i + 2); continue }
+    if (c == "\n" && nd > 0) { i = skip_bodies(i); out = out "\n"; continue }
+    if (index(";&|(){}`\n", c)) { out = out "\n"; continue }
+    out = out c
+  }
+  gsub(/[ \t]-(exec|execdir|ok|okdir)[ \t]/, "\n", out)
+  m = split(out, lines, "\n")
+  for (l = 1; l <= m; l++) emit(lines[l])
+}
+function kept(s) { return s ~ /^(\.\.?\/?|:\/|\*)$/ ? s : "Q" }
+function base(w) { sub(/^.*\//, "", w); return w }
+# Reads the delimiter of a heredoc whose "<<" ends just before p; returns where it ends.
+function heredoc(p,    d, e, j, strip) {
+  strip = 0
+  if (substr(text, p, 1) == "-") { strip = 1; p++ }
+  while (substr(text, p, 1) ~ /[ \t]/) p++
+  d = ""
+  for (; p <= n; p++) {
+    e = substr(text, p, 1)
+    if (e == "'" || e == "\"") {
+      j = index(substr(text, p + 1), e)
+      if (!j) break
+      d = d substr(text, p + 1, j - 1); p += j
+    } else if (e == "\\") { p++; d = d substr(text, p, 1) }
+    else if (e ~ /[ \t\n;&|()<>]/) break
+    else d = d e
+  }
+  if (d != "") { nd++; delim[nd] = d; tabs[nd] = strip }
+  return p - 1
+}
+# Skips the bodies of the heredocs opened on the line that ends at newline i.
+function skip_bodies(i,    k, s, j, line) {
+  for (k = 1; k <= nd; k++)
+    while (i < n) {
+      s = i + 1; j = index(substr(text, s), "\n")
+      line = j ? substr(text, s, j - 1) : substr(text, s)
+      i = j ? s + j - 1 : n
+      if (tabs[k]) sub(/^\t+/, "", line)
+      if (line == delim[k]) break
+    }
+  nd = 0
+  return i
+}
+function emit(line,    t, k, i, j, cmd, rest) {
+  k = split(line, t)
+  i = 1
+  while (i <= k && t[i] ~ /^[A-Za-z_][A-Za-z0-9_]*=/) i++
+  if (i <= k && t[i] ~ /^(sudo|doas|env|command|builtin|exec|nohup|nice|ionice|time|timeout|stdbuf|xargs)$/)
+    while (i <= k && base(t[i]) !~ /^(rm|git)$/) i++
+  if (i > k) return
+  cmd = base(t[i++])
+  if (cmd == "git")
+    while (i <= k && t[i] ~ /^-/) {
+      if (t[i] ~ /^(-C|-c|--git-dir|--work-tree|--namespace|--exec-path|--config-env)$/) i++
+      i++
+    }
+  rest = cmd
+  for (j = i; j <= k; j++) rest = rest " " t[j]
+  print rest
+}
+```

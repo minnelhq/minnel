@@ -6,30 +6,9 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 1 of 6
+- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 2 of 6
 
 ## Next
-- Appendix C guards: close the remaining bypasses or call them tripwires — fix · value H · effort L
-  — why now: the plugin turns the guards on by default, so a guard that misses a variant promises
-  protection it doesn't give; settle it before the first release that ships the plugin. The
-  bash-guard catches `rm -rf` but not `rm -fr` or `rm -r -f`, and the git-guard still passes
-  `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots, and `git commit -qam` or
-  `-vam`. Its `commit -a` check also trips on `-a` or `--all` later on the line (a quoted
-  message, `&& git log --all`). It misses a subcommand after a global option (`git -C <dir>
-  push`, `git -c k=v push`), which skips the push prompt, now the only human checkpoint before a
-  push, and it matches `git push` in any text, such as a heredoc, so a mention asks too. The
-  bash-guard has the same flaw: on 2026-11-23 it blocked a read-only `grep` whose pattern
-  contained `rm -rf`. Plan Stage 1 settles it: anchor the command patterns to a command position,
-  cover the variants, and say plainly they catch slips, not a determined command. Change
-  Appendix C and `plugin/scripts/` together (Check E pairs them), and add the cases to
-  `plugin/scripts/tests/guards.sh`.
-- Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
-  doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
-  and C and this repo's `.claude/settings.json` leave `$CLAUDE_PROJECT_DIR` unquoted, and project
-  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone.
-  Update the §6 prose that recommends the prefix, and the hook-script item in
-  `.claude/rules/definition-of-done.md`. Do it with the guards item, which edits the same
-  Appendix C.
 - Retitle the methodology as Minnel (plan Stage 4) — chore · value L · effort L — why now: the
   plugin is named Minnel, but the docs still title the methodology "A File-First Operating Model
   for Claude Code"; the 0.4.0 plan retitles it "Minnel: a file-first operating model for Claude

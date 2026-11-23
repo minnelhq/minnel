@@ -36,7 +36,7 @@ Then, in each project that adopts it:
 What else is active once installed:
 
 - The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.
-- The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes either by setting `MINNEL_GIT_GUARD_COMMITS` or `MINNEL_GIT_GUARD_PUSHES` to `"allow"`, `"ask"` or `"block"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused.
+- The Appendix C guards on every `Bash` call. `bash-guard` blocks a forced recursive `rm`, a force push and `DROP TABLE`, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git add -u`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes either by setting `MINNEL_GIT_GUARD_COMMITS` or `MINNEL_GIT_GUARD_PUSHES` to `"allow"`, `"ask"` or `"block"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused. Both guards read the command as text, so they catch slips, not a command hidden in a variable, an alias or `sh -c`.
 - A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`. It catches slips rather than a determined workaround: a file written through `Bash` isn't covered.
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.
@@ -70,6 +70,7 @@ plugin/
 └── scripts/                 # Hook scripts
     ├── bash-guard.sh
     ├── git-guard.sh
+    ├── command-segments.awk # splits a command line for the two guards
     ├── tests-dir-guard.sh
     └── tests/guards.sh      # sample tool calls for each guard
 ```
