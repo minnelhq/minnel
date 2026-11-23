@@ -123,10 +123,10 @@ description: Draft unreleased changelog entries from the completed plan and comm
 Prepare a changelog update — draft only, do not edit files until I approve.
 
 1. Read the active plan and the commits since the last release tag. Find the commit
-   style and changelog format in the Conventions in context: the project's `CLAUDE.md`,
-   else `~/.claude/CLAUDE.md` (the template labels them `Commit style:` and `Changelog:`).
-   Where neither names one, use its default: Conventional Commits for commits, Keep a
-   Changelog for the changelog.
+   style and changelog format in the conventions in context: the project's `CLAUDE.md`
+   or `.claude/rules/`, else `~/.claude/CLAUDE.md` or `~/.claude/rules/` (the template
+   labels them `Commit style:` and `Changelog:`). Where none names one, use its default:
+   Conventional Commits for commits, Keep a Changelog for the changelog.
 2. Summarise only the user-facing changes, one concise line each.
 3. Sort them into the changelog format's categories. For Keep a Changelog: Added,
    Changed, Deprecated, Removed, Fixed, Security. Omit empty categories. With
@@ -157,7 +157,7 @@ End-of-session wrap. Work in order; do not edit files until I confirm each write
 
 1. Durable records — check and update:
    - Active plan: advance the current stage, tick completed steps, note deviations.
-   - Changelog: draft any user-facing changes in the format the Conventions in context
+   - Changelog: draft any user-facing changes in the format the conventions in context
      name (Keep a Changelog under [Unreleased] by default).
    - Decisions: log any made this session in the plan, or propose an ADR if significant.
 2. Retro signal: list anything I had to correct more than once, and propose the single

@@ -9,11 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Name user-level `~/.claude/rules/*.md` in the §1 context table — feat · value M · effort L — why
-  now: the table lists only `~/.claude/CLAUDE.md` for personal conventions, yet one file per
-  convention (commit style, dates, private notes) under `~/.claude/rules/` is easier to share and
-  replace, and loads as user memory (seen in a live session, 2026-11-22; confirm against the memory
-  docs before writing it up).
 - Appendix C guards: close the remaining bypasses or call them tripwires — fix · value M · effort L
   — why now: the bash-guard catches `rm -rf` but not `rm -fr` or `rm -r -f`, and the git-guard still
   passes `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots; either broaden the patterns

@@ -36,12 +36,16 @@ versions follow SemVer.
   `disable-model-invocation: true`.
 
 ### Changed
+- §1 names user-level `~/.claude/rules/*.md` beside `~/.claude/CLAUDE.md` for personal
+  conventions: one file per convention is easier to share or replace, user rules load before
+  project rules, and neither overrides the other. §1's Working agreement and §8 name them too.
 - §8 and the `CLAUDE.md` template present the commit style and the changelog format as choices a
   project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
   dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
 - `/release` (Appendix M) and `/wrap` (Appendix N), and the plugin's `release` and `wrap` skills,
-  read the commit style and changelog format from the Conventions in context (the project's
-  `CLAUDE.md`, else the global one) and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
+  read the commit style and changelog format from the conventions in context (the project's
+  `CLAUDE.md` or `.claude/rules/`, else the user's `~/.claude/CLAUDE.md` or `~/.claude/rules/`)
+  and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
   `YYYY-MM-DD`.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
   hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call

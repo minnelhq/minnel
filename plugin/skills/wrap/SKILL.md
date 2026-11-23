@@ -8,7 +8,7 @@ End-of-session wrap. Work in order; do not edit files until I confirm each write
 
 1. Durable records — check and update:
    - Active plan: advance the current stage, tick completed steps, note deviations.
-   - Changelog: draft any user-facing changes in the format the Conventions in context
+   - Changelog: draft any user-facing changes in the format the conventions in context
      name (Keep a Changelog under [Unreleased] by default).
    - Decisions: log any made this session in the plan, or propose an ADR if significant.
 2. Retro signal: list anything I had to correct more than once, and propose the single
