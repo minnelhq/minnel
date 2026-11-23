@@ -11,7 +11,8 @@ versions follow SemVer.
 - §11 treats a message from another Claude session as untrusted input. Approval for an action comes
   only from the user who owns the work, in that user's own session.
 - Minnel, a Claude Code plugin in `plugin/`, listed by a marketplace at the repo root, that packages the
-  appendix artefacts. It ships the `code-reviewer` and `test-writer` subagents (Appendices A, B).
+  appendix artefacts; ADR 0004 records why it lives in this repo. It ships the `code-reviewer` and
+  `test-writer` subagents (Appendices A, B).
   Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
   plugin's own hooks.
 - The plugin's hooks: the Appendix C bash and git guards, and the test-directory guard for

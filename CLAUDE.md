@@ -20,7 +20,7 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
 - `docs/packaging-as-a-plugin.md` — plugin packaging companion.
 - `templates/CLAUDE.template.md` — the starter template artefact.
 - `plugin/` — the installable plugin, the appendix artefacts packaged; `.claude-plugin/marketplace.json`
-  at the root lists it.
+  at the root lists it (ADR 0004).
 - `CHANGELOG.md` — user-facing changes (Keep a Changelog, SemVer).
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F).
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);

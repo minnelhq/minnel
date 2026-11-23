@@ -36,4 +36,12 @@ appendix and its plugin file is now a defect class like a dangling §N.
   (`"\"${CLAUDE_PLUGIN_ROOT}\"/scripts/x.sh"`); an unquoted root breaks on a path with a space
   and the guard then fails open silently.
 
+- ADR 0004 (`docs/design/0004-ship-the-plugin-from-this-repo.md`, drafted 2026-11-23) records
+  the plugin decisions; the plan's Decisions section is its source. Its first draft miscounted
+  the PAIRS rows (said 15 appendix pairs plus the template; it was 14 plus the template). Count
+  the heredoc rows yourself whenever prose states a pair count, and prefer prose with no count,
+  since every new row strands one.
+- Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
+  updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
+
 See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].
