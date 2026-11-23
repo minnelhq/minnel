@@ -45,7 +45,7 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
       as `\rm` or a path such as `/bin/rm`. Other wrappers (`nohup`, `nice`, `timeout`,
       `time`) are accepted misses. Quoted strings are stripped before matching, after the
       quoted-dot check for `git add`. Flag checks scan only to the end of their own command
-      (the next `;`, `&&`, `||` or `|`). So a grep pattern, a heredoc body line that doesn't
+      (the next `;`, `&`, `&&`, `||`, `|` or newline); backticks and `{` are accepted misses. So a grep pattern, a heredoc body line that doesn't
       start a command, a commit message or `&& git log --all` no longer trips them. Argument-level
       patterns (`DROP TABLE`, which only ever appears inside an argument) keep matching across
       the whole command, quotes included. — files: `plugin/scripts/bash-guard.sh`,
