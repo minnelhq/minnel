@@ -52,9 +52,24 @@ The governing distinction is **always-loaded vs loaded-on-demand**. `CLAUDE.md` 
 
 ## 2. The core loop
 
-```
-Explore → Plan → Challenge → (persist plan) → Execute → Review → Accept → (update status) → repeat
-                                                                                  └─ at phase end: Retro → config changes
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart TB
+  subgraph before [Before you build]
+    direction LR
+    explore[Explore] --> plan[Plan] --> challenge[Challenge] --> persist[Persist plan]
+    challenge -. rethink .-> plan
+  end
+  subgraph build [Build]
+    direction LR
+    execute[Execute] --> review[Review] --> accept[Accept] --> status[Update status]
+    accept -. not done .-> execute
+  end
+  before --> build
+  build -. phase end .-> retro[Retro: config changes]
 ```
 
 | Stage | Mechanism |
@@ -159,6 +174,23 @@ With no pipeline, hooks are where determinism lives. The model can forget; an ex
 - **`PostToolUse`** — matcher `Edit|Write`: run formatter/linter, and a quick build or targeted test. Catches breakage at the moment of edit rather than three steps later. Can run async so it does not block the turn.
 - **Session/lifecycle hooks** — `SessionStart` for environment setup; `PreCompact`/`PostCompact` to protect and reload plan context; `SubagentStop` if you want an audit log of delegated work.
 
+One tool call meets the first two tiers in turn:
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+  call[Tool call] --> guard{PreToolUse guard}
+  guard -- exit 2 --> blocked[Blocked, reason to Claude]
+  guard -- ask --> you{You}
+  you -- deny --> blocked
+  you -- allow --> run[Tool runs]
+  guard -- pass --> run
+  run --> check[PostToolUse check] --> result[Result to Claude]
+```
+
 Hooks can also be scoped *inside* a subagent's frontmatter (they fire only while that agent runs and are cleaned up afterwards). This is the clean way to make `test-writer` physically unable to write outside `Tests/`, regardless of what it is asked. Use the `$CLAUDE_PROJECT_DIR` prefix for hook script paths so they resolve regardless of working directory, and quote it (`"$CLAUDE_PROJECT_DIR"/.claude/hooks/bash-guard.sh`) so a project path with a space still runs. See Appendix C.
 
 ---
@@ -188,6 +220,20 @@ Four things are worth folding in. Everything else (standups on a cadence, story 
 **Order the backlog Now, Next, Later, and promise releases only for Next.** The sections follow the Now–Next–Later roadmap [Janna Bastow devised at ProdPad](https://www.prodpad.com/blog/invented-now-next-later-roadmap/). Now is the active plan. Next is ordered and expected. Later is deliberately undated, because the far end of a backlog can't keep promises. A Next item may name the release it is meant for with an optional `target: X.Y.Z`; a Later item never does. The type tag suggests the size of that release. Conventional Commits ties a `feat` to a minor version and a `fix` to a patch, and gives other types no effect on the version. A `debt` or `chore` item needs no release of its own unless an installer would notice it. A shipped item's line is deleted, so the check runs the other way: when you cut a version, `/release` (Appendix M) lists any Next item still targeting it. Keeping the backlog current is its own ritual: `/triage` (Appendix P) flags items that have shipped or gone stale and drafts a new order and release targets for Next.
 
 **Backlog, plan, and changelog are one lifecycle.** The same unit of work moves through three views: a backlog item (a candidate: *what might happen*), pulled into a plan (committed: *what's happening*, §3), and on completion recorded in the changelog (shipped: *what happened*, user-facing). Tag backlog items by type (`feat`/`fix`/`debt`/`chore`) so they pre-sort into changelog categories; when an item ships, its user-facing outcome lands in the changelog and the backlog line is removed. This closes the loop the methodology otherwise leaves open. It had a record of future and present work, but none of the past.
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+  later[Later] --> next[Next] -- picked up --> now[Now: the plan]
+  now -- ships --> unreleased[Unreleased] -- cut --> version[Release]
+  triage(["/triage"]) -. order, targets .-> next
+  next -. target still open .-> version
+```
+
+The backlog line goes when the item ships; the changelog keeps the outcome. `/release` checks the dotted edge from Next: an item still targeting the version it cuts.
 
 **The changelog is a curated human artefact, not a generated one.** Name its format, and the commit style its entries are drafted from, in your conventions: the project's `CLAUDE.md` or `.claude/rules/`, or, for a default across projects, `~/.claude/CLAUDE.md` or `~/.claude/rules/` (§1). The recommended default is Keep a Changelog: categories Added/Changed/Deprecated/Removed/Fixed/Security, an `## [Unreleased]` section on top, and SemVer versions below with ISO dates (Appendix H). Keep `CHANGELOG.md` at the repo root, the one deliberate exception to the `docs/` rule, because tools and readers expect it there and a visible changelog signals a maintained project (which matters when you distribute the plugin). Don't auto-generate it from `git log`. At release time, have Claude draft Unreleased entries from the finished plan and its commits, then curate. The `/release` command (Appendix M) reads both and falls back to Keep a Changelog or Conventional Commits for whichever is left unnamed. Keep it distinct from its neighbours: the changelog says *what changed, user-facing*; the plan's decision log says *why, internally*; an ADR says *which architectural choice, and its consequences*. The rule of thumb: if a user or installer would care, it's a changelog line; if only a future maintainer would, it isn't.
 
@@ -283,3 +329,6 @@ A distributed, agentic harness executes code and pulls external content into its
 ---
 
 *The drop-in artefacts referenced above (the subagent definitions, project hooks, document skeletons, example skill and ritual commands; Appendices A–P) live under `docs/appendices/`, grouped by type. See `docs/appendices/README.md` for the letter-to-file index.*
+
+<!-- Loads the pinned Mermaid for the diagrams above; GitHub strips it and draws them itself. -->
+<script src="assets/vendor/mermaid-12.3.0/mermaid.min.js"></script>

@@ -7,22 +7,13 @@ user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8
 English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 3 of 4
+- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 4 of 4
 
 ## Next
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
   `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
   commit style (Conventional Commits by default). It catches human commits too and must not clash
   with the git-guard. Add a check that a `feat`/`fix` commit also touches `[Unreleased]`.
-- Add Mermaid diagrams where the prose describes a flow — feat · value M · effort M · target 0.5.0 —
-  why now: the docs have none, and the §2 loop is one arrow line that hides its back-edges.
-  Candidates: the §2 loop, the §8 backlog → plan → changelog lifecycle, the §6/§11 hook path
-  (`PreToolUse` guards, then the `PostToolUse` check) and, lower value, the packaging doc's appendix
-  ↔ plugin pairs under Check E. Enable Zensical's `mermaid` custom fence in `mkdocs.yml`, set
-  `layout: dagre` in each chart's frontmatter, draw left to right with short labels, and keep the
-  prose beside each diagram so the Markdown stays readable on its own. Before shipping, check where
-  Zensical loads Mermaid from (a CDN is a third-party script on the site) and view each chart on
-  GitHub at desktop width and 375 px.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H

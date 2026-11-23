@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.5.0   (approved 2026-11-24)
 
-**Status:** in progress — Stage 3 of 4
+**Status:** in progress — Stage 4 of 4
 
 ## Context
 `[Unreleased]` already holds a `feat` (§9 on `.worktreeinclude`), so the next release is a minor:
@@ -77,22 +77,22 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
   runs and the strict build pass; a grep finds no stale "five rituals" or "A–O" outside history;
   reviewer run.
 
-## Stage 3 — Mermaid diagrams   [current]
-- [ ] Read mermaid's licence from its own `LICENSE`; vendor one pinned `mermaid.min.js` under
+## Stage 3 — Mermaid diagrams   [done]
+- [x] Read mermaid's licence from its own `LICENSE`; vendor one pinned `mermaid.min.js` under
   `docs/` and load it with `extra_javascript`; add the `mermaid` custom fence to
   `pymdownx.superfences`. Confirm in a built page that no request goes to unpkg — files:
   `mkdocs.yml`, `docs/assets/…`
-- [ ] Diagrams, left to right, short labels, `layout: dagre` in frontmatter, prose kept beside each:
+- [x] Diagrams, left to right, short labels, `layout: dagre` in frontmatter, prose kept beside each:
   the §2 loop with its back-edges; the §8 backlog → plan → changelog lifecycle with targets and
   triage; the §6 hook path (`PreToolUse` guards, then `PostToolUse` check) — files:
   `docs/methodology.md`
-- [ ] View each on the site and on GitHub at desktop width and 375 px before
+- [x] View each on the site and on GitHub at desktop width and 375 px before
   the PR is ready
-- [ ] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
+- [x] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
 - Acceptance: diagrams render on both; no third-party script on the site; strict build clean;
   reviewer run.
 
-## Stage 4 — Cut 0.5.0 and close the plan   [not started]
+## Stage 4 — Cut 0.5.0 and close the plan   [current]
 On the maintainer's go only.
 - [ ] Review `[Unreleased]` as a whole; turn it into `## [0.5.0] - YYYY-MM-DD`; raise
   `plugin.json`'s `version` to 0.5.0 in the same commit — files: `CHANGELOG.md`,
@@ -111,6 +111,11 @@ On the maintainer's go only.
 - 2026-11-24 — One PR for the release instead of one per stage. The site deploys on every merge
   to `main`, so a single merge publishes 0.5.0's docs together; the stages build on each other
   anyway. A draft PR opens after Stage 1 so the Mermaid stage can be checked on GitHub.
+- 2026-11-24 — Stage 3: mermaid.js loads from a `<script>` tag at the end of `methodology.md`,
+  not `extra_javascript`. The pinned file is 1.58 MB gzipped, and `extra_javascript` would load it
+  on every page; only the methodology page has diagrams. The §2 diagram drops the "next task"
+  back-edge, which made the layout put the build row above the planning row; the text after the
+  stage table says the loop repeats.
 
 ## Decisions
 - 2026-11-24 — Release targets are an inline `target: X.Y.Z` tag on Next items — keeps Next one

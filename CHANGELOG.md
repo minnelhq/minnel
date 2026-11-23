@@ -20,6 +20,9 @@ versions follow SemVer.
   Next, and release targets. When the conventions name a gitignored notes path, a backlog kept
   there is read too, but the combined view stays in the chat or those notes. §10's ritual table
   lists it, and the counts and ranges now say six rituals and Appendices A–P.
+- Mermaid diagrams for the §2 loop, the §8 backlog-to-changelog lifecycle and the §6 hook path,
+  drawn on the site and on GitHub. The site loads a pinned copy of mermaid.js (12.3.0, MIT) from
+  its own assets, on the methodology page only, instead of fetching it from a CDN.
 
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
