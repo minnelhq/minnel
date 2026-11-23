@@ -64,10 +64,15 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
 - **Validator output drifts with the CLI.** On Claude Code 2.1.330 (2026-11-23)
   `claude plugin validate plugin` also prints plugin-directory advisories (missing icon, undeclared
   `network.hosts`) besides the expected missing-`version` warning; they don't change the verdict.
-  Re-check the DoD's "only allowed warning" wording against the current output, not this note.
+  The DoD now allows only warnings `main` also gives: diff the warning lists of HEAD and a
+  `git archive origin/main` extraction (the extraction has no `.git`, so it adds a
+  README-missing warning HEAD lacks; ignore that one).
 - **The Minnel bash guard runs in review sessions** (seen 2026-11-23, loaded from the desktop
   app as `minnel@inline`) and blocks `rm -rf`; clean up with `rm <file>` then `rmdir`. That it ran
-  at all shows the uploaded zip's hook scripts kept a working exec bit in that install.
+  at all shows the uploaded zip's hook scripts kept a working exec bit in that install. Since
+  2026-11-23 the repo's own settings enable `minnel@minnel`, so the guard runs in every review
+  here (from main's copy in the plugin cache). Give each scratch extraction a fresh
+  `mktemp -d` folder instead of clearing an old one.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
