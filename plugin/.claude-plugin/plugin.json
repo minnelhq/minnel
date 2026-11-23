@@ -7,5 +7,8 @@
   },
   "homepage": "https://github.com/tcrossland/claude-code-methodology",
   "repository": "https://github.com/tcrossland/claude-code-methodology",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "network": {
+    "hosts": []
+  }
 }

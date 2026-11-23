@@ -73,5 +73,9 @@ appendix and its plugin file is now a defect class like a dangling §N.
   step that says so is merged and the marketplace refreshed, the installed copy lacks it.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
+- Install minimums (Claude Code CHANGELOG, read 2026-11-23): in-session
+  `/plugin install <p> --marketplace <src>` is 2.1.275; shell `claude plugin install --marketplace`
+  is 2.1.292. The validator's one-step advice quotes 2.1.275 (the slash form). Any doc giving a
+  minimum for the shell form must say 2.1.292; grep the raw changelog, it outranks `--help`.
 
 See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].

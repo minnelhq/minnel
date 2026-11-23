@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Minnel icon source: shapes only, no text or fonts. Three chevrons, work moving forward through stages, the last in amber. Render: magick -background none assets/minnel-icon.svg -depth 8 plugin/.claude-plugin/icon.png -->
+  <rect width="1024" height="1024" rx="224" fill="#1f3a5f"/>
+  <path d="M250 300 L420 512 L250 724" fill="none" stroke="#6f8bb0" stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M430 300 L600 512 L430 724" fill="none" stroke="#b9cbe0" stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M610 300 L780 512 L610 724" fill="none" stroke="#e0a43a" stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
