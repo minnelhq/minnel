@@ -83,8 +83,8 @@ worked example: it adapts the appendix drop-ins to a real repo rather than pasti
 The plugin's rituals, guards and reviewer are the exception. This repo runs them unchanged, and
 the project detail they need comes from `CLAUDE.md` and the Definition of Done, as it would for an
 adopter. The settings install the plugin from GitHub's `main`, but a merged edit to `plugin/`
-reaches that install only once a release raises the plugin's version. To try an edit before then,
-start Claude Code with `claude --plugin-dir ./plugin`.
+reaches that install only once a release raises the plugin's version and the marketplace is
+updated. To try an edit before then, start Claude Code with `claude --plugin-dir ./plugin`.
 
 ## Status
 

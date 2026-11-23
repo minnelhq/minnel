@@ -11,7 +11,8 @@ versions follow SemVer.
   subagents, the Appendix C guards as hooks, the five rituals (Appendices J–N) as skills such as
   `/minnel:plan`, and `/minnel:scaffold`, which writes the project files a plugin cannot ship.
   It has its own README and icon, and declares in `plugin.json` that it reaches no network host.
-  Its version follows the methodology's, so an install updates at each release.
+  Its version follows the methodology's, so an install moves only to a release, when its
+  marketplace is updated.
 - The plugin's git guard takes two settings in a project's `.claude/settings.json` `env`:
   `MINNEL_GIT_GUARD_COMMITS` (default `allow`) and `MINNEL_GIT_GUARD_PUSHES` (default `ask`), each
   `allow`, `ask` or `block`.
