@@ -15,6 +15,8 @@ jobs:
   guards:
     name: guards (${{ matrix.awk }})
     runs-on: ubuntu-latest
+    # A guard that hangs on stdin would otherwise hold the runner for the six-hour default.
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
