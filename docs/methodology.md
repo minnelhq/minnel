@@ -236,7 +236,7 @@ flowchart LR
   next -. target still open .-> version
 ```
 
-Dotted edges are checks, not moves: `/triage` orders Next and proposes targets, and `/release` lists any Next item still targeting the version being cut.
+The dotted edges are rituals that read the backlog: `/triage` orders Next and proposes targets, and `/release` lists any Next item still targeting the version being cut.
 
 **The changelog is a curated human artefact, not a generated one.** Name its format, and the commit style its entries are drafted from, in your conventions: the project's `CLAUDE.md` or `.claude/rules/`, or, for a default across projects, `~/.claude/CLAUDE.md` or `~/.claude/rules/` (§1). The recommended default is Keep a Changelog: categories Added/Changed/Deprecated/Removed/Fixed/Security, an `## [Unreleased]` section on top, and SemVer versions below with ISO dates (Appendix H). Keep `CHANGELOG.md` at the repo root, the one deliberate exception to the `docs/` rule, because tools and readers expect it there and a visible changelog signals a maintained project (which matters when you distribute the plugin). Don't auto-generate it from `git log`. At release time, have Claude draft Unreleased entries from the finished plan and its commits, then curate. The `/release` command (Appendix M) reads both and falls back to Keep a Changelog or Conventional Commits for whichever is left unnamed. Keep it distinct from its neighbours: the changelog says *what changed, user-facing*; the plan's decision log says *why, internally*; an ADR says *which architectural choice, and its consequences*. The rule of thumb: if a user or installer would care, it's a changelog line; if only a future maintainer would, it isn't.
 

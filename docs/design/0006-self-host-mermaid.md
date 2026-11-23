@@ -5,8 +5,8 @@
 ## Context
 The methodology draws its §2 loop, §6 hook path and §8 lifecycle as Mermaid diagrams. GitHub draws
 them itself. On the site, Zensical's bundle draws them with mermaid.js, and when the page hasn't
-already loaded one it fetches `mermaid@12` from unpkg. That is a third-party script with no exact
-version and no integrity hash, served on a site that otherwise loads only its own assets.
+already loaded one it fetches `mermaid@12` from unpkg: a third-party script with no exact version
+and no integrity hash.
 
 The minified mermaid.js is 5.5 MB, 1.58 MB gzipped. Only the methodology page has diagrams.
 
@@ -19,17 +19,21 @@ load it from a `<script>` tag at the end of each page that draws a diagram. Toda
   and fetches nothing. GitHub strips the tag from its own rendering.
 - The first copy is mermaid 12.3.0 (MIT, read from the package's own `LICENSE`), checked against
   the sha512 the npm registry publishes for it.
-- The docs workflow fails when a built page draws a diagram without the vendored script, or when
-  the vendored major differs from the one Zensical's bundle would fetch.
-- `.gitattributes` marks the vendored directory binary, and `.ignore` keeps searches out of it, so
-  a grep never prints the 300,000-character lines.
+- The docs workflow fails when a built page draws a diagram and its vendored script is missing or
+  doesn't resolve, or loads a major other than the one Zensical's bundle would fetch.
+- `.gitattributes` marks the vendored directory binary and `.ignore` lists it, so `git grep` and
+  ripgrep don't print its 300,000-character lines. A plain `grep -r` still does.
 
 ## Consequences
-- No page fetches a script from a CDN, and only the page that draws diagrams loads the 1.58 MB.
-- A new page with a diagram needs the same `<script>` line. CI catches a page that lacks it.
+- No page fetches Mermaid from a CDN, and only the page that draws diagrams loads the 1.58 MB. The
+  theme still loads its Google Fonts from Google, and on a browser without `ResizeObserver` its
+  bundle fetches a polyfill from unpkg; this decision leaves both alone.
+- A new page with a diagram needs the same `<script>` line, with a `src` relative to its Markdown file. CI
+  catches a page that lacks it or whose path doesn't resolve.
 - Upgrading means a new versioned directory: download the package tarball from the npm registry,
-  check it against the registry's `dist.integrity`, read its `LICENSE`, and update the `src` in
-  each page that loads it. Each upgrade adds about 5.5 MB to the history.
+  check it against the registry's `dist.integrity`, read its `LICENSE`, update the `src` in each
+  page that loads it, and delete the old directory. Each upgrade adds about 1.6 MB, compressed, to
+  the history.
 - A Zensical release that moves its fallback to another Mermaid major fails CI until the vendored
   copy follows.
 
@@ -38,3 +42,6 @@ load it from a `<script>` tag at the end of each page that draws a diagram. Toda
   whichever 12.x unpkg serves that day.
 - **Load the vendored copy through `extra_javascript`** — rejected: every page would download the
   1.58 MB, though one page draws diagrams.
+- **Load an exact version from a CDN with an `integrity` hash, per page** — rejected: it pins the
+  version and keeps the file out of the repository, but the site still depends on a third-party
+  host being up and serving it.

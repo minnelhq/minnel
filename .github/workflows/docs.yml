@@ -35,19 +35,21 @@ jobs:
       # --strict fails the build on any warning, including a link to a missing page or anchor.
       - run: zensical build --strict --clean
       # The site self-hosts mermaid.js (ADR 0006). Zensical's bundle fetches it from unpkg when a
-      # page draws a diagram without loading the vendored copy, so fail on such a page, and on a
-      # vendored major that no longer matches the one the bundle would fetch.
+      # page draws a diagram without loading the vendored copy, so fail on a page whose vendored
+      # script is missing or doesn't resolve, and on a vendored major the bundle wouldn't fetch.
       - name: Check diagrams load the vendored Mermaid
         run: |
           fail=0
-          for f in $(grep -rl --include='*.html' 'class="mermaid"' site); do
-            grep -q 'assets/vendor/mermaid-[0-9.]*/mermaid.min.js' "$f" ||
-              { echo "::error file=$f::draws a diagram without the vendored mermaid.js"; fail=1; }
-          done
-          want=$(grep -oh 'unpkg.com/mermaid@[0-9]*' site/assets/javascripts/bundle.*.js | head -n 1 | sed 's/.*@//')
-          have=$(ls -d docs/assets/vendor/mermaid-* | sed 's/.*mermaid-//; s/\..*//')
-          [ -n "$want" ] && [ "$want" = "$have" ] ||
-            { echo "::error::the bundle's fallback is mermaid@${want:-?}; the vendored copy is ${have}.x"; fail=1; }
+          want=$(grep -oh 'unpkg.com/mermaid@[0-9]*' site/assets/javascripts/bundle.*.js | sed -n '1s/.*@//p' || true)
+          [ -n "$want" ] || { echo "::error::no Mermaid fallback found in the theme bundle"; fail=1; }
+          while IFS= read -r f; do
+            src=$(grep -o 'src="[^"]*assets/vendor/mermaid-[0-9.]*/mermaid.min.js"' "$f" | sed -n '1s/^src="\(.*\)"$/\1/p' || true)
+            if [ -z "$src" ] || [ ! -f "$(dirname "$f")/$src" ]; then
+              echo "::error file=$f::draws a diagram without a vendored mermaid.js that resolves"; fail=1
+            elif [ "$(echo "$src" | sed 's/.*mermaid-//; s/\..*//')" != "$want" ]; then
+              echo "::error file=$f::loads ${src##*/vendor/}, but the bundle falls back to mermaid@$want"; fail=1
+            fi
+          done < <(grep -rl --include='*.html' 'class="mermaid"' site || true)
           exit $fail
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

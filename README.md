@@ -67,7 +67,9 @@ The site build is optional, never a prerequisite for reading or editing the Mark
 `docs/design/0002-publish-as-doc-site.md` and `docs/design/0003-build-site-with-zensical.md`).
 CI builds and checks the site on every pull request and every push to `main`, and each push to
 `main` also publishes it to GitHub Pages (`docs/design/0005-deploy-the-site-on-push.md`). The site
-follows `main`, so it can show changes that no release includes yet.
+follows `main`, so it can show changes that no release includes yet. It draws the methodology's
+diagrams with a pinned mermaid.js kept under `docs/assets/vendor/`, not one fetched from a CDN
+(`docs/design/0006-self-host-mermaid.md`).
 
 ## Dogfooding
 
