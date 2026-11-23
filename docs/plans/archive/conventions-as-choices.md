@@ -1,7 +1,8 @@
 # Plan: Commit style and changelog format as adopter choices   (approved 2026-11-23)
 
-**Status:** in progress — Stage 3 of 3
-<!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/conventions-as-choices. -->
+**Status:** done (2026-11-23) — all three stages complete; the template, §8, `/release` and `/wrap`
+present commit style and changelog format as named choices with defaults, read from the project's
+or the global `CLAUDE.md`, and version headings use Keep a Changelog's hyphen and an ISO date.
 
 ## Goal
 Present the commit style and the changelog format as choices the adopter names in their
@@ -68,14 +69,14 @@ sides together.
   `CHANGELOG.md`, Appendix H, Appendix M, the plugin release skill or the repo's `release.md`;
   `zensical build --strict` builds cleanly.
 
-## Stage 3 — Records and review   [current]
+## Stage 3 — Records and review   [done]
 - [x] `CHANGELOG.md` `[Unreleased]` lines go in with the commits they describe: Changed (§8 and
       the template present both as defaults the project names; `/release` and `/wrap` read
       them), Fixed (`/release` writes the version heading with an ISO date and a hyphen; this
       changelog's headings now use the hyphen too).
 - [x] `docs/backlog.md`: the three items this plan ships are out of Next, and `## Now` points at
       this plan.
-- [ ] Run the `code-reviewer` on the branch diff, then `/accept` against the Definition of Done.
+- [x] Run the `code-reviewer` on the branch diff, then `/accept` against the Definition of Done.
 - Acceptance: no Critical findings; every DoD item has evidence.
 
 ---
@@ -84,6 +85,10 @@ sides together.
 - 2026-11-23, Stage 1 — also corrected `methodology.md`'s stale "Last updated" line (it read
   2026-06-20 after §9 changed on 2026-11-22). §1 needed no change: its table and the "No automatic
   precedence" paragraph already treat commit style as a convention a project can override.
+- 2026-11-23, review — the rituals first read the Conventions only from the project `CLAUDE.md`;
+  §1 puts commit style in `~/.claude/CLAUDE.md` as a personal convention, so they now read the
+  project's, else the global file, with one default per line. `/release` also uses the commit
+  style to suggest categories, and Appendix H's intro calls Keep a Changelog the default.
 
 ## Decisions
 - 2026-11-23 — The choice lives in the project's `CLAUDE.md` Conventions (`Commit style:`,
@@ -94,3 +99,8 @@ sides together.
   concrete gets vague.
 - 2026-11-23 — Rewrite this repo's released changelog headings to the hyphen — because Keep a
   Changelog endorses improving an existing changelog, and nothing links to those headings.
+- 2026-11-23 — The rituals read the Conventions in context, the project's `CLAUDE.md` else
+  `~/.claude/CLAUDE.md` — because §1 places commit style among the personal conventions in the
+  global file.
+
+<!-- Completed in-session; archived under docs/plans/archive/ (§3). -->
