@@ -12,7 +12,7 @@ A **plugin** is the smallest unit of distribution for a Claude Code setup: one d
 
 The strategic payoff matters more, and it is the reason to treat this as the natural conclusion of the whole exercise. A methodology aimed at experienced engineers travels further as an *installable, opinionated harness* ("here is my Claude Code operating model, `plugin install` it") than as a document of principles. For a methodology meant for others, the plugin is what people adopt and the document explains why.
 
-> **Versioning note.** Plugin mechanics move quickly. What follows was checked on 2026-11-23 against the official plugin docs (which cite Claude Code up to v2.1.330) and run on v2.1.273. Confirm the manifest schema and directory conventions against the plugins reference before relying on them, and update Claude Code if `claude plugin` is not recognised.
+> **Versioning note.** Plugin mechanics move quickly. What follows was checked on 2026-11-23 against the official plugin docs (which cite Claude Code up to v2.1.330) and run on v2.1.273. The one-step install, which needs v2.1.292, was checked against `claude plugin install --help` on v2.1.330. Confirm the manifest schema and directory conventions against the plugins reference before relying on them, and update Claude Code if `claude plugin` is not recognised.
 
 ---
 
@@ -31,7 +31,7 @@ claude plugin marketplace add tcrossland/claude-code-methodology
 claude plugin install minnel@minnel
 ```
 
-Pass `--scope project` or `--scope local` to the install to limit it to one project. Inside a session, `/plugin` opens the same catalogue.
+Pass `--scope project` or `--scope local` to the install to limit it to one project; the marketplace itself still goes in your user settings. Inside a session, `/plugin` opens the same catalogue.
 
 Then, in each project that adopts it:
 
