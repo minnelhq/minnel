@@ -32,7 +32,7 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
 ## Stage 0 — Record the plan   [done]
 - [x] Copy this plan to `docs/plans/release-0.5.0.md` with the approval date — files:
   `docs/plans/release-0.5.0.md`
-- [x] Set the backlog's Now to it, Stage 2 of 4; give the three items it ships a 0.5.0 target —
+- [x] Set the backlog's Now to it, Stage 1 of 4; give the three items it ships a 0.5.0 target —
   files: `docs/backlog.md`
 - Acceptance: the plan and pointer are on `main`; trivial branch, no review needed.
 
@@ -103,6 +103,9 @@ On the maintainer's go only.
 ---
 
 ## Deviations
+- 2026-11-24 — Stage 1: the release skill suggests a version from the commits' types
+  (Conventional Commits: `feat` minor, `fix` patch, a breaking change major) rather than from
+  backlog tags, since `debt` is not a commit type. §8 keeps the `debt`/`chore` rule as Minnel's own.
 
 ## Decisions
 - 2026-11-24 — Release targets are an inline `target: X.Y.Z` tag on Next items — keeps Next one
