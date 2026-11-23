@@ -111,6 +111,9 @@ check 2 bash-guard.sh "$(bash_call '! git push -f')"       'git push -f after !'
 check 2 bash-guard.sh "$(bash_call $'# it\'s a cleanup\nrm -rf build')" 'rm -rf after a comment with an apostrophe'
 check 2 bash-guard.sh "$(bash_call 'echo "$(rm -rf x)"')"  'rm -rf in "$(...)"'
 check 2 bash-guard.sh "$(bash_call 'x=$((1<<2)); rm -rf x')" 'rm -rf after a shift in $((...))'
+check 2 bash-guard.sh "$(bash_call $'echo $((1<<n))\nrm -rf x')" 'rm -rf after a shift by a variable'
+check 2 bash-guard.sh "$(bash_call $'(( x <<= n ))\nrm -rf x')" 'rm -rf after <<='
+check 2 bash-guard.sh "$(bash_call 'coproc rm -rf x')"     'rm -rf after coproc'
 check 2 bash-guard.sh "$(bash_call '/usr/bin/env rm -rf x')" 'rm -rf behind /usr/bin/env'
 check 0 bash-guard.sh "$(bash_call 'echo "$(( 1 + 2 ))"; echo ${#a}')" 'arithmetic and ${#...}'
 # DROP TABLE sits inside an argument, so it matches anywhere, a mention included.
@@ -120,6 +123,7 @@ check 2 bash-guard.sh "$(bash_call 'git commit -m "explain DROP TABLE"')" 'accep
 check 0 bash-guard.sh "$(bash_call "sh -c 'rm -rf x'")"    'accepted miss: rm inside sh -c'
 check 0 bash-guard.sh "$(bash_call 'eval "rm -rf x"')"     'accepted miss: rm inside eval'
 check 0 bash-guard.sh "$(bash_call $'bash <<EOF\nrm -rf x\nEOF')" 'accepted miss: rm in a script fed as a heredoc'
+check 0 bash-guard.sh "$(bash_call 'echo "$(case a in a) rm -rf x;; esac)"')" 'accepted miss: a case pattern inside "$(...)"'
 
 # Without command-segments.awk beside them, the guards block rather than pass everything.
 lone=$(mktemp -d) && cp bash-guard.sh git-guard.sh "$lone"/

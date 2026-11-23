@@ -130,7 +130,7 @@ exit 0
 #   $(...) or `...` inside double quotes is a command, not quoted text.
 # - A heredoc's body and a # comment are data, so they are skipped.
 # - ; & | ( ) { } ` and a newline end a command; find's -exec, -execdir, -ok and -okdir start one.
-# - Shell keywords (if, then, do, !, ...), VAR=value words and wrappers (sudo, env, xargs,
+# - Shell keywords (if, then, do, !, coproc, ...), VAR=value words and wrappers (sudo, env, xargs,
 #   timeout, ...) before rm or git are dropped, a path is stripped from rm and git, and git's
 #   global options are dropped, so "sudo /bin/rm -rf d" reads "rm -rf d" and "git -C d push"
 #   reads "git push".
@@ -187,8 +187,9 @@ END {
 function kept(s) { return s ~ /^(\.\.?\/?|:\/|\*)$/ ? s : "Q" }
 function base(w) { sub(/^.*\//, "", w); return w }
 # Reads the delimiter of a heredoc whose "<<" ends just before p; returns where it ends.
-# A delimiter starting with a digit is taken for a shift, as in $((1<<2)).
-function heredoc(p,    d, e, j, strip) {
+# A delimiter that starts with a digit or "=", or is followed by ")", is taken for a shift in
+# arithmetic, as in $((1<<2)), $((1 << n)) or (( x <<= n )).
+function heredoc(p,    d, e, j, strip, r) {
   strip = 0
   if (substr(text, p, 1) == "-") { strip = 1; p++ }
   while (substr(text, p, 1) ~ /[ \t]/) p++
@@ -203,7 +204,9 @@ function heredoc(p,    d, e, j, strip) {
     else if (e ~ /[ \t\n;&|()<>]/) break
     else d = d e
   }
-  if (d != "" && d !~ /^[0-9]/) { nd++; delim[nd] = d; tabs[nd] = strip }
+  r = p
+  while (substr(text, r, 1) ~ /[ \t]/) r++
+  if (d != "" && d !~ /^[0-9=]/ && substr(text, r, 1) != ")") { nd++; delim[nd] = d; tabs[nd] = strip }
   return p - 1
 }
 # Skips the bodies of the heredocs opened on the line that ends at newline i.
@@ -222,7 +225,7 @@ function skip_bodies(i,    k, s, j, line) {
 function emit(line,    t, k, i, j, cmd, rest) {
   k = split(line, t)
   i = 1
-  while (i <= k && (t[i] ~ /^[A-Za-z_][A-Za-z0-9_]*=/ || t[i] ~ /^(if|then|else|elif|do|while|until|!)$/)) i++
+  while (i <= k && (t[i] ~ /^[A-Za-z_][A-Za-z0-9_]*=/ || t[i] ~ /^(if|then|else|elif|do|while|until|coproc|!)$/)) i++
   if (i <= k && base(t[i]) ~ /^(sudo|doas|env|command|builtin|exec|nohup|nice|ionice|time|timeout|stdbuf|xargs)$/)
     while (i <= k && base(t[i]) !~ /^(rm|git)$/) i++
   if (i > k) return
