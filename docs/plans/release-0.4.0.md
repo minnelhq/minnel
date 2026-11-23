@@ -173,7 +173,8 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   messages. The adopter rule says "code or published docs" where this repo's names plugin code, the
   template or a published doc. Appendix O's Secrets item names the reviewer's check too, to
   match §11.
-- 2026-11-23, Stage 4 — The README's `plugin/` line no longer calls the plugin alone "Minnel",
+- 2026-11-23, Stage 4 — The README's `plugin/` line and `CLAUDE.md`'s opening no longer call the
+  plugin alone "Minnel",
   and the backlog's deploy item no longer points at the deleted title item. The worked example's
   "Last updated" moves to 2026-11-23 with its companion line.
 
