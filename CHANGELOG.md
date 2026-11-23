@@ -6,7 +6,8 @@ versions follow SemVer.
 ## [Unreleased]
 
 ### Changed
-- README: the Status says Minnel is maintained.
+- The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
+  release.
 
 ### Fixed
 - `NOTICE` names the product Minnel, as the README, the site and the plugin do.
