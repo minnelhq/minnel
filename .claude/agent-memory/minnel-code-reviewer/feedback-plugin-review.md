@@ -72,7 +72,9 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   at all shows the uploaded zip's hook scripts kept a working exec bit in that install. Since
   2026-11-23 the repo's own settings enable `minnel@minnel`, so the guard runs in every review
   here (from main's copy in the plugin cache). Give each scratch extraction a fresh
-  `mktemp -d` folder instead of clearing an old one.
+  `mktemp -d` folder instead of clearing an old one. Until release-0.4.0 Stage 1 ships, the guard
+  also blocks a read-only `grep` whose pattern holds the destructive string (hit again
+  2026-11-23): grep for a nearby word such as `bash-guard` instead.
 - **Guard redesigns that anchor to a command position (planned 2026-11-23, release-0.4.0 Stage
   1).** Anchoring patterns to a command start and stripping quoted strings fixes false positives
   but blinds any pattern that lives in an argument: `DROP TABLE` only ever appears inside
