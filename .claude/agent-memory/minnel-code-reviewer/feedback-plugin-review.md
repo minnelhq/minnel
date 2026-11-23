@@ -83,6 +83,18 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   has a way to fire, and that the tests pin the accepted misses as documented passes. Also check
   `--force-with-lease` (blocked today by `\bgit push --force\b`) is decided deliberately, and
   that a flag check stops at `;`, `&&`, `|` rather than running `.*` into the next command.
+- **The shared segmenter (`plugin/scripts/command-segments.awk`, first reviewed 2026-11-23,
+  branch `claude/guards-tripwires`).** Both guards match `^rm `/`^git push ` on its output, so any
+  shape it fails to split or mis-quotes is a silent miss. Probe it with
+  `printf '%s\n' "$cmd" | awk -f …` from a scratch script, compare against main's verdict, and
+  cover: shell keywords before a command (`do rm`, `then git push`, `! git push`); a `#` comment
+  holding an apostrophe (the quote runs to EOF and drops every later command); `"$(git push)"`
+  and backticks inside double quotes; Claude's commit form `git commit -m "$(cat <<'EOF' … EOF
+  )" && git push` with an odd number of `"` in the body; `$((1<<2))` read as a heredoc;
+  `/usr/bin/sudo` (wrapper matched before `base()`); a missing awk file (awk errors, guard exits 0
+  silently). A prototype handling keywords, comments and dq `$(`/backtick passed all 82 cases.
+  Also run 40 real commit messages through the commit form: only `DROP TABLE` mentions should
+  block. Quoted text is accumulated char by char (quadratic on BSD awk: 1.4 s at 160 KB).
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
