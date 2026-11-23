@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-`docs/packaging-as-a-plugin.md` claims a plugin **cannot** deliver `.claude/rules/` rules — so the Definition of Done must ship as a skill, agent instructions, or a `CLAUDE.md` block, never a bundled rules dir. As of 19/06/2026 this is empirically CONFIRMED, not just inferred from doc silence.
+`docs/packaging-as-a-plugin.md` claims a plugin **cannot** deliver `.claude/rules/` rules — so the Definition of Done must ship as a skill, agent instructions, or a `CLAUDE.md` block, never a bundled rules dir. As of 2026-06-19 this is empirically CONFIRMED, not just inferred from doc silence.
 
 Evidence (Claude Code v2.1.181, throwaway plugin + clean project):
 - Plugin loaded — namespaced command `/plugin-rules-test:ping` returned PLUGIN_LOADED_OK (load control).

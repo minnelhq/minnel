@@ -5,15 +5,15 @@ metadata:
   type: project
 ---
 
-Completed plans move from `docs/plans/` to `docs/plans/archive/`, staying versioned as history so only live work shows in `docs/plans/`. Convention added 06/2026.
+Completed plans move from `docs/plans/` to `docs/plans/archive/`, staying versioned as history so only live work shows in `docs/plans/`. Convention added 2026-06.
 
 Where it is described (keep these consistent on any future edit):
 - `docs/methodology.md` §3 closing paragraph (~line 85, after the appendix split) — "when a plan is done, move it to `docs/plans/archive/` and clear the active-plan pointer".
-- Appendix D — now in `docs/appendices/skeletons.md` (~line 54, moved out of methodology.md by the 06/2026 appendix split) — completion note: set `**Status:** done (YYYY-MM-DD)` (ISO since the date migration), clear pointer, move to archive.
+- Appendix D — now in `docs/appendices/skeletons.md` (~line 54, moved out of methodology.md by the 2026-06 appendix split) — completion note: set `**Status:** done (YYYY-MM-DD)` (ISO since the date migration), clear pointer, move to archive.
 
 **Why:** keeps the active plan set scannable for a cold-start session.
 
-**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D used to name only those two; reconciled 20/06/2026 (commit bfd4dc6) so both now read as a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. Any doc/skill naming a concrete pointer location should say `docs/backlog.md`. Re-verify before relying on this.
+**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D used to name only those two; reconciled 2026-06-20 (commit bfd4dc6) so both now read as a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. Any doc/skill naming a concrete pointer location should say `docs/backlog.md`. Re-verify before relying on this.
 
 **Stage markers:** skeleton (Appendix D, `docs/appendices/skeletons.md`) uses three states — `[done]`, `[current]`, `[not started]`. A close-out grep that only looks for `[current]` and `[ ]` misses a leftover `[not started]` stage.
 
