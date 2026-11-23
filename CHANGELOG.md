@@ -10,6 +10,7 @@ versions follow SemVer.
   marketplace at the repo root (ADR 0004). It ships the `code-reviewer` and `test-writer`
   subagents, the Appendix C guards as hooks, the five rituals (Appendices J–N) as skills such as
   `/minnel:plan`, and `/minnel:scaffold`, which writes the project files a plugin cannot ship.
+  It has its own README and icon, and declares in `plugin.json` that it reaches no network host.
 - The plugin's git guard takes two settings in a project's `.claude/settings.json` `env`:
   `MINNEL_GIT_GUARD_COMMITS` (default `allow`) and `MINNEL_GIT_GUARD_PUSHES` (default `ask`), each
   `allow`, `ask` or `block`.

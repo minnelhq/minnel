@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 4 of 6 (done, awaiting review and merge)
+**Status:** in progress — Stage 5 of 6 (done, awaiting review and merge)
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -117,23 +117,23 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   `[Unreleased]` line naming the old title); `zensical build --strict` passes; the site's URL is
   unchanged.
 
-## Stage 5 — The plugin's own README, icon and network declaration   [not started]
-- [ ] `plugin/README.md` (40 words or more): what Minnel does, its parts (two agents, three guard
+## Stage 5 — The plugin's own README, icon and network declaration   [done]
+- [x] `plugin/README.md` (40 words or more): what Minnel does, its parts (two agents, three guard
       hooks, six skills), the install commands, and links to the methodology and to the
       packaging doc's "Install this plugin" section for the rest, rather than restating it.
       Keep the two-step `marketplace add` and `install minnel@minnel` form unless
       `claude plugin install --help` confirms a one-step form; the validator's one-step advice
       concerns the root `README.md` and needs Claude Code 2.1.275 or later, so state that
       minimum wherever the one-step form appears.
-- [ ] Draft a square PNG icon, 1024 px, from a shape-only SVG (no font, so no font licence),
+- [x] Draft a square PNG icon, 1024 px, from a shape-only SVG (no font, so no font licence),
       rendered with ImageMagick; commit the PNG at `plugin/.claude-plugin/icon.png` and the SVG
       source at `assets/minnel-icon.svg`. The maintainer may replace it before it is first used
       anywhere.
-- [ ] Declare `network.hosts` in `plugin.json` as an empty list: the guards, skills and agents
+- [x] Declare `network.hosts` in `plugin.json` as an empty list: the guards, skills and agents
       name no host (re-check with a grep of `plugin/` for `curl`, `gh `, `fetch` and `http`;
       `plugin.json`'s own `homepage` and `repository` URLs are metadata, not network calls).
       Check the field's shape in the current plugin-manifest docs first.
-- [ ] Record in `[Unreleased]`.
+- [x] Record in `[Unreleased]`.
 - Acceptance: `claude plugin validate plugin --profile directory --strict` fails on nothing but
   the missing `version`; the icon is square, 512–2048 px, PNG, under 2 MB.
 
@@ -187,6 +187,15 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   rather than only when something points Claude at it. It now also covers changelog entries and
   plan and backlog notes. Repo plumbing, so no changelog line.
 
+- 2026-11-23, Stage 5 — `claude plugin install --help` confirms a one-step form
+  (`--marketplace <owner/repo>`), so `plugin/README.md` leads with it, marked 2.1.275 or later,
+  and keeps the two-step form for earlier versions. With a README of its own in `plugin/`, the
+  directory profile no longer falls back to the root README.
+- 2026-11-23, Stage 5 — The manifest reference gives `"network": {"hosts": [...]}`, needing Claude
+  Code 2.1.328 or later, and says the field neither allows nor blocks a host. So the changelog
+  says the plugin *declares* it reaches none. The strict run still prints "Hosts not read for:
+  hooks (1), skills (6)" as information, not a warning. The icon is rendered at 8-bit depth.
+
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
   plugin, site and docs; the description survives as the subtitle.
@@ -202,6 +211,8 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - 2026-11-23 — Without `command-segments.awk` beside them, the bash and git guards block every
   `Bash` call and say why — a guard copied without its parser would otherwise pass everything
   silently, unlike a missing `jq`, which is an environment gap the packaging doc already names.
+- 2026-11-23 — Icon: the maintainer chose three chevrons, stages moving forward with the last in
+  amber, over drafts built on documents, checklists, a monogram, a staircase and rings.
 
 ## Verification (whole plan)
 On the Stage 6 branch: `plugin/scripts/tests/guards.sh`; `claude plugin validate plugin
