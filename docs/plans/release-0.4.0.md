@@ -146,9 +146,9 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - [x] Add the one-step install to "Install this plugin" in `docs/packaging-as-a-plugin.md`, with
       its minimum (2.1.292 for `claude plugin install --marketplace`, 2.1.275 for the in-session
       form), matching `plugin/README.md`.
-- [ ] Re-read `[Unreleased]` against the merged stages: every user-facing change listed once, in
+- [x] Re-read `[Unreleased]` against the merged stages: every user-facing change listed once, in
       the right Keep a Changelog category.
-- [ ] Run the full check: `guards.sh`, both `claude plugin validate` runs (the directory profile
+- [x] Run the full check: `guards.sh`, both `claude plugin validate` runs (the directory profile
       now clean), `zensical build --strict`, and Check E across the repo.
 - [ ] Hand over: the maintainer runs `/minnel:release 0.4.0` and tags; then close this plan.
 - Acceptance: every check passes on the release branch; the guards, quoting and title lines are
