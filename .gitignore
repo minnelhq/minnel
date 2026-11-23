@@ -5,3 +5,4 @@ CLAUDE.local.md
 docs/local/
 site/
 .venv/
+/dist/

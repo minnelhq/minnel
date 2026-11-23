@@ -31,6 +31,21 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
 - **Always run** `plugin/scripts/tests/guards.sh`, `claude plugin validate plugin` and
   `claude plugin validate .` when `plugin/` or `.claude-plugin/` changes (the DoD's plugin item).
   The missing-`version` warning is expected until the first release that ships the plugin.
+- **Packaging script (`scripts/package.sh`, first reviewed 2026-11-23).** Test what reaches the
+  zip in a `git archive` scratch copy: an untracked/ignored file in `plugin/` (e.g. `.env`) and an
+  absolute symlink to a file or directory outside the repo. `cp -R` keeps the link and `zip -r`
+  follows it, so outside content lands in the zip unless staging comes from git or `zip -y` /
+  a symlink check is used. Also check `CDPATH= cd` in the root-finding line, that a failed
+  `claude plugin validate` stops the build (it does: exit 1 under `set -e`), and that the
+  version string can't hold `/`. `claude plugin validate` does not check semver.
+  A `git archive | tar -x` pipeline under `set -eu` (no pipefail in POSIX sh) hides a failed
+  archive: macOS bsdtar exits 0 on empty stdin (checked 2026-11-23), so the failure only surfaces
+  later, if something downstream needs a staged file. Prefer `git archive -o <file>` then
+  `tar -xf`. Building from HEAD also drops uncommitted `plugin/` edits from a `--dev` test build;
+  check the script says so at run time, not only in its header comment.
+- **The Minnel bash guard runs in review sessions** (seen 2026-11-23, loaded from the desktop
+  app as `minnel@inline`) and blocks `rm -rf`; clean up with `rm <file>` then `rmdir`. That it ran
+  at all shows the uploaded zip's hook scripts kept a working exec bit in that install.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
