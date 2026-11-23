@@ -9,12 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Tell adopters how to move to a new release — fix · value M · effort L — why now: the install
-  steps stop at the first install. A plugin install moves to a new version only after
-  `claude plugin marketplace update minnel` and then `claude plugin update minnel@minnel`, and the
-  new version loads in the next session. Today only the 0.4.0 changelog entry and the README's
-  Dogfooding note say so. Add a short "To move to a later release" note to "Install this plugin" in
-  `docs/packaging-as-a-plugin.md` and to `plugin/README.md`.
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
   changed the published docs needed a separate manual run of the `docs` workflow, and some went
   live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
@@ -61,13 +55,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   so the Markdown stays readable on its own. Before shipping, check where Zensical loads Mermaid
   from (a CDN is a third-party script on the site) and view each chart on GitHub at desktop width
   and 375 px.
-- Stop calling the reviewer read-only — fix · value L · effort L — why now: `plugin/README.md`,
-  `plugin.json` and `marketplace.json` describe `code-reviewer` as read-only, as the agent's own
-  description does, but `memory: project` turns on Read, Write and Edit (meant for its memory, but
-  not limited to that folder), and `Bash` can write files anyway (the Stage 5 and 6 reviews of
-  0.4.0 found this). Say it is told not to edit the code under review, which its tools don't
-  prevent. Change the agent, Appendix A, §4's roster ("no Edit/Write … read-only by design"), §10
-  ("the isolated, read-only reviewer") and the manifests together.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H

@@ -84,9 +84,9 @@ The plugin's rituals, guards and reviewer are the exception. This repo runs them
 the project detail they need comes from `CLAUDE.md` and the Definition of Done, as it would for an
 adopter. The settings install the plugin from GitHub's `main`, but a merged edit to `plugin/`
 reaches that install only once a release raises the plugin's version. Even then, the install
-moves only after `claude plugin marketplace update minnel` and then
-`claude plugin update minnel@minnel`. The new version loads in the next session. To try an edit
-before then, start Claude Code with `claude --plugin-dir ./plugin`.
+moves only after `claude plugin update minnel@minnel`, which refreshes the marketplace first.
+The new version loads in the next session. To try an edit before then, start Claude Code with
+`claude --plugin-dir ./plugin`.
 
 ## Status
 

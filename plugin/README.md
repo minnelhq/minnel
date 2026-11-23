@@ -6,8 +6,9 @@ methodology's artefacts so a project can adopt them without copying files by han
 
 ## What it ships
 
-- Two subagents: `minnel:code-reviewer`, a read-only reviewer run on a branch's final diff
-  before merge, and `minnel:test-writer`, which writes behaviour-driven tests.
+- Two subagents: `minnel:code-reviewer`, which reviews a branch's final diff before merge and
+  reports findings without fixing them, and `minnel:test-writer`, which writes behaviour-driven
+  tests.
 - Three guard hooks: `bash-guard` (forced recursive `rm`, force push, `DROP TABLE`), `git-guard`
   (blanket staging, `git commit -a` included; by default it also asks before each push) and a
   test-directory guard for `test-writer`. They catch slips, not a determined command.
@@ -33,10 +34,17 @@ claude plugin install minnel@minnel
 
 Then run `/minnel:scaffold` in each project that adopts it. The guards need `jq`.
 
+To move to a later release, update the plugin and start a new session. The update refreshes the
+marketplace first.
+
+```bash
+claude plugin update minnel@minnel
+```
+
 ## More
 
 - [The methodology](https://tcrossland.github.io/claude-code-methodology/methodology/) explains
   what each piece is for.
 - [Install this plugin](https://tcrossland.github.io/claude-code-methodology/packaging-as-a-plugin/#install-this-plugin)
-  covers install scopes, the scaffold's steps, the guards' settings and which pieces have had less
-  use.
+  covers install scopes, updates, the scaffold's steps, the guards' settings and which pieces have
+  had less use.

@@ -110,7 +110,7 @@ The temptation is to build a zoo. Resist it. The built-ins already cover most de
 
 | Subagent | Tools | Model | Why it earns its place |
 |---|---|---|---|
-| `code-reviewer` | `Read, Grep, Glob, Bash` (no Edit/Write) | `inherit` | Read-only by design so it cannot "helpfully" rewrite while reviewing. With no PR reviewer, this is your second pair of eyes; on model choice, see the note below |
+| `code-reviewer` | `Read, Grep, Glob, Bash`, plus the Write and Edit that `memory` turns on | `inherit` | Told to report and not fix, so it doesn't "helpfully" rewrite while reviewing. Only the prompt holds it to that: `memory` lets it write its notes, and `Bash` can write any file. With no PR reviewer, this is your second pair of eyes; on model choice, see the note below |
 | `test-writer` | `Read, Edit, Write, Bash` | `sonnet` | Needs write access; scope it to test directories with a `PreToolUse` guard if you want belt-and-braces |
 | `db-reader` *(optional)* | `Bash` + `PreToolUse` validator | `haiku` | Only if you have a recurring need to run guarded read-only queries |
 
@@ -120,7 +120,7 @@ Only `name` and `description` are required. The most common mistake is writing t
 
 - `disallowedTools` — a denylist; often cleaner than an allowlist when you want "everything except Write/Edit".
 - `permissionMode` — `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, or `plan`.
-- `memory` — `user`, `project`, or `local`; a persistent learnings directory. `project` is the sensible default so review patterns version with the repo.
+- `memory` — `user`, `project`, or `local`; a persistent learnings directory. `project` is the sensible default so review patterns version with the repo. Setting it turns on Read, Write and Edit so the agent can keep its notes, whatever `tools` lists. With auto memory off, the field does nothing.
 - `effort` — `low`, `medium`, `high`, `xhigh`, `max` (availability depends on model).
 - `isolation: worktree` — runs the subagent in an isolated copy of the repo, auto-discarded if it makes no changes.
 
@@ -246,7 +246,7 @@ The five ritual commands map onto the loop (§2) and the session lifecycle (§9)
 
 **Skills vs commands: who drives.** Claude Code has merged commands into skills. A `.claude/commands/` file is the [older format and still works](https://code.claude.com/docs/en/skills), and it accepts the same frontmatter fields as a skill except `name` and `paths`. You start either one by typing its name; by default Claude can also start it when its description matches the task. Who drives is set in the frontmatter. Set `disable-model-invocation: true` (above) on *your* rituals (plan, accept, retro), so they run only when you call them by name; leave it off for *Claude's* capabilities (the importer, the migration). Prefer a skill for new work, since it can carry supporting files. This repository's plugin, Minnel, ships its five rituals as skills with that key set, such as `/minnel:plan`.
 
-**A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated, read-only reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
+**A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
 Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, *Packaging the Methodology as a Plugin*.
 
