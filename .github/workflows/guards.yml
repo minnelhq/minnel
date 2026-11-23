@@ -1,0 +1,44 @@
+name: guards
+
+# Run the plugin's guard tests on every PR and every push to main. The guards read commands
+# through plugin/scripts/command-segments.awk, which must work under any POSIX awk, so the tests
+# run once with each awk most Linux users have: mawk (Debian and Ubuntu's default) and gawk.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guards:
+    name: guards (${{ matrix.awk }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        awk: [mawk, gawk]
+    steps:
+      # Actions pinned to commit SHAs (immutable); version in the trailing comment.
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - name: Install mawk, gawk and jq
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends mawk gawk jq
+      - name: Put ${{ matrix.awk }} first on PATH as awk
+        env:
+          AWK_IMPL: ${{ matrix.awk }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/awk-bin"
+          ln -s "$(command -v "$AWK_IMPL")" "$RUNNER_TEMP/awk-bin/awk"
+          echo "$RUNNER_TEMP/awk-bin" >> "$GITHUB_PATH"
+      - name: Check which awk runs
+        env:
+          AWK_IMPL: ${{ matrix.awk }}
+        run: |
+          test "$(readlink -f "$(command -v awk)")" = "$(readlink -f "$(command -v "$AWK_IMPL")")"
+          awk -W version 2>&1 | head -n 1
+      - run: plugin/scripts/tests/guards.sh
