@@ -177,6 +177,10 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   plugin alone "Minnel",
   and the backlog's deploy item no longer points at the deleted title item. The worked example's
   "Last updated" moves to 2026-11-23 with its companion line.
+- 2026-11-23, Stage 4 — At the maintainer's request the stage also carries a house-voice pass
+  (`docs/style.md`) over the published narrative docs, and the style guide's scope now names the
+  packaging doc. The pass changes §11's heading and one packaging-doc anchor; no link targets
+  either.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across

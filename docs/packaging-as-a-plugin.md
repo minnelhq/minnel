@@ -6,7 +6,7 @@
 
 ## Why this is the endpoint, not an extra
 
-Everything the methodology builds — the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`), the skills — currently lives scattered across a project's `.claude/` directory and `settings.json`. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
+Without a plugin, everything the methodology builds lives scattered across a project's `.claude/` directory and `settings.json`: the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`) and the skills. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
 
 A **plugin** is the smallest unit of distribution for a Claude Code setup: one directory that bundles agents, skills, hooks, and MCP wiring, with a small manifest, installable into any project in one step. So the practical payoff is that your operating model stops being per-project scaffolding and becomes one versioned thing you drop in anywhere.
 
@@ -98,7 +98,7 @@ After install, a plugin's skills are **namespaced** under the plugin name, e.g. 
 
 ---
 
-## What to package — and what to leave out
+## What to package, and what to leave out
 
 How this plugin maps the methodology's appendices:
 

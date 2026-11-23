@@ -40,6 +40,11 @@ versions follow SemVer.
 - The methodology takes the plugin's name: it is now titled *Minnel: a file-first operating model
   for Claude Code*, formerly *A File-First Operating Model for Claude Code*. The docs, the site and
   the plugin share one name; the site's address is unchanged.
+- A voice pass over the methodology, the README, the worked example and the packaging doc, to the
+  house voice in `docs/style.md`: fewer em-dashes and less emphasis in bold, long sentences split,
+  and §11's stance on untrusted content set out as a list. §11 is headed "Security: the trust
+  boundary", and the packaging doc's "What to package, and what to leave out" heading has a new
+  anchor.
 - §8 and the `CLAUDE.md` template treat the commit style and changelog format as the project's
   choice, defaulting to Conventional Commits and Keep a Changelog. The template adds a `Changelog:`
   line.

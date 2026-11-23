@@ -3,7 +3,8 @@
 How prose in the public docs should read. The aim is tighter, more authoritative writing. It is
 not about hiding that the repo is built with Claude.
 
-Applies to the narrative docs: `methodology.md`, `README.md`, `index.md`, `worked-example.md`.
+Applies to the narrative docs: `methodology.md`, `README.md`, `index.md`, `worked-example.md`,
+`packaging-as-a-plugin.md`.
 Reference artefacts under `docs/appendices/` are exempt where their structure or punctuation is
 deliberate (skeletons, tables, command definitions).
 
