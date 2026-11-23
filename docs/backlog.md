@@ -20,24 +20,27 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone. Do
   it with the guards item, which edits the same Appendix C.
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
-  changed the published docs (#10, #14, #15) needed a separate manual run of the `docs` workflow,
-  so the live site lagged `main` until someone remembered. ADR 0003 kept deploys manual so the site
+  changed the published docs needed a separate manual run of the `docs` workflow, and some went
+  live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
   changes only when the maintainer chooses; if every merge is deployed anyway, that reason no
-  longer holds. Dropping the `workflow_dispatch` gates in `.github/workflows/docs.yml` reverses
-  that decision, so record it in a new ADR (or an amendment to 0003) and update the README's site
-  section with it.
+  longer holds. Replace the `workflow_dispatch` gates in `.github/workflows/docs.yml` with one that
+  excludes pull requests (`github.event_name != 'pull_request'`), since the workflow also runs on
+  every PR. Record the reversal in a new ADR (or an amendment to 0003), and update what states the
+  manual rule: the README's site section, the workflow's header and gate comments, and the example
+  in `.claude/agents/code-reviewer.md`. ADR 0002 first held deploys back until the name was final,
+  so settle the title item below first if it could change the site's name or URL.
 - Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
   now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
   Model for Claude Code"; choose one before the first release that ships the plugin, which
-  `[Unreleased]` now holds.
+  `[Unreleased]` now holds. That release also drops the README's "not yet in a tagged release".
 - Dogfood Appendix C here, and extend Check E to this repo's commands — debt · value M · effort M
   — why now: this repo runs adapted copies of the J–N commands but not the git-guard, which is how
   its inverted regex went unnoticed. Check E now pins the plugin's copies to the appendices; extend
   it to compare `.claude/commands/*.md` too, allowing only marked project-specific deviations.
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now:
   a `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's
-  stated commit style (Conventional Commits by default; catching human commits too, without clashing
-  with the git-guard) and a check that a `feat`/`fix` commit also touches `[Unreleased]`.
+  stated commit style (Conventional Commits by default). It catches human commits too and must not
+  clash with the git-guard. Add a check that a `feat`/`fix` commit also touches `[Unreleased]`.
 - Add Mermaid diagrams where the prose describes a flow — feat · value M · effort M — why now: the
   docs have none, and the §2 loop is one arrow line that hides its back-edges. Candidates: the §2
   loop, the §8 backlog → plan → changelog lifecycle, the §6/§11 hook path (`PreToolUse` guards,
