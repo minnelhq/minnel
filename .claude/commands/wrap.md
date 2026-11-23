@@ -1,5 +1,6 @@
 ---
 description: Close out the session — confirm durable records are current, then summarise and name it.
+disable-model-invocation: true
 ---
 
 End-of-session wrap. Work in order; do not edit files until I confirm each write.

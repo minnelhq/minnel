@@ -21,9 +21,9 @@ versions follow SemVer.
   `.claude/settings.json` `env`. The block on blanket staging stays on. `plugin/scripts/tests/guards.sh`
   checks each guard against sample tool calls.
 - The plugin's ritual skills, `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`
-  and `/minnel:wrap`, from Appendices J–N. They run only when invoked by name, as commands do. A
-  `/minnel:scaffold` skill writes the project
-  files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
+  and `/minnel:wrap`, from Appendices J–N. They set `disable-model-invocation: true`, so they
+  run only when invoked by name. A `/minnel:scaffold` skill writes the project files a plugin
+  cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
   `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
 - "Install this plugin" in `docs/packaging-as-a-plugin.md`: the install commands, the scaffold
   step, what is active once installed, the guards' `jq` dependency, and which pieces have had
@@ -32,7 +32,8 @@ versions follow SemVer.
 - Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
   as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
   either side, ignores only the listed intended differences (such as the git guard's opt-out),
-  flags a pair it cannot extract rather than passing it, and requires every plugin skill to keep
+  flags a pair it cannot extract rather than passing it, compares `disable-model-invocation`
+  between each J–N appendix and its plugin skill, and requires every plugin skill to keep
   `disable-model-invocation: true`.
 
 ### Changed
@@ -60,6 +61,10 @@ versions follow SemVer.
 - README: name the plugin, Minnel; list the `close-plan` skill beside `add-section`; describe the
   template's conventions as defaults to keep or replace; gloss compaction where the opening names
   it.
+- §10 no longer says only you invoke a command. Claude Code has merged commands into skills, and
+  Claude can invoke either unless its frontmatter sets `disable-model-invocation: true`. §10 now
+  says to set it on your rituals, as the plugin's skills do, prefers a skill for new work, and cites
+  the Claude Code skills docs. The Appendix J–N commands set it too.
 - The §1 context table's loading column: a nested `./module/CLAUDE.md` loads once Claude reads,
   writes or edits a file in its subdirectory, not always, and a `.claude/rules/` file without
   `paths` frontmatter loads at launch, like `CLAUDE.md`. §1 now cites the Claude Code memory docs.

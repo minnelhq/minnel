@@ -1,5 +1,6 @@
 ---
 description: Check a change against this project's Definition of Done before calling it complete.
+disable-model-invocation: true
 ---
 
 Check the current change against the Definition of Done. Do not declare it done until

@@ -40,6 +40,7 @@ The plugin ships this as the `plan` skill, `plugin/skills/plan/SKILL.md`.
 ```markdown
 ---
 description: Enter plan mode with the house rules — explore read-only, challenge the approach, then present a plan for approval.
+disable-model-invocation: true
 ---
 
 Enter plan mode for: $ARGUMENTS
@@ -70,6 +71,7 @@ The plugin ships this as the `accept` skill, `plugin/skills/accept/SKILL.md`.
 ```markdown
 ---
 description: Run the Definition of Done against the current diff before calling a change complete.
+disable-model-invocation: true
 ---
 
 Check the current change against the Definition of Done. Do not declare it done until
@@ -95,6 +97,7 @@ The plugin ships this as the `retro` skill, `plugin/skills/retro/SKILL.md`.
 ```markdown
 ---
 description: Run a methodology retro — surface recurring friction and propose config changes.
+disable-model-invocation: true
 ---
 
 Review what we had to correct repeatedly during this plan. For each recurring issue,
@@ -118,6 +121,7 @@ The plugin ships this as the `release` skill, `plugin/skills/release/SKILL.md`.
 ```markdown
 ---
 description: Draft unreleased changelog entries from the completed plan and commits.
+disable-model-invocation: true
 ---
 
 Prepare a changelog update — draft only, do not edit files until I approve.
@@ -151,6 +155,7 @@ The plugin ships this as the `wrap` skill, `plugin/skills/wrap/SKILL.md`.
 ```markdown
 ---
 description: Close out the session — confirm durable records are current, then summarise and name it.
+disable-model-invocation: true
 ---
 
 End-of-session wrap. Work in order; do not edit files until I confirm each write.
