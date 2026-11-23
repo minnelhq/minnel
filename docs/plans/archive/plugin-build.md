@@ -1,8 +1,8 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
 **Status:** done (2026-11-23) — all six stages complete; Minnel ships from `plugin/` (PR #10) and
-installs cleanly from GitHub, with Check E keeping the appendices and the plugin in step.
-<!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
+installs from GitHub (Stage 2–4 checks sampled, not rerun in full), with Check E keeping the
+appendices and the plugin in step.
 
 ## Goal
 Ship the methodology's drop-in artefacts as an installable Claude Code plugin in `plugin/`,
