@@ -54,8 +54,9 @@ docs/plans/<task-name>.md — Stage 2 of 3
 ```
 
 When each stage merges on its own branch, write the status as it will read after that merge: the
-stage's last commit names the next stage, in the status line and the pointer. Record "awaiting
-review" in the pull request, not the plan, or the plan on the main branch goes stale at each merge.
+stage's last commit names the next stage, in the status line, the stage markers and the pointer.
+Record "awaiting review" in the pull request, not the plan, or the plan on the main branch goes
+stale at each merge.
 
 On completion, set `**Status:** done (YYYY-MM-DD)`, clear the active-plan pointer, and move the
 file to `docs/plans/archive/`. The plan stays versioned as project history; only its location
