@@ -43,7 +43,9 @@ versions follow SemVer.
 - `/release` (Appendix M and its plugin skill) reads the commit style and changelog format from the
   project's `CLAUDE.md` or rules, else the user's, else the defaults. For Keep a Changelog it
   proposes the version heading with today's date in ISO `YYYY-MM-DD`. `/wrap` (Appendix N and its
-  plugin skill) drafts in the changelog format the conventions name.
+  plugin skill) drafts in the changelog format the conventions name. When cutting a release,
+  `/release` asks you to fold every intended change into the unreleased section and review it
+  first, then cut once, rather than amend later additions into the release commit.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships, not a hypothetical
   one, with the rituals as skills rather than commands.
 - The `code-reviewer` runs once on the final branch diff before merge, and again after a Critical

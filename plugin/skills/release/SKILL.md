@@ -25,3 +25,7 @@ Prepare a changelog update — draft only, do not edit files until I approve.
 
 Exclude internal-only changes (refactors, test scaffolding, doc tweaks) unless an
 installer would notice. I will curate before anything is committed.
+
+When cutting a release, fold every intended change into the unreleased section and
+review it first, then cut once. Don't cut the release commit and amend later additions
+into it.
