@@ -226,6 +226,10 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   silently, unlike a missing `jq`, which is an environment gap the packaging doc already names.
 - 2026-11-23 — Icon: the maintainer chose three chevrons, stages moving forward with the last in
   amber, over drafts built on documents, checklists, a monogram, a staircase and rings.
+- 2026-11-23 — Keep `plugin.json`'s `version` and raise it at every release — ADR 0004 ties it to
+  the changelog's version. A manifest version pins installs to the cached copy, so a fix merged
+  between releases reaches installs only at the next one; the Definition of Done now names the
+  step, since `/minnel:release` doesn't touch `plugin.json`.
 
 ## Verification (whole plan)
 On the Stage 6 branch: `plugin/scripts/tests/guards.sh`; `claude plugin validate plugin

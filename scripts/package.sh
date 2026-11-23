@@ -63,8 +63,8 @@ if dev:
         f.write('\n')
 version = manifest.get('version', '')
 if not version:
-    sys.exit('plugin.json has no version until the first release that ships the plugin;\n'
-             'build a test zip with --dev, such as: scripts/package.sh --dev 0.4.0-dev.1')
+    sys.exit('plugin.json has no version; set one, or build a test zip with --dev,\n'
+             'such as: scripts/package.sh --dev 0.4.1-dev.1')
 if not re.fullmatch(core + r'(-[0-9A-Za-z.-]+)?', version):
     sys.exit(f'plugin.json version is not SemVer: {version!r}')
 print(version)
