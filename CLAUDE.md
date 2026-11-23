@@ -24,7 +24,7 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
 - `CHANGELOG.md` — user-facing changes.
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F); its `## Now (this plan)` section
   is the active-plan pointer (§3).
-- `.claude/` — this repo's Definition of Done, consistency hook and skills. The rituals
+- `.claude/` — this repo's Definition of Done, house-voice rule, consistency hook and skills. The rituals
   (`/minnel:plan`, `/minnel:accept`, …), the guards and `minnel:code-reviewer` come from the
   plugin, which `.claude/settings.json` enables.
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);
@@ -42,8 +42,8 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
   reader would notice are all user-facing.
 - Internal/private material lives in a gitignored local-notes folder; never name it or describe its
   contents in tracked files or commit messages — use neutral "local" terminology.
-- Prose follows the house voice in `.claude/rules/house-voice.md`, which loads when a Markdown
-  file is read or edited.
+- Prose follows the house voice in `.claude/rules/house-voice.md` (its scope line says where),
+  which loads when a Markdown file is read or edited.
 - A correction that recurs (`/minnel:retro`, `/minnel:wrap`) may mean the documented guidance is
   unclear: propose a fix to `docs/methodology.md` or the template as well as to the config.
 
