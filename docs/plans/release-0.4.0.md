@@ -95,6 +95,11 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
       flagged if copyleft or non-commercial. — files: `plugin/agents/code-reviewer.md`, Appendix A
       in `docs/appendices/subagents.md`
 - [ ] Mention the checks where the docs list what the reviewer checks (§4's table if it does).
+- [ ] Carry this repo's narrower re-run rule (2026-11-23) to adopters: re-run after a Critical
+      fix, or a Warning fix that changes code or guidance, aimed at the new commits; check other
+      fixes by hand. Change the reviewer's `description` with Appendix A, §7's review bullet,
+      `templates/CLAUDE.template.md` with the scaffold's copy, and the `add-section` skill's
+      review step.
 - [ ] Record in `[Unreleased]`.
 - Acceptance: Check E reports no drift between Appendix A and the agent; the plugin validates.
 
