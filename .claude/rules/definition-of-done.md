@@ -14,7 +14,8 @@ paths:
 
 <!-- Adapted from methodology Appendix E for this docs repo: the Markdown has no build/test/lint
      step, so the bar is consistency and review rather than a green suite; the plugin adds its own
-     item below. Deliberate divergence. -->
+     item below; and review runs once per branch before merge, not per change. Deliberate
+     divergence. -->
 
 A change is not done until ALL of these hold. Do not report a task complete until you have
 checked each one and can say which evidence confirms it. The Markdown source has no build, test
@@ -47,7 +48,10 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
       `claude plugin validate .` pass. The only allowed warning is the missing `version`, until the
       release that first ships the plugin sets it.
-- [ ] **`code-reviewer` subagent run on the diff**, with no Critical findings outstanding.
+- [ ] **`code-reviewer` subagent run on the final branch diff before merge**, with no Critical
+      findings outstanding: once per branch, not per change, and not for a trivial branch (the
+      working agreement in `CLAUDE.md` says what counts). Until the branch is ready to merge,
+      report this item as *pending*, not FAIL.
 - [ ] **Active plan in `docs/plans/` advanced** if one is live (stage, ticked steps, deviations).
 
 If any item cannot be met, stop and say so rather than working around it.

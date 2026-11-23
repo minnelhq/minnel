@@ -45,7 +45,8 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
    printf '{"tool_input":{"file_path":"%s"}}' "$PWD/<file>" \
      | CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/docs-consistency.sh; echo "exit=$?"
    ```
-5. **Run the `code-reviewer` subagent** on the diff and clear any Critical or Warning before merge.
+5. **Run the `code-reviewer` subagent** on the branch diff before merge, as the working agreement
+   in `CLAUDE.md` says, and clear any Critical or Warning.
 
 ## Out of scope
 
