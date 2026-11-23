@@ -73,6 +73,14 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   2026-11-23 the repo's own settings enable `minnel@minnel`, so the guard runs in every review
   here (from main's copy in the plugin cache). Give each scratch extraction a fresh
   `mktemp -d` folder instead of clearing an old one.
+- **Guard redesigns that anchor to a command position (planned 2026-11-23, release-0.4.0 Stage
+  1).** Anchoring patterns to a command start and stripping quoted strings fixes false positives
+  but blinds any pattern that lives in an argument: `DROP TABLE` only ever appears inside
+  `psql -c "…"` or piped SQL, and `rm -rf` also runs as `xargs rm -rf`, `find … -exec rm -rf`,
+  `sh -c '…'`, `/bin/rm`, `\rm`, `command rm`. When the guards change, check each pattern still
+  has a way to fire, and that the tests pin the accepted misses as documented passes. Also check
+  `--force-with-lease` (blocked today by `\bgit push --force\b`) is decided deliberately, and
+  that a flag check stops at `;`, `&&`, `|` rather than running `.*` into the next command.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
