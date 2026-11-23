@@ -9,6 +9,12 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
+- Tell adopters how to move to a new release — fix · value M · effort L — why now: the install
+  steps stop at the first install. A plugin install moves to a new version only after
+  `claude plugin marketplace update minnel` and then `claude plugin update minnel@minnel`, and the
+  new version loads in the next session. Today only the 0.4.0 changelog entry and the README's
+  Dogfooding note say so. Add a short "To move to a later release" note to "Install this plugin" in
+  `docs/packaging-as-a-plugin.md` and to `plugin/README.md`.
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
   changed the published docs needed a separate manual run of the `docs` workflow, and some went
   live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
