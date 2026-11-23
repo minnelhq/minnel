@@ -9,11 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
-  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
-  Model for Claude Code"; choose one before the first release that ships the plugin, which
-  `[Unreleased]` now holds. Lock the Minnel name itself before that release, too. That release also
-  drops the README's "not yet in a tagged release".
 - Appendix C guards: close the remaining bypasses or call them tripwires — fix · value H · effort L
   — why now: the plugin turns the guards on by default, so a guard that misses a variant promises
   protection it doesn't give; settle it before the first release that ships the plugin. The
@@ -23,14 +18,23 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   message, `&& git log --all`). It misses a subcommand after a
   global option (`git -C <dir> push`, `git -c k=v push`), which skips the push prompt, now the
   only human checkpoint before a push, and it matches `git push` in any text, such as a heredoc,
-  so a mention asks too. Either broaden the patterns or say plainly they catch slips, not a
-  determined command. The plugin ships the same scripts in
-  `plugin/scripts/`; change both, and add the cases to `plugin/scripts/tests/guards.sh`.
+  so a mention asks too. The bash-guard has the same flaw: on 2026-11-23 it blocked a read-only
+  `grep` whose pattern contained `rm -rf`. Either broaden the patterns, anchor them to a command
+  position, or say plainly they catch slips, not a determined command. Change Appendix C and
+  `plugin/scripts/` together (Check E pairs them), and add the cases to
+  `plugin/scripts/tests/guards.sh`.
 - Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
   doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
   and C and this repo's `.claude/settings.json` leave `$CLAUDE_PROJECT_DIR` unquoted, and project
-  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone. Do
-  it with the guards item, which edits the same Appendix C.
+  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone.
+  Update the §6 prose that recommends the prefix, and the hook-script item in
+  `.claude/rules/definition-of-done.md`. Do it with the guards item, which edits the same
+  Appendix C.
+- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
+  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
+  Model for Claude Code"; choose one before the first release that ships the plugin, which
+  `[Unreleased]` now holds. Lock the Minnel name itself before that release, too. That release also
+  drops the README's "not yet in a tagged release".
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
   changed the published docs needed a separate manual run of the `docs` workflow, and some went
   live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
@@ -42,18 +46,19 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   in `.claude/rules/definition-of-done.md`. ADR 0002 first held deploys back until the name was
   final, so settle the title item above first if it could change the site's name or URL.
 - Add release targets to the backlog format — feat · value M · effort M — why now: nothing says
-  which release a Next item is meant for, so `/release` cannot warn that an item meant for the
+  which release a Next item is meant for, so `/minnel:release` cannot warn that an item meant for the
   version is still open. The type tags suggest each item's SemVer bump (`feat` a minor, `fix` a
   patch; `debt` and `chore` none unless an adopter would notice). No widely adopted backlog
   standard plays Keep a Changelog's role; keep the Now–Next–Later shape Appendix F already has
   (credit Janna Bastow at ProdPad if §8 explains it), and add an optional `target X.Y.Z` per Next
   item or `### X.Y.Z` subsections under Next. Leave Later ungrouped, since the shape exists to
-  avoid promises the far end can't keep. A shipped item's line is deleted (§8), so `/release`
+  avoid promises the far end can't keep. A shipped item's line is deleted (§8), so `/minnel:release`
   checks the other way: it lists any Next item still targeting the version. Change Appendix F
   with the scaffold's backlog copy, and Appendix M with the plugin's `release` skill (Check E pairs
   the appendix and plugin copies), and say so in §8.
 - Add a backlog-triage ritual — feat · value M · effort M — why now: triage has been done by hand
-  twice, in PR #16 and in the change that ordered this list, which meets §10's twice-by-hand test. A
+  three times (PR #16, the change that ordered this list, and the 2026-11-23 pass), past §10's
+  twice-by-hand test. A
   skill would check that each item still applies (shipped, out of date or duplicated), re-tag and
   reorder Next, and propose release groups, as a draft for approval. When a project keeps a backlog
   in its gitignored notes (confirmed with `git check-ignore`), it reads that too, but shows the
@@ -61,7 +66,7 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   items only and names a private blocker in general terms. Ship it as an appendix after O with its
   plugin skill, since the packaging doc gives every shipped artefact an
   appendix; that widens the A–O range, so use `add-section` and plan mode. Update §10's ritual table
-  and every "five rituals" count (§10, README, the packaging doc, the appendix intro). Do it after
+  and every "five rituals" count (§10 twice, README, the packaging doc, the appendix intro). Do it after
   the release-targets item.
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
   `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
