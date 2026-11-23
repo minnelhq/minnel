@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 2 of 6
+- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 3 of 6
 
 ## Next
 - Retitle the methodology as Minnel (plan Stage 4) — chore · value L · effort L — why now: the
