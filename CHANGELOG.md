@@ -11,6 +11,9 @@ versions follow SemVer.
 
 ### Fixed
 - `NOTICE` names the product Minnel, as the README, the site and the plugin do.
+- The plugin's install steps stopped at the first install. "Install this plugin" in
+  `docs/packaging-as-a-plugin.md` and `plugin/README.md` now say how to move to a later release:
+  refresh the marketplace, then update the plugin.
 
 ## [0.4.0] - 2026-11-23
 

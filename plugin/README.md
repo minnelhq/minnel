@@ -33,10 +33,18 @@ claude plugin install minnel@minnel
 
 Then run `/minnel:scaffold` in each project that adopts it. The guards need `jq`.
 
+To move to a later release, refresh the marketplace, then update the plugin, and start a new
+session:
+
+```bash
+claude plugin marketplace update minnel
+claude plugin update minnel@minnel
+```
+
 ## More
 
 - [The methodology](https://tcrossland.github.io/claude-code-methodology/methodology/) explains
   what each piece is for.
 - [Install this plugin](https://tcrossland.github.io/claude-code-methodology/packaging-as-a-plugin/#install-this-plugin)
-  covers install scopes, the scaffold's steps, the guards' settings and which pieces have had less
-  use.
+  covers install scopes, updates, the scaffold's steps, the guards' settings and which pieces have
+  had less use.

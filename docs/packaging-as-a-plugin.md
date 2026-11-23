@@ -33,6 +33,15 @@ claude plugin install minnel@minnel
 
 Pass `--scope project` or `--scope local` to the install to limit it to one project. The one-step form still adds the marketplace to your user settings; `claude plugin marketplace add` takes its own `--scope`. Inside a session, `/plugin` opens the same catalogue.
 
+To move to a later release, refresh the marketplace first, then update the plugin:
+
+```bash
+claude plugin marketplace update minnel
+claude plugin update minnel@minnel
+```
+
+A third-party marketplace doesn't refresh by itself unless you turn on auto-update for it, and until it refreshes, `claude plugin update` finds nothing new. The update finds the install's scope by itself (from Claude Code 2.1.281), and the new version loads in your next session, or after `/reload-plugins`. An install moves only when a release raises the plugin's version; `CHANGELOG.md` says what each release changed.
+
 Then, in each project that adopts it:
 
 1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
