@@ -43,6 +43,11 @@ appendix and its plugin file is now a defect class like a dangling §N.
   the PAIRS rows (said 15 appendix pairs plus the template; it was 14 plus the template). Count
   the heredoc rows yourself whenever prose states a pair count, and prefer prose with no count,
   since every new row strands one.
+- "Has run on this repository" claims (packaging doc, "Install this plugin"; ADR 0004
+  Consequences; README Dogfooding) must match what `.claude/settings.json` wires, not what the
+  plugin ships. As of 2026-11-23 the repo wires only the consistency hook, so neither Appendix C
+  guard has run here (the backlog's "Dogfood Appendix C here" item says so). The pieces-with-less-use
+  list lives in two places (packaging doc and ADR 0004); a change to one strands the other.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
 
