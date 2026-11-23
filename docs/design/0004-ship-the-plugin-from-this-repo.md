@@ -73,9 +73,9 @@ Ship the plugin, **Minnel**, from this repository.
 - `test-writer`, the bash and git guards, and the scaffold ship without the use the other pieces
   have had in this repo, so they go against the "Recommended sequencing" advice in the packaging
   doc. The doc says which pieces have had less use. (Amended: the guards have run here since this
-  repo began running the plugin, but 0.4.0, the release that first ships them, rewrote their
-  matching rules, so they stay on this list.)
-- (Amended: a consequence that §10 still recommended commands for rituals, with a note on the
+  repo began running the plugin, but 0.4.0, the release that first ships them in the plugin,
+  rewrote their matching rules, so they stay on this list.)
+- (Amended: a consequence noting that §10 still recommended commands for rituals, with a note on the
   backlog, was dropped once §10 said the plugin ships them as skills.)
 
 ## Alternatives considered
