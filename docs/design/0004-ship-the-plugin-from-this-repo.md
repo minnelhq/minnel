@@ -61,8 +61,8 @@ Ship the plugin, **Minnel**, from this repository.
 - The guards act on projects this repo never sees. `bash-guard`'s `rm -rf` match will block some
   legitimate clean-ups; the message tells the user to run the command themselves. Revisiting the
   default is on the backlog.
-- `test-writer`, `bash-guard` and the scaffold ship without the use the other pieces have had in
-  this repo, so they go against the "Recommended sequencing" advice in the packaging doc. The
+- `test-writer`, the bash and git guards, and the scaffold ship without the use the other pieces
+  have had in this repo, so they go against the "Recommended sequencing" advice in the packaging doc. The
   doc says which pieces have had less use.
 - §10 still recommends commands for rituals while the plugin ships them as skills. The two agree
   in behaviour; a note in §10 is on the backlog.

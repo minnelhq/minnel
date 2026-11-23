@@ -41,7 +41,7 @@ What else is active once installed:
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.
 
-The reviewer, the Definition of Done, the git guard and the five rituals have run on this repository across its releases. `test-writer`, `bash-guard` and the scaffold ship as the appendices give them and have had less use, so treat them as starting points.
+The reviewer, the Definition of Done and the five rituals have run on this repository across its releases. `test-writer`, the bash and git guards, and the scaffold ship as the appendices give them and have had less use, so treat them as starting points.
 
 ---
 
