@@ -163,7 +163,10 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   `main` (`.github/workflows/guards.yml`); both passed 101/101 without a parser change.
 - 2026-11-23, Stage 2 — No changelog entry: the ADR is a design record, not a published doc, and
   the `[Unreleased]` line for "Install this plugin" already says the section names which pieces
-  have had less use, which stays true with the guards off that list.
+  have had less use, which stays true.
+- 2026-11-23, Stage 2 — The guards stay on the "less use" lists, with a qualifier, rather than
+  coming off: they have run here only since PR #23, and only in their pre-Stage 1 form; the rules
+  0.4.0 ships have run only in `guards.sh`.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across

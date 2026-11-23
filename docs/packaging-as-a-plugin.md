@@ -41,7 +41,7 @@ What else is active once installed:
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything. The bash and git guards also need `command-segments.awk`, which ships beside them; if it goes missing, they block every `Bash` call and say why.
 
-The reviewer, the Definition of Done and the five rituals have run on this repository across its releases, and the bash and git guards since it began running the plugin. `test-writer` and the scaffold ship as the appendices give them and have had less use, so treat them as starting points.
+The reviewer, the Definition of Done and the five rituals have run on this repository across its releases. The bash and git guards have run here only since it began running the plugin, and 0.4.0 rewrote their matching rules. `test-writer` and the scaffold ship as the appendices give them and have had less use still. Treat the guards, `test-writer` and the scaffold as starting points.
 
 ---
 

@@ -1,6 +1,6 @@
 # ADR 0004 — Ship the methodology as a plugin from this repository
 
-**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; this repo runs the plugin)
+**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin)
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
@@ -61,18 +61,22 @@ Ship the plugin, **Minnel**, from this repository.
 - Every artefact has two copies, the appendix's and the plugin's. Check E keeps them equal, but
   its pairs table and normalisers are code to maintain: a new artefact needs a row, and a new
   intended difference needs a normaliser that doesn't hide real drift. (Amended: this repo also
-  kept its own copies of the rituals, guards and reviewer in `.claude/` until PR #23. It now
-  enables the plugin in `.claude/settings.json` and runs the plugin's copies, so what it uses is
-  what an adopter installs.)
+  kept its own copies of the rituals and reviewer in `.claude/` until PR #23. It now enables the
+  plugin in `.claude/settings.json` and runs the plugin's rituals, reviewer and guards, so what it
+  uses is what an adopter installs.)
 - The guards act on projects this repo never sees. `bash-guard` blocks `rm` with a recursive and
-  a force flag, in any form, wherever a command starts, so it will block some legitimate
-  clean-ups; the message tells the user to run the command themselves. Revisiting the default is
-  on the backlog. (Amended: the guard first matched `rm -rf` anywhere in the text, so a `grep`
-  pattern or a commit message tripped it, and `rm -fr` got past.)
-- `test-writer` and the scaffold ship without the use the other pieces have had in this repo, so
-  they go against the "Recommended sequencing" advice in the packaging doc. The doc says which
-  pieces have had less use. (Amended: the bash and git guards were on this list until this repo
-  ran them from the plugin.)
+  a force flag in any order or cluster (`-rf`, `-fr`, `-r -f`, `--recursive --force`) where a
+  command starts. It is a tripwire for slips, not a sandbox, and it will still block some
+  legitimate clean-ups; the message tells the user to run the command themselves. Revisiting the
+  default is on the backlog. (Amended: the guard first matched `rm -rf` anywhere in the text, so a
+  `grep` pattern or a commit message tripped it, and `rm -fr` got past.)
+- `test-writer`, the bash and git guards, and the scaffold ship without the use the other pieces
+  have had in this repo, so they go against the "Recommended sequencing" advice in the packaging
+  doc. The doc says which pieces have had less use. (Amended: the guards have run here since this
+  repo began running the plugin, but 0.4.0, the release that first ships them, rewrote their
+  matching rules, so they stay on this list.)
+- (Amended: a consequence that §10 still recommended commands for rituals, with a note on the
+  backlog, was dropped once §10 said the plugin ships them as skills.)
 
 ## Alternatives considered
 - **A separate plugin repository** — rejected: the document and the plugin would version apart,
