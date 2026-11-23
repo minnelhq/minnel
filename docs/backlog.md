@@ -61,9 +61,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   and `MINNEL_GIT_GUARD_COMMITS=0` turns off the commit and push block per project (verified live
   2026-11-23). Blocking every commit is a personal stance; consider having the bootstrap offer the
   guards instead. Whether a project can disable a plugin's hooks wholesale is still unverified.
-- §10: say a ritual can ship as a skill — feat · value L · effort L — why now: §10 says to use
-  commands for rituals, while the plugin ships them as skills with `disable-model-invocation:
-  true`, which behave like commands; say so, so §10 and the packaging doc read as one.
 
 ## Parked (with reason)
 - (none)

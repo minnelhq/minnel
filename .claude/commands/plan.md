@@ -1,5 +1,6 @@
 ---
 description: Enter plan mode with the house rules — explore read-only, challenge the approach, then present a plan for approval.
+disable-model-invocation: true
 ---
 
 Enter plan mode for: $ARGUMENTS

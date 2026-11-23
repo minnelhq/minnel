@@ -25,7 +25,10 @@ appendix and its plugin file is now a defect class like a dangling §N.
   plugin skill losing `disable-model-invocation: true` all passed. Fixed the same day:
   `drop_hooks` ends at the first unindented line, `skill_fm` became `drop_skill_keys` (a
   plugin-side deny-list), and every skill's frontmatter must carry the flag. Re-test after any
-  normaliser edit. Appendix H's example version headings are not compared either (hook header,
+  normaliser edit. Later on 2026-11-23 the J–N appendix frontmatters gained
+  `disable-model-invocation: true` and `drop_skill_keys` stopped stripping it, so the flag is
+  compared within each J–N pair as well as by the every-skill check; if someone re-adds it to the
+  deny-list, an appendix losing the flag would pass again. Appendix H's example version headings are not compared either (hook header,
   limitation 4; confirmed by mutation 2026-11-23), so a heading-format change there needs a manual
   grep. Prose around the D and G skeletons in the scaffold templates is still not
   compared (a listed limitation).
@@ -43,6 +46,11 @@ appendix and its plugin file is now a defect class like a dangling §N.
   the PAIRS rows (said 15 appendix pairs plus the template; it was 14 plus the template). Count
   the heredoc rows yourself whenever prose states a pair count, and prefer prose with no count,
   since every new row strands one.
+- "Has run on this repository" claims (packaging doc, "Install this plugin"; ADR 0004
+  Consequences; README Dogfooding) must match what `.claude/settings.json` wires, not what the
+  plugin ships. As of 2026-11-23 the repo wires only the consistency hook, so neither Appendix C
+  guard has run here (the backlog's "Dogfood Appendix C here" item says so). The pieces-with-less-use
+  list lives in two places (packaging doc and ADR 0004); a change to one strands the other.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
 

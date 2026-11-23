@@ -66,9 +66,9 @@ esac
 # the first line containing the marker. Normalisers remove the intended differences:
 #   drop_hooks       B's frontmatter hooks: block (plugin agents ignore it)
 #   drop_optout      git-guard's plugin opt-out lines
-#   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint,
-#                    disable-model-invocation); applied to the plugin side only, so
-#                    any other frontmatter field on either side is still compared
+#   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint); applied
+#                    to the plugin side only, so any other frontmatter field on either
+#                    side is still compared, disable-model-invocation included
 #   head_unreleased  Appendix H up to [Unreleased] (the template drops the examples)
 # Blank-line runs are squeezed on both sides. Every pair is compared on each
 # relevant edit, so a change to either side surfaces the drift. Each plugin skill
@@ -85,7 +85,7 @@ normalise() { # mode, stdin
     drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /MINNEL_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
     drop_skill_keys) awk 'NR == 1 && /^---$/ { fm = 1; print; next }
                           fm && /^---$/ { fm = 0 }
-                          fm && /^(name|argument-hint|disable-model-invocation):/ { next }
+                          fm && /^(name|argument-hint):/ { next }
                           { print }' ;;
     head_unreleased) awk '{ print } /^## \[Unreleased\]/ { exit }' ;;
     *)               cat ;;

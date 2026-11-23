@@ -1,5 +1,6 @@
 ---
 description: Run a methodology retro — surface recurring friction and propose config changes.
+disable-model-invocation: true
 ---
 
 Review what we had to correct repeatedly during this plan or session. For each recurring

@@ -1,5 +1,6 @@
 ---
 description: Draft CHANGELOG Unreleased entries from the completed plan and commits.
+disable-model-invocation: true
 ---
 
 Prepare a changelog update — draft only, do not edit files until I approve.
