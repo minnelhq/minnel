@@ -4,7 +4,7 @@
 - [Reviewing the bash hooks](feedback-hook-script-review.md) — portability, exec-bit, scope-gate and fail-open traps to check in `.claude/hooks/`
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
 - [Doc-site (Zensical, was MkDocs Material)](project-doc-site.md) — recurring checks for the site build, CI gating, fenced broken-link, and blob-URL rebrand debt
-- [House voice guide](project-house-voice.md) — docs/style.md governs prose in 5 narrative docs; voice-pass slips and the GitHub-vs-site heading-anchor trap
+- [House voice guide](project-house-voice.md) — .claude/rules/house-voice.md governs prose in 5 narrative docs; voice-pass slips and the GitHub-vs-site heading-anchor trap
 - [Minnel plugin and Check E](project-plugin-minnel.md) — plugin/ pinned to appendices by Check E; namespacing, normaliser gaps found and fixed, no-test-step carriers
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
 - [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard escapes, hook quoting, awk segmenter probes, guards CI logs

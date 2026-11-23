@@ -30,7 +30,7 @@ current before relying on it.
   to "not yet deployed".
 - The site build is the gate for any published doc / `mkdocs.yml` / `requirements.txt` change.
   Published = under `docs/` minus the `exclude_docs` list in `mkdocs.yml` (`backlog.md`,
-  `style.md`, `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
+  `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
   list, not keyed off git-ignore, so a new gitignored docs path the hook skips would still need
   adding here. Run `.venv/bin/zensical build --strict --clean`.
 - The DoD is path-scoped (`paths:` frontmatter), so it only loads when a matching file is touched.

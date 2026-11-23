@@ -1,12 +1,19 @@
+---
+paths:
+  - "*.md"
+  - "docs/**/*.md"
+---
+
 # House voice
 
-How prose in the public docs should read. The aim is tighter, more authoritative writing. It is
-not about hiding that the repo is built with Claude.
+How prose in this repo should read. The aim is tighter, more authoritative writing. It is not
+about hiding that the repo is built with Claude.
 
-Applies to the narrative docs: `methodology.md`, `README.md`, `index.md`, `worked-example.md`,
-`packaging-as-a-plugin.md`.
-Reference artefacts under `docs/appendices/` are exempt where their structure or punctuation is
-deliberate (skeletons, tables, command definitions).
+Applies in full to the narrative docs: `README.md`, and `index.md`, `methodology.md`,
+`worked-example.md` and `packaging-as-a-plugin.md` under `docs/`. Apply it as you write, not in a
+later pass. It also applies to `CHANGELOG.md` entries and to plan and backlog notes. Reference
+artefacts under `docs/appendices/` are exempt where their structure or punctuation is deliberate
+(skeletons, tables, command definitions).
 
 British English and the §N/appendix consistency rule already bind (see `CLAUDE.md` and the
 Definition of Done). This guide covers voice, not those.

@@ -1,16 +1,17 @@
 ---
 name: project-house-voice
-description: docs/style.md is the house-voice authoring guide; what it governs, how voice passes go wrong, and the heading-anchor trap
+description: .claude/rules/house-voice.md (formerly docs/style.md) is the house-voice authoring guide; what it governs, how voice passes go wrong, and the heading-anchor trap
 metadata:
   type: project
 ---
 
-`docs/style.md` ("House voice") is an authoring convention for prose in the narrative public
-docs. As of 2026-11-23 its scope line names five: `methodology.md`, `README.md`, `index.md`,
-`worked-example.md`, `packaging-as-a-plugin.md` (the packaging doc was added that day). Reference
-artefacts under `docs/appendices/` are exempt where structure/punctuation is deliberate. It is
-`exclude_docs` in `mkdocs.yml` (not published) and pointed at from `CLAUDE.md` Conventions by one
-line.
+`.claude/rules/house-voice.md` ("House voice"; `docs/style.md` until 2026-11-23) is an
+authoring convention for prose. It is a path-scoped rule (`*.md`, `docs/**/*.md`), so it loads
+when a Markdown file is read or edited. Its scope line names five narrative docs in full:
+`methodology.md`, `README.md`, `index.md`, `worked-example.md`, `packaging-as-a-plugin.md`; it
+also covers changelog entries and plan and backlog notes. Reference artefacts under
+`docs/appendices/` are exempt where structure/punctuation is deliberate. `CLAUDE.md` Conventions
+points at it in one line.
 
 Its rules: lead with the point (no throat-clearing openers), prefer short sentences, vary
 rhythm, em-dashes sparingly (one per paragraph max), drop formulaic constructions ("not just X
@@ -42,6 +43,6 @@ about hiding that the repo is built with Claude.
   re-run the self-test it documents.
 - It deliberately *cross-references* the British-English and §N/appendix rules rather than
   restating them; keep it that way to avoid the duplication defect.
-- It is internal authoring convention, excluded from the site, so a change to it alone does not
+- It is internal authoring convention under `.claude/`, not published, so a change to it alone does not
   need a CHANGELOG line; a pass that applies it to published docs does. See
   [[feedback-recurring-defects]] and [[project-doc-site]].

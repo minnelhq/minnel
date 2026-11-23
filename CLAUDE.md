@@ -42,7 +42,8 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
   reader would notice are all user-facing.
 - Internal/private material lives in a gitignored local-notes folder; never name it or describe its
   contents in tracked files or commit messages — use neutral "local" terminology.
-- Prose in the public docs follows the house voice in `docs/style.md`.
+- Prose follows the house voice in `.claude/rules/house-voice.md`, which loads when a Markdown
+  file is read or edited.
 - A correction that recurs (`/minnel:retro`, `/minnel:wrap`) may mean the documented guidance is
   unclear: propose a fix to `docs/methodology.md` or the template as well as to the config.
 
