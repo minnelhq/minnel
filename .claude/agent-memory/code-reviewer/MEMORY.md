@@ -8,4 +8,4 @@
 - [Minnel plugin and Check E](project-plugin-minnel.md) — plugin/ pinned to appendices by Check E; namespacing, normaliser gaps found and fixed, no-test-step carriers
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
 - [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard path escapes, hook quoting, validate runs
-- [Memory-scope precedence note](project-memory-scope-precedence.md) — §1 "no automatic precedence" claim: verification date, and the within-scope vs cross-scope line to keep clean
+- [Memory-scope precedence and loading](project-memory-scope-precedence.md) — §1 table loading column and no-precedence note: what the docs state vs observed, traps

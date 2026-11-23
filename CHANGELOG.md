@@ -36,13 +36,19 @@ versions follow SemVer.
   `disable-model-invocation: true`.
 
 ### Changed
+- §1 names user-level `~/.claude/rules/*.md` beside `~/.claude/CLAUDE.md` for personal
+  conventions: one file per convention is easier to share or replace, user rules load before the
+  project's `.claude/rules/`, and neither overrides the other. §1's Working agreement, §8 and
+  the template's Working agreement name them too. §1, §10 and the lean-`CLAUDE.md` advice say
+  that only a path-scoped rule saves context.
 - §8 and the `CLAUDE.md` template present the commit style and the changelog format as choices a
   project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
   dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
 - `/release` (Appendix M) and `/wrap` (Appendix N), and the plugin's `release` and `wrap` skills,
-  read the commit style and changelog format from the Conventions in context (the project's
-  `CLAUDE.md`, else the global one) and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
-  `YYYY-MM-DD`.
+  read the commit style and changelog format from the conventions in context (the project's
+  `CLAUDE.md` or `.claude/rules/`, else the user's `~/.claude/CLAUDE.md` or `~/.claude/rules/`)
+  and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading
+  with today's date in ISO `YYYY-MM-DD`.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
   hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
   `commands/` the older format. The mapping table says what ships and what stays out
@@ -51,6 +57,9 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
+- The §1 context table's loading column: a nested `./module/CLAUDE.md` loads once Claude reads,
+  writes or edits a file in its subdirectory, not always, and a `.claude/rules/` file without
+  `paths` frontmatter loads at launch, like `CLAUDE.md`. §1 now cites the Claude Code memory docs.
 - Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash: in
   `/release` (Appendix M) and the plugin's `release` skill, the Appendix H skeleton, and this
   changelog.

@@ -9,14 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Name user-level `~/.claude/rules/*.md` in the §1 context table — feat · value M · effort L — why
-  now: the table lists only `~/.claude/CLAUDE.md` for personal conventions, yet one file per
-  convention (commit style, dates, private notes) under `~/.claude/rules/` is easier to share and
-  replace, and loads as user memory (seen in a live session, 2026-11-22; confirm against the memory
-  docs before writing it up).
-- Check how nested `./module/CLAUDE.md` files load in the §1 table — fix · value M · effort L — why
-  now: the table lists them under "Always", but subdirectory `CLAUDE.md` files may load on demand
-  when Claude reads files there; unverified, so check the current memory docs first.
 - Appendix C guards: close the remaining bypasses or call them tripwires — fix · value M · effort L
   — why now: the bash-guard catches `rm -rf` but not `rm -fr` or `rm -r -f`, and the git-guard still
   passes `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots; either broaden the patterns
@@ -30,6 +22,15 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   — why now: this repo runs adapted copies of the J–N commands but not the git-guard, which is how
   its inverted regex went unnoticed. Check E now pins the plugin's copies to the appendices; extend
   it to compare `.claude/commands/*.md` too, allowing only marked project-specific deviations.
+- Add Mermaid diagrams where the prose describes a flow — feat · value M · effort M — why now: the
+  docs have none, and the §2 loop is one arrow line that hides its back-edges. Candidates: the §2
+  loop, the §8 backlog → plan → changelog lifecycle, the §6/§11 hook path (`PreToolUse` guards,
+  then the `PostToolUse` check) and, lower value, the packaging doc's appendix ↔ plugin pairs under
+  Check E. Enable Zensical's `mermaid` custom fence in `mkdocs.yml`, set `layout: dagre` in each
+  chart's frontmatter, draw left to right with short labels, and keep the prose beside each diagram
+  so the Markdown stays readable on its own. Before shipping, check where Zensical loads Mermaid
+  from (a CDN is a third-party script on the site) and view each chart on GitHub at desktop width
+  and 375 px.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
