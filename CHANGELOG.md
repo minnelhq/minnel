@@ -39,7 +39,8 @@ versions follow SemVer.
   `/release` asks you to finish the unreleased section before cutting a release.
 - §1 names user-level `~/.claude/rules/*.md` for personal conventions, one file per convention.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships.
-- Plainer prose in the methodology, the README, the worked example and the packaging doc.
+- Plainer prose in the methodology, the README, the site's home page, the worked example and the
+  packaging doc.
 
 ### Fixed
 - §1: a nested `./module/CLAUDE.md` loads once Claude works on a file in its subdirectory, and a

@@ -42,8 +42,8 @@ was multi-stage (§3). Before committing to it, the **Challenge** pass (§2) ear
 
 - *Is reusing an off-the-shelf checker the right call?* Mature, permissively-licensed tools
   exist (lychee, markdown-link-check). They were rejected. Each needs a runtime (a Rust
-  binary or an npm install), the toolchain the repository's "no build, no runtime" invariant
-  forbids, for a job that is ~20 lines of shell against the local filesystem. Build-vs-reuse went to *build*, because the dependency cost exceeded what it saved.
+  binary or an npm install), and the repository's "no build, no runtime" invariant forbids that
+  toolchain for a job of ~20 lines of shell against the local filesystem. Build-vs-reuse went to *build*, because the dependency cost exceeded what it saved.
 - *Will the new check flag this very document?* A worked example about broken links must be able
   to *show* a broken link. That hole in the acceptance criteria drove the one non-obvious design
   decision below.

@@ -1,8 +1,8 @@
 # Minnel: a file-first operating model for Claude Code
 
 A single-developer discipline for driving Claude Code. It treats the harness, its settings,
-subagents, hooks and commands, as an engineered environment: the discipline lives in **what you
-persist to files** and **what you enforce deterministically**, not in clever prompting. Written
+subagents, hooks and commands, as an engineered environment: the discipline lives in what you
+persist to files and what you enforce deterministically, not in clever prompting. Written
 for experienced solo developers and small teams.
 
 ## Start here
