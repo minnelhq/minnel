@@ -92,20 +92,31 @@ appendix and its plugin file is now a defect class like a dangling §N.
   on the old cached copy); `claude plugin update <plugin>@<mkt>` moves the install, scope
   auto-detected from v2.1.281, and the new version loads next session or after `/reload-plugins`
   (`--help` on v2.1.330 says "restart required to apply"). Reject prose saying a marketplace
-  update alone moves an install; I had accepted that wording in the Stage 6 review. Order matters:
-  refresh the catalogue first. Also observed 2026-11-23: `installed_plugins.json` holds a
+  update alone moves an install; I had accepted that wording in the Stage 6 review.
+  **Corrected again 2026-11-23 (claude/0.4.1-fixes):** "order matters, refresh first" was never
+  verified and is false on v2.1.330. Tested in an isolated `CLAUDE_CONFIG_DIR`: catalogue clone
+  rewound to 97abce1, install by bare name, then `claude plugin update minnel@minnel` alone
+  refreshed the catalogue (clone moved to main, `lastUpdated` changed) and moved the install to
+  0.4.0. Docs back it indirectly: Claude Code CHANGELOG 2.1.101 ("show a warning when the
+  marketplace could not be refreshed") and cli-reference's "the run's own marketplace refresh".
+  Bare-name `plugin update` untested. Reject prose saying `plugin update` finds nothing until the
+  marketplace is refreshed. Also observed 2026-11-23: `installed_plugins.json` holds a
   project-scope `minnel@minnel` entry per worktree path plus a user entry, so "the install" in
   dogfooding prose is several installs; one `plugin update` may not move them all (unverified).
   Check dogfooding prose doesn't imply merged plugin edits run here before a release.
   From 2026-11-23 (claude/wrap-0.4.0) ADR 0004 and the DoD say to raise `version` only in the
   release commit. Evidence it happened: the user-scope entry in `installed_plugins.json` moved to
   "0.4.0" at 96e9862, a minute before the release commit 01b414a (plugin content identical to
-  v0.4.0). Reject rule prose saying `claude plugin update` alone moves an install (it needs the
-  catalogue refresh first). Unverified gap: a *fresh* install clones `main` at HEAD, so it gets
+  v0.4.0). (An earlier note here said `plugin update` needs a prior catalogue refresh; wrong, see
+  the 2026-11-23 correction above.) Unverified gap: a *fresh* install clones `main` at HEAD, so it gets
   unreleased plugin commits under the old version label whatever the bump rule says.
 - **"Read-only" reviewer claims.** The sub-agents docs say `memory:` auto-enables Read, Write and
   Edit (observed too: this reviewer's session has Write and Edit), and `Bash` can write anyway.
   So "(no Edit/Write)" in §4's roster and any "can't change the code" wording is false; only the
-  prompt's instruction restrains it. Backlog item opened 2026-11-23.
+  prompt's instruction restrains it. Backlog item opened 2026-11-23; branch claude/0.4.1-fixes
+  (2026-11-23) rewords the agent, Appendix A, §4, §10, plugin README and manifests. Caveat the
+  docs add: with auto memory off (`autoMemoryEnabled`, `CLAUDE_CODE_DISABLE_AUTO_MEMORY`) the
+  `memory` field does nothing, so "turns on Write and Edit" is conditional. Re-grep for
+  "read-only" near the reviewer after any reviewer-prose edit.
 
 See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].
