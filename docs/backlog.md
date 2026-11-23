@@ -14,14 +14,33 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   passes `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots; either broaden the patterns
   or say plainly they catch slips, not a determined command. The plugin ships the same scripts in
   `plugin/scripts/`; change both, and add the cases to `plugin/scripts/tests/guards.sh`.
-- Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now:
-  a `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates Conventional
-  Commits (catching human commits too, without clashing with the git-guard) and a check that a
-  `feat`/`fix` commit also touches `[Unreleased]`.
+- Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
+  doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
+  and C and this repo's `.claude/settings.json` leave `$CLAUDE_PROJECT_DIR` unquoted, and project
+  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone. Do
+  it with the guards item, which edits the same Appendix C.
+- Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
+  changed the published docs needed a separate manual run of the `docs` workflow, and some went
+  live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
+  changes only when the maintainer chooses; if every merge is deployed anyway, that reason no
+  longer holds. Replace the `workflow_dispatch` gates in `.github/workflows/docs.yml` with one that
+  excludes pull requests (`github.event_name != 'pull_request'`), since the workflow also runs on
+  every PR. Record the reversal in a new ADR (or an amendment to 0003), and update what states the
+  manual rule: the README's site section, the workflow's header and gate comments, and the example
+  in `.claude/agents/code-reviewer.md`. ADR 0002 first held deploys back until the name was final,
+  so settle the title item below first if it could change the site's name or URL.
+- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
+  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
+  Model for Claude Code"; choose one before the first release that ships the plugin, which
+  `[Unreleased]` now holds. That release also drops the README's "not yet in a tagged release".
 - Dogfood Appendix C here, and extend Check E to this repo's commands — debt · value M · effort M
   — why now: this repo runs adapted copies of the J–N commands but not the git-guard, which is how
   its inverted regex went unnoticed. Check E now pins the plugin's copies to the appendices; extend
   it to compare `.claude/commands/*.md` too, allowing only marked project-specific deviations.
+- Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now:
+  a `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's
+  stated commit style (Conventional Commits by default). It catches human commits too and must not
+  clash with the git-guard. Add a check that a `feat`/`fix` commit also touches `[Unreleased]`.
 - Add Mermaid diagrams where the prose describes a flow — feat · value M · effort M — why now: the
   docs have none, and the §2 loop is one arrow line that hides its back-edges. Candidates: the §2
   loop, the §8 backlog → plan → changelog lifecycle, the §6/§11 hook path (`PreToolUse` guards,
@@ -45,14 +64,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - §10: say a ritual can ship as a skill — feat · value L · effort L — why now: §10 says to use
   commands for rituals, while the plugin ships them as skills with `disable-model-invocation:
   true`, which behave like commands; say so, so §10 and the packaging doc read as one.
-
-- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
-  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
-  Model for Claude Code"; choose one before the first release that ships the plugin.
-- Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
-  doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
-  and C and this repo's `.claude/settings.json` leave `$CLAUDE_PROJECT_DIR` unquoted, and project
-  paths with spaces are common. Check E doesn't compare B's hooks block, so it can change alone.
 
 ## Parked (with reason)
 - (none)

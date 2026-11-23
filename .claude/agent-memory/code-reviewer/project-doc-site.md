@@ -48,3 +48,9 @@ current before relying on it.
   with version comments; verify a SHA matches its tag via `gh api`.
 - Because deploy is manual, the live site lags `main` until someone dispatches. Prose that says
   only "a change of look" waits for a manual run understates this.
+- The workflow header comment (and a backlog item copying it, 2026-11-23) says auto-deploy means
+  "drop the `workflow_dispatch` gates". The workflow also runs on `pull_request`, so removing the
+  `if:` gates outright would upload and attempt a Pages deploy from every PR. A push-deploy gate
+  needs to exclude PRs (e.g. `github.event_name != 'pull_request'`). Re-check when the workflow
+  triggers change. Carriers of the manual-deploy claim to sweep if it flips: README site section,
+  ADR 0003, the workflow comments, and the example in `.claude/agents/code-reviewer.md`.

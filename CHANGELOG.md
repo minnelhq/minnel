@@ -57,6 +57,8 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
+- README: name the plugin, Minnel; list the `close-plan` skill beside `add-section`; describe the
+  template's conventions as defaults to keep or replace.
 - The §1 context table's loading column: a nested `./module/CLAUDE.md` loads once Claude reads,
   writes or edits a file in its subdirectory, not always, and a `.claude/rules/` file without
   `paths` frontmatter loads at launch, like `CLAUDE.md`. §1 now cites the Claude Code memory docs.
