@@ -52,7 +52,12 @@ alongside these; neither scope automatically overrides the other, so keep them c
 - **One plan file, status folded in.** Each plan is a sequence of Stages worked through
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
-- **Review before merge.** Run the `code-reviewer` subagent on the diff before any merge
-  to the main branch. There is no second reviewer; this is it.
+- **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
+  before merging to the main branch; there is no second reviewer. Re-run it after fixing a
+  Critical or Warning finding or when the branch gains commits beyond those fixes and the
+  reviewer's memory, not otherwise. Skip it for a trivial branch: one that touches nothing
+  outside `docs/backlog.md` and `.claude/agent-memory/`, or only fixes typos and formatting in
+  Markdown prose (not headings, link targets, code fences or front matter) without changing what
+  any line claims. This is a deliberate relaxation of §7 for this repo.
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.

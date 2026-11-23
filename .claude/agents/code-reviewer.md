@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Reviews the diff before any merge to the main branch. This is the only reviewer; run it every time. Read-only.
+description: The only reviewer. Run once on the final branch diff before merging to the main branch; again after fixing a Critical or Warning finding or when the branch gains other commits, not otherwise; not for a trivial branch (see the working agreement in CLAUDE.md). Read-only.
 tools: Read, Grep, Glob, Bash
 model: inherit
 memory: project

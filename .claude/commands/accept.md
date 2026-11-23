@@ -12,4 +12,5 @@ every item is verified — you will not do this for me unless asked, so I am ask
    so reading the changed files will usually have loaded it already.)
 3. If anything FAILS or cannot be verified, stop and report it plainly. Do not work around
    it or soften the wording; list exactly what remains.
-4. Only when every item passes, report the change ready.
+4. Only when every item passes, or is *pending* until merge as the Definition of Done allows,
+   report the change ready.
