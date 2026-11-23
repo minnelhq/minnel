@@ -12,8 +12,9 @@ Zensical, which reads `mkdocs.yml` as-is). The site work added the repo's first 
 
 **Why:** the methodology needs an owned public front-door. ADR 0002 deferred deploy until the
 brand was locked (the "Christen" backlog item); as of 2026-11-22 the site is live on GitHub Pages
-under the current repo name anyway, deployed by manual `workflow_dispatch`. Re-verify which is
-current before relying on it.
+under the current repo name anyway, deployed by manual `workflow_dispatch`. ADR 0005 (branch
+`claude/auto-deploy-docs`, reviewed 2026-11-24) switches to deploy on every push to `main`.
+Re-verify which is current before relying on it.
 
 **Zensical facts verified 2026-11-22 against 0.1.3 in `.venv` (re-check on any upgrade):**
 - Link and anchor validation default to on (`zensical/config.py`, the "Initialize defaults for
@@ -45,15 +46,22 @@ current before relying on it.
   changed `site_name` and the H1s only; repo name, URL and blob URLs stay, and renaming the repo is
   out of that plan's scope. So a claim that the retitle "settled" ADR 0002's brand/domain hold
   over-reaches: the name is decided, the domain is not.
-- CI: deploy job and the upload-pages-artifact step are both gated to `workflow_dispatch`;
-  top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
+- CI gate (as reviewed 2026-11-24, ADR 0005 branch): upload step and deploy job gated
+  `github.event_name != 'pull_request'`, `pages` concurrency group moved to the deploy job. Two
+  traps I flagged: (a) with no ref check, a manual run from a non-main branch reaches the deploy
+  job, enters `pages`, can replace a pending main deploy, then fails on the `github-pages`
+  environment's branch policy (custom policy, `main` only, verified via `gh api` that day);
+  (b) a job-level group orders deploys by build-finish time, not push time, so two close pushes
+  can publish the older one last. GitHub's Pages starter (`actions/starter-workflows`
+  `pages/static.yml`) keeps the group at workflow level. Re-check whichever shape merged.
+  Before ADR 0005: deploy job and upload step both gated to `workflow_dispatch`; top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
   the deploy job. Pages action pair must stay matched majors. Actions are pinned to commit SHAs
   with version comments; verify a SHA matches its tag via `gh api`.
 - Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
   auth (deploy uses OIDC, no checkout). Re-check if a step that pushes or fetches is added. Note
   that checkout v6+ keeps the token "in a separate file under `$RUNNER_TEMP` instead of
   directly in `.git/config`" (read from the pinned v7.0.0 README) — prose saying otherwise is off.
-- Because deploy is manual, the live site lags `main` until someone dispatches. Prose that says
+- (Pre-ADR 0005.) Because deploy is manual, the live site lags `main` until someone dispatches. Prose that says
   only "a change of look" waits for a manual run understates this.
 - The workflow header comment (and a backlog item copying it, 2026-11-23) says auto-deploy means
   "drop the `workflow_dispatch` gates". The workflow also runs on `pull_request`, so removing the
