@@ -2,8 +2,8 @@ name: docs
 
 # Build and validate the doc site with Zensical (ADR 0003) on every PR and every push to main.
 # Every push to main also deploys it to GitHub Pages (Source: GitHub Actions), as does a manual
-# run; a pull request only builds (ADR 0005). The github-pages environment accepts deploys from
-# main only.
+# run on main; a pull request or a run on another branch only builds (ADR 0005). The github-pages
+# environment also accepts deploys from main only.
 on:
   push:
     branches: [main]
@@ -12,6 +12,13 @@ on:
 
 permissions:
   contents: read
+
+# Deploying runs share the `pages` group, so pushes to main deploy one at a time and in order; a
+# newer pending run replaces an older one. Every other run gets a group of its own, so a PR build
+# can't queue in `pages` and cancel a pending deploy.
+concurrency:
+  group: ${{ (github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')) && 'pages' || format('docs-{0}', github.run_id) }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -28,20 +35,15 @@ jobs:
       # --strict fails the build on any warning, including a link to a missing page or anchor.
       - run: zensical build --strict --clean
       - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: site
 
   deploy:
-    # Pushes to main and manual runs, never a pull request (ADR 0005).
-    if: github.event_name != 'pull_request'
+    # Pushes to main and manual runs on main only (ADR 0005).
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
-    # One deploy at a time, and an in-progress one finishes. Scoped to this job so a PR build
-    # can't take a place in the queue and cancel a pending deploy.
-    concurrency:
-      group: pages
-      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       pages: write
