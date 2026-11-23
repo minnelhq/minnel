@@ -100,6 +100,14 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   line; `case … in a) …` inside `"$(...)"` closes the substitution at the pattern's `)`. Re-probe
   both if the segmenter changes (scratch `probe6.sh`/`probe7.sh` pattern: eval probe.sh's
   `run` helper, then one `run` per shape).
+- **Guards CI (`.github/workflows/guards.yml`, first reviewed 2026-11-23, PR #26).** Runs
+  `guards.sh` on ubuntu-latest in a mawk/gawk matrix, the chosen awk symlinked into a
+  `$GITHUB_PATH` dir; the guards call bare `awk -f`, so PATH order decides. Read the job logs
+  (`gh run view --job <id> --log`) rather than trusting the green tick: the "Check which awk runs"
+  step should print `mawk 1.3.4 …` / `GNU Awk …` and the test step 0 `FAIL` lines. ubuntu-latest
+  was Ubuntu 26.04 then (mawk 1.3.4 20260129), so older mawk (20200120, Debian 12 / Ubuntu 22.04)
+  is untested; the segmenter then used no `{n,m}` intervals or `[[:class:]]`, which old mawk
+  lacks. Re-grep for those if the awk changes. Matrix values reach `run:` only through `env:`.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
@@ -107,4 +115,5 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
 visible by executing edge cases.
-**How to apply:** any diff touching `plugin/`, `.claude-plugin/`, Check E, or a paired appendix.
+**How to apply:** any diff touching `plugin/`, `.claude-plugin/`, Check E, a paired appendix, or
+`.github/workflows/guards.yml`.
