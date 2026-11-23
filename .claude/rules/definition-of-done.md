@@ -60,7 +60,7 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       still runs.
 - [ ] **CI workflows (when touched)** — `.github/workflows/*.yml` grant least-privilege
       `permissions`, and any publish or deploy step is gated as the docs say (the Pages deploy
-      runs only on `workflow_dispatch`).
+      runs on a push to `main` or a manual run, never on a pull request; ADR 0005).
 - [ ] **`minnel:code-reviewer` subagent run on the final branch diff before merge**, with no
       Critical findings outstanding: once per branch, not per change, and not for a trivial branch
       (the working agreement in `CLAUDE.md` says what counts). Until the branch is ready to merge,

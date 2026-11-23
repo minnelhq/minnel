@@ -9,17 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
-  changed the published docs needed a separate manual run of the `docs` workflow, and some went
-  live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
-  changes only when the maintainer chooses; if every merge is deployed anyway, that reason no
-  longer holds. Replace the `workflow_dispatch` gates in `.github/workflows/docs.yml` with one that
-  excludes pull requests (`github.event_name != 'pull_request'`), since the workflow also runs on
-  every PR. Record the reversal in a new ADR (or an amendment to 0003), and update what states the
-  manual rule: the README's site section, the workflow's header and gate comments, and the CI item
-  in `.claude/rules/definition-of-done.md`. ADR 0002 first held deploys back until the brand and
-  domain were final; the Minnel retitle decided the name and kept the site's URL, and ADR 0003
-  records that the site is already published.
 - Add release targets to the backlog format — feat · value M · effort M — why now: nothing says
   which release a Next item is meant for, so `/minnel:release` cannot warn that an item meant for the
   version is still open. The type tags suggest each item's SemVer bump (`feat` a minor, `fix` a

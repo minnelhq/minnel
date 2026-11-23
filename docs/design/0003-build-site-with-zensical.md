@@ -1,6 +1,6 @@
 # ADR 0003 — Build the doc site with Zensical
 
-**Status:** accepted   **Date:** 2026-11-22
+**Status:** accepted; superseded in part by ADR 0005 (deploy)   **Date:** 2026-11-22
 
 ## Context
 ADR 0002 chose MkDocs Material to render `docs/` as a site. Its build now prints a notice that

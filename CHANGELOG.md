@@ -8,6 +8,8 @@ versions follow SemVer.
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
   release.
+- The doc site is published on every push to `main` instead of by a manual run, so it follows
+  `main` and can show changes no release includes yet (ADR 0005).
 
 ### Fixed
 - `NOTICE` names the product Minnel, as the README, the site and the plugin do.
