@@ -16,6 +16,9 @@ English; dates ISO YYYY-MM-DD.
   with the git-guard. Add a check that a `feat`/`fix` commit also touches `[Unreleased]`.
 
 ## Later / maybe
+- Draw the packaging doc's appendix ↔ plugin pairs under Check E as a Mermaid diagram — feat ·
+  value L · effort L — why now: left over from the 0.5.0 diagrams; it would show which appendix each
+  plugin file must match.
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
   ask for language and spelling, date format, commit style, changelog format, private-notes path

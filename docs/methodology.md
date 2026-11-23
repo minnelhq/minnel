@@ -69,7 +69,7 @@ flowchart TB
     accept -. not done .-> execute
   end
   before --> build
-  build -. phase end .-> retro[Retro: config changes]
+  build -. plan end .-> retro[Retro: config changes]
 ```
 
 | Stage | Mechanism |
@@ -183,11 +183,14 @@ config:
 ---
 flowchart LR
   call[Tool call] --> guard{PreToolUse guard}
-  guard -- exit 2 --> blocked[Blocked, reason to Claude]
-  guard -- ask --> you{You}
+  guard -- "exit 2: reason to Claude" --> blocked[Blocked]
+  guard -- "ask: reason to you" --> you{You}
+  guard -- no decision --> perms{Permissions}
+  perms -- denied --> blocked
+  perms -- prompt --> you
+  perms -- allowed --> run[Tool runs]
   you -- deny --> blocked
-  you -- allow --> run[Tool runs]
-  guard -- pass --> run
+  you -- allow --> run
   run --> check[PostToolUse check] --> result[Result to Claude]
 ```
 
@@ -233,7 +236,7 @@ flowchart LR
   next -. target still open .-> version
 ```
 
-The backlog line goes when the item ships; the changelog keeps the outcome. `/release` checks the dotted edge from Next: an item still targeting the version it cuts.
+Dotted edges are checks, not moves: `/triage` orders Next and proposes targets, and `/release` lists any Next item still targeting the version being cut.
 
 **The changelog is a curated human artefact, not a generated one.** Name its format, and the commit style its entries are drafted from, in your conventions: the project's `CLAUDE.md` or `.claude/rules/`, or, for a default across projects, `~/.claude/CLAUDE.md` or `~/.claude/rules/` (§1). The recommended default is Keep a Changelog: categories Added/Changed/Deprecated/Removed/Fixed/Security, an `## [Unreleased]` section on top, and SemVer versions below with ISO dates (Appendix H). Keep `CHANGELOG.md` at the repo root, the one deliberate exception to the `docs/` rule, because tools and readers expect it there and a visible changelog signals a maintained project (which matters when you distribute the plugin). Don't auto-generate it from `git log`. At release time, have Claude draft Unreleased entries from the finished plan and its commits, then curate. The `/release` command (Appendix M) reads both and falls back to Keep a Changelog or Conventional Commits for whichever is left unnamed. Keep it distinct from its neighbours: the changelog says *what changed, user-facing*; the plan's decision log says *why, internally*; an ADR says *which architectural choice, and its consequences*. The rule of thumb: if a user or installer would care, it's a changelog line; if only a future maintainer would, it isn't.
 

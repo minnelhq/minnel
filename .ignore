@@ -1,0 +1,2 @@
+# Keep ripgrep (and Claude Code's Grep) out of vendored, minified code.
+docs/assets/vendor/
