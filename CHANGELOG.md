@@ -16,8 +16,9 @@ versions follow SemVer.
   - `/minnel:scaffold`, which writes the project files a plugin cannot ship (`CLAUDE.md`, the
     Definition of Done, `docs/plans/`, `docs/backlog.md`, `docs/design/`, `CHANGELOG.md`) and
     skips any that exist.
-- Minnel's git guard allows commits and pushes when a project sets `MINNEL_GIT_GUARD_COMMITS=0` in
-  its `.claude/settings.json` `env`; blanket staging stays blocked.
+- Minnel's git guard takes a setting for commits and one for pushes, `MINNEL_GIT_GUARD_COMMITS`
+  (default `allow`) and `MINNEL_GIT_GUARD_PUSHES` (default `ask`), each `allow`, `ask` or `block`,
+  in a project's `.claude/settings.json` `env`; blanket staging stays blocked.
 - "Install this plugin" in `docs/packaging-as-a-plugin.md`: the install commands, the scaffold
   step, what is active once installed, the guards' `jq` dependency, and which pieces have had
   less use.
@@ -29,6 +30,10 @@ versions follow SemVer.
   user who owns the work, in their own session.
 
 ### Changed
+- The Appendix C git-guard lets commits through and asks you to approve each push, instead of
+  blocking both: a commit stays local until it is pushed, and §7 says to commit at every green
+  checkpoint. It also blocks `git commit -a` as blanket staging. §6 shows how a `PreToolUse` hook
+  asks rather than blocks, and §9 and §11 describe the guard as it now behaves.
 - §1 names user-level `~/.claude/rules/*.md` beside `~/.claude/CLAUDE.md` for personal
   conventions, one file per convention. User rules load before the project's `.claude/rules/`,
   neither overrides the other, and only a path-scoped rule saves context.
