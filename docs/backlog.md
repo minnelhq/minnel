@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/conventions-as-choices.md` — Stage 1 of 3
+- `docs/plans/conventions-as-choices.md` — Stage 2 of 3
 
 ## Next
 - Name user-level `~/.claude/rules/*.md` in the §1 context table — feat · value M · effort L — why

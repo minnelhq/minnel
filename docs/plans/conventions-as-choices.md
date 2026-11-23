@@ -1,6 +1,6 @@
 # Plan: Commit style and changelog format as adopter choices   (approved 2026-11-23)
 
-**Status:** in progress — Stage 1 of 3
+**Status:** in progress — Stage 2 of 3
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/conventions-as-choices. -->
 
 ## Goal
@@ -35,21 +35,21 @@ sides together.
 
 ---
 
-## Stage 1 — Template and §8   [current]
-- [ ] `Commit style:` in the template's Conventions reads as a default to keep or replace; a new
+## Stage 1 — Template and §8   [done]
+- [x] `Commit style:` in the template's Conventions reads as a default to keep or replace; a new
       `Changelog:` line beside it names Keep a Changelog with SemVer as the default. Same two
       edits in the scaffold's copy — files: `templates/CLAUDE.template.md`,
       `plugin/skills/scaffold/templates/CLAUDE.md`
-- [ ] §8's changelog paragraph presents Keep a Changelog as the recommended default the project
+- [x] §8's changelog paragraph presents Keep a Changelog as the recommended default the project
       names in its Conventions, keeping the reasons; "its Conventional Commits" becomes the
       commits in the project's stated style (Conventional Commits by default). The backlog-tag
       sentence stays — files: `docs/methodology.md`
-- [ ] Check §1's context table and "No automatic precedence" paragraph against the new wording;
+- [x] Check §1's context table and "No automatic precedence" paragraph against the new wording;
       change them only if they contradict it.
 - Acceptance: Check E passes for the CLAUDE template pair; the consistency hook passes on
   `methodology.md`; §8 no longer reads as a mandate, and the template names both choices.
 
-## Stage 2 — The rituals read the conventions; release heading fixes   [not started]
+## Stage 2 — The rituals read the conventions; release heading fixes   [current]
 - [ ] Appendix M `/release`: step 1 also reads the `Commit style:` and `Changelog:` lines, with
       the defaults when absent; step 3 sorts into that format's categories (for the default,
       Added, Changed, Deprecated, Removed, Fixed, Security); step 5 writes the format's heading
@@ -81,6 +81,9 @@ sides together.
 ---
 
 ## Deviations
+- 2026-11-23, Stage 1 — also corrected `methodology.md`'s stale "Last updated" line (it read
+  2026-06-20 after §9 changed on 2026-11-22). §1 needed no change: its table and the "No automatic
+  precedence" paragraph already treat commit style as a convention a project can override.
 
 ## Decisions
 - 2026-11-23 — The choice lives in the project's `CLAUDE.md` Conventions (`Commit style:`,

@@ -39,7 +39,8 @@ the whole document into every turn).
 
 - <Language, spelling and tone, e.g. British English, direct and terse, in user-facing strings and comments.>
 - <Code style: point at the formatter rather than restating its rules.>
-- Commit style: <e.g. Conventional Commits; imperative mood; one concern per commit.>
+- Commit style: <default: Conventional Commits, imperative mood, one concern per commit; name yours if it differs.>
+- Changelog: <default: Keep a Changelog with SemVer and ISO dates, `CHANGELOG.md` at the root; name yours if it differs.>
 - <Private/working notes: a gitignored path Claude reads when relevant but never commits. Name yours here, or omit if you keep none.>
 - <Anything non-obvious about how the project is laid out.>
 

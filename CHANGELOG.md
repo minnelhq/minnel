@@ -36,6 +36,9 @@ versions follow SemVer.
   `disable-model-invocation: true`.
 
 ### Changed
+- §8 and the `CLAUDE.md` template present the commit style and the changelog format as choices a
+  project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
+  dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
   hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
   `commands/` the older format. The mapping table says what ships and what stays out
