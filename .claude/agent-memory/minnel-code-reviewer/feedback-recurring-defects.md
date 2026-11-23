@@ -44,5 +44,7 @@ Defect classes seen in this repo (check these specifically each review):
 
 21. **An acceptance grep that matches its own plan.** A plan's "`git grep` finds X only in Y" check quotes X, so the active plan (not yet archived) matches itself, as does any `[Unreleased]` entry naming the old string. Run the grep as written against the branch and list every hit it would give at that stage. Seen 2026-11-23 (backlog-triage-8e25d5 re-review, release-0.4.0 Stage 4 title grep).
 
+22. **ADR amendments that restate history in a list.** An "(Amended: …)" note that lists what the repo used to have ("its own copies of the rituals, guards and reviewer") can sweep in an item that was never there. Check each listed item with `git ls-tree -r --name-only <merge>^1 <dir>` at the commit the note cites, and read the note against the ADR's other amendments: on 2026-11-23 (claude/adr-0004-catch-up) a guards-had-copies claim contradicted the same ADR's "guards were on the less-use list until this repo ran them from the plugin". Also check that an amended rule summary ("in any form") does not undo a tripwire caveat the same release added elsewhere (the guards' accepted misses in `guards.sh`).
+
 **Why:** these are the quiet ones — §N and appendix-letter refs are usually correct because they're obviously load-bearing; the prose-accuracy and config-drift mismatches are what slip through.
 **How to apply:** don't just check that refs resolve — check that descriptive claims (changelog, README, doc-to-doc pointers) are *true* against current file contents. See [[project-repo-shape]].

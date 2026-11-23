@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 2 of 6
+**Status:** in progress — Stage 3 of 6
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -78,13 +78,13 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
   drift; `claude plugin validate plugin` and `claude plugin validate .` give no warning `main`
   doesn't; `sh -n` passes on each script; no doc claims a guard stops a determined command.
 
-## Stage 2 — ADR 0004 catches up   [not started]
-- [ ] Add a dated amendment to ADR 0004's Consequences: this repo runs the plugin's rituals,
+## Stage 2 — ADR 0004 catches up   [done]
+- [x] Add a dated amendment to ADR 0004's Consequences: this repo runs the plugin's rituals,
       guards and reviewer (since PR #23), with no repo copies; the two copies are now appendix
       and plugin only. Update the `rm -rf` consequence to what Stage 1 made of it, and drop the
       "§10 note is on the backlog" consequence, which §10 now carries.
       — files: `docs/design/0004-ship-the-plugin-from-this-repo.md`
-- [ ] Revisit the "less use" lists in the ADR and `docs/packaging-as-a-plugin.md`: the guards
+- [x] Revisit the "less use" lists in the ADR and `docs/packaging-as-a-plugin.md`: the guards
       have now run here; `test-writer` and the scaffold have not.
 - Acceptance: every Consequence states what's true on `main`; the ADR and packaging doc agree.
 
@@ -161,6 +161,12 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   fed to a shell as a heredoc (`bash <<EOF`) becomes an accepted miss.
 - 2026-11-23, Stage 1 — CI now runs `guards.sh` under mawk and gawk on every PR and push to
   `main` (`.github/workflows/guards.yml`); both passed 101/101 without a parser change.
+- 2026-11-23, Stage 2 — No changelog entry: the ADR is a design record, not a published doc, and
+  the `[Unreleased]` line for "Install this plugin" already says the section names which pieces
+  have had less use, which stays true.
+- 2026-11-23, Stage 2 — The guards stay on the "less use" lists, with a qualifier, rather than
+  coming off: they have run here only since PR #23, and only in their pre-Stage 1 form; the rules
+  0.4.0 ships have run only in `guards.sh`.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
