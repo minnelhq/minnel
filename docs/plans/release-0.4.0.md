@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 5 of 6 (done, awaiting review and merge)
+**Status:** in progress — Stage 6 of 6
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -137,9 +137,15 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - Acceptance: `claude plugin validate plugin --profile directory --strict` fails on nothing but
   the missing `version`; the icon is square, 512–2048 px, PNG, under 2 MB.
 
-## Stage 6 — Release readiness   [not started]
+## Stage 6 — Release readiness   [in progress]
 - [ ] Set `"version": "0.4.0"` in `plugin/.claude-plugin/plugin.json` (ADR 0004: the release that
       first ships the plugin sets it), and drop the README's "not yet in a tagged release".
+- [x] Appendix D and the scaffold's plans README: when each stage merges on its own branch, the
+      stage's last commit names the next stage, so the plan on `main` is true after the merge.
+      — files: `docs/appendices/skeletons.md`, `plugin/skills/scaffold/templates/plans-README.md`
+- [ ] Add the one-step install to "Install this plugin" in `docs/packaging-as-a-plugin.md`, with
+      its minimum (2.1.292 for `claude plugin install --marketplace`, 2.1.275 for the in-session
+      form), matching `plugin/README.md`.
 - [ ] Re-read `[Unreleased]` against the merged stages: every user-facing change listed once, in
       the right Keep a Changelog category.
 - [ ] Run the full check: `guards.sh`, both `claude plugin validate` runs (the directory profile
@@ -197,6 +203,11 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   Code 2.1.328 or later, and says the field neither allows nor blocks a host. So the changelog
   says the plugin *declares* it reaches none. The strict run still prints "Hosts not read for:
   hooks (1), skills (6)" as information, not a warning. The icon is rendered at 8-bit depth.
+- 2026-11-23, Stage 6 — Two steps added from the Stage 5 wrap. Stages 4 and 5 each left the
+  status reading "done, awaiting review and merge", which was stale once they merged, so Appendix D
+  now says a stage's last commit names the next stage. The Stage 5 review found the packaging doc
+  gives only the two-step install. The same review's other points went to the house-voice scope
+  (now covering `plugin/README.md`) and the backlog (the reviewer's "read-only" wording).
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across

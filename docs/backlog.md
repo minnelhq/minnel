@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 5 of 6
+- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 6 of 6
 
 ## Next
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
@@ -55,6 +55,11 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   so the Markdown stays readable on its own. Before shipping, check where Zensical loads Mermaid
   from (a CDN is a third-party script on the site) and view each chart on GitHub at desktop width
   and 375 px.
+- Stop calling the reviewer read-only — fix · value L · effort L — why now: `plugin/README.md`,
+  `plugin.json` and `marketplace.json` describe `code-reviewer` as read-only, as the agent's own
+  description does, but `memory: project` lets it write its memory folder (the Stage 5 review of
+  0.4.0 found this). Say what it can't change instead, such as the code under review, in the agent,
+  Appendix A and the manifests together.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
