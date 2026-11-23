@@ -51,7 +51,8 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       as the missing `version` until the release that first ships the plugin sets it.
 - [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
       tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
-      `$CLAUDE_PROJECT_DIR`.
+      `$CLAUDE_PROJECT_DIR`, each quoted (`"$CLAUDE_PROJECT_DIR"/...`) so a path with a space
+      still runs.
 - [ ] **CI workflows (when touched)** — `.github/workflows/*.yml` grant least-privilege
       `permissions`, and any publish or deploy step is gated as the docs say (the Pages deploy
       runs only on `workflow_dispatch`).

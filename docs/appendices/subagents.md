@@ -67,7 +67,7 @@ hooks:
     - matcher: "Write|Edit"
       hooks:
         - type: command
-          command: "$CLAUDE_PROJECT_DIR/.claude/hooks/tests-dir-guard.sh"
+          command: '"$CLAUDE_PROJECT_DIR"/.claude/hooks/tests-dir-guard.sh'
 ---
 
 You write tests, not production code.

@@ -1,17 +1,25 @@
 #!/bin/bash
 # Add as a second PreToolUse "Bash" hook, or fold into bash-guard.sh.
+# A tripwire for slips, not a sandbox: command-segments.awk, kept beside this script, reads the
+# command as text, so a command hidden in a variable, an alias or sh -c '...' gets past it.
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+SEG_AWK="$(dirname "$0")/command-segments.awk"
+[ -r "$SEG_AWK" ] || { echo "Blocked: $SEG_AWK is missing; keep it beside this guard." >&2; exit 2; }
+SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$SEG_AWK")
 
-# Blanket adds sweep up other sessions' files and ignored artefacts.
-# Match -A, --all or a bare . (or ./) as its own argument, so a path like docs/x.md passes.
-if echo "$COMMAND" | grep -iE '\bgit add\b.*[[:space:]](-A|--all|\./?)([[:space:]]|$)' > /dev/null; then
+# Blanket adds sweep up other sessions' files and ignored artefacts: -A, --all, -u, --update,
+# or the whole tree as a path (., .., ./, :/, *). A path such as docs/x.md passes.
+if printf '%s\n' "$SEGMENTS" | grep -E '^git add ' |
+  grep -E ' (-[a-zA-Z]*[Au][a-zA-Z]*|--all|--update|\.\.?/?|:/|\*)( |$)' > /dev/null; then
   echo "Blocked: stage explicit paths (git add <path>), not the whole tree." >&2
   exit 2
 fi
-# git commit -a (or --all) stages every tracked change, so it sweeps the same way.
-if echo "$COMMAND" | grep -iE '\bgit commit\b.*[[:space:]](-a[a-zA-Z]*|--all)([[:space:]]|$)' > /dev/null; then
-  echo "Blocked: git commit -a or --all stages every tracked change. Stage explicit paths (git add <path>) and commit without it; if -a or --all appears later on the line, split the command." >&2
+# git commit -a (or --all) stages every tracked change, so it sweeps the same way. In a
+# cluster, a letter after one that takes a value (-m, -F, -C, -c, -t, -S, -u) is that value.
+if printf '%s\n' "$SEGMENTS" | grep -E '^git commit ' |
+  grep -E ' (-[^-mFCctSu ]*a[a-zA-Z]*|--all)( |$)' > /dev/null; then
+  echo "Blocked: git commit -a or --all stages every tracked change. Stage explicit paths (git add <path>) and commit without it." >&2
   exit 2
 fi
 
@@ -32,8 +40,8 @@ strictest() { # the stricter of two decisions: block over ask over allow
   case "$1 $2" in *block*) echo block ;; *ask*) echo ask ;; *) echo allow ;; esac
 }
 DECISION=allow
-echo "$COMMAND" | grep -iE '\bgit commit\b' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
-echo "$COMMAND" | grep -iE '\bgit push\b' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
+printf '%s\n' "$SEGMENTS" | grep -E '^git commit( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
+printf '%s\n' "$SEGMENTS" | grep -E '^git push( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
 
 case "$DECISION" in
   block)
