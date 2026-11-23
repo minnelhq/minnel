@@ -172,6 +172,9 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   push prompt — it refuses to overwrite work it hasn't seen, and every push is asked about anyway.
 - 2026-11-23 — `DROP TABLE` stays matched anywhere, so a commit message that mentions it is
   blocked — an accepted false positive, pinned in `guards.sh`.
+- 2026-11-23 — Without `command-segments.awk` beside them, the bash and git guards block every
+  `Bash` call and say why — a guard copied without its parser would otherwise pass everything
+  silently, unlike a missing `jq`, which is an environment gap the packaging doc already names.
 
 ## Verification (whole plan)
 On the Stage 6 branch: `plugin/scripts/tests/guards.sh`; `claude plugin validate plugin

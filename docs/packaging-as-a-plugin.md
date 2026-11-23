@@ -39,7 +39,7 @@ What else is active once installed:
 - The Appendix C guards on every `Bash` call. `bash-guard` blocks a forced recursive `rm`, a force push and `DROP TABLE`, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git add -u`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes either by setting `MINNEL_GIT_GUARD_COMMITS` or `MINNEL_GIT_GUARD_PUSHES` to `"allow"`, `"ask"` or `"block"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused. Both guards read the command as text, so they catch slips, not a command hidden in a variable, an alias or `sh -c`.
 - A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`. It catches slips rather than a determined workaround: a file written through `Bash` isn't covered.
 
-The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.
+The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything. The bash and git guards also need `command-segments.awk`, which ships beside them; if it goes missing, they block every `Bash` call and say why.
 
 The reviewer, the Definition of Done and the five rituals have run on this repository across its releases. `test-writer`, the bash and git guards, and the scaffold ship as the appendices give them and have had less use, so treat them as starting points.
 

@@ -4,18 +4,20 @@
 # command as text, so a command hidden in a variable, an alias or sh -c '...' gets past it.
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
-SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$(dirname "$0")/command-segments.awk")
+SEG_AWK="$(dirname "$0")/command-segments.awk"
+[ -r "$SEG_AWK" ] || { echo "Blocked: $SEG_AWK is missing; keep it beside this guard." >&2; exit 2; }
+SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$SEG_AWK")
 
 # Blanket adds sweep up other sessions' files and ignored artefacts: -A, --all, -u, --update,
 # or the whole tree as a path (., .., ./, :/, *). A path such as docs/x.md passes.
-if echo "$SEGMENTS" | grep -E '^git add ' |
+if printf '%s\n' "$SEGMENTS" | grep -E '^git add ' |
   grep -E ' (-[a-zA-Z]*[Au][a-zA-Z]*|--all|--update|\.\.?/?|:/|\*)( |$)' > /dev/null; then
   echo "Blocked: stage explicit paths (git add <path>), not the whole tree." >&2
   exit 2
 fi
 # git commit -a (or --all) stages every tracked change, so it sweeps the same way. In a
 # cluster, a letter after one that takes a value (-m, -F, -C, -c, -t, -S, -u) is that value.
-if echo "$SEGMENTS" | grep -E '^git commit ' |
+if printf '%s\n' "$SEGMENTS" | grep -E '^git commit ' |
   grep -E ' (-[^-mFCctSu ]*a[a-zA-Z]*|--all)( |$)' > /dev/null; then
   echo "Blocked: git commit -a or --all stages every tracked change. Stage explicit paths (git add <path>) and commit without it." >&2
   exit 2
@@ -38,8 +40,8 @@ strictest() { # the stricter of two decisions: block over ask over allow
   case "$1 $2" in *block*) echo block ;; *ask*) echo ask ;; *) echo allow ;; esac
 }
 DECISION=allow
-echo "$SEGMENTS" | grep -E '^git commit( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
-echo "$SEGMENTS" | grep -E '^git push( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
+printf '%s\n' "$SEGMENTS" | grep -E '^git commit( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$COMMITS")
+printf '%s\n' "$SEGMENTS" | grep -E '^git push( |$)' > /dev/null && DECISION=$(strictest "$DECISION" "$PUSHES")
 
 case "$DECISION" in
   block)

@@ -60,6 +60,13 @@ check ask git-guard.sh "$(bash_call 'GIT_SSH=x env git push')" 'git push after V
 check 0 git-guard.sh  "$(bash_call 'echo "git push"')"     'git push inside quotes'
 check 0 git-guard.sh  "$(bash_call "grep -n 'git push' f")" 'git push as a grep pattern'
 check 0 git-guard.sh  "$(bash_call $'git commit -F - <<\'EOF\'\nthen git push\nEOF')" 'git push in a heredoc'
+# A push behind a keyword, after a comment, or in a command substitution still asks.
+check ask git-guard.sh "$(bash_call 'if true; then git push; fi')" 'git push after then'
+check ask git-guard.sh "$(bash_call $'# it\'s done\ngit push')" 'git push after a comment with an apostrophe'
+check ask git-guard.sh "$(bash_call 'out="$(git push origin main 2>&1)"')" 'git push in "$(...)"'
+check ask git-guard.sh "$(bash_call 'echo "`git push`"')"  'git push in "`...`"'
+check ask git-guard.sh "$(bash_call $'git commit -m "$(cat <<\'EOF\'\nfix: an odd " quote\nEOF\n)" && git push')" 'heredoc commit message, then git push'
+check ask git-guard.sh "$(bash_call $'echo $\'it\\\'s\' && git push')" "git push after \$'...'"
 # Accepted misses: the guard reads text, not a shell, so these get past it.
 check 0 git-guard.sh  "$(bash_call "sh -c 'git push'")"    'accepted miss: push inside sh -c'
 check 0 git-guard.sh  "$(bash_call 'G=git; $G add -A')"    'accepted miss: git in a variable'
@@ -98,6 +105,14 @@ check 0 bash-guard.sh "$(bash_call "grep -E '\\brm -rf\\b' f")" 'rm -rf as a gre
 check 0 bash-guard.sh "$(bash_call 'echo rm -rf x')"       'rm -rf as an argument'
 check 0 bash-guard.sh "$(bash_call $'python3 - <<\'EOF\'\ns = "rm -rf"\nEOF')" 'rm -rf in a heredoc'
 check 2 bash-guard.sh "$(bash_call $'cat <<EOF > f\nit\'s fine\nEOF\nrm -rf x')" 'rm -rf after a heredoc'
+# rm behind a keyword, after a comment, or in a command substitution still blocks.
+check 2 bash-guard.sh "$(bash_call 'for d in a b; do rm -rf "$d"; done')" 'rm -rf after do'
+check 2 bash-guard.sh "$(bash_call '! git push -f')"       'git push -f after !'
+check 2 bash-guard.sh "$(bash_call $'# it\'s a cleanup\nrm -rf build')" 'rm -rf after a comment with an apostrophe'
+check 2 bash-guard.sh "$(bash_call 'echo "$(rm -rf x)"')"  'rm -rf in "$(...)"'
+check 2 bash-guard.sh "$(bash_call 'x=$((1<<2)); rm -rf x')" 'rm -rf after a shift in $((...))'
+check 2 bash-guard.sh "$(bash_call '/usr/bin/env rm -rf x')" 'rm -rf behind /usr/bin/env'
+check 0 bash-guard.sh "$(bash_call 'echo "$(( 1 + 2 ))"; echo ${#a}')" 'arithmetic and ${#...}'
 # DROP TABLE sits inside an argument, so it matches anywhere, a mention included.
 check 2 bash-guard.sh "$(bash_call 'psql -c "DROP TABLE x"')" 'DROP TABLE in psql -c'
 check 2 bash-guard.sh "$(bash_call 'git commit -m "explain DROP TABLE"')" 'accepted false positive: DROP TABLE in a message'
@@ -105,6 +120,15 @@ check 2 bash-guard.sh "$(bash_call 'git commit -m "explain DROP TABLE"')" 'accep
 check 0 bash-guard.sh "$(bash_call "sh -c 'rm -rf x'")"    'accepted miss: rm inside sh -c'
 check 0 bash-guard.sh "$(bash_call 'eval "rm -rf x"')"     'accepted miss: rm inside eval'
 check 0 bash-guard.sh "$(bash_call $'bash <<EOF\nrm -rf x\nEOF')" 'accepted miss: rm in a script fed as a heredoc'
+
+# Without command-segments.awk beside them, the guards block rather than pass everything.
+lone=$(mktemp -d) && cp bash-guard.sh git-guard.sh "$lone"/
+for g in bash-guard.sh git-guard.sh; do
+  bash_call 'ls' | "$lone/$g" 2>/dev/null
+  if [ $? = 2 ]; then echo "ok   $g  blocks without command-segments.awk"
+  else echo "FAIL $g  blocks without command-segments.awk"; fail=1; fi
+done
+rm -r "$lone"
 
 check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/src/a.py)"        'test-writer, src/'
 check 0 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/tests/test_a.py)" 'test-writer, tests/'
