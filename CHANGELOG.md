@@ -40,8 +40,8 @@ versions follow SemVer.
   project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
   dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
 - `/release` (Appendix M) and `/wrap` (Appendix N), and the plugin's `release` and `wrap` skills,
-  read the commit style and changelog format from the project's Conventions and fall back to the
-  defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
+  read the commit style and changelog format from the Conventions in context (the project's
+  `CLAUDE.md`, else the global one) and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
   `YYYY-MM-DD`.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
   hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
@@ -51,8 +51,9 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
-- Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash, in
-  the Appendix H skeleton and in this changelog.
+- Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash: in
+  `/release` (Appendix M) and the plugin's `release` skill, the Appendix H skeleton, and this
+  changelog.
 - §9 no longer says the desktop app gives every new session its own worktree. It does so only when
   the Worktree option is on, which is off by default.
 - Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional

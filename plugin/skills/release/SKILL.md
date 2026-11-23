@@ -1,18 +1,22 @@
 ---
 name: release
-description: Draft CHANGELOG Unreleased entries from the completed plan and commits.
+description: Draft unreleased changelog entries from the completed plan and commits.
 argument-hint: "[version]"
 disable-model-invocation: true
 ---
 
 Prepare a changelog update — draft only, do not edit files until I approve.
 
-1. Read the active plan and the commits since the last release tag. Read the
-   `Commit style:` and `Changelog:` lines in the project's `CLAUDE.md` Conventions;
-   where one is missing, assume Conventional Commits or Keep a Changelog.
+1. Read the active plan and the commits since the last release tag. Find the commit
+   style and changelog format in the Conventions in context: the project's `CLAUDE.md`,
+   else `~/.claude/CLAUDE.md` (the template labels them `Commit style:` and `Changelog:`).
+   Where neither names one, use its default: Conventional Commits for commits, Keep a
+   Changelog for the changelog.
 2. Summarise only the user-facing changes, one concise line each.
 3. Sort them into the changelog format's categories. For Keep a Changelog: Added,
-   Changed, Deprecated, Removed, Fixed, Security. Omit empty categories.
+   Changed, Deprecated, Removed, Fixed, Security. Omit empty categories. With
+   Conventional Commits, a commit's type suggests its category (`feat` → Added,
+   `fix` → Fixed).
 4. Propose these under the unreleased section of the changelog (`## [Unreleased]`
    in Keep a Changelog).
 5. If a version was given ($ARGUMENTS), also propose the format's version heading

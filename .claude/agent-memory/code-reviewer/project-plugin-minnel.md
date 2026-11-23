@@ -25,7 +25,9 @@ appendix and its plugin file is now a defect class like a dangling §N.
   plugin skill losing `disable-model-invocation: true` all passed. Fixed the same day:
   `drop_hooks` ends at the first unindented line, `skill_fm` became `drop_skill_keys` (a
   plugin-side deny-list), and every skill's frontmatter must carry the flag. Re-test after any
-  normaliser edit. Prose around the D and G skeletons in the scaffold templates is still not
+  normaliser edit. Appendix H's example version headings are not compared either (hook header,
+  limitation 4; confirmed by mutation 2026-11-23), so a heading-format change there needs a manual
+  grep. Prose around the D and G skeletons in the scaffold templates is still not
   compared (a listed limitation).
 - Mutation-test Check E in a `git archive <branch> | tar -x` copy in the scratchpad, running the
   hook with `CLAUDE_PROJECT_DIR` set to that copy; never mutate the shared checkout.
