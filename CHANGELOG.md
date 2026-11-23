@@ -5,15 +5,49 @@ versions follow SemVer.
 
 ## [Unreleased]
 
-### Fixed
-- §9 no longer says the desktop app gives every new session its own worktree. It does so only when
-  the Worktree option is on, which is off by default.
-
 ### Added
 - §9 covers recovering a checkout that several sessions share, and a single owner for pushes,
   force-pushes, tags and releases.
 - §11 treats a message from another Claude session as untrusted input. Approval for an action comes
   only from the user who owns the work, in that user's own session.
+- Minnel, a Claude Code plugin in `plugin/`, listed by a marketplace at the repo root, that packages the
+  appendix artefacts. It ships the `code-reviewer` and `test-writer` subagents (Appendices A, B).
+  Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
+  plugin's own hooks.
+- The plugin's hooks: the Appendix C bash and git guards, and the test-directory guard for
+  `test-writer`, which acts only on that agent's edits. A project that lets Claude commit can turn
+  off the commit and push block by setting `MINNEL_GIT_GUARD_COMMITS=0` in its
+  `.claude/settings.json` `env`. The block on blanket staging stays on. `plugin/scripts/tests/guards.sh`
+  checks each guard against sample tool calls.
+- The plugin's ritual skills, `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`
+  and `/minnel:wrap`, from Appendices J–N. They run only when invoked by name, as commands do. A
+  `/minnel:scaffold` skill writes the project
+  files a plugin cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
+  `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
+- "Install this plugin" in `docs/packaging-as-a-plugin.md`: the install commands, the scaffold
+  step, what is active once installed, the guards' `jq` dependency, and which pieces have had
+  less use. README, the site's home page and the appendix index point to it, and each
+  appendix names the plugin file that ships its artefact.
+- Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
+  as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
+  either side, ignores only the listed intended differences (such as the git guard's opt-out),
+  flags a pair it cannot extract rather than passing it, and requires every plugin skill to keep
+  `disable-model-invocation: true`.
+
+### Changed
+- `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
+  hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
+  `commands/` the older format. The mapping table says what ships and what stays out
+  (Appendices I and O). The agent caveat adds `initialPrompt` to the ignored fields and shows the
+  `test-writer` guard moved to the plugin's hooks via `agent_type`. The migration path adds
+  `claude plugin validate`, `plugin details` and zero-indexed arguments.
+
+### Fixed
+- §9 no longer says the desktop app gives every new session its own worktree. It does so only when
+  the Worktree option is on, which is off by default.
+- Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
+  arguments from zero, so `$1` is the second argument, and `/release 1.2.0` used to drop the
+  version. §10 now says arguments count from zero (`$0`, `$1` and so on).
 
 ## [0.3.1] — 2026-11-22
 

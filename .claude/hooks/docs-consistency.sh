@@ -11,7 +11,10 @@
 #   C) broken intra-repo links — a [text](path) whose target file does not exist,
 #      resolved relative to the edited file (fenced code blocks are skipped); and
 #   D) British DD/MM/YYYY dates — the repo's date format is ISO YYYY-MM-DD, so a
-#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C).
+#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C); and
+#   E) appendix–plugin drift — each artefact the plugin ships also appears in an
+#      appendix (or templates/), and the two copies must match once the intended
+#      differences in the PAIRS table are normalised away.
 #
 # The edited file arrives as .tool_input.file_path in the JSON on stdin (the
 # field is identical for Edit, Write and MultiEdit). PostToolUse runs after the
@@ -19,7 +22,8 @@
 # feedback. Exit 0 when the file is clean or out of scope.
 #
 # Scope: docs/**/*.md (except gitignored files and docs/plans/), README.md,
-# CHANGELOG.md, templates/*.md. Out: .claude/** (quoted config and tool names
+# CHANGELOG.md, templates/*.md. Check E also runs on edits under plugin/ (any file
+# type), and only Check E runs there. Out: .claude/** (quoted config and tool names
 # trip the spelling list), docs/plans/ (plans and meta-docs legitimately discuss
 # references that don't resolve yet), LICENSE/NOTICE (intentionally American),
 # non-Markdown.
@@ -31,6 +35,8 @@
 # under-flagging, not a block). (3) Check C resolves only inline [text](path)
 # links to relative paths; reference-style links, absolute "/..." paths, scheme
 # links (anything with a colon), and links inside fenced code blocks are not checked.
+# (4) Check E compares only the artefact itself: the prose the scaffold wraps around
+# the D and G skeletons, and Appendix H's example versions, are never compared.
 #
 # POSIX sh only (no process substitution, no arrays), so a lost exec bit that
 # routes this through /bin/sh still parses and runs rather than failing closed.
@@ -54,6 +60,88 @@ case "$FILE" in
   *)         REL="$FILE" ;;
 esac
 
+# --- Check E: appendix–plugin drift (runs before the Markdown-only gate) ---
+# Each PAIRS row: left file | left part | left normaliser | right file | right part |
+# right normaliser | label. A part is "whole" or a marker: the first fenced block after
+# the first line containing the marker. Normalisers remove the intended differences:
+#   drop_hooks       B's frontmatter hooks: block (plugin agents ignore it)
+#   drop_optout      git-guard's plugin opt-out lines
+#   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint,
+#                    disable-model-invocation); applied to the plugin side only, so
+#                    any other frontmatter field on either side is still compared
+#   head_unreleased  Appendix H up to [Unreleased] (the template drops the examples)
+# Blank-line runs are squeezed on both sides. Every pair is compared on each
+# relevant edit, so a change to either side surfaces the drift. Each plugin skill
+# must also keep disable-model-invocation: true, which the docs promise.
+fence_part() { # file marker
+  if [ "$2" = whole ]; then cat "$1"; return; fi
+  awk -v m="$2" '!found { if (index($0, m)) found = 1; next }
+    /^```/ { if (inb) exit; inb = 1; next }
+    inb { print }' "$1"
+}
+normalise() { # mode, stdin
+  case "$1" in
+    drop_hooks)      awk '/^hooks:/ { d = 1; next } d && /^[^ ]/ { d = 0 } !d' ;;
+    drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /MINNEL_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
+    drop_skill_keys) awk 'NR == 1 && /^---$/ { fm = 1; print; next }
+                          fm && /^---$/ { fm = 0 }
+                          fm && /^(name|argument-hint|disable-model-invocation):/ { next }
+                          { print }' ;;
+    head_unreleased) awk '{ print } /^## \[Unreleased\]/ { exit }' ;;
+    *)               cat ;;
+  esac | awk 'NF || !b { print } { b = !NF }'
+}
+check_e() {
+  e_out=""
+  while IFS='|' read -r lf lp ln rf rp rn label; do
+    [ -n "$lf" ] || continue
+    if [ ! -f "$ROOT/$lf" ] || [ ! -f "$ROOT/$rf" ]; then
+      e_out="${e_out}  drift: ${label} — missing ${lf} or ${rf}\n"; continue
+    fi
+    left=$(fence_part "$ROOT/$lf" "$lp" | normalise "$ln")
+    right=$(fence_part "$ROOT/$rf" "$rp" | normalise "$rn")
+    if [ -z "$left" ] || [ -z "$right" ]; then  # a moved marker must not pass as empty == empty
+      e_out="${e_out}  drift: ${label} — nothing extracted from ${lf} or ${rf}; check the PAIRS marker\n"; continue
+    fi
+    [ "$left" = "$right" ] || e_out="${e_out}  drift: ${label} — ${lf} and ${rf} differ; change both together\n"
+  done <<'PAIRS'
+docs/appendices/subagents.md|`.claude/agents/code-reviewer.md`|-|plugin/agents/code-reviewer.md|whole|-|Appendix A
+docs/appendices/subagents.md|`.claude/agents/test-writer.md`|drop_hooks|plugin/agents/test-writer.md|whole|-|Appendix B
+docs/appendices/hooks.md|`.claude/hooks/bash-guard.sh`|-|plugin/scripts/bash-guard.sh|whole|-|Appendix C bash-guard
+docs/appendices/hooks.md|`.claude/hooks/git-guard.sh`|-|plugin/scripts/git-guard.sh|whole|drop_optout|Appendix C git-guard
+docs/appendices/skeletons.md|## Appendix D|-|plugin/skills/scaffold/templates/plans-README.md|Skeleton:|-|Appendix D
+docs/appendices/skeletons.md|## Appendix E|-|plugin/skills/scaffold/templates/definition-of-done.md|whole|-|Appendix E
+docs/appendices/skeletons.md|## Appendix F|-|plugin/skills/scaffold/templates/backlog.md|whole|-|Appendix F
+docs/appendices/skeletons.md|## Appendix G|-|plugin/skills/scaffold/templates/design-README.md|Skeleton:|-|Appendix G
+docs/appendices/skeletons.md|## Appendix H|head_unreleased|plugin/skills/scaffold/templates/CHANGELOG.md|whole|-|Appendix H
+docs/appendices/skills-and-commands.md|`.claude/commands/plan.md`|-|plugin/skills/plan/SKILL.md|whole|drop_skill_keys|Appendix J
+docs/appendices/skills-and-commands.md|`.claude/commands/accept.md`|-|plugin/skills/accept/SKILL.md|whole|drop_skill_keys|Appendix K
+docs/appendices/skills-and-commands.md|`.claude/commands/retro.md`|-|plugin/skills/retro/SKILL.md|whole|drop_skill_keys|Appendix L
+docs/appendices/skills-and-commands.md|`.claude/commands/release.md`|-|plugin/skills/release/SKILL.md|whole|drop_skill_keys|Appendix M
+docs/appendices/skills-and-commands.md|`.claude/commands/wrap.md`|-|plugin/skills/wrap/SKILL.md|whole|drop_skill_keys|Appendix N
+templates/CLAUDE.template.md|whole|-|plugin/skills/scaffold/templates/CLAUDE.md|whole|-|CLAUDE template
+PAIRS
+  for sk in "$ROOT"/plugin/skills/*/SKILL.md; do  # every plugin skill, frontmatter only
+    [ -f "$sk" ] || continue
+    awk 'NR == 1 && /^---$/ { fm = 1; next } fm && /^---$/ { exit } fm && /^disable-model-invocation: true$/ { found = 1 }
+      END { exit !found }' "$sk" ||
+      e_out="${e_out}  drift: ${sk#"$ROOT"/} lacks disable-model-invocation: true in its frontmatter\n"
+  done
+}
+e_findings=""
+case "$REL" in
+  docs/appendices/*|plugin/*|templates/CLAUDE.template.md)
+    if [ -d "$ROOT/plugin" ]; then check_e; e_findings=$e_out; fi ;;
+esac
+case "$REL" in
+  plugin/*)                      # only Check E applies to plugin files
+    if [ -n "$e_findings" ]; then
+      { echo "docs-consistency: appendix–plugin drift after editing ${REL}:"; printf '%b' "$e_findings"; } >&2
+      exit 2
+    fi
+    exit 0 ;;
+esac
+
 # --- Scope gate (case globs match across '/', so docs/* spans subdirectories) ---
 case "$REL" in
   *.md) ;;                       # Markdown only
@@ -73,7 +161,7 @@ case "$REL" in
   *) exit 0 ;;
 esac
 
-findings=""
+findings="$e_findings"
 
 # --- Check A: §N / Appendix-X cross-references resolve to real headings ---
 # Sections are defined in methodology.md; appendices live in docs/appendices/*.md.
@@ -163,7 +251,7 @@ if [ -n "$findings" ]; then
   {
     echo "docs-consistency: issues in ${REL}:"
     printf '%b' "$findings"
-    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD."
+    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD; appendix copies match the plugin files they ship as."
   } >&2
   exit 2
 fi

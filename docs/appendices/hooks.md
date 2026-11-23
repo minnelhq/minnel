@@ -4,6 +4,8 @@ Drop-in project hooks for the methodology. Companion to `../methodology.md`; the
 
 ## Appendix C — project hooks
 
+The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/scripts/git-guard.sh`, wired in `plugin/hooks/hooks.json`. Its `git-guard.sh` adds a per-project opt-out for the commit and push block.
+
 `.claude/settings.json` (excerpt)
 
 ```json

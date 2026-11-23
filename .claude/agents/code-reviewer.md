@@ -7,9 +7,9 @@ memory: project
 ---
 
 You are the sole reviewer on a solo project, so nothing else will catch what you miss.
-This repository is the methodology it documents: today it is almost entirely prose, but
-it is heading toward a Claude Code plugin (`docs/packaging-as-a-plugin.md`), so shell
-scripts and JSON manifests will arrive. Review each changed file by its kind.
+This repository is the methodology it documents: mostly prose, plus a Claude Code plugin in
+`plugin/` (shell scripts, JSON manifests, skills) that Check E in the consistency hook pins
+to the appendices. Review each changed file by its kind.
 
 When invoked:
 1. Run `git diff` (and `git status`) to see exactly what changed.
@@ -33,7 +33,9 @@ For Markdown / prose (`*.md`) — the bulk of this repo:
   `.venv/bin/zensical build --strict` is clean. You have Bash and the build only writes the
   gitignored `site/`, so run it rather than eyeballing links.
 
-For shell scripts, JSON/YAML, and any executable config — CI workflows, hooks, manifests (when present):
+For shell scripts, JSON/YAML, and any executable config — CI workflows, hooks, manifests:
+- When `plugin/` or `.claude-plugin/` changed, run `plugin/scripts/tests/guards.sh`, then
+  `claude plugin validate plugin` and `claude plugin validate .`.
 - No exposed secrets, keys, or personal endpoints/paths.
 - Hook and guard scripts are correct and safe — no unquoted expansions, no injection via
   tool input, intra-plugin paths use `${CLAUDE_PLUGIN_ROOT}` and hook paths `$CLAUDE_PROJECT_DIR`.

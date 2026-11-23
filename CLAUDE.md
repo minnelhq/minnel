@@ -1,9 +1,9 @@
 # A File-First Operating Model for Claude Code
 
-This repository is the methodology itself: reference docs, a CLAUDE.md template, and
-(eventually) a Claude Code plugin. It is a documentation project: the source has no build or
-runtime. (The doc site is an *optional* publish build — never a prerequisite for reading or
-editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
+This repository is the methodology itself: reference docs, a CLAUDE.md template, and a Claude
+Code plugin, Minnel (`plugin/`). It is a documentation project: the Markdown source has no build or
+runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc site is an
+*optional* publish build — never a prerequisite for reading or editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
 
 ## Invariants
 
@@ -19,6 +19,8 @@ editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003
 - `docs/appendices/` — the drop-in artefacts (Appendices A–O), grouped by type; `README.md` indexes them.
 - `docs/packaging-as-a-plugin.md` — plugin packaging companion.
 - `templates/CLAUDE.template.md` — the starter template artefact.
+- `plugin/` — the installable plugin, the appendix artefacts packaged; `.claude-plugin/marketplace.json`
+  at the root lists it.
 - `CHANGELOG.md` — user-facing changes (Keep a Changelog, SemVer).
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F).
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);

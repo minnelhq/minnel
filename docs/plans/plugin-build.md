@@ -1,0 +1,236 @@
+# Plan: Build the methodology as a plugin   (approved 2026-11-22)
+
+**Status:** in progress — Stage 6 of 6 (install from GitHub after the push)
+<!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
+
+## Goal
+Ship the methodology's drop-in artefacts as an installable Claude Code plugin in `plugin/`,
+listed by a marketplace at the repo root, so the document and the plugin ship together under
+one version and one CHANGELOG. This is the endpoint `docs/packaging-as-a-plugin.md` names.
+
+Shape of the shipped plugin:
+
+```
+plugin/
+├── .claude-plugin/plugin.json
+├── agents/code-reviewer.md, test-writer.md           # Appendices A, B
+├── skills/plan, accept, retro, release, wrap/SKILL.md # J–N, disable-model-invocation
+├── skills/scaffold/SKILL.md + templates/              # D–H, CLAUDE.md template
+├── hooks/hooks.json
+└── scripts/bash-guard.sh, git-guard.sh, tests-dir-guard.sh   # C, B's guard
+```
+
+## Out of scope
+- This repo's own `.claude/` setup, meaning the consistency hook, the `add-section` and
+  `close-plan` skills, and the tuned reviewer. It stays at project level and isn't moved to
+  depend on the plugin.
+- Appendix I's `add-importer` and the `format-and-test.sh` hook. Both are illustrative and
+  specific to one project.
+- Appendix O, the security checklist. It's a judgement list, not an action, so it stays a doc
+  and the packaging doc points to it.
+- `claude plugin eval` suites. The rituals run only when the user invokes them, so triggering
+  accuracy, which evals measure, matters little. Revisit if model-invoked skills ship.
+- Renumbering or re-lettering anything. No new § or appendix letter.
+- Raising the version, cutting a release, trademark or domain registration, and submitting to
+  Anthropic's plugin directory.
+- Changing §10's advice that rituals are commands. Flagged as a follow-up, not acted on here.
+
+---
+
+## Stage 1 — Skeleton   [done]
+- [x] `plugin/.claude-plugin/plugin.json`: placeholder `name`, `description`, `author`,
+      `license: Apache-2.0`, `repository`. No `version` (see Decisions).
+- [x] Root `.claude-plugin/marketplace.json` with `name`, `owner` and
+      `plugins: [{name, source: "./plugin"}]`.
+- [x] `CLAUDE.md` Layout: one line for `plugin/` and `.claude-plugin/`.
+- [x] Add the verified plugin mechanics (Decisions) to the project memory on version-gated claims.
+- Acceptance: `claude plugin validate plugin` and `claude plugin validate .` pass, with the
+  missing `version` as the only allowed warning. In a scratch repo,
+  `claude --plugin-dir <repo>/plugin` starts and `/plugin` lists the plugin.
+
+## Stage 2 — Agents   [done]
+- [x] `plugin/agents/code-reviewer.md`, from Appendix A (the generic copy, not this repo's
+      tuned one).
+- [x] `plugin/agents/test-writer.md`, from Appendix B without its frontmatter `hooks:` block.
+- [x] Live check: run both agents once in a scratch repo (see Deviations).
+- Acceptance: in a scratch repo with a small diff, `/agents` lists both as `minnel:<name>`.
+  The code-reviewer returns a review grouped by priority with no file edits. test-writer writes
+  a file under `tests/`.
+
+## Stage 3 — Hooks   [done]
+- [x] `plugin/scripts/bash-guard.sh` and `git-guard.sh`, from Appendix C. git-guard skips only
+      its commit/push block when a per-project env var is `0`. The env var's name gets the
+      plugin prefix chosen in Stage 6. A project sets it in its `.claude/settings.json` `env`.
+- [x] `plugin/scripts/tests-dir-guard.sh` acts only when `agent_type` ends in `:test-writer`,
+      so the Stage 6 rename doesn't touch it. It blocks a `Write` or `Edit` outside the test
+      directories.
+- [x] `plugin/hooks/hooks.json` wires the three scripts on `PreToolUse` (`Bash` and
+      `Write|Edit`) through `${CLAUDE_PLUGIN_ROOT}/scripts/`.
+- [x] A table-driven check script in `plugin/scripts/tests/` that can be rerun.
+- [x] Live check: in a scratch repo session, `git add -A` is refused; with the opt-out in the
+      project's `.claude/settings.json` `env`, `git commit` goes through.
+- Acceptance:
+  - The check script feeds sample tool-call JSON to each guard.
+    - Exit 2 on `git add -A`, `git add --all`, `git add .`, `git commit -m x`, `git push`,
+      `rm -rf /tmp/x`, and a test-writer `Write` to `src/a.py`.
+    - Exit 0 on `git add docs/x.md`, `git status`, a main-session `Write` to `src/a.py`, and a
+      test-writer `Write` to `tests/test_a.py`.
+    - With the opt-out set, `git commit` exits 0 and `git add -A` still exits 2.
+  - Live in a scratch repo, Claude Code refuses `git add -A`, and the `env` opt-out reaches the
+    hook (see Deviations).
+
+## Stage 4 — Rituals and project scaffolding   [done]
+- [x] `plugin/skills/{plan,accept,retro,release,wrap}/SKILL.md`, from Appendices J–N with
+      `disable-model-invocation: true`. They point at project files only (`docs/plans/`,
+      `.claude/rules/definition-of-done.md`, `CHANGELOG.md`), never at plugin paths.
+- [x] `plugin/skills/scaffold/` writes the project-level pieces a plugin can't bundle:
+  - `.claude/rules/definition-of-done.md` (E)
+  - `docs/plans/` (D)
+  - `docs/backlog.md` (F)
+  - `docs/design/` with an ADR skeleton (G)
+  - `CHANGELOG.md` (H)
+  - `CLAUDE.md` from `templates/CLAUDE.template.md`
+
+  It lists what it will write, skips any file that already exists unless told otherwise, and
+  fills no placeholders by guessing.
+- Acceptance:
+  - In an empty scratch repo, `/minnel:scaffold` writes exactly those files.
+  - A second run writes nothing.
+  - `/minnel:accept` then walks the written Definition of Done item by item.
+  - Each of the five rituals appears in the `/` menu, and none is auto-invoked during an
+    ordinary request.
+
+## Stage 5 — Keep appendices and plugin in step; docs   [done]
+- [x] Check E in `.claude/hooks/docs-consistency.sh`.
+  - It applies to an appendix fenced block that follows a backticked project path, such as
+    `` `.claude/agents/code-reviewer.md` ``.
+  - A table in the script maps the block to its plugin file.
+  - It normalises the listed intended differences before comparing: B's dropped
+    `hooks:` block, the opt-out lines, and the skill-only frontmatter keys. Each plugin skill
+    must also keep `disable-model-invocation: true`.
+  - On a mismatch it names the appendix and the file.
+  - It runs on edits to either side.
+- [x] `docs/packaging-as-a-plugin.md`:
+  - an "Install this plugin" section, with commands that need no prompts
+  - the tree and mapping table aligned with what ships (rituals as skills, why, and the
+    scaffold)
+  - the "build your own" rationale kept
+- [x] Appendices A–C and E–N: one line each naming the plugin file that ships the artefact.
+- [x] Update the "Using it" and "Status" sections of `README.md`, and the pointer in
+      `docs/index.md`.
+- [x] Add Added entries under `[Unreleased]` in `CHANGELOG.md`, in the same commits as the
+      changes they describe.
+- Acceptance:
+  - Check E flags a deliberate one-word drift in Appendix J and passes once it's reverted.
+  - `zensical build --strict` builds cleanly.
+  - The consistency hook passes on every doc this stage touches, and every § and appendix
+    reference touched still resolves.
+
+## Stage 6 — Christen and publish   [current]
+- [x] The maintainer chooses the public name. Rename the placeholder across `plugin.json`,
+      `marketplace.json`, the opt-out env var, the docs, README and CHANGELOG. Then re-run
+      Check E and the Stage 3 checks.
+- [ ] After the push, run
+      `claude plugin marketplace add tcrossland/claude-code-methodology` and
+      `claude plugin install …` in a scratch repo. Confirm every component appears under the new
+      namespace and that a guard fires.
+- [x] Delete the naming item from the backlog.
+- Acceptance: a clean install from GitHub passes the Stage 2–4 checks under the new name.
+
+---
+
+## Deviations
+- 2026-11-22, Stage 1 — acceptance checked with `claude --plugin-dir ./plugin plugin details methodology`
+  (prints the component inventory without a session) instead of `/plugin` in a scratch repo.
+- 2026-11-22, Stage 2 — `plugin details` lists both agents. The live run (`claude -p
+  --plugin-dir`) failed with an expired CLI sign-in, so it waits for the maintainer to sign in
+  again or run it in a session; Stage 3 starts meanwhile.
+- 2026-11-22, Stage 3 — `plugin/scripts/tests/guards.sh` passes all 18 cases, and `plugin details`
+  lists the hooks. The live check waits on the same sign-in. The opt-out variable is
+  `METHODOLOGY_GIT_GUARD_COMMITS=0` (renamed in Stage 6). The docs don't say outright that
+  a project's `env` reaches a plugin hook: `env` applies to "every session and its subprocesses"
+  and hooks inherit "the parent environment", so it follows, and the live check confirms it.
+  The guard also matches `MultiEdit`, as this repo's own hook does.
+- 2026-11-23, Stages 2–3 — live checks passed after the maintainer signed in again (`claude -p
+  --plugin-dir` in a scratch repo). code-reviewer returned findings grouped by priority and
+  edited nothing. test-writer wrote `tests/test_calc.py` and `tests/conftest.py`. The
+  shipped test-writer declines a write outside `tests/` on its own instructions, so the
+  hook was probed with a scratch copy of the plugin whose test-writer has no such constraint.
+  `tests-dir-guard.sh` blocked `src/hook_probe.txt` and allowed `tests/hook_probe.txt`,
+  which confirms `agent_type` arrives as `methodology:test-writer`. git-guard blocked
+  `git add -A` and `git commit`. With `METHODOLOGY_GIT_GUARD_COMMITS=0` in the scratch
+  project's `.claude/settings.json` `env`, `git commit` went through and `git add -A` was still
+  blocked. That confirms a project's `env` reaches a plugin hook in a headless session.
+- 2026-11-23, Stage 4 — a probe showed that in skills and in commands alike, `$1` is the second
+  argument (`$0` and `$ARGUMENTS[0]` are the first). Appendix M's `$1` therefore misses the
+  version, so the plugin's release skill uses `$ARGUMENTS`. At the maintainer's request, Appendix
+  M and this repo's own `/release` were fixed the same way in a separate commit, so Check E has no
+  difference to allow for here.
+- 2026-11-23, Stage 4 — the scaffold's templates adapt the appendices rather than copy them.
+  The Appendix D and G skeletons are wrapped in `docs/plans/README.md` and
+  `docs/design/README.md`. The CHANGELOG template keeps Appendix H's header and an empty
+  `[Unreleased]` and drops the example versions. Check E has to allow for both.
+- 2026-11-23, Stage 4 — headless sessions won't write under `.claude/` even with an allow rule,
+  so the Definition of Done copy was approved by hand in the scratch repo, and the skill now says
+  that write will ask for approval. Otherwise the scaffold wrote the other five files, kept an
+  existing edited file, and a third run changed nothing. `/methodology:accept` walked the
+  Definition of Done item by item, and an ordinary planning request invoked no plugin skill.
+- 2026-11-23, Stage 5 — Check E compares 15 pairs: A, B, both Appendix C guards, D–H, J–N, and
+  `templates/CLAUDE.template.md` against the scaffold's copy. It is not limited to appendices.
+  It also flags a pair it can't extract, so a moved marker can't pass as empty against empty.
+  Mutation tests: a one-word drift in Appendix J and in the plugin's `git-guard.sh` were
+  flagged, an edit confined to the opt-out lines was not, and a renamed Appendix G heading was
+  flagged as not extracted. All passed once reverted. Appendix pointers are plain paths, not
+  links, because `plugin/` is outside the site's `docs_dir` and `--strict` would fail on them.
+  The install section keeps to what `claude plugin install --help` documents (`--scope`) and
+  makes no claim about how collaborators are offered a project-scoped plugin.
+- 2026-11-23, Stage 6 — the maintainer chose Minnel. The plugin and its marketplace are both
+  named `minnel` (install `minnel@minnel`), the manifest gets `displayName: Minnel`, the skills
+  become `/minnel:<name>`, and the opt-out becomes `MINNEL_GIT_GUARD_COMMITS`. Dated entries
+  above keep the placeholder name they were written under. After the rename, `guards.sh` (18/18),
+  Check E, both `validate` runs and the strict site build all passed. Live: the `MINNEL_` opt-out
+  let a commit through, and `/minnel:release 9.9.9` received its argument. The methodology's own
+  title is unchanged; whether the docs take the name is left to the maintainer.
+- 2026-11-23, review — the code-reviewer found no Critical issues and five Warnings, all
+  addressed. Another session switched the shared checkout mid-review, so the branch moved to its
+  own worktree, `.claude/worktrees/feat-plugin`. origin/main had moved (PRs #8 and #9), so it was
+  merged in rather than rebased, because every stage touches the same backlog line. Main's new
+  backlog items were kept and rewritten against what shipped. `${CLAUDE_PLUGIN_ROOT}` is now
+  quoted, and the test-directory guard refuses paths outside the project or through `..`.
+  Check E's skill normaliser is a plugin-side deny-list, `drop_hooks` stops at the first
+  unindented line, and every skill must keep `disable-model-invocation`. Skill names are
+  namespaced in the docs, the "no build or test step" claims are qualified, and the Definition
+  of Done gains a plugin item.
+
+## Decisions
+- 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
+  lists it with `"source": "./plugin"`. That keeps the document and the plugin under one version
+  and one CHANGELOG.
+- 2026-11-22 — It's built under the placeholder name `methodology` (replaced by `minnel` on
+  2026-11-23, Stage 6). The public name is chosen
+  in Stage 6, before the first publish. Renaming before publishing costs nothing; renaming
+  after does.
+- 2026-11-22 — The plugin files are the source. The appendices keep their embedded copies so
+  they stay self-contained to read, and Check E catches drift.
+- 2026-11-22 — The git guard ships on, and a project can turn off the commit/push block with an
+  env var. The block on blanket staging stays on in every project.
+- 2026-11-22 — `plugin.json` gets no `version` during the build. The release that first ships
+  the plugin sets it to the CHANGELOG version, and the two stay equal after that.
+- 2026-11-22 — Rituals ship as skills with `disable-model-invocation: true`, not as commands.
+  The plugin docs call `commands/` "the older format" and prefer `skills/` for new plugins. The
+  flag keeps the user deciding when a ritual runs, which is the property §10 wants from
+  commands. The appendices still show `.claude/commands/` for use without the plugin.
+- 2026-11-22 — Plugin mechanics, checked against code.claude.com (the docs cite up to v2.1.330;
+  the installed CLI is v2.1.273):
+  - In `plugin.json`, only `name` is required, and `validate` warns when `version`,
+    `description` or `author` is missing.
+  - `rules/` is not a plugin component, and a plugin's `CLAUDE.md` is not loaded.
+  - Plugin agents ignore `hooks`, `mcpServers` and `permissionMode` in frontmatter.
+  - When a call comes from a subagent, `PreToolUse` input carries `agent_type`, in the form
+    `<plugin>:<agent>`.
+  - Hook commands get `${CLAUDE_PLUGIN_ROOT}` and `$CLAUDE_PROJECT_DIR`, and `hooks/hooks.json`
+    needs a top-level `"hooks"` key.
+  - A plugin-root `settings.json` is undocumented, so the plugin doesn't rely on one.
+- 2026-11-22 — Challenge: test-writer, bash-guard and the scaffold haven't been proven in real
+  use the way the reviewer, the Definition of Done, the git guard and the five rituals have.
+  They ship as the appendices give them, and the packaging doc says so.
