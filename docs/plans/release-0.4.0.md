@@ -159,6 +159,8 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - 2026-11-23, Stage 1 — A heredoc's body is skipped as data, so a body line that starts with a
   command no longer trips a guard and an apostrophe in a body can't hide later commands. A script
   fed to a shell as a heredoc (`bash <<EOF`) becomes an accepted miss.
+- 2026-11-23, Stage 1 — CI now runs `guards.sh` under mawk and gawk on every PR and push to
+  `main` (`.github/workflows/guards.yml`); both passed 101/101 without a parser change.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
