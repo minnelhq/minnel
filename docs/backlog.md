@@ -6,15 +6,9 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- (none — no active plan)
+- `docs/plans/conventions-as-choices.md` — Stage 1 of 3
 
 ## Next
-- Present commit style and changelog format as adopter choices with defaults — feat · value H ·
-  effort M — why now: §8 prescribes Keep a Changelog and assumes Conventional Commits while the
-  template offers them only as examples; state both as recommended defaults, add a `Changelog:` line
-  beside `Commit style:` in the template's Conventions, and have `/release` (Appendix M) and `/wrap`
-  (Appendix N) read the project's Conventions instead of hard-coding the categories. Both also ship
-  as plugin skills (`plugin/skills/`), and Check E keeps each pair matched, so edit both.
 - Name user-level `~/.claude/rules/*.md` in the §1 context table — feat · value M · effort L — why
   now: the table lists only `~/.claude/CLAUDE.md` for personal conventions, yet one file per
   convention (commit style, dates, private notes) under `~/.claude/rules/` is easier to share and
@@ -36,14 +30,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   — why now: this repo runs adapted copies of the J–N commands but not the git-guard, which is how
   its inverted regex went unnoticed. Check E now pins the plugin's copies to the appendices; extend
   it to compare `.claude/commands/*.md` too, allowing only marked project-specific deviations.
-- Appendix M `/release`: carry over the ISO date instruction — fix · value L · effort L — why now:
-  this repo's own `.claude/commands/release.md` tells Claude to use ISO `YYYY-MM-DD` for any date;
-  the appendix version still says `<today's date>` with no format. Change
-  `plugin/skills/release/SKILL.md` with it, since Check E pairs them.
-- Version heading separator in `/release` and `CHANGELOG.md` — fix · value L · effort L — why now:
-  Appendix M writes `## [$ARGUMENTS] — <date>` and the changelog follows it, but Keep a Changelog's
-  own examples use a hyphen (`- 2026-11-22`) and changelog parsers may expect it; change the
-  appendix, the plugin's release skill and the changelog together.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
