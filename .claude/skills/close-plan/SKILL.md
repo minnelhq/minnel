@@ -49,5 +49,5 @@ a stage was dropped or deviated, record that in the plan rather than ticking it 
 
 ## Out of scope
 
-- Shipping the plan's user-facing outcome to `CHANGELOG.md` — that is `/release`'s job.
+- Shipping the plan's user-facing outcome to `CHANGELOG.md` — that is `/minnel:release`'s job.
 - Deciding what runs next — picking the next backlog item is a separate step, not part of closing.
