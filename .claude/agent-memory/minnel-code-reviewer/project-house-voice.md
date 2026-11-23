@@ -43,6 +43,13 @@ about hiding that the repo is built with Claude.
   re-run the self-test it documents.
 - It deliberately *cross-references* the British-English and §N/appendix rules rather than
   restating them; keep it that way to avoid the duplication defect.
+- **Path matching (observed 2026-11-23).** The rule was injected into this reviewer's context
+  right after it read a file under `.claude/agent-memory/`, which only `*.md` could match. So a
+  bare `*.md` matches at any depth, `docs/**/*.md` beside it is redundant (as is the DoD's
+  `**/*.md`), and the rule loads for every Markdown file, appendices and plugin skills included.
+  Rests on observation, not the docs; re-check before asserting it in published prose.
+- Moving it out of `docs/` took it out of the consistency hook's scope (`.claude/**` is out), so
+  its own spelling and links are no longer checked at edit time; check them by hand.
 - It is internal authoring convention under `.claude/`, not published, so a change to it alone does not
   need a CHANGELOG line; a pass that applies it to published docs does. See
   [[feedback-recurring-defects]] and [[project-doc-site]].
