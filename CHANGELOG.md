@@ -41,6 +41,12 @@ versions follow SemVer.
   plugin skill) drafts in the changelog format the conventions name.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships, not a hypothetical
   one, with the rituals as skills rather than commands.
+- The `code-reviewer` runs once on the final branch diff before merge, and again after a Critical
+  or Warning fix or commits beyond those fixes and the reviewer's memory, not after every change
+  (§2, §4, §7, §10). Appendix A's reviewer diffs the branch against the main branch; the
+  Definition of Done (Appendix E) and `/accept` (Appendix K) report the review as pending until the
+  branch is ready to merge; the `CLAUDE.md` template's working agreement states the cadence.
+  Exempting trivial branches is optional, named in the working agreement in advance.
 
 ### Fixed
 - §1 context table: a nested `./module/CLAUDE.md` loads once Claude works on a file in its

@@ -13,9 +13,8 @@ paths:
 # Definition of Done
 
 <!-- Adapted from methodology Appendix E for this docs repo: the Markdown has no build/test/lint
-     step, so the bar is consistency and review rather than a green suite; the plugin adds its own
-     item below; and review runs once per branch before merge, not per change. Deliberate
-     divergence. -->
+     step, so the bar is consistency and review rather than a green suite, and the plugin adds its
+     own item below. Deliberate divergence. -->
 
 A change is not done until ALL of these hold. Do not report a task complete until you have
 checked each one and can say which evidence confirms it. The Markdown source has no build, test

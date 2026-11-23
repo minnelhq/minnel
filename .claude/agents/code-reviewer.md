@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: The only reviewer. Run once on the final branch diff before merging to the main branch; again after fixing a Critical or Warning finding or when the branch gains other commits, not otherwise; not for a trivial branch (see the working agreement in CLAUDE.md). Read-only.
+description: The only reviewer. Run once on the final branch diff before merging to the main branch; again after fixing a Critical or Warning finding or when the branch gains commits other than those fixes and the reviewer's memory, not otherwise; not for a trivial branch (see the working agreement in CLAUDE.md). Read-only.
 tools: Read, Grep, Glob, Bash
 model: inherit
 memory: project
@@ -12,7 +12,8 @@ This repository is the methodology it documents: mostly prose, plus a Claude Cod
 to the appendices. Review each changed file by its kind.
 
 When invoked:
-1. Run `git diff` (and `git status`) to see exactly what changed.
+1. Diff the branch against the main branch (`git diff main...HEAD`), plus `git diff` and
+   `git status` for anything not yet committed. If the caller names a range, review that instead.
 2. Focus on the modified files. Begin immediately — do not wait to be asked.
 
 For Markdown / prose (`*.md`) — the bulk of this repo:

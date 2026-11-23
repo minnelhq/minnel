@@ -58,6 +58,6 @@ alongside these; neither scope automatically overrides the other, so keep them c
   reviewer's memory, not otherwise. Skip it for a trivial branch: one that touches nothing
   outside `docs/backlog.md` and `.claude/agent-memory/`, or only fixes typos and formatting in
   Markdown prose (not headings, link targets, code fences or front matter) without changing what
-  any line claims. This is a deliberate relaxation of §7 for this repo.
+  any line claims.
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.
