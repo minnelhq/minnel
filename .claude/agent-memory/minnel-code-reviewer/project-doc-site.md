@@ -65,6 +65,12 @@ Re-verify which is current before relying on it.
   renders: `--strict` does not check script `src`. Check every page with a mermaid fence carries
   the tag. Also flag grep/context cost of the minified file unless `.gitattributes`/`.ignore`
   cover the vendor dir. On a Zensical upgrade, check the bundle's pinned mermaid major still matches.
+  Fix 2ec30d9 added a docs.yml step and ADR 0006. That step (as of 2026-11-24) only greps for the
+  src string: a page in a subdirectory with a wrong relative `src` passes both `--strict` and the
+  step, then 404s and falls back to unpkg (probed). Check whether the step resolves `src` against
+  the page dir. Also: the site is not "own assets only". The theme links Google Fonts
+  (`fonts.googleapis.com` stylesheet) and the bundle loads a `resize-observer-polyfill` from unpkg
+  on old browsers, so a claim that the site loads only its own assets is false.
 - Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
   auth (deploy uses OIDC, no checkout). Re-check if a step that pushes or fetches is added. Note
   that checkout v6+ keeps the token "in a separate file under `$RUNNER_TEMP` instead of
