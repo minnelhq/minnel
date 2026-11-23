@@ -22,8 +22,9 @@ it, and the drop-in artefacts can be adopted one at a time.
   why a plugin is the natural endpoint.
 - `docs/worked-example.md` — one real task (adding a link-resolution check) traced through the
   loop, end to end.
-- `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md` with the conventions baked in.
-- `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
+- `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md`, with default conventions to keep or
+  replace.
+- `plugin/` — Minnel, the methodology as an installable Claude Code plugin: the two subagents, the
   guards, the five rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
   `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live: the five ritual commands (`/plan`, `/accept`,
@@ -31,8 +32,8 @@ it, and the drop-in artefacts can be adopted one at a time.
   context), the Definition of Done rule (the bar a change must clear), a `PostToolUse` consistency
   hook (a script Claude Code runs after each edit) that flags dangling §/appendix references, broken
   intra-repo links, US spellings, `DD/MM/YYYY` dates and drift between an appendix and the plugin
-  file it ships as, and an `add-section` skill (the
-  section/appendix cross-reference ripple), all tuned for this docs project (see *Dogfooding*).
+  file it ships as, and two skills, `add-section` (the section/appendix cross-reference ripple)
+  and `close-plan` (the plan-close sequence), all tuned for this docs project (see *Dogfooding*).
 
 ## Using it
 
@@ -67,7 +68,8 @@ GitHub Pages is a manual run of the `docs` workflow.
 This repository is built using the methodology it documents. The lean root `CLAUDE.md`, the
 docs under `docs/`, the curated root `CHANGELOG.md`, and the contents of `.claude/` (the five
 ritual commands, the `code-reviewer` subagent, the Definition of Done rule, the consistency
-hook, and the `add-section` skill) are not illustrations; they are how the work here gets done.
+hook, and the `add-section` and `close-plan` skills) are not illustrations; they are how the
+work here gets done.
 
 They are tuned to a documentation project. The Markdown source has no build or test step, and the
 doc site is an optional publish build. Verification of the Markdown rests on British English and
@@ -79,8 +81,9 @@ worked example: it adapts the appendix drop-ins to a real repo rather than pasti
 ## Status
 
 I wrote this in June 2026 and run it on my own projects. I'm its only adopter so far, so it has
-had no outside feedback yet, and it may be too rigid to suit everyone. It now also ships as a
-Claude Code plugin (`plugin/`), with the document as its rationale.
+had no outside feedback yet, and it may be too rigid to suit everyone. It now also comes as a
+Claude Code plugin, Minnel (`plugin/`), with the document as its rationale. The plugin installs
+from GitHub but is not yet in a tagged release.
 
 ## Licence
 
