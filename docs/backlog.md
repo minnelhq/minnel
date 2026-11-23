@@ -9,17 +9,6 @@ here (§8). British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Align the published review guidance with the per-branch cadence — fix · value H · effort M — why
-  now: this repo now runs the `code-reviewer` once on the final branch diff before merge, re-runs it
-  only after a Critical or Warning fix or new commits, and skips trivial branches, but the guidance
-  adopters get still reads per change. §2 puts Review in the per-task loop, §4 calls it "a reviewer
-  that runs constantly", §7 gives no re-run rule or trivial exemption, and Appendices A, E and K,
-  their plugin copies and the `CLAUDE.md` template all read per change. Change each appendix with
-  its plugin copy (Check E pairs them), decide whether the trivial exemption is prescribed or an
-  adopter's choice, then drop the "relaxation of §7" note in this repo's `CLAUDE.md` and the
-  divergence comment in its Definition of Done if they no longer apply. Settle it before the first
-  release that ships the plugin, since the plugin's reviewer and `/accept` carry the per-change
-  wording.
 - Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
   now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
   Model for Claude Code"; choose one before the first release that ships the plugin, which

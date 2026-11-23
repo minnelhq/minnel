@@ -65,8 +65,11 @@ other, so keep them consistent.
 - **One plan file, status folded in.** Each plan is a sequence of Stages worked through
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
-- **Review before merge.** Run the `code-reviewer` subagent on the diff before any merge
-  to the main branch. There is no second reviewer; this is it.
+- **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
+  before any merge to the main branch. Run it again after fixing a Critical or Warning
+  finding, or when the branch gains commits beyond those fixes and the reviewer's memory;
+  not after every change. There is no second reviewer; this is it. <Optional: name the
+  trivial branches that skip review, e.g. typo-only prose fixes; delete if none do.>
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.
 
