@@ -95,6 +95,11 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   silently). A prototype handling keywords, comments and dq `$(`/backtick passed all 82 cases.
   Also run 40 real commit messages through the commit form: only `DROP TABLE` mentions should
   block. Quoted text is accumulated char by char (quadratic on BSD awk: 1.4 s at 160 KB).
+  Re-review of 6a21e2f (2026-11-23): those all hold. Still open then: `<<` in arithmetic with a
+  non-digit operand (`$((1<<n))`, `(( x <<= n ))`) registers a heredoc and swallows every later
+  line; `case … in a) …` inside `"$(...)"` closes the substitution at the pattern's `)`. Re-probe
+  both if the segmenter changes (scratch `probe6.sh`/`probe7.sh` pattern: eval probe.sh's
+  `run` helper, then one `run` per shape).
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
