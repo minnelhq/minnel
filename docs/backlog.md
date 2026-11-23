@@ -30,11 +30,10 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   Update the §6 prose that recommends the prefix, and the hook-script item in
   `.claude/rules/definition-of-done.md`. Do it with the guards item, which edits the same
   Appendix C.
-- Decide whether the methodology's title takes the Minnel name — chore · value L · effort L — why
-  now: the plugin is named Minnel, but the docs still title the methodology "A File-First Operating
-  Model for Claude Code"; choose one before the first release that ships the plugin, which
-  `[Unreleased]` now holds. Lock the Minnel name itself before that release, too. That release also
-  drops the README's "not yet in a tagged release".
+- Retitle the methodology as Minnel (plan Stage 4) — chore · value L · effort L — why now: the
+  plugin is named Minnel, but the docs still title the methodology "A File-First Operating Model
+  for Claude Code"; the 0.4.0 plan retitles it "Minnel: a file-first operating model for Claude
+  Code" before the first release that ships the plugin, which `[Unreleased]` now holds.
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
   changed the published docs needed a separate manual run of the `docs` workflow, and some went
   live only when a later merge's run picked them up. ADR 0003 kept deploys manual so the site
@@ -57,9 +56,8 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   with the scaffold's backlog copy, and Appendix M with the plugin's `release` skill (Check E pairs
   the appendix and plugin copies), and say so in §8.
 - Add a backlog-triage ritual — feat · value M · effort M — why now: triage has been done by hand
-  three times (PR #16, the change that ordered this list, and the 2026-11-23 pass), past §10's
-  twice-by-hand test. A
-  skill would check that each item still applies (shipped, out of date or duplicated), re-tag and
+  three times (PRs #16 and #19, and the change that put the guards first), past §10's
+  twice-by-hand test. A skill would check that each item still applies (shipped, out of date or duplicated), re-tag and
   reorder Next, and propose release groups, as a draft for approval. When a project keeps a backlog
   in its gitignored notes (confirmed with `git check-ignore`), it reads that too, but shows the
   combined grouping only in the chat or writes it to those notes; the tracked backlog groups tracked
