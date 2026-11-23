@@ -48,17 +48,25 @@ versions follow SemVer.
   first, then cut once, rather than amend later additions into the release commit.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships, not a hypothetical
   one, with the rituals as skills rather than commands.
-- The `code-reviewer` runs once on the final branch diff before merge, and again after a Critical
-  or Warning fix or commits beyond those fixes and the reviewer's memory, not after every change
-  (§2, §4, §7, §10). Appendix A's reviewer diffs the branch against the main branch; the
-  Definition of Done (Appendix E) and `/accept` (Appendix K) report the review as pending until the
-  branch is ready to merge; the `CLAUDE.md` template's working agreement states the cadence.
+- The `code-reviewer` runs once on the final branch diff before merge, not after every change
+  (§2, §4, §7, §10). It runs again, on the new commits only, after a Critical fix, a Warning fix
+  that changes code or published docs, or commits beyond fixes for its findings and the
+  reviewer's memory; you check any other fix against its finding yourself. Appendix A's reviewer
+  diffs the branch against the main branch; the Definition of Done (Appendix E) and `/accept`
+  (Appendix K) report the review as pending until the branch is ready to merge; the `CLAUDE.md`
+  template's working agreement states the cadence.
   Exempting trivial branches is optional, named in the working agreement in advance.
 - The `code-reviewer` (Appendix A and its plugin copy) reads the project's Definition of Done and
   checks the change against each item that applies, running the commands an item names. A
   path-scoped rule may not be in a subagent's context until it reads the file. Its description
   names the optional trivial-branch skip, and its memory notes name places by heading or symbol,
   not line number.
+- The `code-reviewer` (Appendix A and its plugin copy) reads the branch's commit messages and
+  checks for personal data (real names, contact details, identifiers or figures) in code,
+  fixtures, docs and commit messages, beyond attribution the project publishes on purpose or
+  what its purpose needs. For a new dependency it reads the licence from the dependency's own
+  metadata, states it or marks it unverified, and flags copyleft or non-commercial terms.
+  §11's secret hygiene and Appendix O's Secrets item name the reviewer's check.
 
 ### Fixed
 - §1 context table: a nested `./module/CLAUDE.md` loads once Claude works on a file in its

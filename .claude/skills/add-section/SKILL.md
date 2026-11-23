@@ -45,7 +45,8 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
      | CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/docs-consistency.sh; echo "exit=$?"
    ```
 5. **Run the `minnel:code-reviewer` subagent** on the branch diff before merge, as the working
-   agreement in `CLAUDE.md` says, and clear any Critical or Warning.
+   agreement in `CLAUDE.md` says, and fix any Critical or Warning. Re-run it only where that
+   agreement says to; check any other fix against its finding yourself.
 
 ## Out of scope
 
