@@ -25,8 +25,9 @@ complete, and `claude plugin validate plugin --profile directory --strict` passi
 ## How the stages run
 One branch and PR per stage, in order, from an up-to-date `main`, because each stage edits
 `CHANGELOG.md [Unreleased]`. Each branch gets a `minnel:code-reviewer` run on its final diff
-before merge, re-run as the working agreement says (none of these is trivial). When a stage ships a backlog item, delete its line from `docs/backlog.md`
-in that stage's commit and move the outcome to `[Unreleased]` (§8).
+before merge, re-run as the working agreement says (none of these is trivial). When a stage
+ships a backlog item, delete its line from `docs/backlog.md` in that stage's commit and move the
+outcome to `[Unreleased]` (§8).
 
 ---
 
@@ -40,10 +41,12 @@ in that stage's commit and move the outcome to `[Unreleased]` (§8).
 Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
 - [ ] Command patterns (`rm`, `git add`, `git commit`, `git push`) match only at a command
       position: line start or after `;`, `&&`, `||`, `|`, `(`, `$(`, past leading `sudo`, `env`,
-      `command`, `xargs` and `VAR=value` words, and after `-exec`; `rm` also as `\rm` or a
-      path such as `/bin/rm`. Quoted strings are stripped before matching, after the
-      quoted-dot check for `git add`. A grep pattern, a heredoc body line that doesn't start a
-      command, a commit message or `&& git log --all` no longer trips them. Argument-level
+      `command`, `xargs` and `VAR=value` words and their options, and after `-exec`; `rm` also
+      as `\rm` or a path such as `/bin/rm`. Other wrappers (`nohup`, `nice`, `timeout`,
+      `time`) are accepted misses. Quoted strings are stripped before matching, after the
+      quoted-dot check for `git add`. Flag checks scan only to the end of their own command
+      (the next `;`, `&&`, `||` or `|`). So a grep pattern, a heredoc body line that doesn't
+      start a command, a commit message or `&& git log --all` no longer trips them. Argument-level
       patterns (`DROP TABLE`, which only ever appears inside an argument) keep matching across
       the whole command, quotes included. — files: `plugin/scripts/bash-guard.sh`,
       `plugin/scripts/git-guard.sh`
@@ -69,7 +72,7 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
       hook (`docs/appendices/subagents.md`), `.claude/settings.json`, the §6 prose that
       recommends the prefix, and the hook-script item in `.claude/rules/definition-of-done.md`.
 - [ ] Delete the guards and quoting lines from the backlog. Record both in `[Unreleased]`:
-      Appendix C's guards shipped in 0.3.x, so their change is *Fixed*; the plugin side folds
+      Appendix C's guards are already released, so their change is *Fixed*; the plugin side folds
       into the existing *Added* entry (the Definition of Done's pre-release clause).
 - Acceptance: `plugin/scripts/tests/guards.sh` passes with the new cases; Check E reports no
   drift; `claude plugin validate plugin` and `claude plugin validate .` give no warning `main`
@@ -104,21 +107,25 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
       Minnel (the tagged-release clause stays until Stage 6).
 - [ ] Delete the title line from the backlog; record in `[Unreleased]`.
 - Acceptance: `git grep -n "A File-First Operating Model" -- . ':!docs/plans/archive'
-  ':!.claude/agent-memory'` finds only the 0.1.0 entry; `zensical build --strict` passes; the
-  site's URL is unchanged.
+  ':!.claude/agent-memory' ':!docs/plans/release-0.4.0.md'` finds only the 0.1.0 entry (and any
+  `[Unreleased]` line naming the old title); `zensical build --strict` passes; the site's URL is
+  unchanged.
 
 ## Stage 5 — The plugin's own README, icon and network declaration   [not started]
 - [ ] `plugin/README.md` (40 words or more): what Minnel does, its parts (two agents, three guard
       hooks, six skills), the install commands, and links to the methodology and to the
       packaging doc's "Install this plugin" section for the rest, rather than restating it.
-      Check the current install form first: `claude plugin validate .` suggests a one-step
-      `/plugin install … --marketplace …`; if it holds, update the packaging doc to match.
+      Keep the two-step `marketplace add` and `install minnel@minnel` form unless
+      `claude plugin install --help` confirms a one-step form; the validator's one-step advice
+      concerns the root `README.md` and needs Claude Code 2.1.275 or later, so state that
+      minimum wherever the one-step form appears.
 - [ ] Draft a square PNG icon, 1024 px, from a shape-only SVG (no font, so no font licence),
       rendered with ImageMagick; commit the PNG at `plugin/.claude-plugin/icon.png` and the SVG
       source at `assets/minnel-icon.svg`. The maintainer may replace it before it is first used
       anywhere.
 - [ ] Declare `network.hosts` in `plugin.json` as an empty list: the guards, skills and agents
-      name no host (re-check with a grep of `plugin/` for `curl`, `gh `, `fetch` and `http`).
+      name no host (re-check with a grep of `plugin/` for `curl`, `gh `, `fetch` and `http`;
+      `plugin.json`'s own `homepage` and `repository` URLs are metadata, not network calls).
       Check the field's shape in the current plugin-manifest docs first.
 - [ ] Record in `[Unreleased]`.
 - Acceptance: `claude plugin validate plugin --profile directory --strict` fails on nothing but
