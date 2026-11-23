@@ -3,6 +3,14 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
+## [Unreleased]
+
+### Changed
+- README: the Status says Minnel is maintained.
+
+### Fixed
+- `NOTICE` names the product Minnel, as the README, the site and the plugin do.
+
 ## [0.4.0] - 2026-11-23
 
 ### Added
