@@ -43,6 +43,28 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   later, if something downstream needs a staged file. Prefer `git archive -o <file>` then
   `tar -xf`. Building from HEAD also drops uncommitted `plugin/` edits from a `--dev` test build;
   check the script says so at run time, not only in its header comment.
+- **Git guard decisions (allow/ask/block, reviewed 2026-11-23).** The guard can return an
+  "ask" (exit 0 plus `permissionDecision` JSON), so a test must tell exit 0 *with* ask JSON from a
+  plain 0. Edge cases to run: `git commit -a`/`-am`/`--all` (blanket staging through commit,
+  which the `git add` pattern never sees once commits are allowed), global options before the
+  subcommand (`git -C dir push`, `git -c k=v push`, `git --no-pager push`, all unmatched by
+  `\bgit push\b`), mixed-case setting values, an empty setting, and a commit-then-push chain under
+  each setting. `guards.sh` inherits the caller's environment, so an exported
+  `MINNEL_GIT_GUARD_*` (e.g. from a project's settings `env`) skews its default-case results
+  unless it unsets them. The plugin-side settings normaliser is marker-bounded: any code put
+  between the markers is invisible to Check E (mutation-confirmed), so read that block by eye.
+  A `git commit` + `-a` pattern of the `\bgit commit\b.*[[:space:]](-a…|--all)` shape (probed
+  2026-11-23): `.*` runs to the end of the line, so it blocks `-a` inside a quoted message and
+  in a chained command (`&& git log --all`, `&& ls -a`), and it misses clusters where `a` is not
+  first (`-qam`, `-vam`) and `git -C dir commit -am`. Fail-closed, so a slip-catcher; check the
+  block message doesn't mislead and the backlog bypass item names both kinds.
+  **Bash-command trap:** the reviewing session may still run an older guard that blocks any
+  command text containing the commit/push phrase. Put probe cases in a scratch script built with
+  the Write tool (spell `git` via a variable) and run `bash <script>`.
+- **Validator output drifts with the CLI.** On Claude Code 2.1.330 (2026-11-23)
+  `claude plugin validate plugin` also prints plugin-directory advisories (missing icon, undeclared
+  `network.hosts`) besides the expected missing-`version` warning; they don't change the verdict.
+  Re-check the DoD's "only allowed warning" wording against the current output, not this note.
 - **The Minnel bash guard runs in review sessions** (seen 2026-11-23, loaded from the desktop
   app as `minnel@inline`) and blocks `rm -rf`; clean up with `rm <file>` then `rmdir`. That it ran
   at all shows the uploaded zip's hook scripts kept a working exec bit in that install.
