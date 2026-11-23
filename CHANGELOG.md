@@ -3,7 +3,7 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.5.0] - 2026-11-24
 
 ### Added
 - §9: what a `.worktreeinclude` copies and when. Claude Code copies the gitignored files it lists,

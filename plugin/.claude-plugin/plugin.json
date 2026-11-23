@@ -1,6 +1,6 @@
 {
   "name": "minnel",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "displayName": "Minnel",
   "description": "A file-first Claude Code operating model: a code reviewer, git and destructive-command guards, the plan/accept/retro/release/wrap/triage rituals, and a scaffold for the project files they rely on.",
   "author": {
