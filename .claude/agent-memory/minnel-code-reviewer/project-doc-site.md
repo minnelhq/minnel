@@ -30,7 +30,7 @@ current before relying on it.
   to "not yet deployed".
 - The site build is the gate for any published doc / `mkdocs.yml` / `requirements.txt` change.
   Published = under `docs/` minus the `exclude_docs` list in `mkdocs.yml` (`backlog.md`,
-  `style.md`, `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
+  `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
   list, not keyed off git-ignore, so a new gitignored docs path the hook skips would still need
   adding here. Run `.venv/bin/zensical build --strict --clean`.
 - The DoD is path-scoped (`paths:` frontmatter), so it only loads when a matching file is touched.
@@ -41,7 +41,10 @@ current before relying on it.
   `--strict` fails.
 - The site can't reach files outside `docs_dir`, so `worked-example.md` repoints a few refs to
   absolute GitHub blob URLs at `tcrossland/claude-code-methodology`. Known rebrand debt, now on a
-  live site: flag if the repo is renamed.
+  live site: flag if the repo is renamed. The 0.4.0 retitle to "Minnel: …" (Stage 4, 2026-11-23)
+  changed `site_name` and the H1s only; repo name, URL and blob URLs stay, and renaming the repo is
+  out of that plan's scope. So a claim that the retitle "settled" ADR 0002's brand/domain hold
+  over-reaches: the name is decided, the domain is not.
 - CI: deploy job and the upload-pages-artifact step are both gated to `workflow_dispatch`;
   top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
   the deploy job. Pages action pair must stay matched majors. Actions are pinned to commit SHAs

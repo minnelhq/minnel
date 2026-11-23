@@ -1,12 +1,12 @@
 # Packaging the Methodology as a Plugin
 
-*Companion to "A File-First Operating Model for Claude Code". Last updated 2026-11-23.*
+*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-23.*
 
 ---
 
 ## Why this is the endpoint, not an extra
 
-Everything the methodology builds — the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`), the skills — currently lives scattered across a project's `.claude/` directory and `settings.json`. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
+Everything the methodology builds lives scattered across a project's `.claude/` directory and `settings.json`: the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`) and the skills. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
 
 A **plugin** is the smallest unit of distribution for a Claude Code setup: one directory that bundles agents, skills, hooks, and MCP wiring, with a small manifest, installable into any project in one step. So the practical payoff is that your operating model stops being per-project scaffolding and becomes one versioned thing you drop in anywhere.
 
@@ -98,7 +98,7 @@ After install, a plugin's skills are **namespaced** under the plugin name, e.g. 
 
 ---
 
-## What to package — and what to leave out
+## What to package, and what to leave out
 
 How this plugin maps the methodology's appendices:
 
@@ -133,6 +133,6 @@ If the methodology is already running in a project, conversion is mechanical:
 
 ## Recommended sequencing
 
-Don't build the whole plugin up front. Run the methodology unpackaged in one real project until the agents, hooks, and a handful of skills have earned their place through actual use — the retro habit (§8) is what tells you which pieces are worth keeping. *Then* package the proven set. A plugin assembled from battle-tested components is a product; one assembled from speculation is a liability you have to maintain.
+Don't build the whole plugin up front. Run the methodology unpackaged in one real project until the agents, hooks, and a handful of skills have earned their place through use. The retro habit (§8) tells you which pieces are worth keeping. *Then* package the proven set. A plugin assembled from battle-tested components is a product; one assembled from speculation is a liability you have to maintain.
 
 When you package it for others, the plugin and the document are a pair: ship the plugin as the adoptable artefact, keep the document as the rationale that explains *why* each component is shaped the way it is. The document earns trust; the plugin earns adoption.
