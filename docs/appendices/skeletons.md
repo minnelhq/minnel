@@ -148,7 +148,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Fixed
 - <bug fix>
 
-## [0.2.0] — YYYY-MM-DD
+## [0.2.0] - YYYY-MM-DD
 ### Added
 - <feature>
 ### Changed
@@ -156,7 +156,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Removed
 - <removed feature>
 
-## [0.1.0] — YYYY-MM-DD
+## [0.1.0] - YYYY-MM-DD
 ### Added
 - Initial release.
 ```

@@ -47,13 +47,15 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
+- Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash, in
+  the Appendix H skeleton and in this changelog.
 - §9 no longer says the desktop app gives every new session its own worktree. It does so only when
   the Worktree option is on, which is off by default.
 - Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
   arguments from zero, so `$1` is the second argument, and `/release 1.2.0` used to drop the
   version. §10 now says arguments count from zero (`$0`, `$1` and so on).
 
-## [0.3.1] — 2026-11-22
+## [0.3.1] - 2026-11-22
 
 ### Fixed
 - §1 context table: the nested-`CLAUDE.md` line no longer reads "closest-to-cwd wins", which
@@ -64,7 +66,7 @@ versions follow SemVer.
   such as `git add docs/methodology.md`, and let `git add ./` through (and, with GNU grep,
   `git add .`).
 
-## [0.3.0] — 2026-11-22
+## [0.3.0] - 2026-11-22
 
 ### Added
 - Consistency hook Check D flags a British `DD/MM/YYYY` date in an in-scope file, backstopping
@@ -122,7 +124,7 @@ versions follow SemVer.
   and reviews new listings; the old text said it did not security-audit plugins. Cite the
   directory publishing page and keep the "treat them like any dependency" guidance.
 
-## [0.2.0] — 2026-06-20
+## [0.2.0] - 2026-06-20
 
 ### Added
 - Documentation site (MkDocs Material): `mkdocs.yml`, a lean front-door landing (`docs/index.md`),
@@ -145,7 +147,7 @@ versions follow SemVer.
 - Restructured the `/plan` command (Appendix J) so step 2 *decides* whether to plan and step 3
   *drafts* it, removing the overlap where both gated the same decision.
 
-## [0.1.0] — 2026-06-20
+## [0.1.0] - 2026-06-20
 
 The initial version of *A File-First Operating Model for Claude Code* (the methodology).
 Everything here is initial content, so it is all *Added* — there is no
