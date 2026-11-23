@@ -3,7 +3,7 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.4.0] - 2026-11-23
 
 ### Added
 - Minnel, a Claude Code plugin in `plugin/` that packages the appendix artefacts, with a
