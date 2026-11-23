@@ -42,5 +42,7 @@ Defect classes seen in this repo (check these specifically each review):
 
 20. **Plans that cite groupings or checks the tracked files can't show.** A release plan written from a chat triage can name release groups ("the 0.5.0 and 0.6.0 items") that exist only in the chat or the local notes, and set an acceptance check ("nothing in Next is marked for 0.4.0") that needs a backlog feature not yet built (release targets). Check every group, mark or decision a plan names against a tracked file; if none holds it, either record it in general terms or drop it. Seen 2026-11-23 (backlog-triage-8e25d5, `docs/plans/release-0.4.0.md`). Same review: a dated label such as "the 2026-11-23 pass" fails to identify a triage when three triages share that date.
 
+21. **An acceptance grep that matches its own plan.** A plan's "`git grep` finds X only in Y" check quotes X, so the active plan (not yet archived) matches itself, as does any `[Unreleased]` entry naming the old string. Run the grep as written against the branch and list every hit it would give at that stage. Seen 2026-11-23 (backlog-triage-8e25d5 re-review, release-0.4.0 Stage 4 title grep).
+
 **Why:** these are the quiet ones — §N and appendix-letter refs are usually correct because they're obviously load-bearing; the prose-accuracy and config-drift mismatches are what slip through.
 **How to apply:** don't just check that refs resolve — check that descriptive claims (changelog, README, doc-to-doc pointers) are *true* against current file contents. See [[project-repo-shape]].
