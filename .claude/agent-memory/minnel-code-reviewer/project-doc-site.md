@@ -46,6 +46,10 @@ current before relying on it.
   top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
   the deploy job. Pages action pair must stay matched majors. Actions are pinned to commit SHAs
   with version comments; verify a SHA matches its tag via `gh api`.
+- Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
+  auth (deploy uses OIDC, no checkout). Re-check if a step that pushes or fetches is added. Note
+  that checkout v6+ keeps the token "in a separate file under `$RUNNER_TEMP` instead of
+  directly in `.git/config`" (read from the pinned v7.0.0 README) — prose saying otherwise is off.
 - Because deploy is manual, the live site lags `main` until someone dispatches. Prose that says
   only "a change of look" waits for a manual run understates this.
 - The workflow header comment (and a backlog item copying it, 2026-11-23) says auto-deploy means
