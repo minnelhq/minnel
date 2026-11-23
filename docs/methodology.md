@@ -120,7 +120,7 @@ Only `name` and `description` are required. The most common mistake is writing t
 
 - `disallowedTools` — a denylist; often cleaner than an allowlist when you want "everything except Write/Edit".
 - `permissionMode` — `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, or `plan`.
-- `memory` — `user`, `project`, or `local`; a persistent learnings directory. `project` is the sensible default so review patterns version with the repo. Setting it turns on Read, Write and Edit so the agent can keep its notes, whatever `tools` lists.
+- `memory` — `user`, `project`, or `local`; a persistent learnings directory. `project` is the sensible default so review patterns version with the repo. Setting it turns on Read, Write and Edit so the agent can keep its notes, whatever `tools` lists. With auto memory off, the field does nothing.
 - `effort` — `low`, `medium`, `high`, `xhigh`, `max` (availability depends on model).
 - `isolation: worktree` — runs the subagent in an isolated copy of the repo, auto-discarded if it makes no changes.
 

@@ -19,8 +19,9 @@ When invoked:
 3. Focus on the modified files.
 4. Begin the review immediately — do not wait to be asked.
 
-Report; don't fix. Your tools can write files, but edit nothing except your
-own memory notes: the caller makes each fix.
+Report; don't fix. Your tools can write files, but change no file under review.
+Write only your memory notes and whatever output the checks you run produce:
+the caller makes each fix.
 
 Check for:
 - Each Definition of Done item that applies to the change, except the review

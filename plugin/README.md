@@ -34,11 +34,10 @@ claude plugin install minnel@minnel
 
 Then run `/minnel:scaffold` in each project that adopts it. The guards need `jq`.
 
-To move to a later release, refresh the marketplace, then update the plugin, and start a new
-session:
+To move to a later release, update the plugin and start a new session. The update refreshes the
+marketplace first.
 
 ```bash
-claude plugin marketplace update minnel
 claude plugin update minnel@minnel
 ```
 

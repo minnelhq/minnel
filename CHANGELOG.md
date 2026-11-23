@@ -12,12 +12,14 @@ versions follow SemVer.
 ### Fixed
 - `NOTICE` names the product Minnel, as the README, the site and the plugin do.
 - The plugin's install steps stopped at the first install. "Install this plugin" in
-  `docs/packaging-as-a-plugin.md` and `plugin/README.md` now say how to move to a later release:
-  refresh the marketplace, then update the plugin.
+  `docs/packaging-as-a-plugin.md` and "Install" in `plugin/README.md` now say how to move to a
+  later release with `claude plugin update minnel@minnel`, which refreshes the marketplace itself.
+  The README's Dogfooding note no longer says to refresh the marketplace first.
 - The docs no longer call the `code-reviewer` read-only. `memory: project` turns on Write and Edit
   for its notes, and `Bash` can write any file, so only its prompt keeps it from fixing what it
-  reviews. The prompt now says so, and §4's roster, §10, Appendix A, the plugin's README and both
-  manifests describe a reviewer that reports findings and leaves fixes to the caller.
+  reviews. The prompt now tells it to report and not fix. §4 says only the prompt holds it to
+  that, and says what `memory` turns on. §10, the plugin's README and both manifests no longer
+  say "read-only".
 
 ## [0.4.0] - 2026-11-23
 
