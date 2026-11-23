@@ -47,8 +47,7 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       ADRs 0002 and 0003.
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
       `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
-      `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too, such
-      as the missing `version` until the release that first ships the plugin sets it.
+      `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too.
 - [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
       tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
       `$CLAUDE_PROJECT_DIR`, each quoted (`"$CLAUDE_PROJECT_DIR"/...`) so a path with a space

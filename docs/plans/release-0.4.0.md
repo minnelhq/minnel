@@ -138,12 +138,12 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   the missing `version`; the icon is square, 512–2048 px, PNG, under 2 MB.
 
 ## Stage 6 — Release readiness   [in progress]
-- [ ] Set `"version": "0.4.0"` in `plugin/.claude-plugin/plugin.json` (ADR 0004: the release that
+- [x] Set `"version": "0.4.0"` in `plugin/.claude-plugin/plugin.json` (ADR 0004: the release that
       first ships the plugin sets it), and drop the README's "not yet in a tagged release".
 - [x] Appendix D and the scaffold's plans README: when each stage merges on its own branch, the
       stage's last commit names the next stage, so the plan on `main` is true after the merge.
       — files: `docs/appendices/skeletons.md`, `plugin/skills/scaffold/templates/plans-README.md`
-- [ ] Add the one-step install to "Install this plugin" in `docs/packaging-as-a-plugin.md`, with
+- [x] Add the one-step install to "Install this plugin" in `docs/packaging-as-a-plugin.md`, with
       its minimum (2.1.292 for `claude plugin install --marketplace`, 2.1.275 for the in-session
       form), matching `plugin/README.md`.
 - [ ] Re-read `[Unreleased]` against the merged stages: every user-facing change listed once, in

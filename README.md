@@ -90,8 +90,7 @@ adopter. The settings install the plugin from GitHub's `main`, so to try a branc
 I started Minnel in June 2026 and run it on my own projects. I'm its only adopter so far, so it
 has had no outside feedback yet, and it may be too rigid to suit everyone. Minnel comes two ways:
 the documents give the practices and the reasoning behind them, and the plugin (`plugin/`)
-installs the artefacts they describe. The plugin installs from GitHub but is not yet in a tagged
-release.
+installs the artefacts they describe.
 
 ## Licence
 
