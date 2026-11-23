@@ -22,6 +22,11 @@ Prepare a changelog update — draft only, do not edit files until I approve.
 5. If a version was given ($ARGUMENTS), also propose the format's version heading
    in place of the unreleased one. For Keep a Changelog:
    `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
+6. If a version was given, read the backlog (`docs/backlog.md`) and list any Next
+   item whose release target is that version at the top of the draft: work meant
+   for this release is still open. If none was given, suggest one from the changes.
+   Under Conventional Commits a `feat` makes a minor release, a `fix` a patch, and
+   a breaking change a major.
 
 Exclude internal-only changes (refactors, test scaffolding, doc tweaks) unless an
 installer would notice. I will curate before anything is committed.

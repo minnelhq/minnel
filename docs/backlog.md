@@ -1,25 +1,15 @@
 # Backlog
 
 Ordered top to bottom; the top item is what gets picked up next. Tag each — type
-(feat/fix/debt/chore), value (H/M/L), effort (H/M/L) — with a one-line *why now*. When an
-item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line
-here (§8). British English; dates ISO YYYY-MM-DD.
+(feat/fix/debt/chore), value (H/M/L), effort (H/M/L) — with a one-line *why now*. A Next item
+may name its release with `target X.Y.Z`; Later items carry none. When an item ships, move its
+user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8). British
+English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 1 of 4
+- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 2 of 4
 
 ## Next
-- Add release targets to the backlog format — feat · value M · effort M · target 0.5.0 — why now:
-  nothing says which release a Next item is meant for, so `/minnel:release` cannot warn that an item
-  meant for the version is still open. The type tags suggest each item's SemVer bump (`feat` a
-  minor, `fix` a patch; `debt` and `chore` none unless an adopter would notice). No widely adopted
-  backlog standard plays Keep a Changelog's role; keep the Now–Next–Later shape Appendix F already
-  has (credit Janna Bastow at ProdPad if §8 explains it), and add an optional `target X.Y.Z` per
-  Next item or `### X.Y.Z` subsections under Next. Leave Later ungrouped, since the shape exists to
-  avoid promises the far end can't keep. A shipped item's line is deleted (§8), so `/minnel:release`
-  checks the other way: it lists any Next item still targeting the version. Change Appendix F with
-  the scaffold's backlog copy, and Appendix M with the plugin's `release` skill (Check E pairs the
-  appendix and plugin copies), and say so in §8.
 - Add a backlog-triage ritual — feat · value M · effort M · target 0.5.0 — why now: triage has been
   done by hand three times (PRs #16 and #19, and the change that put the guards first), past §10's
   twice-by-hand test. A skill would check that each item still applies (shipped, out of date or

@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.5.0   (approved 2026-11-24)
 
-**Status:** in progress — Stage 1 of 4
+**Status:** in progress — Stage 2 of 4
 
 ## Context
 `[Unreleased]` already holds a `feat` (§9 on `.worktreeinclude`), so the next release is a minor:
@@ -32,27 +32,27 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
 ## Stage 0 — Record the plan   [done]
 - [x] Copy this plan to `docs/plans/release-0.5.0.md` with the approval date — files:
   `docs/plans/release-0.5.0.md`
-- [x] Set the backlog's Now to it, Stage 1 of 4; give the three items it ships a 0.5.0 target —
+- [x] Set the backlog's Now to it, Stage 2 of 4; give the three items it ships a 0.5.0 target —
   files: `docs/backlog.md`
 - Acceptance: the plan and pointer are on `main`; trivial branch, no review needed.
 
-## Stage 1 — Release targets in the backlog format   [current]
-- [ ] Appendix F and the scaffold copy: an optional `target: X.Y.Z` on Next items, one header
+## Stage 1 — Release targets in the backlog format   [done]
+- [x] Appendix F and the scaffold copy: an optional `target: X.Y.Z` on Next items, one header
   sentence on what it means; Later stays untargeted — files: `docs/appendices/skeletons.md`,
   `plugin/skills/scaffold/templates/backlog.md`
-- [ ] Appendix M and the plugin skill: a step that reads the backlog and lists any Next item still
+- [x] Appendix M and the plugin skill: a step that reads the backlog and lists any Next item still
   targeting the version being cut, as a warning in the draft; and the type's suggested bump (`feat`
   minor, `fix` patch, per Conventional Commits; `debt`/`chore` none unless an adopter would notice)
   — files: `docs/appendices/skills-and-commands.md`, `plugin/skills/release/SKILL.md`
-- [ ] §8: name the Now–Next–Later shape (credit Janna Bastow at ProdPad, checked against ProdPad's
+- [x] §8: name the Now–Next–Later shape (credit Janna Bastow at ProdPad, checked against ProdPad's
   own page first), say targets are optional and Next-only, and that `/minnel:release` checks them — files:
   `docs/methodology.md`
-- [ ] This repo's own backlog header and items follow the format — files: `docs/backlog.md`
-- [ ] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
+- [x] This repo's own backlog header and items follow the format — files: `docs/backlog.md`
+- [x] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
 - Acceptance: Check E clean on F and M; `zensical build --strict` clean; reviewer run with no
   Critical outstanding.
 
-## Stage 2 — The backlog-triage ritual (Appendix P)   [not started]
+## Stage 2 — The backlog-triage ritual (Appendix P)   [current]
 - [ ] Run `add-section` for a new Appendix P (next free letter, append-only) in
   `skills-and-commands.md`, laid out like J–N: heading, "The plugin ships this as the `triage`
   skill" line, `` `.claude/commands/triage.md` `` marker, fenced command with

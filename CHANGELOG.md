@@ -10,6 +10,11 @@ versions follow SemVer.
   such as local notes, once as it creates each worktree. Later edits don't pass between the
   worktree and the main checkout. A `.worktreeinclude` that names a private path can stay
   untracked.
+- Release targets in the backlog. A Next item in Appendix F, and in the backlog
+  `/minnel:scaffold` writes, may name the release it is meant for with `target: X.Y.Z`; Later
+  items carry none. When a version is given, `/minnel:release` (Appendix M) lists any Next item
+  still targeting it, and without one it suggests a version from the changes' types. §8 names the
+  Now–Next–Later shape the backlog follows and credits it to Janna Bastow at ProdPad.
 
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
