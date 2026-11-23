@@ -15,5 +15,10 @@ different branch partway through, so later reads of `plugin/` failed and a doc "
 The same review found `origin/main` had moved (backlog and CHANGELOG), so the branch no longer
 merged cleanly and some new backlog items contradicted the branch's design.
 
+**Stale local `main`.** The reviewer's step 1 says `git diff main...HEAD`, but a worktree's local
+`main` is often behind `origin/main`: on 2026-11-23 (backlog-triage-8e25d5) local `main` sat one
+merge behind, so `main...HEAD` showed 33 files, most of them PR #23's, against a 2-file branch.
+Always `git fetch`, compare `git rev-parse main origin/main`, and diff `origin/main...HEAD`.
+
 **How to apply:** never switch the checkout back yourself (it belongs to the other session); say
 in the report that it moved. Run the site build and hook tests against the extracted copy.
