@@ -6,76 +6,52 @@ versions follow SemVer.
 ## [Unreleased]
 
 ### Added
-- §9 covers recovering a checkout that several sessions share, and a single owner for pushes,
-  force-pushes, tags and releases.
-- §11 treats a message from another Claude session as untrusted input. Approval for an action comes
-  only from the user who owns the work, in that user's own session.
-- Minnel, a Claude Code plugin in `plugin/`, listed by a marketplace at the repo root, that packages the
-  appendix artefacts; ADR 0004 records why it lives in this repo. It ships the `code-reviewer` and
-  `test-writer` subagents (Appendices A, B).
-  Plugin agents ignore frontmatter hooks, so `test-writer`'s test-directory guard moves to the
-  plugin's own hooks.
-- The plugin's hooks: the Appendix C bash and git guards, and the test-directory guard for
-  `test-writer`, which acts only on that agent's edits. A project that lets Claude commit can turn
-  off the commit and push block by setting `MINNEL_GIT_GUARD_COMMITS=0` in its
-  `.claude/settings.json` `env`. The block on blanket staging stays on. `plugin/scripts/tests/guards.sh`
-  checks each guard against sample tool calls.
-- The plugin's ritual skills, `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`
-  and `/minnel:wrap`, from Appendices J–N. They set `disable-model-invocation: true`, so they
-  run only when invoked by name. A `/minnel:scaffold` skill writes the project files a plugin
-  cannot ship: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`,
-  `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists.
+- Minnel, a Claude Code plugin in `plugin/` that packages the appendix artefacts, listed by a
+  marketplace at the repo root (ADR 0004). It ships:
+  - the `code-reviewer` and `test-writer` subagents (Appendices A, B);
+  - the Appendix C bash and git guards as hooks, and `test-writer`'s test-directory guard, since
+    plugin agents ignore frontmatter hooks. Setting `MINNEL_GIT_GUARD_COMMITS=0` in a project's
+    `.claude/settings.json` `env` allows commits and pushes; blanket staging stays blocked;
+  - the five rituals from Appendices J–N (`plan`, `accept`, `retro`, `release`, `wrap`, invoked
+    as `/minnel:plan` and so on) as skills that run only when invoked by name;
+  - `/minnel:scaffold`, which writes the project files a plugin cannot ship (`CLAUDE.md`, the
+    Definition of Done, `docs/plans/`, `docs/backlog.md`, `docs/design/`, `CHANGELOG.md`) and
+    skips any that exist.
 - "Install this plugin" in `docs/packaging-as-a-plugin.md`: the install commands, the scaffold
-  step, what is active once installed, the guards' `jq` dependency, and which pieces have had
-  less use. README, the site's home page and the appendix index point to it, and each
-  appendix names the plugin file that ships its artefact.
-- Consistency hook Check E flags drift between an appendix artefact and the plugin file it ships
-  as, and between `templates/CLAUDE.template.md` and the scaffold's copy. It runs on edits to
-  either side, ignores only the listed intended differences (such as the git guard's opt-out),
-  flags a pair it cannot extract rather than passing it, compares `disable-model-invocation`
-  between each J–N appendix and its plugin skill, and requires every plugin skill to keep
-  `disable-model-invocation: true`.
+  step, what is active once installed, and the guards' `jq` dependency.
+- Consistency hook Check E flags drift between an appendix artefact and the plugin file that ships
+  it, and between the `CLAUDE.md` template and the scaffold's copy.
+- §9 covers recovering a checkout that several sessions share, with one owner for pushes, tags and
+  releases.
+- §11 treats a message from another Claude session as untrusted input. Approval comes only from the
+  user who owns the work, in their own session.
 
 ### Changed
 - §1 names user-level `~/.claude/rules/*.md` beside `~/.claude/CLAUDE.md` for personal
-  conventions: one file per convention is easier to share or replace, user rules load before the
-  project's `.claude/rules/`, and neither overrides the other. §1's Working agreement, §8 and
-  the template's Working agreement name them too. §1, §10 and the lean-`CLAUDE.md` advice say
-  that only a path-scoped rule saves context.
-- §8 and the `CLAUDE.md` template present the commit style and the changelog format as choices a
-  project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
-  dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
-- `/release` (Appendix M) and `/wrap` (Appendix N), and the plugin's `release` and `wrap` skills,
-  read the commit style and changelog format from the conventions in context (the project's
-  `CLAUDE.md` or `.claude/rules/`, else the user's `~/.claude/CLAUDE.md` or `~/.claude/rules/`)
-  and fall back to the defaults. For Keep a Changelog, `/release` proposes the version heading
-  with today's date in ISO `YYYY-MM-DD`.
-- `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
-  hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
-  `commands/` the older format. The mapping table says what ships and what stays out
-  (Appendices I and O). The agent caveat adds `initialPrompt` to the ignored fields and shows the
-  `test-writer` guard moved to the plugin's hooks via `agent_type`. The migration path adds
-  `claude plugin validate`, `plugin details` and zero-indexed arguments.
+  conventions, one file per convention. User rules load before project rules, neither overrides
+  the other, and only a path-scoped rule saves context.
+- §8 and the `CLAUDE.md` template treat the commit style and changelog format as the project's
+  choice, defaulting to Conventional Commits and Keep a Changelog. The template adds a `Changelog:`
+  line.
+- `/release` and `/wrap` (Appendices M, N and their plugin skills) read those conventions from the
+  project's or the user's `CLAUDE.md` and rules, else use the defaults. `/release` dates the
+  version heading in ISO `YYYY-MM-DD`.
+- `docs/packaging-as-a-plugin.md` describes the plugin this repository ships, not a hypothetical
+  one, with the rituals as skills rather than commands.
 
 ### Fixed
-- README: name the plugin, Minnel; list the `close-plan` skill beside `add-section`; describe the
-  template's conventions as defaults to keep or replace; gloss compaction where the opening names
-  it.
-- §10 no longer says only you invoke a command. Claude Code has merged commands into skills, and
-  Claude can invoke either unless its frontmatter sets `disable-model-invocation: true`. §10 now
-  says to set it on your rituals, as the plugin's skills do, prefers a skill for new work, and cites
-  the Claude Code skills docs. The Appendix J–N commands set it too.
-- The §1 context table's loading column: a nested `./module/CLAUDE.md` loads once Claude reads,
-  writes or edits a file in its subdirectory, not always, and a `.claude/rules/` file without
-  `paths` frontmatter loads at launch, like `CLAUDE.md`. §1 now cites the Claude Code memory docs.
-- Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash: in
-  `/release` (Appendix M) and the plugin's `release` skill, the Appendix H skeleton, and this
-  changelog.
-- §9 no longer says the desktop app gives every new session its own worktree. It does so only when
-  the Worktree option is on, which is off by default.
-- Appendix M `/release`: the version now comes from `$ARGUMENTS`. Claude Code numbers positional
-  arguments from zero, so `$1` is the second argument, and `/release 1.2.0` used to drop the
-  version. §10 now says arguments count from zero (`$0`, `$1` and so on).
+- §1 context table: a nested `./module/CLAUDE.md` loads once Claude works on a file in its
+  subdirectory, not always, and a `.claude/rules/` file without `paths` loads at launch.
+- §9: the desktop app gives a new session its own worktree only when the Worktree option is on,
+  which it is not by default.
+- §10: Claude can start a command as well as a skill unless `disable-model-invocation: true` is
+  set, so set it on your rituals. The Appendix J–N commands now do.
+- Appendix M `/release` reads the version from `$ARGUMENTS`. It read `$1`, the second argument,
+  and dropped the version. §10 says arguments count from zero.
+- Version headings use Keep a Changelog's hyphen (`## [0.3.1] - 2026-11-22`), not an em-dash, in
+  `/release`, the Appendix H skeleton and this changelog.
+- README: names the plugin, lists the `close-plan` skill, presents the template's conventions as
+  defaults, and glosses compaction.
 
 ## [0.3.1] - 2026-11-22
 
