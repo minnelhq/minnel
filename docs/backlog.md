@@ -18,8 +18,13 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   — why now: the plugin turns the guards on by default, so a guard that misses a variant promises
   protection it doesn't give; settle it before the first release that ships the plugin. The
   bash-guard catches `rm -rf` but not `rm -fr` or `rm -r -f`, and the git-guard still passes
-  `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots; either broaden the patterns or say
-  plainly they catch slips, not a determined command. The plugin ships the same scripts in
+  `git add -Av`, `git add .;`, `:/`, `..`, `-u` and quoted dots, and `git commit -qam` or
+  `-vam`. Its `commit -a` check also trips on `-a` or `--all` later on the line (a quoted
+  message, `&& git log --all`). It misses a subcommand after a
+  global option (`git -C <dir> push`, `git -c k=v push`), which skips the push prompt, now the
+  only human checkpoint before a push, and it matches `git push` in any text, such as a heredoc,
+  so a mention asks too. Either broaden the patterns or say plainly they catch slips, not a
+  determined command. The plugin ships the same scripts in
   `plugin/scripts/`; change both, and add the cases to `plugin/scripts/tests/guards.sh`.
 - Quote `$CLAUDE_PROJECT_DIR` in hook commands — fix · value L · effort L — why now: the packaging
   doc now says to quote `${CLAUDE_PLUGIN_ROOT}` so a path with a space still runs, but Appendices B
@@ -85,10 +90,11 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   ask for language and spelling, date format, commit style, changelog format, private-notes path
   and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
   `CHANGELOG.md` and `docs/backlog.md`. It answers the configurable-preferences stance.
-- Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on,
-  and `MINNEL_GIT_GUARD_COMMITS=0` turns off the commit and push block per project (verified live
-  2026-11-23). Blocking every commit is a personal stance; consider having the bootstrap offer the
-  guards instead. Whether a project can disable a plugin's hooks wholesale is still unverified.
+- Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on.
+  The git guard now lets commits through and asks before a push, with a per-project setting for
+  each, but `bash-guard` and the blanket-staging block have no setting. Consider having the
+  bootstrap offer the guards and their settings. The hooks docs give no way to turn off one
+  plugin's hooks: only `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
 
 ## Parked (with reason)
 - (none)

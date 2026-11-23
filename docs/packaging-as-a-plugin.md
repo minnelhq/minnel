@@ -36,7 +36,7 @@ Then, in each project that adopts it:
 What else is active once installed:
 
 - The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.
-- The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`) and any `git commit` or `git push`. A project that lets Claude commit turns off the commit and push block by setting `MINNEL_GIT_GUARD_COMMITS` to `"0"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on.
+- The Appendix C guards on every `Bash` call. `bash-guard` blocks a destructive command class, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes either by setting `MINNEL_GIT_GUARD_COMMITS` or `MINNEL_GIT_GUARD_PUSHES` to `"allow"`, `"ask"` or `"block"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused.
 - A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`. It catches slips rather than a determined workaround: a file written through `Bash` isn't covered.
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything.

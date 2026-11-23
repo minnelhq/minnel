@@ -1,6 +1,6 @@
 # ADR 0004 — Ship the methodology as a plugin from this repository
 
-**Status:** accepted   **Date:** 2026-11-23
+**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings)
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
@@ -42,10 +42,13 @@ Ship the plugin, **Minnel**, from this repository.
   rule, the plan, backlog, ADR and changelog skeletons) is written into the project by
   `/minnel:scaffold`, which skips any file that already exists unless the user names it.
 - **Guards on by default.** The bash and git guards from Appendix C, and the test-directory guard
-  for `test-writer`, run in every project that installs the plugin. A project that lets Claude
-  commit sets `MINNEL_GIT_GUARD_COMMITS=0` in its `.claude/settings.json` `env` to turn off the
-  commit and push block. The block on blanket staging (`git add -A`, `--all`, `.`) can't be
-  turned off.
+  for `test-writer`, run in every project that installs the plugin. The git guard lets commits
+  through and asks before a push; a project sets `MINNEL_GIT_GUARD_COMMITS` or
+  `MINNEL_GIT_GUARD_PUSHES` to `allow`, `ask` or `block` in its `.claude/settings.json` `env` to
+  change either. (Amended: the guard first blocked both, with `MINNEL_GIT_GUARD_COMMITS=0` to
+  turn both off. Blocking stopped commits and pushes the user had asked for. A commit stays local,
+  so it now passes; a push still waits for the user's approval.) The block on blanket staging
+  (`git add -A`, `--all`, `.`, `git commit -a`) can't be turned off.
 - **Version.** `plugin.json` has no `version` until the release that first ships the plugin. That
   release sets it to the CHANGELOG version, and the two stay equal after that.
 
@@ -78,5 +81,5 @@ Ship the plugin, **Minnel**, from this repository.
 - **Rituals as `commands/`** — rejected: the plugin docs mark it the older format, and skills with
   `disable-model-invocation` give the same user control.
 - **Guards off by default** — rejected: a guard an adopter must remember to enable protects only
-  the adopters who need it least. The opt-out covers the case found for the git guard: a project
-  that lets Claude commit. `bash-guard` has no opt-out (see Consequences).
+  the adopters who need it least. The git guard's settings cover the case found for it: a project
+  that lets Claude commit or push. `bash-guard` has no opt-out (see Consequences).

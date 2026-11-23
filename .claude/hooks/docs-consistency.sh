@@ -65,7 +65,7 @@ esac
 # right normaliser | label. A part is "whole" or a marker: the first fenced block after
 # the first line containing the marker. Normalisers remove the intended differences:
 #   drop_hooks       B's frontmatter hooks: block (plugin agents ignore it)
-#   drop_optout      git-guard's plugin opt-out lines
+#   drop_plugin_settings  git-guard's plugin settings block
 #   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint); applied
 #                    to the plugin side only, so any other frontmatter field on either
 #                    side is still compared, disable-model-invocation included
@@ -82,7 +82,7 @@ fence_part() { # file marker
 normalise() { # mode, stdin
   case "$1" in
     drop_hooks)      awk '/^hooks:/ { d = 1; next } d && /^[^ ]/ { d = 0 } !d' ;;
-    drop_optout)     awk '/^# Plugin opt-out:/ { d = 1 } !d { print } d && /MINNEL_GIT_GUARD_COMMITS:-1/ { d = 0 }' ;;
+    drop_plugin_settings) awk '/^# Plugin settings:/ { d = 1 } !d { print } d && /^# End of plugin settings\./ { d = 0 }' ;;
     drop_skill_keys) awk 'NR == 1 && /^---$/ { fm = 1; print; next }
                           fm && /^---$/ { fm = 0 }
                           fm && /^(name|argument-hint):/ { next }
@@ -108,7 +108,7 @@ check_e() {
 docs/appendices/subagents.md|`.claude/agents/code-reviewer.md`|-|plugin/agents/code-reviewer.md|whole|-|Appendix A
 docs/appendices/subagents.md|`.claude/agents/test-writer.md`|drop_hooks|plugin/agents/test-writer.md|whole|-|Appendix B
 docs/appendices/hooks.md|`.claude/hooks/bash-guard.sh`|-|plugin/scripts/bash-guard.sh|whole|-|Appendix C bash-guard
-docs/appendices/hooks.md|`.claude/hooks/git-guard.sh`|-|plugin/scripts/git-guard.sh|whole|drop_optout|Appendix C git-guard
+docs/appendices/hooks.md|`.claude/hooks/git-guard.sh`|-|plugin/scripts/git-guard.sh|whole|drop_plugin_settings|Appendix C git-guard
 docs/appendices/skeletons.md|## Appendix D|-|plugin/skills/scaffold/templates/plans-README.md|Skeleton:|-|Appendix D
 docs/appendices/skeletons.md|## Appendix E|-|plugin/skills/scaffold/templates/definition-of-done.md|whole|-|Appendix E
 docs/appendices/skeletons.md|## Appendix F|-|plugin/skills/scaffold/templates/backlog.md|whole|-|Appendix F

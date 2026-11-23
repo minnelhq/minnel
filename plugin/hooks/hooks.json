@@ -1,5 +1,5 @@
 {
-  "description": "Guards from the methodology: destructive commands, blanket staging and unreviewed commits or pushes (Appendix C), and test-writer's test-directory scope (Appendix B).",
+  "description": "Guards from the methodology: destructive commands, blanket staging and unreviewed pushes (Appendix C), and test-writer's test-directory scope (Appendix B).",
   "hooks": {
     "PreToolUse": [
       {
