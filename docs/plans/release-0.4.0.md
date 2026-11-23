@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 1 of 6
+**Status:** in progress — Stage 2 of 6
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -37,9 +37,9 @@ outcome to `[Unreleased]` (§8).
       one merge carries both.
 - Acceptance: the merged backlog's Now section names this plan.
 
-## Stage 1 — Guards: command position, variants, and the tripwire claim   [not started]
+## Stage 1 — Guards: command position, variants, and the tripwire claim   [done]
 Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
-- [ ] Command patterns (`rm`, `git add`, `git commit`, `git push`) match only at a command
+- [x] Command patterns (`rm`, `git add`, `git commit`, `git push`) match only at a command
       position: line start or after `;`, `&&`, `||`, `|`, `(`, `$(`, past leading `sudo`, `env`,
       `command`, `xargs` and `VAR=value` words and their options, and after `-exec`; `rm` also
       as `\rm` or a path such as `/bin/rm`. Other wrappers (`nohup`, `nice`, `timeout`,
@@ -50,28 +50,28 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
       patterns (`DROP TABLE`, which only ever appears inside an argument) keep matching across
       the whole command, quotes included. — files: `plugin/scripts/bash-guard.sh`,
       `plugin/scripts/git-guard.sh`
-- [ ] `bash-guard`: `rm` with recursive and force in any form (`-rf`, `-fr`, `-r -f`,
+- [x] `bash-guard`: `rm` with recursive and force in any form (`-rf`, `-fr`, `-r -f`,
       `--recursive --force`); `git push -f` beside `--force`, also after git's global options;
       and decide whether `--force-with-lease`, which today's pattern blocks, stays blocked.
-- [ ] `git-guard`: `git add` with `-A` in a flag cluster (`-Av`), `-u`/`--update`, `:/`, `.`, `..`,
+- [x] `git-guard`: `git add` with `-A` in a flag cluster (`-Av`), `-u`/`--update`, `:/`, `.`, `..`,
       `./`, `.;` and quoted dots; `git commit` with `a` inside a short-flag cluster (`-qam`,
       `-vam`) but not `--amend`; `push` after global options (`-C <dir>`, `-c k=v`,
       `--git-dir=`, `--work-tree=`, `--no-pager`).
-- [ ] Add every case above to `plugin/scripts/tests/guards.sh`, blocks and passes alike,
+- [x] Add every case above to `plugin/scripts/tests/guards.sh`, blocks and passes alike,
       including the two false positives seen on 2026-11-23 (a `grep` pattern and a heredoc).
       Add each accepted miss (such as `sh -c '…'` with the command inside quotes) as a
       documented pass, so the "catch slips" claim is pinned by a test.
-- [ ] Copy the scripts into Appendix C (`docs/appendices/hooks.md`); Check E compares them.
-- [ ] Say they catch slips, not a determined command, wherever the docs claim protection. Find
+- [x] Copy the scripts into Appendix C (`docs/appendices/hooks.md`); Check E compares them.
+- [x] Say they catch slips, not a determined command, wherever the docs claim protection. Find
       them with `git grep -nE "backstop|confidently|cannot forget|guard against"` and read
       each guard mention: at least Appendix C's intro, §11's "Deterministic guards" and
       "Secret hygiene" paragraphs (the latter calls the git-guard a "backstop"), §6's guard
       bullet, §9's git-guard bullet, and the packaging doc's guard bullet
       (`docs/packaging-as-a-plugin.md`).
-- [ ] Quote `$CLAUDE_PROJECT_DIR` in hook commands: Appendix C's JSON, Appendix B's frontmatter
+- [x] Quote `$CLAUDE_PROJECT_DIR` in hook commands: Appendix C's JSON, Appendix B's frontmatter
       hook (`docs/appendices/subagents.md`), `.claude/settings.json`, the §6 prose that
       recommends the prefix, and the hook-script item in `.claude/rules/definition-of-done.md`.
-- [ ] Delete the guards and quoting lines from the backlog. Record both in `[Unreleased]`:
+- [x] Delete the guards and quoting lines from the backlog. Record both in `[Unreleased]`:
       Appendix C's guards are already released, so their change is *Fixed*; the plugin side folds
       into the existing *Added* entry (the Definition of Done's pre-release clause).
 - Acceptance: `plugin/scripts/tests/guards.sh` passes with the new cases; Check E reports no
@@ -151,6 +151,14 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 ---
 
 ## Deviations
+- 2026-11-23, Stage 1 — Both guards share one parser, `command-segments.awk`, a third
+  Appendix C file with its own Check E pair, rather than each script carrying a copy.
+- 2026-11-23, Stage 1 — Backticks, `{` and the wrappers `nohup`, `nice`, `timeout` and `time`
+  are handled, not accepted misses: the parser ends a command at the first two and skips the
+  rest like `sudo`.
+- 2026-11-23, Stage 1 — A heredoc's body is skipped as data, so a body line that starts with a
+  command no longer trips a guard and an apostrophe in a body can't hide later commands. A script
+  fed to a shell as a heredoc (`bash <<EOF`) becomes an accepted miss.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
@@ -160,6 +168,10 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - 2026-11-23 — Guards: match at command position, cover the variants, and say they catch slips
   — fixes the false positives as well as the misses, without promising more than a pattern can.
 - 2026-11-23 — Draft the icon here, shape-only, replaceable by the maintainer.
+- 2026-11-23 — `git push --force-with-lease` passes the bash-guard and reaches the git guard's
+  push prompt — it refuses to overwrite work it hasn't seen, and every push is asked about anyway.
+- 2026-11-23 — `DROP TABLE` stays matched anywhere, so a commit message that mentions it is
+  blocked — an accepted false positive, pinned in `guards.sh`.
 
 ## Verification (whole plan)
 On the Stage 6 branch: `plugin/scripts/tests/guards.sh`; `claude plugin validate plugin
