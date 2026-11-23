@@ -1,6 +1,6 @@
 # Plan: Commit style and changelog format as adopter choices   (approved 2026-11-23)
 
-**Status:** in progress — Stage 2 of 3
+**Status:** in progress — Stage 3 of 3
 <!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/conventions-as-choices. -->
 
 ## Goal
@@ -49,18 +49,18 @@ sides together.
 - Acceptance: Check E passes for the CLAUDE template pair; the consistency hook passes on
   `methodology.md`; §8 no longer reads as a mandate, and the template names both choices.
 
-## Stage 2 — The rituals read the conventions; release heading fixes   [current]
-- [ ] Appendix M `/release`: step 1 also reads the `Commit style:` and `Changelog:` lines, with
+## Stage 2 — The rituals read the conventions; release heading fixes   [done]
+- [x] Appendix M `/release`: step 1 also reads the `Commit style:` and `Changelog:` lines, with
       the defaults when absent; step 3 sorts into that format's categories (for the default,
       Added, Changed, Deprecated, Removed, Fixed, Security); step 5 writes the format's heading
       (for the default, `## [$ARGUMENTS] - YYYY-MM-DD`, today's date in ISO) — files:
       `docs/appendices/skills-and-commands.md`, `plugin/skills/release/SKILL.md`
-- [ ] Appendix N `/wrap` step 1 drafts changelog entries in the format the project's Conventions
+- [x] Appendix N `/wrap` step 1 drafts changelog entries in the format the project's Conventions
       name — files: `docs/appendices/skills-and-commands.md`, `plugin/skills/wrap/SKILL.md`
-- [ ] Appendix H's example version headings use `-`, not `—`; its `[Unreleased]` head is
+- [x] Appendix H's example version headings use `-`, not `—`; its `[Unreleased]` head is
       unchanged, so the scaffold's `CHANGELOG.md` pair is unaffected — files:
       `docs/appendices/skeletons.md`
-- [ ] This repo's copies: `.claude/commands/release.md` writes `## [$ARGUMENTS] - <today's date>`
+- [x] This repo's copies: `.claude/commands/release.md` writes `## [$ARGUMENTS] - <today's date>`
       and stays an adapted copy that hard-codes this repo's format; `CHANGELOG.md`'s four release
       headings (0.1.0–0.3.1) use the hyphen.
 - Acceptance: Check E passes for Appendices H, M and N, and catches a deliberate one-word drift in
@@ -68,8 +68,8 @@ sides together.
   `CHANGELOG.md`, Appendix H, Appendix M, the plugin release skill or the repo's `release.md`;
   `zensical build --strict` builds cleanly.
 
-## Stage 3 — Records and review   [not started]
-- [ ] `CHANGELOG.md` `[Unreleased]` lines go in with the commits they describe: Changed (§8 and
+## Stage 3 — Records and review   [current]
+- [x] `CHANGELOG.md` `[Unreleased]` lines go in with the commits they describe: Changed (§8 and
       the template present both as defaults the project names; `/release` and `/wrap` read
       them), Fixed (`/release` writes the version heading with an ISO date and a hyphen; this
       changelog's headings now use the hyphen too).

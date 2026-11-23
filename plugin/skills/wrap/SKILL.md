@@ -8,7 +8,8 @@ End-of-session wrap. Work in order; do not edit files until I confirm each write
 
 1. Durable records — check and update:
    - Active plan: advance the current stage, tick completed steps, note deviations.
-   - CHANGELOG.md: draft any user-facing changes under [Unreleased].
+   - Changelog: draft any user-facing changes in the format the project's `CLAUDE.md`
+     Conventions name (Keep a Changelog under [Unreleased] by default).
    - Decisions: log any made this session in the plan, or propose an ADR if significant.
 2. Retro signal: list anything I had to correct more than once, and propose the single
    durable fix for each (a CLAUDE.md/rules entry, a hook, a subagent, a skill).

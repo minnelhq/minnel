@@ -39,6 +39,10 @@ versions follow SemVer.
 - §8 and the `CLAUDE.md` template present the commit style and the changelog format as choices a
   project names in its Conventions. Conventional Commits and Keep a Changelog (with SemVer and ISO
   dates) are the stated defaults, and the template gains a `Changelog:` line beside `Commit style:`.
+- `/release` (Appendix M) and `/wrap` (Appendix N), and the plugin's `release` and `wrap` skills,
+  read the commit style and changelog format from the project's Conventions and fall back to the
+  defaults. For Keep a Changelog, `/release` proposes the version heading with today's date in ISO
+  `YYYY-MM-DD`.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships rather than a
   hypothetical one. Rituals ship as skills that run only when invoked, since the plugin docs call
   `commands/` the older format. The mapping table says what ships and what stays out
