@@ -22,6 +22,15 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   — why now: this repo runs adapted copies of the J–N commands but not the git-guard, which is how
   its inverted regex went unnoticed. Check E now pins the plugin's copies to the appendices; extend
   it to compare `.claude/commands/*.md` too, allowing only marked project-specific deviations.
+- Add Mermaid diagrams where the prose describes a flow — feat · value M · effort M — why now: the
+  docs have none, and the §2 loop is one arrow line that hides its back-edges. Candidates: the §2
+  loop, the §8 backlog → plan → changelog lifecycle, the §6/§11 hook path (`PreToolUse` guards,
+  then the `PostToolUse` check) and, lower value, the packaging doc's appendix ↔ plugin pairs under
+  Check E. Enable Zensical's `mermaid` custom fence in `mkdocs.yml`, set `layout: dagre` in each
+  chart's frontmatter, draw left to right with short labels, and keep the prose beside each diagram
+  so the Markdown stays readable on its own. Before shipping, check where Zensical loads Mermaid
+  from (a CDN is a third-party script on the site) and view each chart on GitHub at desktop width
+  and 375 px.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
