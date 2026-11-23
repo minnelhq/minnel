@@ -179,8 +179,9 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   "Last updated" moves to 2026-11-23 with its companion line.
 - 2026-11-23, Stage 4 — At the maintainer's request the stage also carries a house-voice pass
   (`docs/style.md`) over the published narrative docs, and the style guide's scope now names the
-  packaging doc. The pass changes §11's heading and one packaging-doc anchor; no link targets
-  either.
+  packaging doc. The pass rewords §11's heading and one packaging-doc heading; the
+  site's anchors for both are unchanged, and no link targets either. `[Unreleased]` is rewritten
+  shorter, at the maintainer's request, with the same changes listed.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
