@@ -5,6 +5,10 @@ backlog's "Now (this plan)" line or the `CLAUDE.md` "Active plan" line names the
 When a plan is done, set `**Status:** done (YYYY-MM-DD)`, clear the pointer, and move the file
 to `docs/plans/archive/`.
 
+When each stage merges on its own branch, the stage's last commit names the next stage, in the
+status line and the pointer, so the plan on the main branch stays true after the merge. Record
+"awaiting review" in the pull request, not the plan.
+
 Skeleton:
 
 ```markdown

@@ -39,6 +39,8 @@ versions follow SemVer.
   defaulting to Conventional Commits and Keep a Changelog (§8, the `CLAUDE.md` template).
   `/release` asks you to finish the unreleased section before cutting a release.
 - §1 names user-level `~/.claude/rules/*.md` for personal conventions, one file per convention.
+- Appendix D: when each stage of a plan merges on its own branch, the stage's last commit names
+  the next stage, so the plan on the main branch stays true after the merge.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships.
 - Plainer prose in the methodology, the README, the site's home page, the worked example and the
   packaging doc.
