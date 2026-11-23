@@ -29,6 +29,8 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
 - [ ] **No contradiction or duplication** — new guidance does not conflict with, or silently
       restate, what another doc already says.
 - [ ] **Links and paths resolve** — intra-repo references point at files that exist.
+- [ ] **Nothing personal in tracked files** — no secrets, keys, personal endpoints or
+      machine-specific paths, and no pointer to the gitignored local-notes folder.
 - [ ] **Descriptive claims are true** — CHANGELOG lines, README statements, doc-to-doc pointers,
       and prose file paths match the *current* contents they describe, not merely resolve as links.
 - [ ] **CLAUDE.md stays lean** — if it was touched, it has not accreted rules that belong in
@@ -45,8 +47,8 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       ADRs 0002 and 0003.
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
       `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
-      `claude plugin validate .` pass. The only allowed warning is the missing `version`, until the
-      release that first ships the plugin sets it.
+      `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too, such
+      as the missing `version` until the release that first ships the plugin sets it.
 - [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
       tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
       `$CLAUDE_PROJECT_DIR`.
