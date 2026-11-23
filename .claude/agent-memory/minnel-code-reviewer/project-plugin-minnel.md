@@ -48,9 +48,20 @@ appendix and its plugin file is now a defect class like a dangling §N.
   since every new row strands one.
 - "Has run on this repository" claims (packaging doc, "Install this plugin"; ADR 0004
   Consequences; README Dogfooding) must match what `.claude/settings.json` wires, not what the
-  plugin ships. As of 2026-11-23 the repo wires only the consistency hook, so neither Appendix C
-  guard has run here (the backlog's "Dogfood Appendix C here" item says so). The pieces-with-less-use
-  list lives in two places (packaging doc and ADR 0004); a change to one strands the other.
+  plugin ships. From 2026-11-23 (branch reconcile-claude-minnel-config) `.claude/settings.json`
+  enables `minnel@minnel` from the GitHub marketplace, so the rituals and both guards run here;
+  re-check the packaging doc's and ADR 0004's "less use" lists as that use accrues. The
+  pieces-with-less-use list lives in two places; a change to one strands the other.
+- Dogfooding caveat: a `github` marketplace source runs the published default branch, not the
+  worktree's `plugin/`. A branch that edits a plugin skill is not exercised by `/minnel:<skill>`
+  here until merged and the marketplace refreshed. Don't accept "ran it here" as evidence for a
+  plugin edit on the same branch.
+- Since 2026-11-23 the repo has no reviewer of its own: you are `minnel:code-reviewer`, and this
+  memory moved from `.claude/agent-memory/code-reviewer/` to `minnel-code-reviewer/` (the folder
+  Claude Code uses for the namespaced agent; observed, not documented). The repo-only checks the
+  old tailored prompt carried (hook-script safety, CI least privilege, the Zensical and plugin
+  commands) are Definition of Done items now, so read the DoD every review. Until the Appendix A
+  step that says so is merged and the marketplace refreshed, the installed copy lacks it.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
 

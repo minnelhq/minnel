@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "minnel": {
+      "source": {
+        "source": "github",
+        "repo": "tcrossland/claude-code-methodology"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "minnel@minnel": true
+  },
   "permissions": {
     "allow": [
       "WebSearch"

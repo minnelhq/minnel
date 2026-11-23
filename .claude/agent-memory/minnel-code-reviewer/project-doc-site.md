@@ -53,4 +53,4 @@ current before relying on it.
   `if:` gates outright would upload and attempt a Pages deploy from every PR. A push-deploy gate
   needs to exclude PRs (e.g. `github.event_name != 'pull_request'`). Re-check when the workflow
   triggers change. Carriers of the manual-deploy claim to sweep if it flips: README site section,
-  ADR 0003, the workflow comments, and the example in `.claude/agents/code-reviewer.md`.
+  ADR 0003, the workflow comments, and the CI item in `.claude/rules/definition-of-done.md` (until 2026-11-23 the example sat in this repo's own reviewer, now retired).

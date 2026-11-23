@@ -43,7 +43,9 @@ versions follow SemVer.
 - `/release` (Appendix M and its plugin skill) reads the commit style and changelog format from the
   project's `CLAUDE.md` or rules, else the user's, else the defaults. For Keep a Changelog it
   proposes the version heading with today's date in ISO `YYYY-MM-DD`. `/wrap` (Appendix N and its
-  plugin skill) drafts in the changelog format the conventions name.
+  plugin skill) drafts in the changelog format the conventions name. When cutting a release,
+  `/release` asks you to fold every intended change into the unreleased section and review it
+  first, then cut once, rather than amend later additions into the release commit.
 - `docs/packaging-as-a-plugin.md` describes the plugin this repository ships, not a hypothetical
   one, with the rituals as skills rather than commands.
 - The `code-reviewer` runs once on the final branch diff before merge, and again after a Critical
@@ -52,6 +54,11 @@ versions follow SemVer.
   Definition of Done (Appendix E) and `/accept` (Appendix K) report the review as pending until the
   branch is ready to merge; the `CLAUDE.md` template's working agreement states the cadence.
   Exempting trivial branches is optional, named in the working agreement in advance.
+- The `code-reviewer` (Appendix A and its plugin copy) reads the project's Definition of Done and
+  checks the change against each item that applies, running the commands an item names. A
+  path-scoped rule may not be in a subagent's context until it reads the file. Its description
+  names the optional trivial-branch skip, and its memory notes name places by heading or symbol,
+  not line number.
 
 ### Fixed
 - §1 context table: a nested `./module/CLAUDE.md` loads once Claude works on a file in its

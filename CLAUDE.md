@@ -21,8 +21,12 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
 - `templates/CLAUDE.template.md` — the starter template artefact.
 - `plugin/` — the installable plugin, the appendix artefacts packaged; `.claude-plugin/marketplace.json`
   at the root lists it (ADR 0004).
-- `CHANGELOG.md` — user-facing changes (Keep a Changelog, SemVer).
-- `docs/backlog.md` — ordered candidate work (§8 / Appendix F).
+- `CHANGELOG.md` — user-facing changes.
+- `docs/backlog.md` — ordered candidate work (§8 / Appendix F); its `## Now (this plan)` section
+  is the active-plan pointer (§3).
+- `.claude/` — this repo's Definition of Done, consistency hook and skills. The rituals
+  (`/minnel:plan`, `/minnel:accept`, …), the guards and `minnel:code-reviewer` come from the
+  plugin, which `.claude/settings.json` enables.
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);
   `docs/` is the source.
 
@@ -32,10 +36,15 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
   the product, so type by what changed for a reader — `feat` new guidance/artefact, `fix`
   corrected guidance, `refactor` restructuring, `chore` repo plumbing; reserve `docs` for
   trivial infra. Types mirror the backlog's feat/fix/debt/chore (§8) and pre-sort into
-  CHANGELOG categories at `/release`.
+  CHANGELOG categories at `/minnel:release`.
+- Changelog: Keep a Changelog, SemVer, ISO dates. The docs are the product, so changed guidance,
+  new appendices, renumbering or re-lettering, template changes and `refactor` restructuring a
+  reader would notice are all user-facing.
 - Internal/private material lives in a gitignored local-notes folder; never name it or describe its
   contents in tracked files or commit messages — use neutral "local" terminology.
 - Prose in the public docs follows the house voice in `docs/style.md`.
+- A correction that recurs (`/minnel:retro`, `/minnel:wrap`) may mean the documented guidance is
+  unclear: propose a fix to `docs/methodology.md` or the template as well as to the config.
 
 ## Working agreement
 
@@ -52,7 +61,7 @@ alongside these; neither scope automatically overrides the other, so keep them c
 - **One plan file, status folded in.** Each plan is a sequence of Stages worked through
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
-- **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
+- **Review before merge.** Run the `minnel:code-reviewer` subagent once on the final branch diff
   before merging to the main branch; there is no second reviewer. Re-run it after fixing a
   Critical or Warning finding or when the branch gains commits beyond those fixes and the
   reviewer's memory, not otherwise. Skip it for a trivial branch: one that touches nothing
