@@ -67,6 +67,16 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   The DoD now allows only warnings `main` also gives: diff the warning lists of HEAD and a
   `git archive origin/main` extraction (the extraction has no `.git`, so it adds a
   README-missing warning HEAD lacks; ignore that one).
+  From release-0.4.0 Stage 5 (2026-11-23) `plugin/` has its own README, icon and empty
+  `network.hosts`, so those advisories are gone and only "Hosts not read for: …" (information)
+  remains.
+- **Version-gated claims: check Claude Code's own CHANGELOG, not the validator's hint.** Fetch
+  `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md` and find the
+  `## 2.1.N` header above the entry. Slash-command and CLI forms land separately: the in-session
+  `/plugin install <p> --marketplace <src>` arrived in 2.1.275, the shell
+  `claude plugin install --marketplace` only in 2.1.292 (found 2026-11-23, Stage 5 README said
+  2.1.275 for the CLI form). Manifest keys: the plugins reference says current versions strip an
+  unknown top-level key, but its `engines` row says 2.0.15–2.1.75 rejected unknown keys.
 - **The Minnel bash guard runs in review sessions** (seen 2026-11-23, loaded from the desktop
   app as `minnel@inline`) and blocks `rm -rf`; clean up with `rm <file>` then `rmdir`. That it ran
   at all shows the uploaded zip's hook scripts kept a working exec bit in that install. Since
