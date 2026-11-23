@@ -6,9 +6,10 @@ metadata:
 ---
 
 `.claude/rules/house-voice.md` ("House voice"; `docs/style.md` until 2026-11-23) is an
-authoring convention for prose. It is a path-scoped rule (`*.md`, `docs/**/*.md`), so it loads
-when a Markdown file is read or edited. Its scope line names five narrative docs in full:
-`methodology.md`, `README.md`, `index.md`, `worked-example.md`, `packaging-as-a-plugin.md`; it
+authoring convention for prose. It is a path-scoped rule (`*.md`, `docs/**/*.md`,
+`plugin/README.md`), so it loads when a Markdown file is read or edited. Its scope line names six
+narrative docs in full: `README.md`, `plugin/README.md` (added 2026-11-23, Stage 6), `index.md`,
+`methodology.md`, `worked-example.md`, `packaging-as-a-plugin.md`; it
 also covers changelog entries and plan and backlog notes. Reference artefacts under
 `docs/appendices/` are exempt where structure/punctuation is deliberate. `CLAUDE.md` Conventions
 points at it in one line.

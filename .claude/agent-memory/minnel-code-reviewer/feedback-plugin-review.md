@@ -69,7 +69,8 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   README-missing warning HEAD lacks; ignore that one).
   From release-0.4.0 Stage 5 (2026-11-23) `plugin/` has its own README, icon and empty
   `network.hosts`, so those advisories are gone and only "Hosts not read for: …" (information)
-  remains.
+  remains. From Stage 6 `version` is set, so all three `--strict` runs (plugin, `.`, and
+  `--profile directory`) pass clean: any warning on a branch is now new.
 - **Version-gated claims: check Claude Code's own CHANGELOG, not the validator's hint.** Fetch
   `https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md` and find the
   `## 2.1.N` header above the entry. Slash-command and CLI forms land separately: the in-session

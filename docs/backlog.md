@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 5 of 6
+- (none — no active plan)
 
 ## Next
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that
@@ -55,6 +55,13 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   so the Markdown stays readable on its own. Before shipping, check where Zensical loads Mermaid
   from (a CDN is a third-party script on the site) and view each chart on GitHub at desktop width
   and 375 px.
+- Stop calling the reviewer read-only — fix · value L · effort L — why now: `plugin/README.md`,
+  `plugin.json` and `marketplace.json` describe `code-reviewer` as read-only, as the agent's own
+  description does, but `memory: project` turns on Read, Write and Edit (meant for its memory, but
+  not limited to that folder), and `Bash` can write files anyway (the Stage 5 and 6 reviews of
+  0.4.0 found this). Say it is told not to edit the code under review, which its tools don't
+  prevent. Change the agent, Appendix A, §4's roster ("no Edit/Write … read-only by design"), §10
+  ("the isolated, read-only reviewer") and the manifests together.
 
 ## Later / maybe
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H

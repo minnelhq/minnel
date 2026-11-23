@@ -53,8 +53,13 @@ Ship the plugin, **Minnel**, from this repository.
   release sets it to the CHANGELOG version, and the two stay equal after that.
 
 ## Consequences
-- An adopter installs with two commands and runs `/minnel:scaffold` once, rather than copying
-  files. The install instructions live in `docs/packaging-as-a-plugin.md`.
+- An adopter installs with one command (two from the shell before Claude Code 2.1.292) and runs
+  `/minnel:scaffold` once, rather than copying files. The install instructions live in
+  `docs/packaging-as-a-plugin.md`.
+- A manifest `version` takes priority over the commit, so every install, this repo's own included,
+  stays on the cached copy until a release raises the version. A plugin fix merged to `main`
+  reaches installs only at the next release, so every release sets the version, and the
+  Definition of Done says so. (Added 2026-11-23, when 0.4.0 first set the version.)
 - The repo now ships code to adopters, not only Markdown. `plugin/scripts/tests/guards.sh` checks
   the guards against sample tool calls, and the Definition of Done adds a plugin item: that check,
   and `claude plugin validate` on `plugin` and on the root.

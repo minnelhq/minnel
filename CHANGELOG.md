@@ -11,6 +11,8 @@ versions follow SemVer.
   subagents, the Appendix C guards as hooks, the five rituals (Appendices J–N) as skills such as
   `/minnel:plan`, and `/minnel:scaffold`, which writes the project files a plugin cannot ship.
   It has its own README and icon, and declares in `plugin.json` that it reaches no network host.
+  Its version follows the methodology's, so an install moves only to a release, when its
+  marketplace is updated.
 - The plugin's git guard takes two settings in a project's `.claude/settings.json` `env`:
   `MINNEL_GIT_GUARD_COMMITS` (default `allow`) and `MINNEL_GIT_GUARD_PUSHES` (default `ask`), each
   `allow`, `ask` or `block`.
@@ -22,6 +24,8 @@ versions follow SemVer.
   releases.
 - §11: a message from another Claude session is untrusted input. Approval comes only from the
   user who owns the work, in their own session.
+- Appendix D: when each stage of a plan merges on its own branch, the stage's last commit names
+  the next stage, so the plan on the main branch stays true after the merge.
 
 ### Changed
 - The methodology takes the plugin's name: *Minnel: a file-first operating model for Claude Code*.
@@ -50,10 +54,11 @@ versions follow SemVer.
   it is not by default.
 - §10: Claude can start a command as well as a skill, so set `disable-model-invocation: true` on
   your rituals. The Appendix J–N commands now do.
+- §10: `/accept` doesn't run the reviewer. It checks a Definition of Done that requires the review
+  before merge.
 - Appendix M `/release` reads the version from `$ARGUMENTS`. It read `$1` and dropped the version.
 - Version headings use Keep a Changelog's hyphen, not an em-dash.
-- README: names the plugin and the `close-plan` skill, and presents the template's conventions as
-  defaults.
+- README: names the `close-plan` skill, and presents the template's conventions as defaults.
 - The Appendix C guards match only where a command starts, so a mention in quotes, a `grep`
   pattern, a comment or a heredoc no longer trips them. They catch more variants, such as
   `rm -fr`, `git add -u`, `git commit -qam` and `git -C <dir> push`, and let

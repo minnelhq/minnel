@@ -54,7 +54,8 @@ appendix and its plugin file is now a defect class like a dangling §N.
   pieces-with-less-use list lives in two places; a change to one strands the other.
 - Dogfooding caveat: a `github` marketplace source runs the published default branch, not the
   worktree's `plugin/`. A branch that edits a plugin skill is not exercised by `/minnel:<skill>`
-  here until merged and the marketplace refreshed. Don't accept "ran it here" as evidence for a
+  here until it merges, a release raises the version (pinned since 0.4.0) and the marketplace is
+  refreshed. Don't accept "ran it here" as evidence for a
   plugin edit on the same branch.
   The lag also bites "has had use" claims: on 2026-11-23 (claude/adr-0004-catch-up) every cached
   install under `~/.claude/plugins/cache/minnel/minnel/` predated PR #25, so the guards that had
@@ -69,13 +70,28 @@ appendix and its plugin file is now a defect class like a dangling §N.
   memory moved from `.claude/agent-memory/code-reviewer/` to `minnel-code-reviewer/` (the folder
   Claude Code uses for the namespaced agent; observed, not documented). The repo-only checks the
   old tailored prompt carried (hook-script safety, CI least privilege, the Zensical and plugin
-  commands) are Definition of Done items now, so read the DoD every review. Until the Appendix A
-  step that says so is merged and the marketplace refreshed, the installed copy lacks it.
+  commands) are Definition of Done items now, so read the DoD every review. The installed copy
+  is whatever the last release pinned, so a merged reviewer change reaches you only after the next
+  release and a marketplace refresh.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
 - Install minimums (Claude Code CHANGELOG, read 2026-11-23): in-session
   `/plugin install <p> --marketplace <src>` is 2.1.275; shell `claude plugin install --marketplace`
   is 2.1.292. The validator's one-step advice quotes 2.1.275 (the slash form). Any doc giving a
   minimum for the shell form must say 2.1.292; grep the raw changelog, it outranks `--help`.
+
+- **Pinned version (from 0.4.0).** Branch claude/stage-6 (2026-11-23) set `"version": "0.4.0"`.
+  Per the plugins docs ("Versions and updates", loading.md, read 2026-11-23) the manifest version
+  wins over the commit SHA, so every install, this repo's own included, keeps its cached copy until
+  the string changes. `/minnel:release` does not touch `plugin.json`, so the Definition of Done
+  has a "Release (when cutting one)" item: `version` equals the new CHANGELOG version. (It first
+  sat in the Plugin item, whose trigger a release commit doesn't fire; moved 2026-11-23.) Auto-update
+  is off by default for third-party marketplaces (discover-plugins docs, 2026-11-23), so an install
+  moves to a release only when its marketplace is updated; reject prose saying installs update by
+  themselves. Check dogfooding prose doesn't imply merged plugin edits run here before a release.
+- **"Read-only" reviewer claims.** The sub-agents docs say `memory:` auto-enables Read, Write and
+  Edit (observed too: this reviewer's session has Write and Edit), and `Bash` can write anyway.
+  So "(no Edit/Write)" in §4's roster and any "can't change the code" wording is false; only the
+  prompt's instruction restrains it. Backlog item opened 2026-11-23.
 
 See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].
