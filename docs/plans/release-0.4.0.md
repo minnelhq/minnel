@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 3 of 6
+**Status:** in progress — Stage 4 of 6
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -88,20 +88,20 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
       have now run here; `test-writer` and the scaffold have not.
 - Acceptance: every Consequence states what's true on `main`; the ADR and packaging doc agree.
 
-## Stage 3 — Reviewer: personal data and licences   [not started]
-- [ ] Add two checks to the reviewer's list: no personal data (real names, contact details,
+## Stage 3 — Reviewer: personal data and licences   [done]
+- [x] Add two checks to the reviewer's list: no personal data (real names, contact details,
       identifiers or figures) in code, fixtures, docs or commit messages unless the project's
       purpose needs it; and a new dependency's licence read from its own metadata, stated, and
       flagged if copyleft or non-commercial. — files: `plugin/agents/code-reviewer.md`, Appendix A
       in `docs/appendices/subagents.md`
-- [ ] Mention the checks where the docs list what the reviewer checks (§4's table if it does).
-- [ ] Carry this repo's narrower re-run rule (2026-11-23) to adopters: re-run after a Critical
+- [x] Mention the checks where the docs list what the reviewer checks (§4's table if it does).
+- [x] Carry this repo's narrower re-run rule (2026-11-23) to adopters: re-run after a Critical
       fix, a Warning fix that changes code or published guidance, or commits other than fixes
       for its findings, aimed at the new commits; check other fixes by hand. Change the
       reviewer's `description` with Appendix A, §7's review bullet, and
       `templates/CLAUDE.template.md` with the scaffold's copy; and this repo's `add-section`
       skill, whose "clear any Critical or Warning" reads as requiring a re-run.
-- [ ] Record in `[Unreleased]`.
+- [x] Record in `[Unreleased]`.
 - Acceptance: Check E reports no drift between Appendix A and the agent; the plugin validates.
 
 ## Stage 4 — Retitle as Minnel   [not started]
@@ -167,6 +167,12 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - 2026-11-23, Stage 2 — The guards stay on the "less use" lists, with a qualifier, rather than
   coming off: they have run here only since PR #23, and only in their pre-Stage 1 form; the rules
   0.4.0 ships have run only in `guards.sh`.
+- 2026-11-23, Stage 3 — No doc lists the reviewer's checks (§4's table names its tools and
+  model only), so §11's secret hygiene gained a clause naming the personal-data check instead.
+  The reviewer now also reads `git log main..HEAD`, since the personal-data check covers commit
+  messages. The adopter rule says "code or published docs" where this repo's names plugin code, the
+  template or a published doc. Appendix O's Secrets item names the reviewer's check too, to
+  match §11.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across

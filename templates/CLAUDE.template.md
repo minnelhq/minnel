@@ -66,9 +66,11 @@ other, so keep them consistent.
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
 - **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
-  before any merge to the main branch. Run it again after fixing a Critical or Warning
-  finding, or when the branch gains commits beyond those fixes and the reviewer's memory;
-  not after every change. There is no second reviewer; this is it. <Optional: name the
+  before any merge to the main branch, not after every change. Run it again after fixing
+  a Critical finding, after a Warning fix that changes code or published docs, or when
+  the branch gains commits beyond fixes for its findings and the reviewer's memory,
+  pointing it at the new commits; check any other fix against its finding yourself.
+  There is no second reviewer; this is it. <Optional: name the
   trivial branches that skip review, e.g. typo-only prose fixes; delete if none do.>
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.
