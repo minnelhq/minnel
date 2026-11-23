@@ -97,6 +97,12 @@ appendix and its plugin file is now a defect class like a dangling §N.
   project-scope `minnel@minnel` entry per worktree path plus a user entry, so "the install" in
   dogfooding prose is several installs; one `plugin update` may not move them all (unverified).
   Check dogfooding prose doesn't imply merged plugin edits run here before a release.
+  From 2026-11-23 (claude/wrap-0.4.0) ADR 0004 and the DoD say to raise `version` only in the
+  release commit. Evidence it happened: the user-scope entry in `installed_plugins.json` moved to
+  "0.4.0" at 96e9862, a minute before the release commit 01b414a (plugin content identical to
+  v0.4.0). Reject rule prose saying `claude plugin update` alone moves an install (it needs the
+  catalogue refresh first). Unverified gap: a *fresh* install clones `main` at HEAD, so it gets
+  unreleased plugin commits under the old version label whatever the bump rule says.
 - **"Read-only" reviewer claims.** The sub-agents docs say `memory:` auto-enables Read, Write and
   Edit (observed too: this reviewer's session has Write and Edit), and `Bash` can write anyway.
   So "(no Edit/Write)" in §4's roster and any "can't change the code" wording is false; only the
