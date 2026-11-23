@@ -48,9 +48,12 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
       `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
       `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too.
+      Leave `plugin.json`'s `version` alone outside a release commit (see the Release item).
 - [ ] **Release (when cutting one)** — `plugin/.claude-plugin/plugin.json`'s `version` equals the
       new CHANGELOG version (ADR 0004). Installs stay on the cached copy until it changes, so a
-      release that leaves it alone ships no plugin change.
+      release that leaves it alone ships no plugin change. Raise it in the release commit, not
+      before: once the marketplace is refreshed, `claude plugin update` would move installs to
+      unreleased work.
 - [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
       tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
       `$CLAUDE_PROJECT_DIR`, each quoted (`"$CLAUDE_PROJECT_DIR"/...`) so a path with a space

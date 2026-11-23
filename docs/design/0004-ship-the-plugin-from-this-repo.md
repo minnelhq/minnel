@@ -1,6 +1,6 @@
 # ADR 0004 — Ship the methodology as a plugin from this repository
 
-**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin)
+**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin; raise the version only in the release commit)
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
@@ -59,7 +59,12 @@ Ship the plugin, **Minnel**, from this repository.
 - A manifest `version` takes priority over the commit, so every install, this repo's own included,
   stays on the cached copy until a release raises the version. A plugin fix merged to `main`
   reaches installs only at the next release, so every release sets the version, and the
-  Definition of Done says so. (Added 2026-11-23, when 0.4.0 first set the version.)
+  Definition of Done says so. (Added 2026-11-23, when 0.4.0 first set the version.) Raise it only
+  in the release commit. An install moves to whatever version `main` carries once its marketplace
+  is refreshed and `claude plugin update` runs, so a version raised earlier moves installs to
+  unreleased work and holds them there: later commits under the same version never reach them.
+  (Amended 2026-11-23: 0.4.0's version was set in Stage 6 of its plan, and this repo's own install
+  moved to it before the release was cut.)
 - The repo now ships code to adopters, not only Markdown. `plugin/scripts/tests/guards.sh` checks
   the guards against sample tool calls, and the Definition of Done adds a plugin item: that check,
   and `claude plugin validate` on `plugin` and on the root.
