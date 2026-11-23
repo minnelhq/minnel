@@ -9,9 +9,8 @@ methodology's artefacts so a project can adopt them without copying files by han
 - Two subagents: `minnel:code-reviewer`, a read-only reviewer run on a branch's final diff
   before merge, and `minnel:test-writer`, which writes behaviour-driven tests.
 - Three guard hooks: `bash-guard` (forced recursive `rm`, force push, `DROP TABLE`), `git-guard`
-  (blanket staging, including `git commit -a`, and by default a prompt before each push) and a
-  test-directory guard for `test-writer`.
-  They catch slips, not a determined command.
+  (blanket staging, `git commit -a` included; by default it also asks before each push) and a
+  test-directory guard for `test-writer`. They catch slips, not a determined command.
 - Six skills: the rituals `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`
   and `/minnel:wrap`, and `/minnel:scaffold`, which writes the project files a plugin cannot
   ship.
@@ -25,7 +24,7 @@ claude plugin install minnel --marketplace tcrossland/claude-code-methodology
 ```
 
 Inside a session, `/plugin install minnel --marketplace tcrossland/claude-code-methodology` works
-from 2.1.275. On an earlier version, add the marketplace first:
+from 2.1.275. From the shell before 2.1.292, add the marketplace first:
 
 ```bash
 claude plugin marketplace add tcrossland/claude-code-methodology
