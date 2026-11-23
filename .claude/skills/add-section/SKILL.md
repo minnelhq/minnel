@@ -30,7 +30,7 @@ stale count ("sixteen") or range ("A–P"), so those are on you.
    truth — run it and update every hit; the list below is a starting checklist, not a complete one
    (carriers drift, so trust the grep):
    ```bash
-   git grep -nE 'A–[A-Z]|[0-9]+ drop-in|[Ff]ourteen|[Ff]ifteen|[Ss]ixteen' -- '*.md' ':!docs/plans/archive'
+   git grep -nE 'A–[A-Z]|J–[A-Z]|[0-9]+ drop-in|[Ff]ifteen|[Ss]ixteen|[Ss]eventeen|([Ff]ive|[Ss]ix|[Ss]even) (ritual|skill)' -- '*.md' '*.json' ':!docs/plans/archive'
    ```
    Usual carriers: `README.md` (the count, the invariant mention, the What's-here entry),
    `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the appendices pointer at the end of
