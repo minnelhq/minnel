@@ -102,7 +102,13 @@ appendix and its plugin file is now a defect class like a dangling §N.
   Bare-name `plugin update` untested. Reject prose saying `plugin update` finds nothing until the
   marketplace is refreshed. Also observed 2026-11-23: `installed_plugins.json` holds a
   project-scope `minnel@minnel` entry per worktree path plus a user entry, so "the install" in
-  dogfooding prose is several installs; one `plugin update` may not move them all (unverified).
+  dogfooding prose is several installs; one `plugin update` does not move them all. Verified
+  2026-11-23: plugins cli-reference ("Which scope the command updates") says it updates only the
+  most specific scope installed "for your current project", and `installed_plugins.json` then held
+  the user entry at 0.4.0 but the main checkout's project entry still on a pre-0.4.0 SHA. Also
+  from discover-plugins ("Update plugins now"): the in-session `/plugin` Marketplaces tab's
+  **Update marketplace** does update installs; only the shell `marketplace update` leaves them.
+  Prose saying "the marketplace update moves nothing" must name the shell command.
   Check dogfooding prose doesn't imply merged plugin edits run here before a release.
   From 2026-11-23 (claude/wrap-0.4.0) ADR 0004 and the DoD say to raise `version` only in the
   release commit. Evidence it happened: the user-scope entry in `installed_plugins.json` moved to
