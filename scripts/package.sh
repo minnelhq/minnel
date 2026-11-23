@@ -8,7 +8,7 @@
 # the plugin is shared with receives every file. A symlink in plugin/ stops the build.
 #
 # scripts/package.sh                    the release in plugin/.claude-plugin/plugin.json
-# scripts/package.sh --dev 0.4.0-dev.1  a test build: the same files, with that pre-release
+# scripts/package.sh --dev 0.4.1-dev.1  a test build: the same files, with that pre-release
 #                                       version in the zip's manifest only
 set -eu
 
@@ -56,7 +56,7 @@ with open(path, encoding='utf-8') as f:
 core = r'(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)'
 if dev:
     if not re.fullmatch(core + r'-[0-9A-Za-z.-]+', dev):
-        sys.exit(f'--dev needs a pre-release version, such as 0.4.0-dev.1, not {dev!r}')
+        sys.exit(f'--dev needs a pre-release version, such as 0.4.1-dev.1, not {dev!r}')
     manifest['version'] = dev
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(manifest, f, indent=2, ensure_ascii=False)

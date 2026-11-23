@@ -6,8 +6,8 @@ When a plan is done, set `**Status:** done (YYYY-MM-DD)`, clear the pointer, and
 to `docs/plans/archive/`.
 
 When each stage merges on its own branch, the stage's last commit names the next stage, in the
-status line, the stage markers and the pointer, so the plan on the main branch stays true after the merge. Record
-"awaiting review" in the pull request, not the plan.
+status line, the stage markers and the pointer, so the plan on the main branch stays true after
+the merge. Record "awaiting review" in the pull request, not the plan.
 
 Skeleton:
 
