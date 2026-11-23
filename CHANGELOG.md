@@ -60,22 +60,6 @@ versions follow SemVer.
   in a variable, an alias or `sh -c` gets past them.
 - Hook commands quote `$CLAUDE_PROJECT_DIR`, so a project path with a space still runs.
 
-## [0.3.1] - 2026-11-22`), not an em-dash, in
-  `/release`, the Appendix H skeleton and this changelog.
-- README: names the plugin, lists the `close-plan` skill, presents the template's conventions as
-  defaults, and glosses compaction.
-- The Appendix C guards match a command where it starts, through `command-segments.awk`, which
-  splits a command line into the commands it runs. The bash-guard now also catches `rm -fr` and
-  `rm -r -f`, `rm` behind `sudo`, `xargs`, `find -exec` or a path, and a force push by `-f` or a
-  `+refspec`; `--force-with-lease` passes to the git guard's prompt. The git guard also catches
-  `git add -u`, `..`, `:/` and quoted dots, `git commit -qam`, and a push after git's global
-  options (`git -C <dir> push`). Both still see a command after a shell keyword (`then`, `do`,
-  `!`) or inside `"$(...)"`, and neither fires on a mention in quotes, a `grep` pattern, a comment
-  or a heredoc. Appendix C, §6, §9, §11 and the packaging doc call the guards tripwires: they read
-  text, so a command hidden in a variable, an alias or `sh -c` gets past them.
-- Hook commands quote `$CLAUDE_PROJECT_DIR` (Appendices B and C, §6), so a project path with a
-  space still runs.
-
 ## [0.3.1] - 2026-11-22
 
 ### Fixed
