@@ -1,7 +1,8 @@
 # Plan: Build the methodology as a plugin   (approved 2026-11-22)
 
-**Status:** in progress — Stage 6 of 6 (install from GitHub after the push)
-<!-- Active-plan pointer: docs/backlog.md "Now (this plan)". Branch: feat/plugin. -->
+**Status:** done (2026-11-23) — all six stages complete; Minnel ships from `plugin/` (PR #10) and
+installs from GitHub (Stage 2–4 checks sampled, not rerun in full), with Check E keeping the
+appendices and the plugin in step.
 
 ## Goal
 Ship the methodology's drop-in artefacts as an installable Claude Code plugin in `plugin/`,
@@ -126,11 +127,11 @@ plugin/
   - The consistency hook passes on every doc this stage touches, and every § and appendix
     reference touched still resolves.
 
-## Stage 6 — Christen and publish   [current]
+## Stage 6 — Christen and publish   [done]
 - [x] The maintainer chooses the public name. Rename the placeholder across `plugin.json`,
       `marketplace.json`, the opt-out env var, the docs, README and CHANGELOG. Then re-run
       Check E and the Stage 3 checks.
-- [ ] After the push, run
+- [x] After the push, run
       `claude plugin marketplace add tcrossland/claude-code-methodology` and
       `claude plugin install …` in a scratch repo. Confirm every component appears under the new
       namespace and that a guard fires.
@@ -201,6 +202,14 @@ plugin/
   unindented line, and every skill must keep `disable-model-invocation`. Skill names are
   namespaced in the docs, the "no build or test step" claims are qualified, and the Definition
   of Done gains a plugin item.
+- 2026-11-23, Stage 6 — install check after PR #10 merged (`2f6d81f`). In a fresh scratch repo,
+  `claude plugin marketplace add tcrossland/claude-code-methodology --scope local` and
+  `claude plugin install minnel@minnel --scope local` succeeded. `claude plugin details minnel`
+  listed the 6 skills, 2 agents and the hooks. `git add -A` was blocked by the cached copy's
+  `git-guard.sh`, so the quoted `${CLAUDE_PLUGIN_ROOT}` resolves in a real install. Both agents
+  were offered for delegation; the rituals were hidden from the model and `/minnel:scaffold` ran
+  when invoked, pausing at the `.claude/` write for approval. The Stage 2–4 checks were
+  sampled here rather than rerun in full, since they had passed from the same files.
 
 ## Decisions
 - 2026-11-22 — The plugin lives in `plugin/`, and a root `.claude-plugin/marketplace.json`
@@ -234,3 +243,5 @@ plugin/
 - 2026-11-22 — Challenge: test-writer, bash-guard and the scaffold haven't been proven in real
   use the way the reviewer, the Definition of Done, the git guard and the five rituals have.
   They ship as the appendices give them, and the packaging doc says so.
+
+<!-- Completed 2026-11-23; archived under docs/plans/archive/ (§3). Friction worth noting: another session switched the shared checkout mid-review, so the branch moved to its own worktree, and the reviewer now reads branches from git objects. -->

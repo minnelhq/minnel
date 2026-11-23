@@ -7,10 +7,10 @@ metadata:
 
 The methodology ships as a plugin named **Minnel** in `plugin/`, listed by a root
 `.claude-plugin/marketplace.json` (install `minnel@minnel`). Built on branch `feat/plugin`
-(plan `docs/plans/plugin-build.md`, first reviewed 2026-11-23). The plugin files are the source;
-the appendices keep embedded copies, and Check E in `.claude/hooks/docs-consistency.sh` flags
-drift between each pair (A, B, both C guards, D–H, J–N, and `templates/CLAUDE.template.md` vs the
-scaffold's copy).
+(plan archived as `docs/plans/archive/plugin-build.md`, first reviewed 2026-11-23). The plugin
+files are the source; the appendices keep embedded copies, and Check E in
+`.claude/hooks/docs-consistency.sh` flags drift between each pair (A, B, both C guards, D–H, J–N,
+and `templates/CLAUDE.template.md` vs the scaffold's copy).
 
 **Why:** document and plugin ship under one version and one CHANGELOG, so drift between an
 appendix and its plugin file is now a defect class like a dangling §N.
