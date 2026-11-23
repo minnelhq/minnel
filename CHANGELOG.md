@@ -51,6 +51,9 @@ versions follow SemVer.
   `claude plugin validate`, `plugin details` and zero-indexed arguments.
 
 ### Fixed
+- The §1 context table's loading column: a nested `./module/CLAUDE.md` loads once Claude reads or
+  edits a file in its subdirectory, not always, and a `.claude/rules/` file without `paths`
+  frontmatter loads at launch, like `CLAUDE.md`. §1 now cites the Claude Code memory docs.
 - Version headings use Keep a Changelog's hyphen, `## [0.3.1] - 2026-11-22`, not an em-dash: in
   `/release` (Appendix M) and the plugin's `release` skill, the Appendix H skeleton, and this
   changelog.
