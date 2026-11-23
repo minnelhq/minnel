@@ -56,6 +56,15 @@ appendix and its plugin file is now a defect class like a dangling §N.
   worktree's `plugin/`. A branch that edits a plugin skill is not exercised by `/minnel:<skill>`
   here until merged and the marketplace refreshed. Don't accept "ran it here" as evidence for a
   plugin edit on the same branch.
+  The lag also bites "has had use" claims: on 2026-11-23 (claude/adr-0004-catch-up) every cached
+  install under `~/.claude/plugins/cache/minnel/minnel/` predated PR #25, so the guards that had
+  "run here" were the old phrase-matching ones; the segmenter rewrite shipping in 0.4.0 had run
+  only in `guards.sh`. Check the cache's `bash-guard.sh` (or `installed_plugins.json`'s
+  `gitCommitSha`) before accepting that a guard version has had live use.
+- Before PR #23 this repo's `.claude/` held the five ritual commands and the reviewer, but never
+  a bash or git guard (`.claude/hooks/` only ever had `docs-consistency.sh`; checked with
+  `git log --diff-filter=AD -- '.claude/hooks/*'` on 2026-11-23). Prose saying the repo "kept its
+  own copies of the guards" is false.
 - Since 2026-11-23 the repo has no reviewer of its own: you are `minnel:code-reviewer`, and this
   memory moved from `.claude/agent-memory/code-reviewer/` to `minnel-code-reviewer/` (the folder
   Claude Code uses for the namespaced agent; observed, not documented). The repo-only checks the
