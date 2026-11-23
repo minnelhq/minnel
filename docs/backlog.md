@@ -6,7 +6,7 @@ item ships, move its user-facing outcome to `CHANGELOG.md [Unreleased]` and dele
 here (§8). British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.4.0.md` — prepare release 0.4.0, Stage 6 of 6
+- (none — no active plan)
 
 ## Next
 - Deploy the doc site on push to `main` — chore · value M · effort L — why now: each merge that

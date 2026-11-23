@@ -1,6 +1,7 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 6 of 6
+**Status:** done (2026-11-23) — Stages 0–6 complete: `main` is ready for the maintainer to cut
+0.4.0 with `/minnel:release 0.4.0` and the tag, which follow this plan's last merge.
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -137,7 +138,7 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
 - Acceptance: `claude plugin validate plugin --profile directory --strict` fails on nothing but
   the missing `version`; the icon is square, 512–2048 px, PNG, under 2 MB.
 
-## Stage 6 — Release readiness   [in progress]
+## Stage 6 — Release readiness   [done]
 - [x] Set `"version": "0.4.0"` in `plugin/.claude-plugin/plugin.json` (ADR 0004: the release that
       first ships the plugin sets it), and drop the README's "not yet in a tagged release".
 - [x] Appendix D and the scaffold's plans README: when each stage merges on its own branch, the
@@ -150,7 +151,7 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
       the right Keep a Changelog category.
 - [x] Run the full check: `guards.sh`, both `claude plugin validate` runs (the directory profile
       now clean), `zensical build --strict`, and Check E across the repo.
-- [ ] Hand over: the maintainer runs `/minnel:release 0.4.0` and tags; then close this plan.
+- [x] Hand over: the maintainer runs `/minnel:release 0.4.0` and tags; then close this plan.
 - Acceptance: every check passes on the release branch; the guards, quoting and title lines are
   gone from Next, and `[Unreleased]` records each stage's outcome.
 
@@ -208,6 +209,9 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   now says a stage's last commit names the next stage. The Stage 5 review found the packaging doc
   gives only the two-step install. The same review's other points went to the house-voice scope
   (now covering `plugin/README.md`) and the backlog (the reviewer's "read-only" wording).
+- 2026-11-23, Stage 6 — The plan closes in Stage 6's own branch, before the release, so the plan
+  on `main` is true once that branch merges (the Appendix D rule this stage added). The Goal is a
+  `main` ready to cut 0.4.0; cutting it stays out of scope.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across
@@ -237,3 +241,11 @@ On the Stage 6 branch: `plugin/scripts/tests/guards.sh`; `claude plugin validate
 any doc runs `.claude/hooks/docs-consistency.sh`, including Check E; a `minnel:code-reviewer`
 pass with no Critical finding; and, in a live session with `claude --plugin-dir ./plugin`, a
 `grep` for `rm -rf` passes while `rm -fr /tmp/x` and `git -C . push` are blocked or asked.
+
+Done 2026-11-23 on `claude/stage-6`: every item passed. The live check ran `claude -p` in a
+scratch git repo with no remote, loading only `--plugin-dir ./plugin` (`--setting-sources local`,
+so the installed copy stayed out): the `grep` ran, `rm -fr ./x` was blocked by the bash guard, and
+`git -C . push` reached the git guard's push prompt, which a `-p` run refuses.
+
+<!-- Completed 2026-11-23 and archived under docs/plans/archive/ (§3) in Stage 6's branch, so the
+plan on main is true at merge. The release and tag follow. -->
