@@ -12,7 +12,7 @@ Prepare a changelog update — draft only, do not edit files until I approve.
    Security. Omit empty categories.
 4. Propose these under `## [Unreleased]` in `CHANGELOG.md`. Use ISO `YYYY-MM-DD` for any date.
 5. If a version was given ($ARGUMENTS), also propose renaming Unreleased to
-   `## [$ARGUMENTS] — <today's date>`.
+   `## [$ARGUMENTS] - <today's date>`.
 
 Exclude genuinely internal churn (typo sweeps, formatting) unless it changes the guidance.
 I will curate before anything is committed.

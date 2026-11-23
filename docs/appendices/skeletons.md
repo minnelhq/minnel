@@ -135,7 +135,7 @@ The plugin's `/minnel:scaffold` skill writes this skeleton into a project's `doc
 
 The plugin's `/minnel:scaffold` skill writes the header and an empty `[Unreleased]` section to a project's `CHANGELOG.md`.
 
-Keep a Changelog format; versions follow SemVer. Curated by hand from drafts.
+The default format: Keep a Changelog, with SemVer versions and ISO dates (§8). Curated by hand from drafts.
 
 ```markdown
 # Changelog
@@ -148,7 +148,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Fixed
 - <bug fix>
 
-## [0.2.0] — YYYY-MM-DD
+## [0.2.0] - YYYY-MM-DD
 ### Added
 - <feature>
 ### Changed
@@ -156,7 +156,7 @@ All notable, user-facing changes. Format: Keep a Changelog; versions follow SemV
 ### Removed
 - <removed feature>
 
-## [0.1.0] — YYYY-MM-DD
+## [0.1.0] - YYYY-MM-DD
 ### Added
 - Initial release.
 ```
