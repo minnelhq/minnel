@@ -29,8 +29,8 @@ versions follow SemVer.
   also blocks `git commit -a` as blanket staging.
 - The `code-reviewer` runs once on the branch's final diff before merge, not after every change.
   It runs again, on the new commits only, after a Critical fix, a Warning fix that changes code or
-  published docs, or commits other than its fixes. A working agreement can exempt trivial branches
-  in advance.
+  published docs, or commits other than fixes for its findings and the reviewer's memory. A
+  working agreement can exempt trivial branches in advance.
 - The `code-reviewer` checks the change against each Definition of Done item that applies, and
   checks code, docs and commit messages for personal data. For a new dependency it states the
   licence and flags copyleft or non-commercial terms.

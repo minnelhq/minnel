@@ -9,9 +9,9 @@ paths:
 How prose in this repo should read. The aim is tighter, more authoritative writing. It is not
 about hiding that the repo is built with Claude.
 
-Applies to the narrative docs (`README.md` at the root, and `index.md`, `methodology.md`,
-`worked-example.md` and `packaging-as-a-plugin.md` under `docs/`), to `CHANGELOG.md` entries, and
-to plan and backlog notes. Apply it as you write, not in a later pass. Reference artefacts under
+Applies to the narrative docs: `README.md` at the root, and `index.md`, `methodology.md`,
+`worked-example.md` and `packaging-as-a-plugin.md` under `docs/`. It also covers `CHANGELOG.md`
+entries and plan and backlog notes. Apply it as you write, not in a later pass. Reference artefacts under
 `docs/appendices/` are exempt where their structure or punctuation is deliberate (skeletons,
 tables, command definitions).
 
