@@ -17,8 +17,8 @@ artefacts can be adopted one at a time.
   and git hygiene, skills and commands, solo product discipline (backlog, changelog,
   Definition of Done, retro), and a security stance (least privilege, prompt-injection and
   plugin/MCP trust).
-- `docs/appendices/` — the fifteen drop-in artefacts (subagents, hooks, document skeletons, the
-  example skill and the ritual commands; Appendices A–O), grouped by type. See its `README.md` index.
+- `docs/appendices/` — the sixteen drop-in artefacts (subagents, hooks, document skeletons, the
+  example skill and the ritual commands; Appendices A–P), grouped by type. See its `README.md` index.
 - `docs/packaging-as-a-plugin.md` — how to install the plugin, how to package your own, and
   why a plugin is the natural endpoint.
 - `docs/worked-example.md` — one real task (adding a link-resolution check) traced through the
@@ -26,11 +26,11 @@ artefacts can be adopted one at a time.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md`, with default conventions to keep or
   replace.
 - `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
-  guards, the five rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
+  guards, the six rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
   `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live, tuned for this docs project (see *Dogfooding*):
-  - settings that enable the plugin, so its five rituals (`/minnel:plan`, `/minnel:accept`,
-    `/minnel:retro`, `/minnel:release`, `/minnel:wrap`), its guards and the
+  - settings that enable the plugin, so its six rituals (`/minnel:plan`, `/minnel:accept`,
+    `/minnel:retro`, `/minnel:release`, `/minnel:wrap`, `/minnel:triage`), its guards and the
     `minnel:code-reviewer` subagent (a task-scoped helper with its own context) run here as they
     would for an adopter;
   - the Definition of Done rule, the bar a change must clear;
@@ -77,7 +77,7 @@ rituals, guards and reviewer, and the contents of `.claude/`.
 
 They are tuned to a documentation project. The Markdown source has no build or test step, and the
 doc site is an optional publish build. Verification of the Markdown rests on British English and
-the internal-consistency invariant (§ cross-references and appendix letters A–O), enforced by the
+the internal-consistency invariant (§ cross-references and appendix letters A–P), enforced by the
 `PostToolUse` consistency hook and review rather than a test suite. The plugin adds
 `plugin/scripts/tests/guards.sh` and `claude plugin validate`. That tuning doubles as a
 worked example: it adapts the appendix drop-ins to a real repo rather than pasting them verbatim.

@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.5.0   (approved 2026-11-24)
 
-**Status:** in progress — Stage 2 of 4
+**Status:** in progress — Stage 3 of 4
 
 ## Context
 `[Unreleased]` already holds a `feat` (§9 on `.worktreeinclude`), so the next release is a minor:
@@ -54,30 +54,30 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
 - Acceptance: Check E clean on F and M; `zensical build --strict` clean; reviewer run with no
   Critical outstanding.
 
-## Stage 2 — The backlog-triage ritual (Appendix P)   [current]
-- [ ] Run `add-section` for a new Appendix P (next free letter, append-only) in
+## Stage 2 — The backlog-triage ritual (Appendix P)   [done]
+- [x] Run `add-section` for a new Appendix P (next free letter, append-only) in
   `skills-and-commands.md`, laid out like J–N: heading, "The plugin ships this as the `triage`
   skill" line, `` `.claude/commands/triage.md` `` marker, fenced command with
   `disable-model-invocation: true` — files: `docs/appendices/skills-and-commands.md`,
   `docs/appendices/README.md`
-- [ ] The skill's procedure, as a draft for approval: check each item still applies (shipped, stale,
+- [x] The skill's procedure, as a draft for approval: check each item still applies (shipped, stale,
   duplicated); re-tag and reorder Next; propose release targets (Stage 1's format) and groups. When
   `git check-ignore` confirms a gitignored notes backlog, read it too but show the combined grouping
   only in chat or write it to those notes; the tracked backlog groups tracked items only and names a
   private blocker in general terms — files: as above, `plugin/skills/triage/SKILL.md`
-- [ ] Check E row for P (`drop_skill_keys`, like J–N) — files: `.claude/hooks/docs-consistency.sh`
-- [ ] §10: table row and the rhythm sentence; every count and range: "five rituals" → six, "Six
+- [x] Check E row for P (`drop_skill_keys`, like J–N) — files: `.claude/hooks/docs-consistency.sh`
+- [x] §10: table row and the rhythm sentence; every count and range: "five rituals" → six, "Six
   skills" → seven, A–O → A–P, J–N → J–N and P, using `add-section`'s grep plus a grep for ritual
   counts and the JSON manifests — files: `docs/methodology.md`, `README.md`, `CLAUDE.md`,
   `plugin/README.md`, `plugin/.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`,
   `docs/packaging-as-a-plugin.md` (tree and table), `.claude/rules/definition-of-done.md`,
   `.claude/skills/add-section/SKILL.md`, reviewer memory `project-repo-shape.md`
-- [ ] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
+- [x] Delete the backlog item; `[Unreleased]` Added line — files: `docs/backlog.md`, `CHANGELOG.md`
 - Acceptance: Check A resolves Appendix P; Check E clean; `guards.sh`, both `claude plugin validate`
   runs and the strict build pass; a grep finds no stale "five rituals" or "A–O" outside history;
   reviewer run.
 
-## Stage 3 — Mermaid diagrams   [not started]
+## Stage 3 — Mermaid diagrams   [current]
 - [ ] Read mermaid's licence from its own `LICENSE`; vendor one pinned `mermaid.min.js` under
   `docs/` and load it with `extra_javascript`; add the `mermaid` custom fence to
   `pymdownx.superfences`. Confirm in a built page that no request goes to unpkg — files:

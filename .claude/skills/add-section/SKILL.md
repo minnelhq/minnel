@@ -6,11 +6,11 @@ allowed-tools: Read, Glob, Grep, Edit, Write, Bash
 
 # Add or remove a methodology section or appendix
 
-Section numbers (`§N`) and appendix letters (A–O) are stable, load-bearing identifiers
+Section numbers (`§N`) and appendix letters (A–P) are stable, load-bearing identifiers
 (the CLAUDE.md invariant). The hard part is never the prose — it is updating every
 cross-reference and every count/range claim so nothing dangles or goes stale. The
 consistency hook catches a dangling `§`/`Appendix` *reference*, but it does **not** catch a
-stale count ("fifteen") or range ("A–O"), so those are on you.
+stale count ("sixteen") or range ("A–P"), so those are on you.
 
 ## Rules
 

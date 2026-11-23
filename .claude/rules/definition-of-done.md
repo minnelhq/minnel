@@ -23,7 +23,7 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
 0003.)
 
 - [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
-- [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–O) touched
+- [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–P) touched
       by the change resolves to the right target; nothing dangling or mis-lettered. When a
       number or letter moved, every reference to it moved too.
 - [ ] **No contradiction or duplication** — new guidance does not conflict with, or silently

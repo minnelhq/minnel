@@ -7,20 +7,9 @@ user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8
 English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 2 of 4
+- `docs/plans/release-0.5.0.md` — prepare release 0.5.0, Stage 3 of 4
 
 ## Next
-- Add a backlog-triage ritual — feat · value M · effort M · target 0.5.0 — why now: triage has been
-  done by hand three times (PRs #16 and #19, and the change that put the guards first), past §10's
-  twice-by-hand test. A skill would check that each item still applies (shipped, out of date or
-  duplicated), re-tag and reorder Next, and propose release groups, as a draft for approval. When a
-  project keeps a backlog in its gitignored notes (confirmed with `git check-ignore`), it reads that
-  too, but shows the combined grouping only in the chat or writes it to those notes; the tracked
-  backlog groups tracked items only and names a private blocker in general terms. Ship it as an
-  appendix after O with its plugin skill, since the packaging doc gives every shipped artefact an
-  appendix; that widens the A–O range, so use `add-section` and plan mode. Update §10's ritual table
-  and every "five rituals" count (§10 twice, README, the packaging doc, the appendix intro). Do it
-  after the release-targets item.
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
   `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
   commit style (Conventional Commits by default). It catches human commits too and must not clash

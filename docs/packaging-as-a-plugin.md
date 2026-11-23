@@ -6,7 +6,7 @@
 
 ## Why this is the endpoint, not an extra
 
-Everything the methodology builds lives scattered across a project's `.claude/` directory and `settings.json`: the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`) and the skills. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
+Everything the methodology builds lives scattered across a project's `.claude/` directory and `settings.json`: the `code-reviewer` and `test-writer` subagents, the git and format hooks, the `.claude/rules/` Definition of Done, the ritual commands (`/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage`) and the skills. That works for one repo. The moment you want the same setup in a second project, you are copy-pasting, and the copies drift.
 
 A **plugin** is the smallest unit of distribution for a Claude Code setup: one directory that bundles agents, skills, hooks, and MCP wiring, with a small manifest, installable into any project in one step. So the practical payoff is that your operating model stops being per-project scaffolding and becomes one versioned thing you drop in anywhere.
 
@@ -45,7 +45,7 @@ Then, in each project that adopts it:
 
 1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
 2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/minnel:accept` checks against them.
-3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release` and `/minnel:wrap`. They run only when you invoke them.
+3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap` and `/minnel:triage`. They run only when you invoke them.
 
 What else is active once installed:
 
@@ -55,7 +55,7 @@ What else is active once installed:
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything. The bash and git guards also need `command-segments.awk`, which ships beside them; if it goes missing, they block every `Bash` call and say why.
 
-The reviewer, the Definition of Done and the five rituals have run on this repository across its releases. The bash and git guards have run here only since it began running the plugin, and 0.4.0 rewrote their matching rules. `test-writer` and the scaffold ship as the appendices give them and have had less use still. Treat the guards, `test-writer` and the scaffold as starting points.
+The reviewer, the Definition of Done and the rituals other than `/triage` have run on this repository across its releases. The bash and git guards have run here only since it began running the plugin, and 0.4.0 rewrote their matching rules. `test-writer`, the scaffold and `/triage` ship as the appendices give them and have had less use still. Treat the guards, `test-writer`, the scaffold and `/triage` as starting points.
 
 ---
 
@@ -71,11 +71,12 @@ plugin/
 │   ├── code-reviewer.md
 │   └── test-writer.md
 ├── skills/                  # One subdirectory per skill
-│   ├── plan/SKILL.md        # the five rituals
+│   ├── plan/SKILL.md        # the six rituals
 │   ├── accept/SKILL.md
 │   ├── retro/SKILL.md
 │   ├── release/SKILL.md
 │   ├── wrap/SKILL.md
+│   ├── triage/SKILL.md
 │   └── scaffold/            # writes the project files
 │       ├── SKILL.md
 │       └── templates/
@@ -120,7 +121,7 @@ How this plugin maps the methodology's appendices:
 |---|---|---|
 | `code-reviewer`, `test-writer` (Appendix A, B) | `agents/*.md` | See the agent caveat below |
 | Project hooks + git guard (Appendix C) | `hooks/hooks.json` + `scripts/` | Hook format is identical to `settings.json` |
-| `/plan`, `/accept`, `/retro`, `/release`, `/wrap` (Appendices J–N) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so only you start them |
+| `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so only you start them |
 | Plan, Definition of Done, backlog, ADR and changelog skeletons (Appendices D–H) | `skills/scaffold/` | Writes them into the project; a plugin cannot bundle `.claude/rules/` |
 | `add-importer` and similar (Appendix I) | not shipped | An illustration; project-specific procedures stay in the project's `.claude/skills/` |
 | Security checklist (Appendix O) | not shipped | A judgement list to run, not an action to automate |
