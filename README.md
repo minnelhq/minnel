@@ -5,9 +5,10 @@ Written for experienced solo developers and small teams, it treats the harness,
 as an engineered environment: the discipline lives in
 what you persist to files and what you enforce deterministically, not in clever prompting.
 
-Adopted, it keeps a plan alive through compaction and session restarts, and makes the rules that
-matter hold without the model having to remember them. Each piece comes with the reasoning behind
-it, and the drop-in artefacts can be adopted one at a time.
+Adopted, it keeps a plan alive through session restarts and through compaction, when Claude Code
+summarises a long conversation to free context. It also makes the rules that matter hold without
+the model having to remember them. Each piece comes with the reasoning behind it, and the drop-in
+artefacts can be adopted one at a time.
 
 ## What's here
 
