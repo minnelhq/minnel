@@ -188,9 +188,11 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   plan and backlog notes. Repo plumbing, so no changelog line.
 
 - 2026-11-23, Stage 5 — `claude plugin install --help` confirms a one-step form
-  (`--marketplace <owner/repo>`), so `plugin/README.md` leads with it, marked 2.1.275 or later,
-  and keeps the two-step form for earlier versions. With a README of its own in `plugin/`, the
-  directory profile no longer falls back to the root README.
+  (`--marketplace <owner/repo>`), so `plugin/README.md` leads with it and keeps the two-step form
+  for earlier versions. Claude Code's changelog puts the CLI flag at 2.1.292; 2.1.275, the
+  validator's figure, added the in-session `/plugin install … --marketplace`, and the README
+  states both. With a README of its own in `plugin/`, the directory profile no longer falls back
+  to the root README.
 - 2026-11-23, Stage 5 — The manifest reference gives `"network": {"hosts": [...]}`, needing Claude
   Code 2.1.328 or later, and says the field neither allows nor blocks a host. So the changelog
   says the plugin *declares* it reaches none. The strict run still prints "Hosts not read for:
