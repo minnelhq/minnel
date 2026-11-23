@@ -20,8 +20,10 @@ The other backlog items (the `commit-msg` hook, the scaffold bootstrap, the guar
 re-lettering any appendix; the packaging doc's Check E diagram.
 
 ## How the stages run
-One branch and PR per stage, in order, each from an up-to-date `main`. Each branch gets one
-`minnel:code-reviewer` run on its final diff, with re-runs per the working agreement. The stage that
+One branch and one PR for the whole release, with the stages as commits in order. Each stage gets
+a `minnel:code-reviewer` run on its own commits, with re-runs per the working agreement, and the
+branch gets one more on its full diff before merge. The release commit (Stage 4) joins the branch
+only on the maintainer's go, so the PR can wait ready without releasing anything. The stage that
 ships a backlog item deletes its line and adds the `[Unreleased]` entry in the same commit. A
 stage's last commit names the next stage in the status line, stage markers and pointer (Appendix D).
 Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appendix M with
@@ -106,6 +108,9 @@ On the maintainer's go only.
 - 2026-11-24 — Stage 1: the release skill suggests a version from the commits' types
   (Conventional Commits: `feat` minor, `fix` patch, a breaking change major) rather than from
   backlog tags, since `debt` is not a commit type. §8 keeps the `debt`/`chore` rule as Minnel's own.
+- 2026-11-24 — One PR for the release instead of one per stage. The site deploys on every merge
+  to `main`, so a single merge publishes 0.5.0's docs together; the stages build on each other
+  anyway. A draft PR opens after Stage 1 so the Mermaid stage can be checked on GitHub.
 
 ## Decisions
 - 2026-11-24 — Release targets are an inline `target: X.Y.Z` tag on Next items — keeps Next one
