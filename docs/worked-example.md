@@ -85,7 +85,7 @@ while the same link inside a fence, every real in-scope document, and all fail-o
 (missing file, out-of-repo path, non-Markdown, `.claude/`) exit cleanly. The check parses and
 runs identically under `bash` and `sh`.
 
-Then the [`code-reviewer`](https://github.com/tcrossland/claude-code-methodology/blob/main/.claude/agents/code-reviewer.md) subagent (§4, Appendix A) read
+Then the [`code-reviewer`](https://github.com/tcrossland/claude-code-methodology/blob/main/plugin/agents/code-reviewer.md) subagent (§4, Appendix A) read
 the diff, and the work was checked against the [Definition of
 Done](https://github.com/tcrossland/claude-code-methodology/blob/main/.claude/rules/definition-of-done.md) — codified as `/accept` (Appendix K) — before being
 called done.

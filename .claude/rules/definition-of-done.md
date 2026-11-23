@@ -47,9 +47,15 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
       `claude plugin validate .` pass. The only allowed warning is the missing `version`, until the
       release that first ships the plugin sets it.
-- [ ] **`code-reviewer` subagent run on the final branch diff before merge**, with no Critical
-      findings outstanding: once per branch, not per change, and not for a trivial branch (the
-      working agreement in `CLAUDE.md` says what counts). Until the branch is ready to merge,
+- [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
+      tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
+      `$CLAUDE_PROJECT_DIR`.
+- [ ] **CI workflows (when touched)** — `.github/workflows/*.yml` grant least-privilege
+      `permissions`, and any publish or deploy step is gated as the docs say (the Pages deploy
+      runs only on `workflow_dispatch`).
+- [ ] **`minnel:code-reviewer` subagent run on the final branch diff before merge**, with no
+      Critical findings outstanding: once per branch, not per change, and not for a trivial branch
+      (the working agreement in `CLAUDE.md` says what counts). Until the branch is ready to merge,
       report this item as *pending*, not FAIL.
 - [ ] **Active plan in `docs/plans/` advanced** if one is live (stage, ticked steps, deviations).
 

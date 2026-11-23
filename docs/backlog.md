@@ -38,9 +38,9 @@ here (§8). British English; dates ISO YYYY-MM-DD.
   longer holds. Replace the `workflow_dispatch` gates in `.github/workflows/docs.yml` with one that
   excludes pull requests (`github.event_name != 'pull_request'`), since the workflow also runs on
   every PR. Record the reversal in a new ADR (or an amendment to 0003), and update what states the
-  manual rule: the README's site section, the workflow's header and gate comments, and the example
-  in `.claude/agents/code-reviewer.md`. ADR 0002 first held deploys back until the name was final,
-  so settle the title item above first if it could change the site's name or URL.
+  manual rule: the README's site section, the workflow's header and gate comments, and the CI item
+  in `.claude/rules/definition-of-done.md`. ADR 0002 first held deploys back until the name was
+  final, so settle the title item above first if it could change the site's name or URL.
 - Add release targets to the backlog format — feat · value M · effort M — why now: nothing says
   which release a Next item is meant for, so `/release` cannot warn that an item meant for the
   version is still open. The type tags suggest each item's SemVer bump (`feat` a minor, `fix` a

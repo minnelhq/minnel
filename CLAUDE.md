@@ -24,9 +24,9 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc s
 - `CHANGELOG.md` — user-facing changes.
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F); its `## Now (this plan)` section
   is the active-plan pointer (§3).
-- `.claude/` — this repo's own reviewer, Definition of Done, consistency hook and skills. The
-  rituals (`/minnel:plan`, `/minnel:accept`, …) and the guards come from the plugin, which
-  `.claude/settings.json` enables.
+- `.claude/` — this repo's Definition of Done, consistency hook and skills. The rituals
+  (`/minnel:plan`, `/minnel:accept`, …), the guards and `minnel:code-reviewer` come from the
+  plugin, which `.claude/settings.json` enables.
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);
   `docs/` is the source.
 
@@ -61,7 +61,7 @@ alongside these; neither scope automatically overrides the other, so keep them c
 - **One plan file, status folded in.** Each plan is a sequence of Stages worked through
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
-- **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
+- **Review before merge.** Run the `minnel:code-reviewer` subagent once on the final branch diff
   before merging to the main branch; there is no second reviewer. Re-run it after fixing a
   Critical or Warning finding or when the branch gains commits beyond those fixes and the
   reviewer's memory, not otherwise. Skip it for a trivial branch: one that touches nothing

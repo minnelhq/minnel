@@ -34,8 +34,8 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
    ```
    Usual carriers: `README.md` (the count, the invariant mention, the What's-here entry),
    `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the appendices pointer at the end of
-   `docs/methodology.md`, `.claude/agents/code-reviewer.md`, `.claude/rules/definition-of-done.md`,
-   and the reviewer's `.claude/agent-memory/code-reviewer/project-repo-shape.md`.
+   `docs/methodology.md`, `.claude/rules/definition-of-done.md`, and the reviewer's
+   `.claude/agent-memory/minnel-code-reviewer/project-repo-shape.md`.
 3. **Add a `CHANGELOG.md` `[Unreleased]` line** if the change is user-facing (most are).
 4. **Run the consistency hook** on every edited *in-scope* Markdown file (`docs/` except
    gitignored files and `docs/plans/`, plus `README.md`, `CHANGELOG.md`, `templates/`; it no-ops on
@@ -44,8 +44,8 @@ stale count ("fifteen") or range ("A–O"), so those are on you.
    printf '{"tool_input":{"file_path":"%s"}}' "$PWD/<file>" \
      | CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/docs-consistency.sh; echo "exit=$?"
    ```
-5. **Run the `code-reviewer` subagent** on the branch diff before merge, as the working agreement
-   in `CLAUDE.md` says, and clear any Critical or Warning.
+5. **Run the `minnel:code-reviewer` subagent** on the branch diff before merge, as the working
+   agreement in `CLAUDE.md` says, and clear any Critical or Warning.
 
 ## Out of scope
 

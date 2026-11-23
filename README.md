@@ -29,9 +29,9 @@ artefacts can be adopted one at a time.
   guards, the five rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
   `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live: settings that enable the plugin, so the five
-  rituals (`/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap`)
-  and the guards run here as they would for an adopter; this repo's own `code-reviewer` subagent
-  (a task-scoped helper with its own context), the Definition of Done rule (the bar a change must
+  rituals (`/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap`),
+  the guards and the `minnel:code-reviewer` subagent (a task-scoped helper with its own context)
+  run here as they would for an adopter; the Definition of Done rule (the bar a change must
   clear), a `PostToolUse` consistency hook (a script Claude Code runs after each edit) that flags
   dangling §/appendix references, broken intra-repo links, US spellings, `DD/MM/YYYY` dates and
   drift between an appendix and the plugin file it ships as, and two skills, `add-section` (the
@@ -69,9 +69,9 @@ GitHub Pages is a manual run of the `docs` workflow.
 ## Dogfooding
 
 This repository is built using the methodology it documents. The lean root `CLAUDE.md`, the
-docs under `docs/`, the curated root `CHANGELOG.md`, the plugin's rituals and guards, and the
-contents of `.claude/` (the `code-reviewer` subagent, the Definition of Done rule, the consistency
-hook, and the `add-section` and `close-plan` skills) are not illustrations; they are how the work
+docs under `docs/`, the curated root `CHANGELOG.md`, the plugin's rituals, guards and reviewer,
+and the contents of `.claude/` (the Definition of Done rule, the consistency hook, and the
+`add-section` and `close-plan` skills) are not illustrations; they are how the work
 here gets done.
 
 They are tuned to a documentation project. The Markdown source has no build or test step, and the
@@ -80,8 +80,8 @@ the internal-consistency invariant (§ cross-references and appendix letters A�
 `PostToolUse` consistency hook and review rather than a test suite. The plugin adds
 `plugin/scripts/tests/guards.sh` and `claude plugin validate`. That tuning doubles as a
 worked example: it adapts the appendix drop-ins to a real repo rather than pasting them verbatim.
-The plugin's rituals and guards are the exception. This repo runs them unchanged, and the project
-detail the rituals need comes from `CLAUDE.md` and the Definition of Done, as it would for an
+The plugin's rituals, guards and reviewer are the exception. This repo runs them unchanged, and
+the project detail they need comes from `CLAUDE.md` and the Definition of Done, as it would for an
 adopter. The settings install the plugin from GitHub's `main`, so to try a branch's edit to
 `plugin/` before it merges, start Claude Code with `claude --plugin-dir ./plugin`.
 

@@ -56,8 +56,12 @@ appendix and its plugin file is now a defect class like a dangling §N.
   worktree's `plugin/`. A branch that edits a plugin skill is not exercised by `/minnel:<skill>`
   here until merged and the marketplace refreshed. Don't accept "ran it here" as evidence for a
   plugin edit on the same branch.
-- The repo keeps its own `code-reviewer`; the plugin adds a namespaced one. Repo prose naming
-  "the `code-reviewer` subagent" means the project one.
+- Since 2026-11-23 the repo has no reviewer of its own: you are `minnel:code-reviewer`, and this
+  memory moved from `.claude/agent-memory/code-reviewer/` to `minnel-code-reviewer/` (the folder
+  Claude Code uses for the namespaced agent; observed, not documented). The repo-only checks the
+  old tailored prompt carried (hook-script safety, CI least privilege, the Zensical and plugin
+  commands) are Definition of Done items now, so read the DoD every review. Until the Appendix A
+  step that says so is merged and the marketplace refreshed, the installed copy lacks it.
 - Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
   updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
 
