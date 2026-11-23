@@ -53,7 +53,7 @@ Ship the plugin, **Minnel**, from this repository.
   release sets it to the CHANGELOG version, and the two stay equal after that.
 
 ## Consequences
-- An adopter installs with one command (two before Claude Code 2.1.292) and runs
+- An adopter installs with one command (two from the shell before Claude Code 2.1.292) and runs
   `/minnel:scaffold` once, rather than copying files. The install instructions live in
   `docs/packaging-as-a-plugin.md`.
 - A manifest `version` takes priority over the commit, so every install, this repo's own included,

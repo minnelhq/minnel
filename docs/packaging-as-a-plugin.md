@@ -31,7 +31,7 @@ claude plugin marketplace add tcrossland/claude-code-methodology
 claude plugin install minnel@minnel
 ```
 
-Pass `--scope project` or `--scope local` to the install to limit it to one project; the marketplace itself still goes in your user settings. Inside a session, `/plugin` opens the same catalogue.
+Pass `--scope project` or `--scope local` to the install to limit it to one project. The one-step form still adds the marketplace to your user settings; `claude plugin marketplace add` takes its own `--scope`. Inside a session, `/plugin` opens the same catalogue.
 
 Then, in each project that adopts it:
 
