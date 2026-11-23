@@ -6,9 +6,10 @@ versions follow SemVer.
 ## [Unreleased]
 
 ### Added
-- §9: what a `.worktreeinclude` copies and when. Claude Code copies the gitignored matches, local
-  notes included, once as it creates each worktree, so later edits don't pass between the worktree
-  and the main checkout. A `.worktreeinclude` that names a private path can stay untracked.
+- §9: what a `.worktreeinclude` copies and when. Claude Code copies the gitignored files it lists,
+  such as local notes, once as it creates each worktree. Later edits don't pass between the
+  worktree and the main checkout. A `.worktreeinclude` that names a private path can stay
+  untracked.
 
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each
