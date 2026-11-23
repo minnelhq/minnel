@@ -1,4 +1,4 @@
-# A File-First Operating Model for Claude Code
+# Minnel: a file-first operating model for Claude Code
 
 Written for experienced solo developers and small teams, it treats the harness,
 [Claude Code](https://code.claude.com/docs/en/overview)'s settings, subagents, hooks and commands,
@@ -25,7 +25,7 @@ artefacts can be adopted one at a time.
   loop, end to end.
 - `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md`, with default conventions to keep or
   replace.
-- `plugin/` — Minnel, the methodology as an installable Claude Code plugin: the two subagents, the
+- `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
   guards, the five rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
   `.claude-plugin/marketplace.json` at the root lists it.
 - `.claude/` — the methodology running live: settings that enable the plugin, so the five
@@ -87,10 +87,11 @@ adopter. The settings install the plugin from GitHub's `main`, so to try a branc
 
 ## Status
 
-I wrote this in June 2026 and run it on my own projects. I'm its only adopter so far, so it has
-had no outside feedback yet, and it may be too rigid to suit everyone. It now also comes as a
-Claude Code plugin, Minnel (`plugin/`), with the document as its rationale. The plugin installs
-from GitHub but is not yet in a tagged release.
+I started Minnel in June 2026 and run it on my own projects. I'm its only adopter so far, so it
+has had no outside feedback yet, and it may be too rigid to suit everyone. Minnel comes two ways:
+the documents give the practices and the reasoning behind them, and the plugin (`plugin/`)
+installs the artefacts they describe. The plugin installs from GitHub but is not yet in a tagged
+release.
 
 ## Licence
 

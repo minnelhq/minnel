@@ -1,4 +1,4 @@
-# A File-First Operating Model for Claude Code
+# Minnel: a file-first operating model for Claude Code
 
 This repository is the methodology itself: reference docs, a CLAUDE.md template, and a Claude
 Code plugin, Minnel (`plugin/`). It is a documentation project: the Markdown source has no build or

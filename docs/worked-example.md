@@ -1,6 +1,6 @@
 # A Worked Example: Adding a Link-Resolution Check
 
-*Companion to "A File-First Operating Model for Claude Code". Last updated 2026-06-20.*
+*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-23.*
 
 ---
 

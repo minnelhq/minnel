@@ -1,6 +1,6 @@
 # Plan: Prepare release 0.4.0   (approved 2026-11-23)
 
-**Status:** in progress — Stage 4 of 6
+**Status:** in progress — Stage 4 of 6 (done, awaiting review and merge)
 
 ## Context
 `[Unreleased]` adds Minnel, the plugin, so the next release (0.4.0, a minor) is the first tagged
@@ -104,14 +104,14 @@ Decision (2026-11-23): fix the variants *and* say plainly they catch slips.
 - [x] Record in `[Unreleased]`.
 - Acceptance: Check E reports no drift between Appendix A and the agent; the plugin validates.
 
-## Stage 4 — Retitle as Minnel   [not started]
+## Stage 4 — Retitle as Minnel   [done]
 Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
-- [ ] Retitle: `README.md`, `CLAUDE.md`, `mkdocs.yml` `site_name`, `docs/index.md`,
+- [x] Retitle: `README.md`, `CLAUDE.md`, `mkdocs.yml` `site_name`, `docs/index.md`,
       `docs/methodology.md`, and the companion lines in `docs/worked-example.md` and
       `docs/packaging-as-a-plugin.md`. The 0.1.0 changelog entry keeps its historical title.
-- [ ] Reword the README's Status paragraph so "the document" and "the plugin" read as one
+- [x] Reword the README's Status paragraph so "the document" and "the plugin" read as one
       Minnel (the tagged-release clause stays until Stage 6).
-- [ ] Delete the title line from the backlog; record in `[Unreleased]`.
+- [x] Delete the title line from the backlog; record in `[Unreleased]`.
 - Acceptance: `git grep -n "A File-First Operating Model" -- . ':!docs/plans/archive'
   ':!.claude/agent-memory' ':!docs/plans/release-0.4.0.md'` finds only the 0.1.0 entry (and any
   `[Unreleased]` line naming the old title); `zensical build --strict` passes; the site's URL is
@@ -173,6 +173,9 @@ Decision (2026-11-23): "Minnel: a file-first operating model for Claude Code".
   messages. The adopter rule says "code or published docs" where this repo's names plugin code, the
   template or a published doc. Appendix O's Secrets item names the reviewer's check too, to
   match §11.
+- 2026-11-23, Stage 4 — The README's `plugin/` line no longer calls the plugin alone "Minnel",
+  and the backlog's deploy item no longer points at the deleted title item. The worked example's
+  "Last updated" moves to 2026-11-23 with its companion line.
 
 ## Decisions
 - 2026-11-23 — Retitle as "Minnel: a file-first operating model for Claude Code" — one name across

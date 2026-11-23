@@ -1,4 +1,4 @@
-# A File-First Operating Model for Claude Code
+# Minnel: a file-first operating model for Claude Code
 
 *A single-developer discipline for driving Claude Code. Last updated 2026-11-23.*
 

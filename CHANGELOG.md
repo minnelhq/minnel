@@ -37,6 +37,9 @@ versions follow SemVer.
 - §1 names user-level `~/.claude/rules/*.md` beside `~/.claude/CLAUDE.md` for personal
   conventions, one file per convention. User rules load before the project's `.claude/rules/`,
   neither overrides the other, and only a path-scoped rule saves context.
+- The methodology takes the plugin's name: it is now titled *Minnel: a file-first operating model
+  for Claude Code*, formerly *A File-First Operating Model for Claude Code*. The docs, the site and
+  the plugin share one name; the site's address is unchanged.
 - §8 and the `CLAUDE.md` template treat the commit style and changelog format as the project's
   choice, defaulting to Conventional Commits and Keep a Changelog. The template adds a `Changelog:`
   line.
