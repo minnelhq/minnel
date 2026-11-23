@@ -14,6 +14,10 @@ versions follow SemVer.
 - The plugin's install steps stopped at the first install. "Install this plugin" in
   `docs/packaging-as-a-plugin.md` and `plugin/README.md` now say how to move to a later release:
   refresh the marketplace, then update the plugin.
+- The docs no longer call the `code-reviewer` read-only. `memory: project` turns on Write and Edit
+  for its notes, and `Bash` can write any file, so only its prompt keeps it from fixing what it
+  reviews. The prompt now says so, and §4's roster, §10, Appendix A, the plugin's README and both
+  manifests describe a reviewer that reports findings and leaves fixes to the caller.
 
 ## [0.4.0] - 2026-11-23
 

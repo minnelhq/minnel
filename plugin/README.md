@@ -6,8 +6,9 @@ methodology's artefacts so a project can adopt them without copying files by han
 
 ## What it ships
 
-- Two subagents: `minnel:code-reviewer`, a read-only reviewer run on a branch's final diff
-  before merge, and `minnel:test-writer`, which writes behaviour-driven tests.
+- Two subagents: `minnel:code-reviewer`, which reviews a branch's final diff before merge and
+  reports findings without fixing them, and `minnel:test-writer`, which writes behaviour-driven
+  tests.
 - Three guard hooks: `bash-guard` (forced recursive `rm`, force push, `DROP TABLE`), `git-guard`
   (blanket staging, `git commit -a` included; by default it also asks before each push) and a
   test-directory guard for `test-writer`. They catch slips, not a determined command.
