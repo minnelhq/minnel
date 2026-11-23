@@ -46,7 +46,7 @@ versions follow SemVer.
   diffs the branch against the main branch; the Definition of Done (Appendix E) and `/accept`
   (Appendix K) report the review as pending until the branch is ready to merge; the `CLAUDE.md`
   template's working agreement states the cadence. Exempting trivial branches is optional, named in
-  the working agreement in advance. The plugin's copies match.
+  the working agreement in advance.
 
 ### Fixed
 - §1 context table: a nested `./module/CLAUDE.md` loads once Claude works on a file in its
