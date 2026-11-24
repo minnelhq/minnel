@@ -11,25 +11,36 @@ plan)". British English; dates ISO YYYY-MM-DD.
 - (none — no active plan)
 
 ## Next
-- Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
-  `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
-  commit style (Conventional Commits by default). It catches human commits too and must not clash
-  with the git-guard. Add a check that a `feat`/`fix` commit also touches `[Unreleased]`.
+- Document how adopters loosen Minnel's user-only skills — feat · value M · effort L · target: 0.7.0
+  — why now: all seven skills set `disable-model-invocation: true`, so Claude can't start one even
+  when a message asks for it by its short name. The Claude Code skills docs give no per-skill
+  override for a plugin skill (checked 2026-11-23). Test three routes: name the skill in full in the
+  message (`/minnel:wrap`); copy it to `.claude/skills/` without the key, accepting that the copy
+  drifts from plugin updates; or fork the plugin and load the fork. Write the tested answer into
+  "Install this plugin" in `docs/packaging-as-a-plugin.md`. Keep the key on all seven: an adopter
+  can loosen a skill but can't tighten one Claude is already allowed to start.
+- Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
+  · effort H · target: 0.8.0 — why now: the scaffold copies templates and leaves the placeholders; a
+  bootstrap would ask for language and spelling, date format, commit style, changelog format,
+  private-notes path, where the active-plan pointer lives and the review gate, then fill the
+  `CLAUDE.md` Conventions block, the Definition of Done, `CHANGELOG.md` and `docs/backlog.md`. It
+  answers the configurable-preferences stance, and the `commit-msg` hook and the guards' default
+  build on it.
+- Say how to enforce a stated convention, not only state it — feat · value M · effort M
+  · target: 0.8.0 — why now: a `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that
+  validates the project's stated commit style (which the bootstrap records; Conventional Commits by
+  default). It catches human commits too and must not clash with the git-guard. Add a check that a
+  `feat`/`fix` commit also touches `[Unreleased]`.
+- Revisit the guards' default — feat · value M · effort L · target: 0.8.0 — why now: the plugin
+  ships the guards on. The git guard now lets commits through and asks before a push, with a
+  per-project setting for each, but `bash-guard` and the blanket-staging block have no setting.
+  Have the bootstrap offer the guards and their settings. The hooks docs give no way to turn off one
+  plugin's hooks: only `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
 
 ## Later / maybe
 - Draw the packaging doc's appendix ↔ plugin pairs under Check E as a Mermaid diagram — feat ·
   value L · effort L — why now: left over from the 0.5.0 diagrams; it would show which appendix each
   plugin file must match.
-- Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
-  · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
-  ask for language and spelling, date format, commit style, changelog format, private-notes path,
-  where the active-plan pointer lives and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
-  `CHANGELOG.md` and `docs/backlog.md`. It answers the configurable-preferences stance.
-- Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on.
-  The git guard now lets commits through and asks before a push, with a per-project setting for
-  each, but `bash-guard` and the blanket-staging block have no setting. Consider having the
-  bootstrap offer the guards and their settings. The hooks docs give no way to turn off one
-  plugin's hooks: only `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
 
 ## Parked (with reason)
 - (none)
