@@ -20,10 +20,10 @@ versions follow SemVer.
   version being cut: delete its line if the commits show it has shipped, or else finish it first or
   move it under a later release or Unscheduled. It also checks a backlog kept in the project's
   gitignored notes, when the conventions name one, and names any of its items in the chat only.
-- "Install this plugin" in `docs/plugin.md` says how to have Claude run one of
-  Minnel's user-only skills: name it in full after other text in your message, as in "run
-  /minnel:triage". For Claude to start one unprompted, copy the skill into `.claude/skills/` without
-  `disable-model-invocation`, or fork the plugin.
+- "Install this plugin" in `docs/plugin.md` says how to have Claude run one of Minnel's user-only
+  skills: name it in full after other text in your message, as in "run /minnel:triage". For Claude
+  to start one unprompted, copy the skill into `.claude/skills/` without `disable-model-invocation`,
+  or fork the plugin.
 
 ### Changed
 - The plugin companion document is now `docs/plugin.md`, in place of

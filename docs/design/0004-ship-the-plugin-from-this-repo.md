@@ -4,9 +4,9 @@
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
-The copies drift, and every new project repeats the copying. `docs/plugin.md`
-had named a Claude Code plugin as the endpoint: one directory that bundles the agents, hooks and
-skills, installed by any project.
+The copies drift, and every new project repeats the copying. `docs/packaging-as-a-plugin.md`
+(now `docs/plugin.md`) had named a Claude Code plugin as the endpoint: one directory that bundles
+the agents, hooks and skills, installed by any project.
 
 The pieces to package already existed as Markdown in the appendices. The open questions were
 where the plugin lives, which copy is the source, how the rituals ship, and how the guards behave

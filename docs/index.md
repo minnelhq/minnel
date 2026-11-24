@@ -13,8 +13,8 @@ for experienced solo developers and small teams.
 - **[Worked example](worked-example.md)** — one real task traced end to end through the loop.
 - **[Appendices](appendices/README.md)** — the drop-in artefacts: subagents, hooks, document
   skeletons, the example skill, and the ritual commands.
-- **[Packaging as a plugin](plugin.md)** — how to install the methodology as a
-  Claude Code plugin, how to package your own, and why that is the endpoint.
+- **[Packaging as a plugin](plugin.md)** — how to install the methodology as a Claude Code
+  plugin, how to package your own, and why that is the endpoint.
 
 ## Using it
 
