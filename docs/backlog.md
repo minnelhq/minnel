@@ -13,6 +13,13 @@ ISO YYYY-MM-DD.
 
 ## Next
 
+### 0.7.0
+- Rename `docs/packaging-as-a-plugin.md` to `docs/plugin.md` — debt · value L · effort M — why now:
+  the doc covers installing and using Minnel as well as packaging a methodology as a plugin, and the
+  long name names only the second. Update the live references and the site nav; leave archived
+  plans and released changelog entries as written. The published page's URL changes, so check
+  whether Zensical can redirect the old one first.
+
 ### 0.8.0
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
