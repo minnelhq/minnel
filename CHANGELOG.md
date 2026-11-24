@@ -22,6 +22,8 @@ versions follow SemVer.
   now present hooks as checks at the moment of the edit that catch some failures before CI, which
   stays the authority. Without a pipeline, hooks are still the only automatic gate. §6's heading,
   and so its anchor, changed to match.
+- §7 assumed there is no PR reviewer. It now gives the reason to run the review subagent either
+  way: without a reviewer it is the only second reader, and with one it checks the diff first.
 
 ## [0.5.0] - 2026-11-24
 
