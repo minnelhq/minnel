@@ -13,7 +13,7 @@ Where it is described (keep these consistent on any future edit):
 
 **Why:** keeps the active plan set scannable for a cold-start session.
 
-**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D used to name only those two; reconciled 2026-06-20 (commit bfd4dc6) so both now read as a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. Any doc/skill naming a concrete pointer location should say `docs/backlog.md`. Re-verify before relying on this.
+**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D give a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. Any doc or skill naming a concrete pointer location should say `docs/backlog.md`.
 
 **Stage markers:** skeleton (Appendix D, `docs/appendices/skeletons.md`) uses three states — `[done]`, `[current]`, `[not started]`. A close-out grep that only looks for `[current]` and `[ ]` misses a leftover `[not started]` stage.
 
