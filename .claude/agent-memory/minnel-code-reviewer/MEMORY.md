@@ -9,4 +9,5 @@
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
 - [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard escapes, hook quoting, awk segmenter probes, guards CI logs
 - [Memory-scope precedence and loading](project-memory-scope-precedence.md) — §1 table loading column and no-precedence note: what the docs state vs observed, traps
+- [Fetching docs as Markdown](reference-docs-fetch.md) — curl URLs for the Claude Code commands reference and the models overview, to verify claims
 - [Session-concurrency guidance](project-session-concurrency-guidance.md) — §9/§11 shared-checkout, approval and .worktreeinclude text: worktree-list misreading, desktop default, copy semantics
