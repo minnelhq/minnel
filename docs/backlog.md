@@ -13,6 +13,15 @@ ISO YYYY-MM-DD.
 
 ## Next
 
+### 0.7.0
+- Retitle `docs/plugin.md` to match its scope — debt · value L · effort L — why now: the rename
+  left the H1 ("Packaging the methodology as a plugin") and the site nav label ("Packaging as a
+  plugin"), and site readers see the label, not the file name. The title covers only packaging,
+  though the doc also says how to install and use Minnel. Update every place that quotes or
+  paraphrases it: the H1, the nav in `mkdocs.yml`, `docs/index.md` (twice),
+  `docs/appendices/README.md` and `docs/methodology.md` §10. ADR 0002's "packaging companion" is a
+  record of the time, so it stays.
+
 ### 0.8.0
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
