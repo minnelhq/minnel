@@ -7,7 +7,7 @@ metadata:
 
 This repo *is* the methodology it documents: prose, plus the Minnel plugin in `plugin/` (shell guards, JSON manifests, skills and agents; see [[project-plugin-minnel]]), versioned with the docs since 0.4.0.
 
-The layout is in `CLAUDE.md`'s Layout section; read it there. Two things it doesn't say:
+The layout is in `CLAUDE.md`'s Layout section; read it there. Three things it doesn't say:
 gitignored local-only working notes may be present (not a defect), and `.claude/` holds no copies
 of the plugin's rituals, guards or agents (removed 2026-11-23). The packaging doc does not
 discuss licensing.
