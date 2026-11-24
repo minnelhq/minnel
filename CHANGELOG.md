@@ -26,10 +26,11 @@ versions follow SemVer.
   or fork the plugin.
 
 ### Changed
-- The plugin companion document is now "Minnel as a plugin", at `docs/plugin.md`, in place of
-  "Packaging the methodology as a plugin" at `docs/packaging-as-a-plugin.md`, since it covers
-  installing and using Minnel as well as packaging a methodology. Its page on the doc site moves to
-  `/plugin/`, listed as "Plugin" in the navigation, and the old address redirects there.
+- The plugin companion document is now "Minnel as a plugin", at `docs/plugin.md`. It was
+  "Packaging the methodology as a plugin", at `docs/packaging-as-a-plugin.md`, a title that named
+  only packaging, though the document also covers installing and using Minnel. Its page on the doc
+  site moves to `/plugin/`, listed as "Plugin" in the navigation, and the old address redirects
+  there.
 - The backlog (Appendix F, and the template `/minnel:scaffold` writes) groups Next under a heading
   for each release, `### X.Y.Z`, earliest first, then `### Unscheduled`, in place of 0.5.0's inline
   `target: X.Y.Z` tag. Grouped that way, the backlog in the repository is the roadmap. `/triage`
