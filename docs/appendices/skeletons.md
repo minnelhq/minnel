@@ -60,7 +60,8 @@ stale at each merge.
 
 On completion, set `**Status:** done (YYYY-MM-DD)`, clear the active-plan pointer, and move the
 file to `docs/plans/archive/`. The plan stays versioned as project history; only its location
-changes, so `docs/plans/` shows just what is live.
+changes, so `docs/plans/` shows just what is live. `/wrap` (Appendix N) closes a finished plan this
+way.
 
 ## Appendix E — Definition of Done
 
