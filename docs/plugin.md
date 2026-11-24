@@ -127,7 +127,7 @@ After install, a plugin's skills are **namespaced** under the plugin name, e.g. 
 
 ## What to package, and what to leave out
 
-How this plugin maps the methodology's appendices:
+How this plugin maps the methodology's appendices and its `CLAUDE.md` template:
 
 | Methodology piece | Plugin component | Notes |
 |---|---|---|
@@ -135,10 +135,11 @@ How this plugin maps the methodology's appendices:
 | Project hooks + git guard (Appendix C) | `hooks/hooks.json` + `scripts/` | Hook format is identical to `settings.json` |
 | `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so they run only when you name them |
 | Plan, Definition of Done, backlog, ADR and changelog skeletons (Appendices D–H) | `skills/scaffold/` | Writes them into the project; a plugin cannot bundle `.claude/rules/` |
+| `CLAUDE.md` starter template (`templates/CLAUDE.template.md`) | `skills/scaffold/` | Writes it into the project as `CLAUDE.md` |
 | `add-importer` and similar (Appendix I) | not shipped | An illustration; project-specific procedures stay in the project's `.claude/skills/` |
 | Security checklist (Appendix O) | not shipped | A judgement list to run, not an action to automate |
 
-Each shipped artefact also appears in its appendix, so the document stays readable without the plugin. This repository's consistency hook compares every pair and flags drift.
+Each shipped artefact also appears in its appendix or in `templates/`, so the document stays readable without the plugin. This repository's consistency hook compares every pair and flags drift.
 
 **One important agent caveat.** Plugin-shipped subagents support `name`, `description`, `model`, `effort`, `maxTurns`, `tools`, `disallowedTools`, `skills`, `memory`, `background`, `isolation` (only `worktree`) and a few others. For security reasons they do **not** support `hooks`, `mcpServers`, `permissionMode` or `initialPrompt` in frontmatter; those are silently ignored when an agent loads from a plugin. So the `test-writer` agent's frontmatter `PreToolUse` guard (Appendix B) will not travel inside the plugin. This plugin moves that guard to `hooks/hooks.json`. A `PreToolUse` hook receives `agent_type` (here `minnel:test-writer`) when a subagent makes the call, so `tests-dir-guard.sh` acts on that agent's edits and lets every other edit through.
 

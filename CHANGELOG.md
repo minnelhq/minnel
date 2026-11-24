@@ -37,6 +37,8 @@ versions follow SemVer.
   format.
 
 ### Fixed
+- The table in "What to package, and what to leave out" (`docs/plugin.md`) lists the `CLAUDE.md`
+  template, which `/minnel:scaffold` writes into a project.
 - The worked example gives the plan's archived path, and says that `/wrap` archives the finished
   plan, not the session.
 - The §8 backlog-lifecycle diagram is drawn top to bottom, so its labels stay readable on GitHub at

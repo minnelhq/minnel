@@ -32,9 +32,7 @@ ISO YYYY-MM-DD.
   `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
 
 ## Later / maybe
-- Draw `docs/plugin.md`'s appendix ↔ plugin pairs under Check E as a Mermaid diagram — feat ·
-  value L · effort L — why now: left over from the 0.5.0 diagrams; it would show which appendix each
-  plugin file must match.
+- (none)
 
 ## Parked (with reason)
 - (none)
