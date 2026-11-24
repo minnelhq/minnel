@@ -98,8 +98,8 @@ and every path they name that no longer exists. It writes nothing and runs only 
 so it costs no context in other sessions. Without the plugin, copy `plugin/scripts/config-audit.sh`
 from this repository to `.claude/scripts/config-audit.sh`, keep it executable, and replace
 `${CLAUDE_PLUGIN_ROOT}` with `${CLAUDE_PROJECT_DIR}/.claude` in both places below. Claude Code's
-`/doctor prompt-audit` (v2.1.283 or later) audits the instruction files on its own; the retro's
-sweep adds agent memory and what the finished plan made obsolete.
+`/doctor prompt-audit` (v2.1.283 or later) audits `CLAUDE.md`, rules, skills and commands
+without the retro; the retro's sweep adds agent memory and what the finished plan made obsolete.
 
 `.claude/commands/retro.md`
 

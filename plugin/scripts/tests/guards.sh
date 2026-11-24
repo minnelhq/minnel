@@ -153,10 +153,14 @@ printf '%s\n' 'Gone: `docs/gone.md`, @docs/imported.md' \
   'Not paths: `/release`, `plans/`, `src/**/*.py`, `<name>/x.md`, `${CLAUDE_PLUGIN_ROOT}/x.sh`, `https://example.com/a.md`, `git@example.com:o/r.git`' \
   '@docs/linestart.md' \
   > "$audit_dir/proj/CLAUDE.md"
-printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`' \
+printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`, `node_modules/@types/gone/index.d.ts`' \
   > "$audit_dir/proj/.claude/agent-memory/r/note.md"
 printf '%s\n' 'Gone: `~/.claude/gone.sh`. Here: `~/.claude/rules/r.md`. Another project'"'"'s: `docs/other.md`' \
   > "$audit_dir/home/.claude/rules/r.md"
+mkdir -p "$audit_dir/home/.claude/agent-memory/a"
+printf '%s\n' 'Gone: `docs/dotclaude-gone.md`' > "$audit_dir/proj/.claude/CLAUDE.md"
+printf '%s\n' 'Gone: `docs/gone-in-local-file.md`' > "$audit_dir/proj/CLAUDE.local.md"
+printf '%s\n' 'Gone: `~/.claude/am-gone.md`' > "$audit_dir/home/.claude/agent-memory/a/n.md"
 git -C "$audit_dir/proj" init -q && git -C "$audit_dir/proj" add .claude/skills/x/SKILL.md docs/c.json
 mkdir -p "$audit_dir/shared" && printf '%s\n' 'Gone: `~/.claude/linked-gone.sh`' > "$audit_dir/shared/linked.md"
 ln -s "$audit_dir/shared/linked.md" "$audit_dir/home/.claude/rules/linked.md"
@@ -175,6 +179,10 @@ audit has   'CLAUDE.md:1: docs/imported.md'                    'a missing @impor
 audit has   'CLAUDE.md:4: docs/linestart.md'                   'a missing @import at the start of a line'
 audit has   'note.md:1: docs/c.js'                             'a file whose name only begins a project file'
 audit has   'linked.md:1: ~/.claude/linked-gone.sh'            'a symlinked user rule'
+audit has   '.claude/CLAUDE.md:1: docs/dotclaude-gone.md'       'reads .claude/CLAUDE.md'
+audit has   'CLAUDE.local.md:1: docs/gone-in-local-file.md'            'reads CLAUDE.local.md'
+audit has   'n.md:1: ~/.claude/am-gone.md'                     'reads user agent memory'
+audit has   'note.md:1: node_modules/@types/gone/index.d.ts'   'a missing path with an @ in it'
 audit has   'note.md:1: .claude/agents/old.md'                 'a missing path in agent memory'
 audit has   'r.md:1: ~/.claude/gone.sh'                        'a missing ~/ path in a user rule'
 audit lacks 'here.md'                                          'present paths, a :line suffix and ../ included'

@@ -6,14 +6,14 @@
 # .claude/agent-memory/ and .claude/agent-memory-local/, and the user's ~/.claude/CLAUDE.md,
 # ~/.claude/rules/ and ~/.claude/agent-memory/. Symlinked rules and directories are followed.
 # A path is a code span, a Markdown link target or an @import holding a "/" that starts with
-# "/", "~/" or ".", ends with "/", or has a dot in its last part; one bare name (plans/) is not. Globs, placeholders
-# (<name>), variables, URLs, git remotes (git@host:...), slash commands and anything with a
-# space are skipped. A project
-# file's relative path counts as present if it resolves against the project root or the file's
-# own directory, or ends some file in the project (add-section/SKILL.md), or, for a directory
-# ending in "/", appears in a project file's path. A user file applies to
-# every project, so only its absolute and ~/ paths are checked. This is a heuristic: read each
-# hit before acting on it, since a note may name an old path on purpose.
+# "/", "~/" or ".", ends with "/", or has a dot in its last part; one bare name (plans/) is not.
+# Globs, placeholders (<name>), variables, URLs, git remotes (git@host:...), slash commands and
+# anything with a space are skipped. A project file's relative path counts as present if it
+# resolves against the project root or the file's own directory, or ends some file in the
+# project (add-section/SKILL.md), or, for a directory ending in "/", appears in a project file's
+# path. A user file applies to every project, so only its absolute and ~/ paths are checked.
+# This is a heuristic: read each hit before acting on it, since a note may name an old path on
+# purpose.
 #
 # Run it by hand or from /retro; it is not a hook, so it costs no context until asked for.
 # POSIX sh, writes nothing, and always exits 0: a missing directory or tool means less output.
@@ -53,7 +53,8 @@ candidates() {
       sub(/:[0-9]+(-[0-9]+)?$/, "", t)        # drop a :line or :line-line suffix
       sub(/[.,;:)]+$/, "", t)                 # drop trailing punctuation
       if (t == "" || t !~ /\//) return
-      if (t ~ /[ *?<>{}$|=]/ || index(t, "[") || index(t, "]") || index(t, q) || index(t, "\"") || index(t, "@")) return
+      if (t ~ /[ *?<>{}$|=]/ || index(t, "[") || index(t, "]") || index(t, q) || index(t, "\"")) return
+      if (t ~ /^[^\/@]+@[^\/:]+:/) return       # a git remote (git@host:o/r.git)
       if (t ~ /\.\.\./ || t ~ /^[A-Za-z][A-Za-z0-9+.-]*:/) return
       if (t ~ /^\.git\// || t ~ /^[A-Za-z0-9-]+\.[A-Za-z.]+\//) return  # git internals, a bare domain
       u = t; sub(/\/$/, "", u)
