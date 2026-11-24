@@ -77,6 +77,18 @@ appendix and its plugin file is a defect class like a dangling §N.
   omits `rules/`; the 2026-11-23 docs check adds that a plugin's own `CLAUDE.md` isn't loaded. If
   the bullet is reworded, it must still name both controls, a version and an ISO date. Plan:
   `docs/plans/archive/verify-plugin-rules-bundling.md`.
+- **Loosening user-only skills (packaging doc "Install this plugin", as of 2026-11-25).** Facts to
+  check any prose against (skills docs fetched 2026-11-25): `${CLAUDE_PLUGIN_ROOT}` is substituted
+  *only in plugin skills*, so a project copy of `retro` (which runs
+  `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh`) breaks; `scaffold` uses `${CLAUDE_SKILL_DIR}`
+  and survives a folder copy. A project skill named `plan` replaces the built-in `/plan` in a
+  local terminal session. `Skill(<name>)` deny rules in `permissions` restrict which skills
+  Claude invokes, with no plugin exclusion in the docs (untested on plugin skills), so "can't
+  tighten a plugin skill" claims are false; a fork can add the key too. A `/name` after plain
+  text must be a separate word with no punctuation attached, or the call is blocked (sourced: the
+  "Control who invokes a skill" section, below the deploy example: "If Claude tries when your
+  message doesn't include `/deploy` as a separate word with no punctuation attached, Claude Code
+  blocks the call"; the "Where you write the skill's name" table states only the condition).
 - **Claims beyond the recorded mechanics** (how an unversioned plugin updates, say) need their own
   dated source.
 
