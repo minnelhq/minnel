@@ -33,6 +33,14 @@ appendix and its plugin file is a defect class like a dangling §N.
   that a guard version has had live use, check the cache's script or `installed_plugins.json`'s
   `gitCommitSha`. This applies to me too: a merged reviewer change reaches me only after a release
   and an update.
+- **Reviewing a release cut (0.5.0, 0.6.0, as of 2026-11-24).** The release commit touches only
+  `CHANGELOG.md`'s heading and `plugin.json`'s `version`; the marketplace entry carries no version,
+  and no other tracked file names the current one (`git grep -nE '0\.[0-9]+\.0'`). Tags sit on the
+  PR's *merge* commit, not the release commit (v0.5.0 = merge of #34, with fix commits after the
+  cut). CHANGELOG has never had link reference definitions and drops `## [Unreleased]` at the cut.
+  For coverage, diff `--stat v<prev> <branch>` and map every non-internal file to an entry: repo
+  `.claude/` changes that the README describes (the `close-plan` removal in 0.6.0) slip through,
+  though 0.1.0 and 0.4.0 entries counted them. Plugin DoD item applies (plugin.json touched).
 - **Install and update facts (verified 2026-11-23 on v2.1.330).**
   - `version` in `plugin.json` wins over the commit SHA, so installs keep their cached copy until it
     changes. Raise it only in the release commit (DoD Release item).
