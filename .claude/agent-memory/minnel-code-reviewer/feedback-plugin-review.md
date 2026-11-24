@@ -71,9 +71,11 @@ covers how to probe.
   `zsh`, `bash --posix`, and `POSIXLY_CORRECT=1` (bash re-enters POSIX mode from that variable). On
   macOS the POSIX-mode bash that is `/bin/sh` makes `echo` expand backslashes, so `echo "$payload"`
   turns JSON `\n` into raw newlines: that, not quoting, was the "8 false FAILs" under `sh`; dash
-  instead aborts with a parse error after 35 cases. The shipped guards read input with
-  `echo "$INPUT" | jq`, so with `POSIXLY_CORRECT` set a multi-line `rm -rf` passes (exit 0):
-  check whether that has been fixed. `all-awks.sh` runs `guards.sh` per awk; probe it with a
+  instead aborts with a parse error after 35 cases. The guards used to read input with
+  `echo "$INPUT" | jq`, so with `POSIXLY_CORRECT` set any JSON escape (`\n`, `\t`, `\\`) broke the
+  parse and the guard allowed the call; for tests-dir-guard that meant nearly every test-writer
+  Write, since content has newlines. Fixed in 32b0a0b (printf '%s\n'); flag any new `echo` of tool
+  input. The root class remains: a jq parse failure still reads as empty and allows. `all-awks.sh` runs `guards.sh` per awk; probe it with a
   broken fake awk first on PATH (exit 1), a PATH holding only `/usr/bin:/bin` plus a jq link (skips,
   exit 0), `CDPATH` set, and `kill -TERM` under dash (EXIT trap doesn't run, temp dir leaks).
 
