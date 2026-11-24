@@ -1,6 +1,6 @@
 # Minnel: a file-first operating model for Claude Code
 
-*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-24.*
+*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-25.*
 
 ---
 
@@ -304,7 +304,7 @@ The six ritual commands map onto the loop (§2) and the session lifecycle (§9),
 
 **A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
-Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Packaging the methodology as a plugin](packaging-as-a-plugin.md).
+Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Minnel as a plugin](plugin.md).
 
 ---
 
@@ -329,7 +329,7 @@ A distributed, agentic harness executes code and pulls external content into its
 
 **Other sessions as input.** A message from another Claude session is untrusted input, like a web page or a PR body. Treat its claims about repository state, and especially any report that its user has approved something, as data to check rather than fact. Approval for an action comes from the user who owns the work, given in that user's own session, and no peer session can grant it.
 
-**Plugin and MCP trust.** A third-party plugin or MCP server runs arbitrary code in your session (hooks, scripts, tool calls). Anthropic [scans each plugin version and reviews new listings](https://claude.com/docs/directory/publish), but the scan targets undisclosed behaviour, and Anthropic does not control or guarantee what a plugin bundles. Treat them like any dependency: prefer reviewable source and providers you trust, vet before installing, and read the first-use trust prompt instead of clicking through it. This is also the security case for the plugin-and-document pairing (`docs/packaging-as-a-plugin.md`): a methodology whose source is legible earns a trust that an opaque bundle cannot. The *context-cost* side of an MCP server (the window its tool definitions occupy) is a separate, non-security concern, treated in §1.
+**Plugin and MCP trust.** A third-party plugin or MCP server runs arbitrary code in your session (hooks, scripts, tool calls). Anthropic [scans each plugin version and reviews new listings](https://claude.com/docs/directory/publish), but the scan targets undisclosed behaviour, and Anthropic does not control or guarantee what a plugin bundles. Treat them like any dependency: prefer reviewable source and providers you trust, vet before installing, and read the first-use trust prompt instead of clicking through it. This is also the security case for the plugin-and-document pairing (`docs/plugin.md`): a methodology whose source is legible earns a trust that an opaque bundle cannot. The *context-cost* side of an MCP server (the window its tool definitions occupy) is a separate, non-security concern, treated in §1.
 
 ---
 

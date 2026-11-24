@@ -20,8 +20,17 @@ versions follow SemVer.
   version being cut: delete its line if the commits show it has shipped, or else finish it first or
   move it under a later release or Unscheduled. It also checks a backlog kept in the project's
   gitignored notes, when the conventions name one, and names any of its items in the chat only.
+- "Install this plugin" in `docs/plugin.md` says how to have Claude run one of Minnel's user-only
+  skills: name it in full after other text in your message, as in "run /minnel:triage". For Claude
+  to start one unprompted, copy the skill into `.claude/skills/` without `disable-model-invocation`,
+  or fork the plugin.
 
 ### Changed
+- The plugin companion document is now "Minnel as a plugin", at `docs/plugin.md`. It was
+  "Packaging the methodology as a plugin", at `docs/packaging-as-a-plugin.md`, a title that named
+  only packaging, though the document also covers installing and using Minnel. Its page on the doc
+  site moves to `/plugin/`, listed as "Plugin" in the navigation, and the old address redirects
+  there.
 - The backlog (Appendix F, and the template `/minnel:scaffold` writes) groups Next under a heading
   for each release, `### X.Y.Z`, earliest first, then `### Unscheduled`, in place of 0.5.0's inline
   `target: X.Y.Z` tag. Grouped that way, the backlog in the repository is the roadmap. `/triage`
@@ -29,6 +38,10 @@ versions follow SemVer.
   format.
 
 ### Fixed
+- The table in "What to package, and what to leave out" (`docs/plugin.md`) lists the `CLAUDE.md`
+  template, which `/minnel:scaffold` writes into a project.
+- The worked example gives the plan's archived path, and says that `/wrap` archives the finished
+  plan, not the session.
 - The §8 backlog-lifecycle diagram is drawn top to bottom, so its labels stay readable on GitHub at
   phone width.
 

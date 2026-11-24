@@ -47,6 +47,6 @@ claude plugin update minnel@minnel
 
 - [The methodology](https://tcrossland.github.io/claude-code-methodology/methodology/) explains
   what each piece is for.
-- [Install this plugin](https://tcrossland.github.io/claude-code-methodology/packaging-as-a-plugin/#install-this-plugin)
+- [Install this plugin](https://tcrossland.github.io/claude-code-methodology/plugin/#install-this-plugin)
   covers install scopes, updates, the scaffold's steps, the guards' settings and which pieces have
   had less use.

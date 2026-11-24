@@ -1,6 +1,6 @@
-# Packaging the methodology as a plugin
+# Minnel as a plugin
 
-*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-24.*
+*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-25.*
 
 ---
 
@@ -45,7 +45,16 @@ Then, in each project that adopts it:
 
 1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
 2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/minnel:accept` checks against them.
-3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap` and `/minnel:triage`. They run only when you invoke them.
+3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap` and `/minnel:triage`.
+
+The rituals and `/minnel:scaffold` are user-only skills: each sets `disable-model-invocation: true`, so Claude never starts one by itself. A message that asks for one in words ("run triage") doesn't start it, and Claude may run another installed skill whose description matches instead. To have Claude run one as part of a request, name it in full after some other text, as a separate word with no punctuation attached: "run /minnel:triage", or "check the branch, then /minnel:accept". The [Claude Code skills docs](https://code.claude.com/docs/en/skills) count a skill named this way as your permission for that message. Claude can run it while it responds, if your wording asks for it. A message that starts with the name runs the skill straight away. Tested on Claude Code 2.1.330, in the CLI (2026-11-25) and the desktop app (2026-11-24).
+
+The `skillOverrides` setting, which changes whether Claude sees a skill, doesn't apply to plugin skills. If you want Claude to start a ritual unprompted, when a task looks like one, there are two routes:
+
+- Copy the skill's folder into `.claude/skills/` and delete the `disable-model-invocation` line from its `SKILL.md`. The copy loads beside the plugin's, as `/triage` next to `/minnel:triage`. Give a copy of `plan` another name, because a project skill named `plan` replaces the built-in `/plan` in a terminal session. A copy of `retro` also needs the plugin's `scripts/config-audit.sh`: put the script in the copied folder, and change `${CLAUDE_PLUGIN_ROOT}/scripts/` to `${CLAUDE_SKILL_DIR}/` in both places the `SKILL.md` names it. The copy doesn't change when the plugin updates, so compare it with each release.
+- Fork the plugin, remove the key from the skills you want, and install the fork in place of Minnel. You then merge each upstream release yourself.
+
+The plugin keeps the key on all seven skills: §10 asks it of the rituals, and the scaffold writes project files. A project copy can loosen a skill but can't tighten one, because the plugin's version still loads beside it.
 
 What else is active once installed:
 
@@ -118,18 +127,19 @@ After install, a plugin's skills are **namespaced** under the plugin name, e.g. 
 
 ## What to package, and what to leave out
 
-How this plugin maps the methodology's appendices:
+How this plugin maps the methodology's appendices and its `CLAUDE.md` template:
 
 | Methodology piece | Plugin component | Notes |
 |---|---|---|
 | `code-reviewer`, `test-writer` (Appendix A, B) | `agents/*.md` | See the agent caveat below |
 | Project hooks + git guard (Appendix C) | `hooks/hooks.json` + `scripts/` | Hook format is identical to `settings.json` |
-| `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so only you start them |
+| `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so they run only when you name them |
 | Plan, Definition of Done, backlog, ADR and changelog skeletons (Appendices D–H) | `skills/scaffold/` | Writes them into the project; a plugin cannot bundle `.claude/rules/` |
+| `CLAUDE.md` starter template (`templates/CLAUDE.template.md`) | `skills/scaffold/` | Writes it into the project as `CLAUDE.md` |
 | `add-importer` and similar (Appendix I) | not shipped | An illustration; project-specific procedures stay in the project's `.claude/skills/` |
 | Security checklist (Appendix O) | not shipped | A judgement list to run, not an action to automate |
 
-Each shipped artefact also appears in its appendix, so the document stays readable without the plugin. This repository's consistency hook compares every pair and flags drift.
+Each shipped artefact also appears in its appendix or in `templates/`, so the document stays readable without the plugin. This repository's consistency hook compares every pair and flags drift.
 
 **One important agent caveat.** Plugin-shipped subagents support `name`, `description`, `model`, `effort`, `maxTurns`, `tools`, `disallowedTools`, `skills`, `memory`, `background`, `isolation` (only `worktree`) and a few others. For security reasons they do **not** support `hooks`, `mcpServers`, `permissionMode` or `initialPrompt` in frontmatter; those are silently ignored when an agent loads from a plugin. So the `test-writer` agent's frontmatter `PreToolUse` guard (Appendix B) will not travel inside the plugin. This plugin moves that guard to `hooks/hooks.json`. A `PreToolUse` hook receives `agent_type` (here `minnel:test-writer`) when a subagent makes the call, so `tests-dir-guard.sh` acts on that agent's edits and lets every other edit through.
 

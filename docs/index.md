@@ -13,8 +13,8 @@ for experienced solo developers and small teams.
 - **[Worked example](worked-example.md)** — one real task traced end to end through the loop.
 - **[Appendices](appendices/README.md)** — the drop-in artefacts: subagents, hooks, document
   skeletons, the example skill, and the ritual commands.
-- **[Packaging as a plugin](packaging-as-a-plugin.md)** — how to install the methodology as a
-  Claude Code plugin, how to package your own, and why that is the endpoint.
+- **[Minnel as a plugin](plugin.md)** — how to install the methodology as a Claude Code
+  plugin, how to package your own, and why that is the endpoint.
 
 ## Using it
 
@@ -25,7 +25,7 @@ for experienced solo developers and small teams.
    all at once.
 
 Or install the plugin and let its `/minnel:scaffold` write the template and file layout for
-you: see [Packaging as a plugin](packaging-as-a-plugin.md#install-this-plugin).
+you: see [Minnel as a plugin](plugin.md#install-this-plugin).
 
 The source is plain Markdown, readable on its own; this site renders it. It is licensed
 Apache-2.0: free to use, modify and redistribute, including commercially. The

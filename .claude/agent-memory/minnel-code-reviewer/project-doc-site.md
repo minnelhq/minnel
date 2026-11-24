@@ -52,5 +52,12 @@ review doesn't cover.
   frame sized to the chart (the coordinator's observation on a scratch branch; I didn't see it).
   So a `TB` chart here isn't a finding by default, even though the user's global rendered-docs
   rule prefers `LR`. Ask for a render check at desktop and 375 px instead.
+- **Redirects (2026-11-25, `docs/plugin.md` rename).** `mkdocs.yml` has a `redirects` plugin with
+  `packaging-as-a-plugin.md: plugin.md`. Zensical 0.1.3 implements it natively (`zensical/config.py`
+  normalises `redirect_maps`); no new dependency, and the page keeps the `#anchor`. Keep the
+  redirect while any install runs v0.6.0 or earlier: that `plugin/README.md` links the old Pages
+  URL. Docs no longer need to reference MkDocs Material or keep a revert to it working (user,
+  2026-11-25): ADRs 0002 and 0003 and released changelog entries stay as records, but don't ask
+  for MkDocs-compatibility notes when `mkdocs.yml` gains a Zensical feature.
 - The site is not "own assets only": the theme links Google Fonts, and the bundle loads a
   `resize-observer-polyfill` from unpkg on old browsers.
