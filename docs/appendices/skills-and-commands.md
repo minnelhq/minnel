@@ -195,7 +195,8 @@ push it: `git tag -a v<version> -m v<version> <commit>`, then
 `git push origin v<version>`. If the tag already exists locally, push it rather than
 make it again. Use the tag format the conventions name, if they name one. Where the
 host publishes releases, publish one from the pushed tag with the version's changelog
-section as its notes; on GitHub,
+section as its notes. On GitHub a single newline in release notes shows as a line break,
+so first join each entry onto one line in the notes file. Then run
 `gh release create v<version> --verify-tag --notes-file <file holding that section>`.
 Pushing the tag and publishing the release change shared state, so run both only with
 my go-ahead.
