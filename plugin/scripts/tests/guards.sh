@@ -16,8 +16,8 @@ unset MINNEL_GIT_GUARD_COMMITS MINNEL_GIT_GUARD_PUSHES   # test the defaults, no
 fail=0
 
 bash_call() { jq -cn --arg c "$1" '{tool_name:"Bash", tool_input:{command:$c}}'; }
-write_call() { jq -cn --arg a "$1" --arg f "$2" \
-  '{tool_name:"Write", tool_input:{file_path:$f, content:"x"}} + (if $a == "" then {} else {agent_type:$a} end)'; }
+write_call() { jq -cn --arg a "$1" --arg f "$2" --arg c "${3:-x}" \
+  '{tool_name:"Write", tool_input:{file_path:$f, content:$c}} + (if $a == "" then {} else {agent_type:$a} end)'; }
 
 check() { # expected (0, 2 or ask) script payload label [env assignment]
   local want=$1 script=$2 payload=$3 label=$4 out got
@@ -154,6 +154,7 @@ check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"  
 # parsing and a guard reading it with echo lets the call through. The guards read it with printf.
 check 2 bash-guard.sh "$(bash_call $'cd x\nrm -rf build')" 'rm -rf on a second line, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
 check ask git-guard.sh "$(bash_call $'cd x\ngit push')"    'git push on a second line, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
+check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/src/a.py $'a\nb')" 'test-writer, multi-line content, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
 check 2 tests-dir-guard.sh "$(write_call minnel:test-writer $'/proj/src/a\tb.py')" 'test-writer, a tab in the path, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
 
 # config-audit.sh: a throwaway project and home, each naming paths that exist and paths that don't.
