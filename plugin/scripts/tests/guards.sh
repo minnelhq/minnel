@@ -153,7 +153,7 @@ printf '%s\n' 'Gone: `docs/gone.md`, @docs/imported.md' \
   'Not paths: `/release`, `plans/`, `src/**/*.py`, `<name>/x.md`, `${CLAUDE_PLUGIN_ROOT}/x.sh`, `https://example.com/a.md`, `git@example.com:o/r.git`' \
   '@docs/linestart.md' \
   > "$audit_dir/proj/CLAUDE.md"
-printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`, `node_modules/@types/gone/index.d.ts`' \
+printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`, `./x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`, `node_modules/@types/gone/index.d.ts`' \
   > "$audit_dir/proj/.claude/agent-memory/r/note.md"
 printf '%s\n' 'Gone: `~/.claude/gone.sh`. Here: `~/.claude/rules/r.md`. Another project'"'"'s: `docs/other.md`' \
   > "$audit_dir/home/.claude/rules/r.md"
@@ -187,6 +187,7 @@ audit has   'note.md:1: .claude/agents/old.md'                 'a missing path i
 audit has   'r.md:1: ~/.claude/gone.sh'                        'a missing ~/ path in a user rule'
 audit lacks 'here.md'                                          'present paths, a :line suffix and ../ included'
 audit lacks 'x/SKILL.md'                                       'a path that ends a project file'
+audit lacks ': ./x/SKILL.md'                                   'a ./ path that ends a project file'
 audit lacks ': ./docs/'                                        'a present directory'
 audit lacks '/release'                                         'skips a slash command'
 audit lacks 'plans/'                                           'skips a bare directory name'
