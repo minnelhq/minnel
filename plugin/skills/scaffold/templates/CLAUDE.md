@@ -70,7 +70,8 @@ other, so keep them consistent.
   every change. Run it again after fixing a Critical finding, after a Warning fix that
   changes code or published docs, or when the branch gains commits beyond fixes for its
   findings and the reviewer's memory, pointing it at the new commits; check any other
-  fix against its finding yourself. There is no second reviewer; this is it.
+  fix against its finding yourself. <Keep one: "There is no second reviewer; this is
+  it." or "It runs before the human review.">
   <Optional: name the trivial branches that skip review, e.g. typo-only prose
   fixes; delete if none do.>
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check

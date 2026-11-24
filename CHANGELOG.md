@@ -24,6 +24,7 @@ versions follow SemVer.
   and so its anchor, changed to match.
 - §7 assumed there is no PR reviewer. It now gives the reason to run the review subagent either
   way: without a reviewer it is the only second reader, and with one it checks the diff first.
+  The `CLAUDE.md` template's review bullet offers both cases.
 
 ## [0.5.0] - 2026-11-24
 
