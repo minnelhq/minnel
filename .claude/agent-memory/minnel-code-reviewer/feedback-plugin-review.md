@@ -144,6 +144,10 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   Re-review of 5fdd231 (2026-11-24): each `list_files` entry, the old blanket `@` skip and the
   git-remote regex `^[^\/@]+@[^\/:]+:` now fail guards.sh when mutated (scratch copy via
   `git archive`; the bash guard blocks `rm -rf` of the scratch dir, so use a fresh dir name).
+  Review of 3c2f4ce (2026-11-24): to run config-audit.sh under dash, put a scratch dir with an
+  `sh -> /bin/dash` symlink first on PATH and run `bash guards.sh` (it calls `sh ./config-audit.sh`);
+  guards.sh itself is bash-only. `set --` inside a POSIX function only replaces that function's
+  positional parameters, so `in_repo`'s strip loop is safe for callers.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
