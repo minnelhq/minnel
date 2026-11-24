@@ -88,7 +88,6 @@ exists() { # scope file path — true when the path resolves
   esac
 }
 in_repo() { # path — a directory appears in a project file's path; a file ends one
-  set -- "$1"
   while [ "${1#./}" != "$1" ]; do set -- "${1#./}"; done   # ./x is written relative to somewhere
   [ -n "$1" ] || return 1
   case "$1" in
