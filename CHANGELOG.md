@@ -18,6 +18,27 @@ versions follow SemVer.
 - The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
   adding one, and updates or deletes a note that a finding contradicts.
 
+### Changed
+- The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
+  site's pages. The methodology and the home page name the same audience as the README: experienced
+  solo developers and small teams.
+
+### Fixed
+- The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at
+  `.claude/agents/` and a `code-reviewer` that a plugin install doesn't have. It now names
+  `minnel:code-reviewer` and the `/minnel:` skills too.
+- §9: `.worktreeinclude` doesn't copy a listed folder that is a git repository of its own. §9 now
+  says so and suggests linking that folder into the worktree instead.
+- §9 called `/security-review` a plugin. It is a command built into Claude Code.
+- §5's example model IDs name the current models, `claude-opus-5-5` and `claude-sonnet-5-5`.
+- The operating principle and §6 assumed the reader has no CI and called hooks a CI substitute. They
+  now present hooks as checks at the moment of the edit that catch some failures before CI, which
+  stays the authority. Without a pipeline, hooks are still the only automatic gate. §6's heading,
+  and so its anchor, changed to match.
+- §7 assumed there is no PR reviewer. It now gives the reason to run the review subagent either
+  way: without a reviewer it is the only second reader, and with one it checks the diff first.
+  The `CLAUDE.md` template's review bullet offers both cases.
+
 ## [0.5.0] - 2026-11-24
 
 ### Added

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # docs-consistency.sh — PostToolUse hook (matcher: Edit|Write|MultiEdit).
 #
-# Catches, at edit time, four defect classes the code-reviewer keeps finding by
+# Catches, at edit time, five defect classes the code-reviewer keeps finding by
 # hand in the product docs:
 #   A) dangling cross-references — a §N or "Appendix X" that points at no real
 #      heading (sections validated against methodology.md, appendices against

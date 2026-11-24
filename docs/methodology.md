@@ -1,6 +1,6 @@
 # Minnel: a file-first operating model for Claude Code
 
-*A single-developer discipline for driving Claude Code. Last updated 2026-11-23.*
+*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-24.*
 
 ---
 
@@ -13,7 +13,7 @@ The job is to engineer a repeatable environment around the model. The model's **
 1. **What you persist to files** — so intent survives compaction, session restarts, and your own forgetfulness.
 2. **What you enforce deterministically** — so correctness does not depend on the model remembering a rule.
 
-Everything below follows from that. As a solo developer with no CI pipeline, the second point matters more for you than for most: hooks and a review subagent *are* your CI.
+Everything below follows from that. The second point matters most when nothing else checks the work. Without a CI pipeline or a second reviewer, hooks and a review subagent are the checks you have. With CI, hooks move some of those checks to the moment of the edit, where the agent can still act on them.
 
 > **Versioning note.** Claude Code's surface moves quickly and several features below are version-gated (forks, nested subagents, the `opusplan` setting, `.claude/rules/`). Confirm against your installed version with `claude --version` and the `/help` and `/hooks` menus before relying on any specific mechanic.
 
@@ -40,7 +40,7 @@ The governing distinction is **always-loaded vs loaded-on-demand**. `CLAUDE.md` 
 
 **Split the architecture document out, but not the invariants with it.** A large architecture document has no business loading on every turn, so the explanatory bulk (components, diagrams, rationale) belongs in `docs/architecture.md`, referenced from `CLAUDE.md`. The trap: `CLAUDE.md` is *guaranteed* in context, whereas a linked doc is read only if Claude opens it. So the *hard constraints* (the rules that must hold on every change) have to stay as a short "Invariants" block in `CLAUDE.md`; a constraint sitting solely behind a link is one Claude will eventually violate because it never read the file. The line to cut along is "rules that must always be obeyed" (`CLAUDE.md`) versus "background consulted when relevant" (`docs/`). One caveat on mechanism: importing a file into `CLAUDE.md` (the `@`-style import) pulls its *full* content into the always-loaded path, reintroducing the cost you are avoiding. For a large doc, use a plain path reference Claude reads on demand, not an import. Confirm import-vs-reference behaviour in your installed version.
 
-**Keep a Working agreement in `CLAUDE.md`.** Alongside the invariants, the project `CLAUDE.md` carries a short *Working agreement*: the how-we-work rules (plan discipline, review-before-merge, verify-don't-assume) that the sections below justify. Cross-project rules that hold regardless of the repo (worktree hygiene, verify-before-asserting) belong in `~/.claude/CLAUDE.md` or a file under `~/.claude/rules/`; project-bound rules that name this repo's commands, branches, or subagents stay in the project file. The canonical text is in the template (`templates/CLAUDE.template.md`); this document explains those rules in the sections that follow rather than reproducing them, so the agreement has one source of truth, not three.
+**Keep a Working agreement in `CLAUDE.md`.** Alongside the invariants, the project `CLAUDE.md` carries a short *Working agreement*: the how-we-work rules (plan discipline, review-before-merge, verify-don't-assume) that the sections below justify. Cross-project rules that hold regardless of the repo (worktree hygiene, verify-before-asserting) belong in `~/.claude/CLAUDE.md` or a file under `~/.claude/rules/`; project-bound rules that name this repo's commands, branches, or subagents stay in the project file. The canonical text is in the template ([`templates/CLAUDE.template.md`](https://github.com/tcrossland/claude-code-methodology/blob/main/templates/CLAUDE.template.md)); this document explains those rules in the sections that follow rather than reproducing them, so the agreement has one source of truth, not three.
 
 **Treat the memory directory like `CLAUDE.md`, not a journal.** Agent memory (the `memory:` scope, §4) is real persistence, so it earns the same discipline as every layer above: write only the non-obvious, one fact per entry, and don't store what the repo, git history, or `CLAUDE.md` already record. Two hazards are specific to it. A *stale* recalled memory is worse than `CLAUDE.md` drift. It surfaces as authoritative background you may not think to question, so prune on contradiction, and re-verify any memory that names a file, flag, or version before acting on it. And recall is itself a context cost, so a speculative pile of memories taxes every session that triggers them. Pruning happens at the retro (§8), which proposes deleting, merging or rewriting stale and duplicated entries in memory and the rule files alike. A reviewer that keeps memory also prunes as it goes: when a finding contradicts one of its notes, it updates or deletes the note (Appendix A).
 
@@ -147,7 +147,7 @@ See Appendix A and B for drop-in definitions.
 
 ## 5. Model / mode decision matrix
 
-Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a full ID such as `claude-opus-4-8` or `claude-sonnet-4-6`. Effort runs `low → medium → high → xhigh → max`. Permission modes: `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`.
+Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a full ID such as `claude-opus-5-5` or `claude-sonnet-5-5`. Effort runs `low → medium → high → xhigh → max`. Permission modes: `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`.
 
 | Task | Model | Effort | Permission mode | Plan first? |
 |---|---|---|---|---|
@@ -166,9 +166,9 @@ Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a fu
 
 ---
 
-## 6. Hooks: your CI substitute
+## 6. Hooks: checks at the moment of the edit
 
-With no pipeline, hooks are where determinism lives. The model can forget; an exit-code-2 hook cannot. Three tiers:
+Hooks are where determinism lives inside the session. The model can forget; an exit-code-2 hook cannot. Without a pipeline, they are your only automatic gate. With one, they catch some of the same failures earlier, and CI stays the authority: it runs on every push, including changes made outside Claude Code or in a session without the hooks. Three tiers:
 
 - **`PreToolUse` guards** — the generalised version of a path/command guard. The hook reads the tool input as JSON on stdin, inspects it, and exits `2` to block, feeding the message on stderr back to Claude. For a step you want to approve rather than forbid, it can instead ask: exit 0 with a `permissionDecision` of `"ask"` in its JSON output, and you get a permission prompt showing its reason ([hooks docs](https://code.claude.com/docs/en/hooks)). Natural matchers: `Bash` (block destructive commands, enforce read-only SQL) and `Edit|Write` (protect paths outside the working area). A guard like this catches the slips that matter, which is what makes `acceptEdits` reasonable. One that reads a command as text is a tripwire, not a sandbox: it stops an agent's slip, not a command built to get past it.
 - **`PostToolUse`** — matcher `Edit|Write`: run formatter/linter, and a quick build or targeted test. Catches breakage at the moment of edit rather than three steps later. Can run async so it does not block the turn.
@@ -200,12 +200,12 @@ Hooks can also be scoped *inside* a subagent's frontmatter (they fire only while
 
 ## 7. Solo-developer discipline
 
-A few things that matter more without a team to catch you:
+A few things that matter more when few people, or none, check your work:
 
 - **One concern per branch or worktree.** `isolation: worktree` gives a subagent an isolated checkout that is auto-discarded if it makes no changes. Use it to try an approach without polluting your working tree.
 - **Commit at every green checkpoint**, prompted by the `PostToolUse` test hook passing. Your undo granularity is your safety net. Checkpoints/rewind cover in-session mistakes; commits cover the rest. They are complements, not substitutes.
 - **Treat `CLAUDE.md` and the memory directory as a living spec, not an archive.** Prune stale rules and contradicted memories; a contradicted instruction is worse than a missing one (memory hygiene: §1). The retro proposes the prunings at each plan boundary (§8), and the review subagent rewrites or deletes a note of its own when a finding contradicts it.
-- **The review subagent is non-negotiable** precisely because there is no PR reviewer. Run it once on the branch's final diff before every merge to your main branch, except on branches your working agreement names as trivial in advance, such as typo fixes in prose. Run it again after you fix a Critical finding, after a Warning fix that changes code or published docs, or when the branch gains commits beyond fixes for its findings and the reviewer's own memory, and point the re-run at the new commits. A review covers only the diff it read, and a re-run needs to read only what changed since. Check any other fix against its finding yourself. Running it after every edit adds cost without catching more, since the final diff holds every edit.
+- **Run the review subagent on every branch that isn't trivial.** Without a PR reviewer it is your only second reader. With one, it runs first, so the person reads a diff already checked against the project's invariants and Definition of Done. Run it once on the branch's final diff before every merge to your main branch, except on branches your working agreement names as trivial in advance, such as typo fixes in prose. Run it again after you fix a Critical finding, after a Warning fix that changes code or published docs, or when the branch gains commits beyond fixes for its findings and the reviewer's own memory, and point the re-run at the new commits. A review covers only the diff it read, and a re-run needs to read only what changed since. Check any other fix against its finding yourself. Running it after every edit adds cost without catching more, since the final diff holds every edit.
 - **Give Claude something to verify against.** A failing test, a type checker, a build command in `CLAUDE.md`. Verification loops are what turn "looks right" into "is right".
 
 ---
@@ -254,7 +254,7 @@ One rule prevents most of the trouble: **one session, one worktree**. Never run 
 
 Isolate with git worktrees. The CLI's `claude -w <branch>` (or `--worktree`) creates a linked worktree on its own branch and scopes the session to it; in-session, "work in a worktree" invokes the `EnterWorktree` tool. The desktop app creates a worktree only when its Worktree option is on, which is off by default, so check where a session is rather than assume: `pwd` in that session shows its checkout. The CLI does not do it by default, which is where people get caught. For subagents, `isolation: worktree` gives the same per-dispatch guarantee. Add `.claude/worktrees/` to `.gitignore` so worktrees don't show up as untracked files in your main checkout.
 
-Gitignored files (your `.env`, your local notes) won't exist in a fresh worktree until you copy them in. A `.worktreeinclude` at the repository root lists them in `.gitignore` syntax, and Claude Code copies each match that git ignores into every worktree it creates. The copy happens once, when the worktree is created, so a later edit in either place doesn't reach the other. Make lasting edits in the main checkout, or copy a worktree's edits back before you remove it: removing the worktree discards them. If the `.worktreeinclude` would name a path you keep private, leave it untracked and list it in `.git/info/exclude`: Claude Code still reads it (observed, v2.1.330).
+Gitignored files (your `.env`, your local notes) won't exist in a fresh worktree until you copy them in. A `.worktreeinclude` at the repository root lists them in `.gitignore` syntax, and Claude Code copies each match that git ignores into every worktree it creates. The copy happens once, when the worktree is created, so a later edit in either place doesn't reach the other. Make lasting edits in the main checkout, or copy a worktree's edits back before you remove it: removing the worktree discards them. A listed folder that is a git repository of its own isn't copied at all (observed, v2.1.330). Symlink it into each worktree from the main checkout instead, for example from a `SessionStart` hook. Ignore it with a pattern that has no trailing slash (`notes`, not `notes/`): a trailing slash matches only directories, so git would show the link as untracked. If the `.worktreeinclude` would name a path you keep private, leave it untracked and list it in `.git/info/exclude`: Claude Code still reads it (observed, v2.1.330).
 
 Two boundary rules stop parallel work turning into merge conflicts. Scope worktrees by module, not by task, so two sessions cannot edit the same file. And rebase between them rather than merge. Tasks in the same module share one worktree sequentially; only cross-module work goes parallel.
 
@@ -264,7 +264,7 @@ Two boundary rules stop parallel work turning into merge conflicts. Scope worktr
 
 Two safeguards, both reusing machinery already in the methodology:
 
-- A **`git` `PreToolUse` guard** (Appendix C) that blocks blanket staging (`git add -A`, `git add .`, `git add -u`) and `git commit -a`, and asks you to approve each `git push`: the §6 hook pattern pointed at the accidental-commit class. It lets an explicit `git commit` through, since a commit stays local until it is pushed and you commit at every green checkpoint (§7). A project can set either to allow, ask or block. The guard reads the command as text, so it catches a slip, not a push hidden in a variable or `sh -c`. Pair it with `.gitignore` discipline and the security-review plugin for credential leaks (secret hygiene is part of the security stance, §11).
+- A **`git` `PreToolUse` guard** (Appendix C) that blocks blanket staging (`git add -A`, `git add .`, `git add -u`) and `git commit -a`, and asks you to approve each `git push`: the §6 hook pattern pointed at the accidental-commit class. It lets an explicit `git commit` through, since a commit stays local until it is pushed and you commit at every green checkpoint (§7). A project can set either to allow, ask or block. The guard reads the command as text, so it catches a slip, not a push hidden in a variable or `sh -c`. Pair it with `.gitignore` discipline and the built-in `/security-review` command for credential leaks (secret hygiene is part of the security stance, §11).
 - **Real commits, not checkpoints, as the source of truth.** Claude's rewind/checkpoints don't track bash-driven or *external* changes and aren't a version-control replacement, so in any concurrent setup they will desync. Commit at each green checkpoint and treat rewind as in-session only.
 
 **Session close-out.** A session is ephemeral scratch; the files are the source of truth (§3). So the end-of-session ritual's first job is to guarantee the file-truth is current, with the summary and name as byproducts. Run a `/wrap` (Appendix N). It confirms the durable records are updated: plan status advanced, user-facing changes drafted into `CHANGELOG` Unreleased, decisions logged. It captures any retro signal (anything corrected twice becomes a config change, §8). Then it writes a one-line *pointer* summary naming which artefacts were touched and where things landed, and suggests a name. Keep the summary pointer-shaped: a verbose session summary becomes a fourth record that duplicates the plan, changelog and decision log, and a record that drifts is worse than none.
@@ -302,7 +302,7 @@ The six ritual commands map onto the loop (§2) and the session lifecycle (§9),
 
 **A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
-Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, *Packaging the Methodology as a Plugin*.
+Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Packaging the methodology as a plugin](packaging-as-a-plugin.md).
 
 ---
 

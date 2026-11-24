@@ -1,6 +1,6 @@
-# A Worked Example: Adding a Link-Resolution Check
+# A worked example: adding a link-resolution check
 
-*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-23.*
+*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-24.*
 
 ---
 
@@ -13,9 +13,9 @@ guarding this file. Read it as a retrospective, not a tutorial.
 ## The task
 
 The [Definition of Done](https://github.com/tcrossland/claude-code-methodology/blob/main/.claude/rules/definition-of-done.md) lists *"Links and paths
-resolve — intra-repo references point at files that exist."* The repository already enforces
+resolve — intra-repo references point at files that exist."* The repository already enforced
 two of its consistency rules deterministically through a `PostToolUse` hook (§6),
-[`docs-consistency.sh`](https://github.com/tcrossland/claude-code-methodology/blob/main/.claude/hooks/docs-consistency.sh): it flags dangling `§N`/Appendix
+[`docs-consistency.sh`](https://github.com/tcrossland/claude-code-methodology/blob/main/.claude/hooks/docs-consistency.sh): it flagged dangling `§N`/Appendix
 cross-references (Check A) and US spellings (Check B). But link resolution was still a *manual*
 check, caught, if at all, by the human or the reviewer. The task: close that gap by adding
 **Check C**, so a link whose target file does not exist fails at edit time.
@@ -29,7 +29,7 @@ links" but "what does adding a check disturb?" Two findings changed the plan:
   "two checks", so adding a third ripples almost nowhere in the prose.
 - Appendix C ([`appendices/hooks.md`](appendices/hooks.md)) holds *generic example* hooks, not
   the live script. The two are decoupled by design. So the change touches no appendix and no
-  `A–O` count claim. That single fact shrank the blast radius from "fifteen cross-referenced
+  count claim (then `A–O`). That single fact shrank the blast radius from "fifteen cross-referenced
   files" to "the hook, the changelog line, and one index entry".
 
 The lesson the methodology keeps making: the expensive part of a docs change is the

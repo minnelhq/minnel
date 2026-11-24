@@ -1,6 +1,6 @@
-# Packaging the Methodology as a Plugin
+# Packaging the methodology as a plugin
 
-*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-23.*
+*Companion to "Minnel: a file-first operating model for Claude Code". Last updated 2026-11-24.*
 
 ---
 
@@ -105,9 +105,9 @@ The manifest needs only a `name`; `claude plugin validate` warns when `version`,
 
 Four rules that prevent the usual silent failures:
 
-- **Component folders live at the plugin root, never inside `.claude-plugin/`.** Nesting them there makes the plugin load while its components silently vanish — the single most common structural mistake.
+- **Component folders live at the plugin root, never inside `.claude-plugin/`.** Nesting them there makes the plugin load while its components silently vanish. It is the most common structural mistake.
 - **Use `${CLAUDE_PLUGIN_ROOT}` for every intra-plugin path.** A hook that references `./scripts/git-guard.sh` by an absolute or home-relative path works on your machine and breaks on anyone else's. `${CLAUDE_PLUGIN_ROOT}/scripts/git-guard.sh` is portable. Quote it in a hook command, as in `"${CLAUDE_PLUGIN_ROOT}"/scripts/git-guard.sh`, so an install path with a space still runs.
-- **`.claude/rules/` is not a plugin component directory.** Rules load from the *project*, not from a plugin. Verified on Claude Code v2.1.181 (2026-06-19): with a test plugin enabled, its bundled `rules/` (and `.claude/rules/`) never fired while its commands did, and the plugin component reference omits `rules/` from the auto-discovered set. The 2026-11-23 docs check agrees, and adds that a plugin's own `CLAUDE.md` is not loaded either. So ship project conventions — the Definition of Done especially — as a skill that writes them into the project, as this plugin's scaffold does, or as instructions in the agents that need them.
+- **`.claude/rules/` is not a plugin component directory.** Rules load from the *project*, not from a plugin. Verified on Claude Code v2.1.181 (2026-06-19): with a test plugin enabled, its bundled `rules/` (and `.claude/rules/`) never fired while its commands did, and the plugin component reference omits `rules/` from the auto-discovered set. The 2026-11-23 docs check agrees, and adds that a plugin's own `CLAUDE.md` is not loaded either. So ship project conventions (the Definition of Done especially) as a skill that writes them into the project, as this plugin's scaffold does, or as instructions in the agents that need them.
 - **Prefer `skills/` to `commands/`.** The plugin docs call `commands/` the older format; it still loads. A skill with `disable-model-invocation: true` runs only when you invoke it by name, which is the property §10 wants from a ritual command.
 
 After install, a plugin's skills are **namespaced** under the plugin name, e.g. `/my-methodology:retro`, and its agents become `my-methodology:<agent>`. That avoids collisions with a project's own.
