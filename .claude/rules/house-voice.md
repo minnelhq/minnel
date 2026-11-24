@@ -54,4 +54,5 @@ carries real weight. State the claim, or drop it.
 ## Self-test
 
 Before committing prose, scan for: an em-dash a comma would replace, a "not X but Y", a default
-triad, an opening hedge, three same-length sentences in a row. Fix what you find.
+triad, an opening hedge, three same-length sentences in a row, and a spliced line far longer or
+shorter than its neighbours (reflow the paragraph). Fix what you find.

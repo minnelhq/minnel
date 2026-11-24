@@ -46,12 +46,14 @@ appendix and its plugin file is a defect class like a dangling §N.
   Also check `docs/backlog.md` has no `### <version>` heading left for the version being cut
   (the methodology's own `/release` step 6), and for a renamed page that the built `site/` has
   the redirect stub at the old path.
-  v0.6.0 is the first tag with a GitHub Release (entries unwrapped to one line each); earlier tags
-  have none. `gh release create --verify-tag` aborts unless the tag is already on the remote, so
+  v0.6.0 is the first tag with a GitHub Release; earlier tags have none. Joining each entry onto
+  one line in the notes file is now a step in `/release` (Appendix M); check a release's notes
+  against it. `gh release create --verify-tag` aborts unless the tag is already on the remote, so
   any written procedure using it needs a tag push before it (gh 2.105, 2026-11-24). Tagging prose
   must name the same commit everywhere: §8, the release skill, the DoD and the changelog line.
   Release notes and wrapped lines: `gh api markdown -f mode=gfm` renders a soft break inside a
-  list item as `<br>` (2026-11-24); that release pages use the same mode is inferred, not seen.
+  list item as `<br>` (2026-11-24). The release page does too: the coordinator counted 5 `<br>` in
+  one wrapped v0.7.0 item and 0 after `gh release edit` with joined notes (2026-11-25, its report).
   The GitHub repo is `tcrossland/claude-code-methodology` (not the folder name) for `gh api`.
   A "cut but not tagged" check must read the remote (`git ls-remote --tags origin`, `origin/main`),
   as §9 says, or a local unpushed tag hides it.
@@ -88,8 +90,8 @@ appendix and its plugin file is a defect class like a dangling §N.
   `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh`) breaks; `scaffold` uses `${CLAUDE_SKILL_DIR}`
   and survives a folder copy. A project skill named `plan` replaces the built-in `/plan` in a
   local terminal session. `Skill(<name>)` deny rules in `permissions` restrict which skills
-  Claude invokes, with no plugin exclusion in the docs (untested on plugin skills), so "can't
-  tighten a plugin skill" claims are false; a fork can add the key too. A `/name` after plain
+  Claude invokes, with no plugin exclusion in the docs (untested on plugin skills); see
+  [[feedback-recurring-defects]] item 31 for the one-way-door check. A `/name` after plain
   text must be a separate word with no punctuation attached, or the call is blocked (sourced: the
   "Control who invokes a skill" section, below the deploy example: "If Claude tries when your
   message doesn't include `/deploy` as a separate word with no punctuation attached, Claude Code

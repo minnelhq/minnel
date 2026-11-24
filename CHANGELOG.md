@@ -3,6 +3,17 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
+## [Unreleased]
+
+### Added
+- The repository's consistency hook gains Check F: it flags an edited doc whose "Last updated"
+  date is older than today.
+
+### Fixed
+- `/release` (Appendix M, `/minnel:release`) joins each changelog entry onto one line in the
+  release-notes file before publishing on GitHub, which shows a single newline in release notes
+  as a line break.
+
 ## [0.7.0] - 2026-11-25
 
 ### Added

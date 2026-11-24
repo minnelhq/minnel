@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # docs-consistency.sh — PostToolUse hook (matcher: Edit|Write|MultiEdit).
 #
-# Catches, at edit time, five defect classes the code-reviewer keeps finding by
+# Catches, at edit time, six defect classes the code-reviewer keeps finding by
 # hand in the product docs:
 #   A) dangling cross-references — a §N or "Appendix X" that points at no real
 #      heading (sections validated against methodology.md, appendices against
@@ -9,12 +9,14 @@
 #   B) US spellings — the house style is British (-ise); a curated, exact-word
 #      list flags the unambiguous American forms;
 #   C) broken intra-repo links — a [text](path) whose target file does not exist,
-#      resolved relative to the edited file (fenced code blocks are skipped); and
+#      resolved relative to the edited file (fenced code blocks are skipped);
 #   D) British DD/MM/YYYY dates — the repo's date format is ISO YYYY-MM-DD, so a
-#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C); and
+#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C);
 #   E) appendix–plugin drift — each artefact the plugin ships also appears in an
 #      appendix (or templates/), and the two copies must match once the intended
-#      differences in the PAIRS table are normalised away.
+#      differences in the PAIRS table are normalised away; and
+#   F) a stale "Last updated" line — an edited doc whose "Last updated YYYY-MM-DD"
+#      is older than today's date (backtick-fenced code blocks skipped).
 #
 # The edited file arrives as .tool_input.file_path in the JSON on stdin (the
 # field is identical for Edit, Write and MultiEdit). PostToolUse runs after the
@@ -249,11 +251,31 @@ done <<EOF
 $d_hits
 EOF
 
+# --- Check F: an edited doc's "Last updated" date is today's ---
+# The narrative docs carry "Last updated YYYY-MM-DD" in their subtitle; editing one
+# without moving the date has slipped past review more than once. ISO dates sort as
+# strings, so the older of two sorts first. $stripped skips backtick-fenced blocks
+# (not ~~~ fences or inline code). A date ahead of the local clock passes, since a doc
+# dated in a later timezone can be. The finding says a spelling-only edit may keep it.
+today=$(date +%Y-%m-%d)
+f_hits=$(printf '%s\n' "$stripped" | grep -noE 'Last updated [0-9]{4}-[0-9]{2}-[0-9]{2}' 2>/dev/null || true)
+while IFS= read -r hit; do
+  [ -n "$hit" ] || continue
+  ln=${hit%%:*}
+  date=${hit##* }
+  [ "$date" = "$today" ] && continue
+  oldest=$(printf '%s\n%s\n' "$date" "$today" | sort | head -n 1)
+  [ "$oldest" = "$date" ] || continue
+  findings="${findings}  stale 'Last updated ${date}' — move it to ${today}, unless the edit only fixed spelling (line ${ln})\n"
+done <<EOF
+$f_hits
+EOF
+
 if [ -n "$findings" ]; then
   {
     echo "docs-consistency: issues in ${REL}:"
     printf '%b' "$findings"
-    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD; appendix copies match the plugin files they ship as."
+    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD, and an edited doc's \"Last updated\" line is today's; appendix copies match the plugin files they ship as."
   } >&2
   exit 2
 fi
