@@ -51,10 +51,14 @@ nav:
       - Hooks: appendices/hooks.md
       - Document skeletons: appendices/skeletons.md
       - Skills & commands: appendices/skills-and-commands.md
-  - Packaging as a plugin: packaging-as-a-plugin.md
+  - Packaging as a plugin: plugin.md
 
 plugins:
   - search
+  # Keeps links to the page's old address working after its rename.
+  - redirects:
+      redirect_maps:
+        packaging-as-a-plugin.md: plugin.md
 
 markdown_extensions:
   - tables

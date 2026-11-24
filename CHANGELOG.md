@@ -20,12 +20,15 @@ versions follow SemVer.
   version being cut: delete its line if the commits show it has shipped, or else finish it first or
   move it under a later release or Unscheduled. It also checks a backlog kept in the project's
   gitignored notes, when the conventions name one, and names any of its items in the chat only.
-- "Install this plugin" in `docs/packaging-as-a-plugin.md` says how to have Claude run one of
+- "Install this plugin" in `docs/plugin.md` says how to have Claude run one of
   Minnel's user-only skills: name it in full after other text in your message, as in "run
   /minnel:triage". For Claude to start one unprompted, copy the skill into `.claude/skills/` without
   `disable-model-invocation`, or fork the plugin.
 
 ### Changed
+- The plugin companion document is now `docs/plugin.md`, in place of
+  `docs/packaging-as-a-plugin.md`, since it covers installing and using Minnel as well as packaging
+  a methodology. Its page on the doc site moves to `/plugin/`, and the old address redirects there.
 - The backlog (Appendix F, and the template `/minnel:scaffold` writes) groups Next under a heading
   for each release, `### X.Y.Z`, earliest first, then `### Unscheduled`, in place of 0.5.0's inline
   `target: X.Y.Z` tag. Grouped that way, the backlog in the repository is the roadmap. `/triage`

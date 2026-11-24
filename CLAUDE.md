@@ -17,7 +17,7 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `co
 
 - `docs/methodology.md` — the main reference (narrative §1–§11).
 - `docs/appendices/` — the drop-in artefacts (Appendices A–P), grouped by type; `README.md` indexes them.
-- `docs/packaging-as-a-plugin.md` — plugin packaging companion.
+- `docs/plugin.md` — plugin packaging companion.
 - `templates/CLAUDE.template.md` — the starter template artefact.
 - `plugin/` — the installable plugin, the appendix artefacts packaged; `.claude-plugin/marketplace.json`
   at the root lists it (ADR 0004).

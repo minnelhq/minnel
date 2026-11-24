@@ -19,7 +19,7 @@ artefacts can be adopted one at a time.
   plugin/MCP trust).
 - `docs/appendices/` — the sixteen drop-in artefacts (subagents, hooks, document skeletons, the
   example skill and the ritual commands; Appendices A–P), grouped by type. See its `README.md` index.
-- `docs/packaging-as-a-plugin.md` — how to install the plugin, how to package your own, and
+- `docs/plugin.md` — how to install the plugin, how to package your own, and
   why a plugin is the natural endpoint.
 - `docs/worked-example.md` — one real task (adding a link-resolution check) traced through the
   loop, end to end.
@@ -48,7 +48,7 @@ artefacts can be adopted one at a time.
    all at once.
 
 To skip the copying, install the plugin instead (see "Install this plugin" in
-`docs/packaging-as-a-plugin.md`). Its `/minnel:scaffold` writes the `CLAUDE.md` template and
+`docs/plugin.md`). Its `/minnel:scaffold` writes the `CLAUDE.md` template and
 the file layout into a project for you.
 
 ## Reading it as a site
@@ -86,7 +86,7 @@ The plugin's rituals, guards and reviewer are the exception. This repo runs them
 the project detail they need comes from `CLAUDE.md` and the Definition of Done, as it would for an
 adopter. The settings install the plugin from GitHub's `main`, but a merged edit to `plugin/`
 reaches this repo only after a release raises the plugin's version and the install is updated
-("Install this plugin" in `docs/packaging-as-a-plugin.md`). To try an edit before then,
+("Install this plugin" in `docs/plugin.md`). To try an edit before then,
 start Claude Code with `claude --plugin-dir ./plugin`.
 
 ## Status

@@ -14,4 +14,4 @@ lives in the skeletons file, with its kind.
 
 The plugin in `plugin/` ships Appendices A and B, the Appendix C guards, J–N and P, and its
 `/minnel:scaffold` skill writes D–H into a project (see
-[Packaging as a plugin](../packaging-as-a-plugin.md)). I and O stay as documentation.
+[Packaging as a plugin](../plugin.md)). I and O stay as documentation.

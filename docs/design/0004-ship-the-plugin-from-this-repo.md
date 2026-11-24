@@ -4,7 +4,7 @@
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
-The copies drift, and every new project repeats the copying. `docs/packaging-as-a-plugin.md`
+The copies drift, and every new project repeats the copying. `docs/plugin.md`
 had named a Claude Code plugin as the endpoint: one directory that bundles the agents, hooks and
 skills, installed by any project.
 
@@ -55,7 +55,7 @@ Ship the plugin, **Minnel**, from this repository.
 ## Consequences
 - An adopter installs with one command (two from the shell before Claude Code 2.1.292) and runs
   `/minnel:scaffold` once, rather than copying files. The install instructions live in
-  `docs/packaging-as-a-plugin.md`.
+  `docs/plugin.md`.
 - A manifest `version` takes priority over the commit, so every install, this repo's own included,
   stays on the cached copy until a release raises the version. A plugin fix merged to `main`
   reaches installs only at the next release, so every release sets the version, and the
