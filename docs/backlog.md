@@ -3,8 +3,9 @@
 Ordered top to bottom; the top item is what gets picked up next. Tag each — type
 (feat/fix/debt/chore), value (H/M/L), effort (H/M/L) — with a one-line *why now*. A Next item
 may name its release with `target: X.Y.Z`; Later items carry none. When an item ships, move its
-user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8). British
-English; dates ISO YYYY-MM-DD.
+user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8). Now is the
+active-plan pointer: it names the plan's file, with no stage count, or reads "(none — no active
+plan)". British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
 - (none — no active plan)

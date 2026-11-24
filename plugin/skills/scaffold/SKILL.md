@@ -24,5 +24,7 @@ Set up this project for the methodology. The templates are in `${CLAUDE_SKILL_DI
    around it.
 3. Report, file by file, what you wrote, what you skipped, and the placeholders I still need
    to fill: the build, test and lint commands in `CLAUDE.md` and the Definition of Done first.
+   For the Active plan section of a `CLAUDE.md` you wrote, say which of its two lines to keep:
+   the first if `docs/backlog.md` exists, otherwise the second.
 
 Do not stage or commit anything.

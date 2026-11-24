@@ -21,8 +21,7 @@ versions follow SemVer.
   plan's last stage has passed the Definition of Done, bar items pending until merge, it sets the
   status to done with the date and outcome, marks every stage done, clears the active-plan pointer
   where `CLAUDE.md` says it lives, and moves the file to `docs/plans/archive/`, creating the folder
-  if needed. §3, §9, §10, Appendix D and the scaffold's
-  `docs/plans/README.md` point to it.
+  if needed. §3, §9, §10, Appendix D and the scaffold's `docs/plans/README.md` point to it.
 
 ### Changed
 - The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
@@ -51,9 +50,11 @@ versions follow SemVer.
 - One active-plan pointer, in a place the project names. §3 asks you to pick one location and say
   in `CLAUDE.md` which. With a backlog, its Now section is the default and the template's "Active
   plan" section holds a fixed line saying so; without one, that section names the plan file. The
-  template and the scaffold's `docs/plans/README.md` no longer offer both at once. The pointer
-  names only the file: the template, Appendix D and Appendix F drop the stage count, which the
-  plan's status line already carries.
+  template and the scaffold's `docs/plans/README.md` no longer offer both at once, and
+  `/minnel:scaffold` reports which of the template's two lines to keep. The pointer names only the
+  file: the template and Appendix D drop the stage count, which the plan's status line already
+  carries. Appendix F's Now item names the plan file (`plan: docs/plans/<task-name>.md`) and reads
+  "(none — no active plan)" when no plan is live.
 
 ## [0.5.0] - 2026-11-24
 
