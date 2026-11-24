@@ -29,9 +29,10 @@ and propose the closing steps at the end instead.
    `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
 6. If a version was given, read the backlog (`docs/backlog.md`) and list any Next
    item whose release target is that version at the top of the draft: work meant
-   for this release is still open. For each, propose finishing it before the cut,
-   moving its target to the next release, or dropping the target, so no item still
-   targets the version once it ships. If none was given, suggest one from the changes.
+   for this release is still open. For each, propose deleting its line if the commits
+   show the item has shipped; otherwise propose finishing it before the cut, moving its
+   target to the next release, or dropping the target. No item should still target the
+   version once it ships. If no version was given, suggest one from the changes.
    Under Conventional Commits a `feat` makes a minor release, a `fix` a patch, and
    a breaking change a major.
 

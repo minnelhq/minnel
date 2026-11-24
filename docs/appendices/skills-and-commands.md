@@ -170,9 +170,10 @@ and propose the closing steps at the end instead.
    `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
 6. If a version was given, read the backlog (`docs/backlog.md`) and list any Next
    item whose release target is that version at the top of the draft: work meant
-   for this release is still open. For each, propose finishing it before the cut,
-   moving its target to the next release, or dropping the target, so no item still
-   targets the version once it ships. If none was given, suggest one from the changes.
+   for this release is still open. For each, propose deleting its line if the commits
+   show the item has shipped; otherwise propose finishing it before the cut, moving its
+   target to the next release, or dropping the target. No item should still target the
+   version once it ships. If no version was given, suggest one from the changes.
    Under Conventional Commits a `feat` makes a minor release, a `fix` a patch, and
    a breaking change a major.
 
@@ -268,15 +269,16 @@ Triage the backlog in `docs/backlog.md`. Draft only: do not edit files until I a
    release's version from its items' types: under Conventional Commits a `feat` makes a
    minor release, a `fix` a patch and a breaking change a major. A `debt` or `chore`
    item needs no release of its own unless an installer would notice it. Flag a target
-   that names a version already released. Flag a Next item placed above one that targets
-   an earlier release too: either the order or a target is wrong.
+   that names a version already released. Also flag a Next item placed above one that
+   targets an earlier release: either the order or a target is wrong.
 5. Show the roadmap the proposed targets make: Next items grouped under each target
    version, earliest first, each version with its suggested bump and the item types
    behind it; then the Next items with no target; then Later as one undated group. The
-   `target:` tags are the roadmap's only record, so don't write it to a tracked file.
-6. Include private items in the roadmap in this chat only, or write a roadmap that
-   includes them to the private notes. The tracked backlog targets tracked items only,
-   and names a private blocker in general terms.
+   `target:` tags are the roadmap's only record, so show it in the chat and don't write
+   it to a file.
+6. Include private items in the roadmap in this chat only, and keep their targets with
+   the private items. In the tracked backlog only tracked items carry targets, and it
+   names a private blocker in general terms.
 7. Present the draft as changes to the backlog, one line of reason each, followed by the
    roadmap. I choose what to apply.
 ```
