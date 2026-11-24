@@ -40,7 +40,7 @@ covers how to probe.
   apostrophe; `"$(git push)"` and backticks in double quotes; Claude's commit form
   `git commit -m "$(cat <<'EOF' … EOF )" && git push`; `$((1<<2))`, `$((1<<n))` and `(( x <<= n ))`;
   `case … in a) …` inside `"$(...)"`; `/usr/bin/sudo`; a missing awk file (the guard must block,
-  per the packaging doc). Run real commit messages through the commit form: only `DROP TABLE`
+  per the plugin doc). Run real commit messages through the commit form: only `DROP TABLE`
   mentions should block. Quoted text accumulates char by char (quadratic on BSD awk).
 - **Guards CI (`.github/workflows/guards.yml`).** Read the job logs (`gh run view --job <id> --log`),
   not the tick: the awk check step should print `mawk …` / `GNU Awk …` and the tests 0 `FAIL`.

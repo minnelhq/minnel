@@ -24,9 +24,9 @@ appendix and its plugin file is a defect class like a dangling §N.
   [[feedback-plugin-review]].
 - **Counts of pairs.** Prefer prose with no PAIRS count; when prose states one, count the heredoc
   rows yourself (ADR 0004's first draft miscounted).
-- **"Has run here" claims** (packaging doc "Install this plugin", ADR 0004, README Dogfooding) must
+- **"Has run here" claims** (plugin doc "Install this plugin", ADR 0004, README Dogfooding) must
   match what `.claude/settings.json` wires (`minnel@minnel` from GitHub since 2026-11-23), not
-  what the plugin ships. The less-use list lives in the packaging doc and ADR 0004; a change to
+  what the plugin ships. The less-use list lives in the plugin doc and ADR 0004; a change to
   one strands the other.
 - **Release lag.** The repo runs the published, version-pinned plugin, not the worktree's
   `plugin/`, so "ran it here" is no evidence for a plugin edit on the same branch. Before accepting
@@ -71,13 +71,13 @@ appendix and its plugin file is a defect class like a dangling §N.
 - **I am `minnel:code-reviewer`.** This memory lives in `.claude/agent-memory/minnel-code-reviewer/`
   (observed, not documented). The repo-only checks (hook safety, CI least privilege, Zensical and
   plugin commands) are DoD items, so read the DoD every review.
-- **A plugin can't ship `.claude/rules/`.** The packaging doc's claim was confirmed on v2.1.181
+- **A plugin can't ship `.claude/rules/`.** The plugin doc's claim was confirmed on v2.1.181
   (2026-06-19) with two controls: a plugin command fired (load control) and a project rule fired
   (mechanism control), while bundled `rules/` and `.claude/rules/` did not. The plugins reference
   omits `rules/`; the 2026-11-23 docs check adds that a plugin's own `CLAUDE.md` isn't loaded. If
   the bullet is reworded, it must still name both controls, a version and an ISO date. Plan:
   `docs/plans/archive/verify-plugin-rules-bundling.md`.
-- **Loosening user-only skills (packaging doc "Install this plugin", as of 2026-11-25).** Facts to
+- **Loosening user-only skills (plugin doc "Install this plugin", as of 2026-11-25).** Facts to
   check any prose against (skills docs fetched 2026-11-25): `${CLAUDE_PLUGIN_ROOT}` is substituted
   *only in plugin skills*, so a project copy of `retro` (which runs
   `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh`) breaks; `scaffold` uses `${CLAUDE_SKILL_DIR}`

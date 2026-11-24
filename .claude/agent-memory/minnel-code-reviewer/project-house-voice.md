@@ -27,7 +27,7 @@ about hiding that the repo is built with Claude.
 - A voice pass (first one: 2026-11-23) mostly preserves meaning; the
   slips are small words and implied contrasts. Diff with `--word-diff` and check: a dropped
   restrictor ("pin ... only when" lost its "only" in §4); a new framing that implies a contrast
-  the doc elsewhere denies ("Without a plugin, everything ... lives scattered" in the packaging
+  the doc elsewhere denies ("Without a plugin, everything ... lives scattered" in the plugin
   doc, though its own list includes the `.claude/rules/` DoD that a plugin cannot ship, see
   [[project-plugin-minnel]]); an in-scope doc the pass skipped (`index.md` kept its bold
   emphasis while README dropped it).
