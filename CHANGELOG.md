@@ -12,16 +12,21 @@ versions follow SemVer.
   version's changelog section as its notes. Given a version that is cut but not yet tagged,
   `/release` proposes these steps instead of a new draft. Pushing the tag and publishing the release
   wait for the user's go-ahead, and §10 lists the second run.
-- `/triage` (Appendix P, `/minnel:triage`) ends with a roadmap: the active plan under Now, then
-  Next grouped under each target version with its suggested bump, then Next with no target, then
-  Later undated. It is drawn from the active-plan pointer and the backlog with its `target:` tags,
-  and shown in the chat, not written to a file. Triage also flags a target that names a released
-  version, and a Next item ordered above one that targets an earlier release. §8 describes the view.
-- `/release` (Appendix M, `/minnel:release`) proposes what to do with each Next item still targeting
-  the version being cut: delete its line if the commits show it has shipped, or else finish it
-  first, move its target to the next release or drop the target. `/release` also checks a backlog
-  kept in the project's gitignored notes, when the conventions name one, and names any of its items
-  that target the version in the chat only.
+- `/triage` (Appendix P, `/minnel:triage`) proposes the backlog's grouping by release and ends with
+  the roadmap in the chat: the active plan under Now, then Next by release with each version's
+  suggested bump, then Later undated, with any private items included. It flags a release heading
+  that names a version already released.
+- `/release` (Appendix M, `/minnel:release`) proposes what to do with each item still under the
+  version being cut: delete its line if the commits show it has shipped, or else finish it first or
+  move it under a later release or Unscheduled. It also checks a backlog kept in the project's
+  gitignored notes, when the conventions name one, and names any of its items in the chat only.
+
+### Changed
+- The backlog (Appendix F, and the template `/minnel:scaffold` writes) groups Next under a heading
+  for each release, `### X.Y.Z`, earliest first, then `### Unscheduled`, in place of 0.5.0's inline
+  `target: X.Y.Z` tag. Grouped that way, the backlog in the repository is the roadmap. `/triage`
+  proposes moving inline tags under headings, and `/release` still reads them. §8 describes the
+  format.
 
 ## [0.6.0] - 2026-11-24
 

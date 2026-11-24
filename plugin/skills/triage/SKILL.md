@@ -1,6 +1,6 @@
 ---
 name: triage
-description: Triage the backlog — check each item still applies, reorder Next, propose release targets and show the roadmap they make.
+description: Triage the backlog — check each item still applies, reorder Next, group it by release and show the roadmap.
 disable-model-invocation: true
 ---
 
@@ -20,21 +20,21 @@ Triage the backlog in `docs/backlog.md`. Draft only: do not edit files until I a
    lacks one; rewriting or parking a stale one; and merging duplicates.
 3. Re-tag what has changed (type, value, effort, why now). Propose an order for Next:
    value against effort, with an item that others depend on ahead of them.
-4. Propose release targets (`target: <version>`) for the Next items due in the next
-   release or the one after; leave the rest, and Later, untargeted. Suggest each
-   release's version from its items' types: under Conventional Commits a `feat` makes a
-   minor release, a `fix` a patch and a breaking change a major. A `debt` or `chore`
-   item needs no release of its own unless an installer would notice it. Flag a target
-   that names a version already released. Also flag a Next item placed above one that
-   targets an earlier release: either the order or a target is wrong.
-5. Show the roadmap: the active plan under Now, or none; then Next items grouped under
-   each proposed target version, earliest first, each version with its suggested bump
-   and the item types behind it; then the Next items with no target; then Later as one
-   undated group. The active-plan pointer and the backlog, with its `target:` tags, are
-   the roadmap's only record, so show the roadmap in the chat and don't write it to a
-   file.
-6. Include private items in the roadmap in this chat only, and keep their targets with
-   the private items. In the tracked backlog only tracked items carry targets, and it
+4. Propose a grouping for Next under a heading for each release (`### <version>`): the
+   items due in the next release or the one after, earliest release first, and the rest
+   under `### Unscheduled`. Keep step 3's order within each group, and leave Later
+   ungrouped. Suggest each release's version from its items' types: under Conventional
+   Commits a `feat` makes a minor release, a `fix` a patch and a breaking change a major.
+   A `debt` or `chore` item needs no release of its own unless an installer would notice
+   it. Flag a heading that names a version already released. If items carry an inline
+   `target: <version>` tag instead, propose moving each under its version's heading and
+   dropping the tag.
+5. Show the roadmap: the active plan under Now, or none; then Next as grouped, each
+   version with its suggested bump and the item types behind it; then Later as one
+   undated group. Once the draft is applied, the tracked backlog shows the same grouping
+   without the private items.
+6. Include private items in the roadmap in this chat only, and group them under the same
+   headings where they are kept. The tracked backlog groups tracked items only, and
    names a private blocker in general terms.
 7. Present the draft as changes to the backlog, one line of reason each, followed by the
    roadmap. I choose what to apply.
