@@ -3,6 +3,16 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
+## [Unreleased]
+
+### Added
+- `/release` (Appendix M, `/minnel:release`) and §8 close a release once its commit is on the main
+  branch: push an annotated tag on the commit that put it there (for a pull request, the merge or
+  squash commit it made) and, where the host publishes releases, publish one from the tag with the
+  version's changelog section as its notes. Given a version that is cut but not yet tagged,
+  `/release` proposes these steps instead of a new draft. Pushing the tag and publishing the release
+  wait for the user's go-ahead, and §10 lists the second run.
+
 ## [0.6.0] - 2026-11-24
 
 ### Added

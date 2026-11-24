@@ -57,7 +57,9 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       new CHANGELOG version (ADR 0004). Installs stay on the cached copy until it changes, so a
       release that leaves it alone ships no plugin change. Raise it in the release commit, not
       before: once the marketplace is refreshed, `claude plugin update` would move installs to
-      unreleased work.
+      unreleased work. After the merge, an annotated tag `vX.Y.Z` sits on the merge commit and a
+      GitHub Release published from it carries the version's changelog section as its notes.
+      Report this part as *pending* until the merge.
 - [ ] **Hook and guard scripts safe (when touched)** — no unquoted expansions and no injection via
       tool input; paths inside the plugin use `${CLAUDE_PLUGIN_ROOT}` and hook commands
       `$CLAUDE_PROJECT_DIR`, each quoted (`"$CLAUDE_PROJECT_DIR"/...`) so a path with a space

@@ -41,6 +41,15 @@ appendix and its plugin file is a defect class like a dangling §N.
   For coverage, diff `--stat v<prev> <branch>` and map every non-internal file to an entry: repo
   `.claude/` changes that the README describes (the `close-plan` removal in 0.6.0) slip through,
   though 0.1.0 and 0.4.0 entries counted them. Plugin DoD item applies (plugin.json touched).
+  v0.6.0 is the first tag with a GitHub Release (entries unwrapped to one line each); earlier tags
+  have none. `gh release create --verify-tag` aborts unless the tag is already on the remote, so
+  any written procedure using it needs a tag push before it (gh 2.105, 2026-11-24). Tagging prose
+  must name the same commit everywhere: §8, the release skill, the DoD and the changelog line.
+  Release notes and wrapped lines: `gh api markdown -f mode=gfm` renders a soft break inside a
+  list item as `<br>` (2026-11-24); that release pages use the same mode is inferred, not seen.
+  The GitHub repo is `tcrossland/claude-code-methodology` (not the folder name) for `gh api`.
+  A "cut but not tagged" check must read the remote (`git ls-remote --tags origin`, `origin/main`),
+  as §9 says, or a local unpushed tag hides it.
 - **Install and update facts (verified 2026-11-23 on v2.1.330).**
   - `version` in `plugin.json` wins over the commit SHA, so installs keep their cached copy until it
     changes. Raise it only in the release commit (DoD Release item).
