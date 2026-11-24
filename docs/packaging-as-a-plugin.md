@@ -47,6 +47,15 @@ Then, in each project that adopts it:
 2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/minnel:accept` checks against them.
 3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap` and `/minnel:triage`. They run only when you invoke them.
 
+The rituals and `/minnel:scaffold` are user-only skills: each sets `disable-model-invocation: true`, so Claude never starts one by itself, even when your message asks for it by its short name ("run triage"). To have Claude run one as part of a request, name it in full after some other text: "run /minnel:triage", or "check the branch, then /minnel:accept". The [Claude Code skills docs](https://code.claude.com/docs/en/skills) count a skill named after plain text as your permission for that message. Claude runs it while it responds, and judges from your wording whether you asked it to. A message that starts with the name runs the skill straight away. Tested on Claude Code 2.1.330, in the CLI and the desktop app.
+
+The `skillOverrides` setting, which changes whether Claude sees a skill, doesn't apply to plugin skills. If you want Claude to start a ritual unprompted, when a task looks like one, there are two routes:
+
+- Copy the skill's folder into `.claude/skills/` and delete the `disable-model-invocation` line from its `SKILL.md`. The copy loads beside the plugin's, as `/triage` next to `/minnel:triage`. It doesn't change when the plugin updates, so compare it with each release.
+- Fork the plugin, remove the key from the skills you want, and install the fork in place of Minnel. You then merge each upstream release yourself.
+
+The plugin keeps the key on all seven skills, because the change runs one way. You can loosen a skill with either route, but with `skillOverrides` out of reach you couldn't make one user-only if the plugin shipped it without the key.
+
 What else is active once installed:
 
 - The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.

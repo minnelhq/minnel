@@ -13,18 +13,6 @@ ISO YYYY-MM-DD.
 
 ## Next
 
-### 0.7.0
-- Document how adopters loosen Minnel's user-only skills — feat · value M · effort L — why now: all
-  seven skills set `disable-model-invocation: true`, so Claude can't start one even when a message
-  asks for it by its short name. The Claude Code skills docs give no per-skill override for a plugin
-  skill (checked 2026-11-23). Naming the skill in full in the message (`/minnel:triage`) did start
-  it in a desktop-app session on Claude Code 2.1.330 (observed 2026-11-24). Test that in the CLI,
-  then document it as the recommended route. Keep the other two for an adopter who wants Claude to
-  start a skill unprompted: copy it to `.claude/skills/` without the key, accepting that the copy
-  drifts from plugin updates, or fork the plugin and load the fork. Write the answer into "Install
-  this plugin" in `docs/packaging-as-a-plugin.md`. Keep the key on all seven: an adopter can loosen
-  a skill but can't tighten one Claude is already allowed to start.
-
 ### 0.8.0
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
