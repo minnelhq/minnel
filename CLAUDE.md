@@ -2,7 +2,7 @@
 
 This repository is the methodology itself: reference docs, a CLAUDE.md template, and the
 methodology as a Claude Code plugin (`plugin/`). It is a documentation project: the Markdown source has no build or
-runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards. (The doc site is an
+runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `config-audit.sh`. (The doc site is an
 *optional* publish build — never a prerequisite for reading or editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
 
 ## Invariants

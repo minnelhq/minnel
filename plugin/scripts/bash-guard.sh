@@ -3,7 +3,7 @@
 # A tripwire for slips, not a sandbox: command-segments.awk, kept beside this script, reads the
 # command as text, so a command hidden in a variable, an alias or sh -c '...' gets past it.
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+COMMAND=$(printf '%s\n' "$INPUT" | jq -r '.tool_input.command // empty')
 SEG_AWK="$(dirname "$0")/command-segments.awk"
 [ -r "$SEG_AWK" ] || { echo "Blocked: $SEG_AWK is missing; keep it beside this guard." >&2; exit 2; }
 SEGMENTS=$(printf '%s\n' "$COMMAND" | awk -f "$SEG_AWK")

@@ -64,8 +64,20 @@ covers how to probe.
   file location needs its own case. `${CLAUDE_PLUGIN_ROOT}` (and `${CLAUDE_PROJECT_DIR}`) are
   substituted in a plugin skill's body and `allowed-tools` Bash rules, not in the Bash tool's
   environment. To run it under dash, put an `sh -> /bin/dash` link first on PATH and run
-  `./guards.sh` (bash-only; `sh ./guards.sh` gives 8 false segmenter FAILs on macOS). Claude Code's
-  `/doctor prompt-audit` overlaps it for instruction files; check the docs keep that positioning.
+  `./guards.sh`. Claude Code's `/doctor prompt-audit` overlaps it for instruction files; check the
+  docs keep that positioning.
+- **Shells and `echo` (2026-11-24, retro-findings branch).** `guards.sh` is bash-only and, from that
+  branch, re-execs under bash when run by dash or a POSIX-mode bash. Probe it under `sh`, `dash`,
+  `zsh`, `bash --posix`, and `POSIXLY_CORRECT=1` (bash re-enters POSIX mode from that variable). On
+  macOS the POSIX-mode bash that is `/bin/sh` makes `echo` expand backslashes, so `echo "$payload"`
+  turns JSON `\n` into raw newlines: that, not quoting, was the "8 false FAILs" under `sh`; dash
+  instead aborts with a parse error after 35 cases. The guards used to read input with
+  `echo "$INPUT" | jq`, so with `POSIXLY_CORRECT` set any JSON escape (`\n`, `\t`, `\\`) broke the
+  parse and the guard allowed the call; for tests-dir-guard that meant nearly every test-writer
+  Write, since content has newlines. Fixed in 32b0a0b (printf '%s\n'); flag any new `echo` of tool
+  input. The root class remains: a jq parse failure still reads as empty and allows. `all-awks.sh` runs `guards.sh` per awk; probe it with a
+  broken fake awk first on PATH (exit 1), a PATH holding only `/usr/bin:/bin` plus a jq link (skips,
+  exit 0), `CDPATH` set, and `kill -TERM` under dash (EXIT trap doesn't run, temp dir leaks).
 
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only

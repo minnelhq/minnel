@@ -8,7 +8,7 @@ metadata:
 `.claude/rules/house-voice.md` ("House voice"; `docs/style.md` until 2026-11-23) is an
 authoring convention for prose. It is a path-scoped rule (`*.md`, `docs/**/*.md`,
 `plugin/README.md`), so it loads when a Markdown file is read or edited. Its scope line names six
-narrative docs in full: `README.md`, `plugin/README.md` (added 2026-11-23, Stage 6), `index.md`,
+narrative docs in full: `README.md`, `plugin/README.md` (added 2026-11-23), `index.md`,
 `methodology.md`, `worked-example.md`, `packaging-as-a-plugin.md`; it
 also covers changelog entries and plan and backlog notes. Reference artefacts under
 `docs/appendices/` are exempt where structure/punctuation is deliberate. `CLAUDE.md` Conventions
@@ -24,7 +24,7 @@ about hiding that the repo is built with Claude.
 **How to apply:**
 - When reviewing prose edits to the narrative docs, check them against these rules, not just
   British-English/§N consistency.
-- A voice pass (first one: 2026-11-23, Stage 4 of the 0.4.0 plan) mostly preserves meaning; the
+- A voice pass (first one: 2026-11-23) mostly preserves meaning; the
   slips are small words and implied contrasts. Diff with `--word-diff` and check: a dropped
   restrictor ("pin ... only when" lost its "only" in §4); a new framing that implies a contrast
   the doc elsewhere denies ("Without a plugin, everything ... lives scattered" in the packaging
