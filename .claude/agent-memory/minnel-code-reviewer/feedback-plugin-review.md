@@ -119,6 +119,21 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   was Ubuntu 26.04 then (mawk 1.3.4 20260129), so older mawk (20200120, Debian 12 / Ubuntu 22.04)
   is untested; the segmenter then used no `{n,m}` intervals or `[[:class:]]`, which old mawk
   lacks. Re-grep for those if the awk changes. Matrix values reach `run:` only through `env:`.
+- **`config-audit.sh`, the retro's read-only audit (first reviewed 2026-11-24, branch
+  `claude/wonderful-mcclintock-b11e97`).** Probe it from a scratch script (`git` spelled via a
+  variable, explicit `git add <path>`, or the git guard blocks the probe): a symlinked
+  `.claude/rules/` dir or rule file (Claude Code's memory docs endorse symlinked rules; `find`
+  without `-L` skipped both then), project `CLAUDE.md` at `.claude/CLAUDE.md` and
+  `CLAUDE.local.md`, user `~/.claude/agent-memory/`, the tail match (`grep -F "/$p"` is a
+  substring test, so `config.js` counted as present beside `config.json`), and an `@import` at
+  line start (the `(^|[ \t])@` branch mawk may treat differently; guards.sh only tested mid-line).
+  Claude Code ships `/doctor prompt-audit` (2.1.283+: stale paths, stale commands, contradicting
+  instruction files, proposes edits only); check the docs position the script against it.
+  Verified 2026-11-24 from the skills and plugins-reference docs: `${CLAUDE_PLUGIN_ROOT}` is
+  substituted in a plugin skill's body and in `allowed-tools` Bash rules, and is not in the Bash
+  tool's environment. Building mawk/gawk from source in the scratchpad was refused by the
+  auto-mode classifier (2026-11-24), so mawk/gawk behaviour is verifiable only from the guards CI
+  job logs once the branch is pushed.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
