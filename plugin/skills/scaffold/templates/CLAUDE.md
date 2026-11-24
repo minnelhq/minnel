@@ -65,13 +65,14 @@ other, so keep them consistent.
 - **One plan file, status folded in.** Each plan is a sequence of Stages worked through
   in order; status (current stage, ticked steps, deviations, decisions) lives in the
   same file. After a compaction or restart, resume from the active plan.
-- **Review before merge.** Run the `code-reviewer` subagent once on the final branch diff
-  before any merge to the main branch, not after every change. Run it again after fixing
-  a Critical finding, after a Warning fix that changes code or published docs, or when
-  the branch gains commits beyond fixes for its findings and the reviewer's memory,
-  pointing it at the new commits; check any other fix against its finding yourself.
-  There is no second reviewer; this is it. <Optional: name the
-  trivial branches that skip review, e.g. typo-only prose fixes; delete if none do.>
+- **Review before merge.** Run the `code-reviewer` subagent (`minnel:code-reviewer` from
+  the plugin) once on the final branch diff before any merge to the main branch, not after
+  every change. Run it again after fixing a Critical finding, after a Warning fix that
+  changes code or published docs, or when the branch gains commits beyond fixes for its
+  findings and the reviewer's memory, pointing it at the new commits; check any other
+  fix against its finding yourself. There is no second reviewer; this is it.
+  <Optional: name the trivial branches that skip review, e.g. typo-only prose
+  fixes; delete if none do.>
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.
 
@@ -83,8 +84,10 @@ other, so keep them consistent.
 - Backlog: `docs/backlog.md`
 - Changelog (user-facing, curated): `CHANGELOG.md` (repo root)
 - Conditional rules + Definition of Done: `.claude/rules/`
-- Subagents: `.claude/agents/` (`code-reviewer`, `test-writer`)
-- Skills (procedures) and commands (rituals): `.claude/skills/`, `.claude/commands/`
+- Subagents: `.claude/agents/` (`code-reviewer`, `test-writer`), or the plugin's
+  `minnel:code-reviewer` and `minnel:test-writer`
+- Skills (procedures and rituals): `.claude/skills/`, or the plugin's `/minnel:<name>`;
+  older-format commands in `.claude/commands/`
 
 <!--
   Maintenance: treat this file as a living spec. When a rule goes stale, delete it —

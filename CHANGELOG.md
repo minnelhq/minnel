@@ -3,6 +3,13 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
+## [Unreleased]
+
+### Fixed
+- The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at
+  `.claude/agents/` and a `code-reviewer` that a plugin install doesn't have. It now names
+  `minnel:code-reviewer` and the `/minnel:` skills too.
+
 ## [0.5.0] - 2026-11-24
 
 ### Added
