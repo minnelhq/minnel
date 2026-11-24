@@ -67,9 +67,10 @@ alongside these; neither scope automatically overrides the other, so keep them c
   Critical finding, after a Warning fix that changes plugin code, the template or a published doc
   (the Definition of Done's doc-site item says which), or when the branch gains commits other than
   fixes for its findings and the reviewer's memory, not otherwise; point a re-run at the new
-  commits, not the whole branch. Check any other fix against its finding yourself. Skip it for a trivial branch: one that touches nothing outside `docs/backlog.md`,
-  `docs/plans/` and `.claude/agent-memory/`, or only fixes typos and formatting in
-  Markdown prose (not headings, link targets, code fences or front matter) without changing what
-  any line claims.
+  commits, not the whole branch. Check any other fix against its finding yourself. Skip it for a
+  trivial branch: one that touches nothing outside `docs/backlog.md`, `docs/plans/` and
+  `.claude/agent-memory/`, or only fixes spelling, punctuation, grammar or formatting in Markdown
+  prose (not headings, link targets, code fences or front matter) without changing what any line
+  claims.
 - **Verify, don't assume.** Run the commands above to confirm a change works, and check
   it against the Definition of Done, before reporting it done.

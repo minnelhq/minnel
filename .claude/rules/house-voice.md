@@ -37,8 +37,8 @@ against a longer one. Read it aloud; if the cadence is flat, recast.
 
 **Use em-dashes sparingly.** Reach for a comma, a full stop, or parentheses first. One em-dash in
 a paragraph is plenty; three is a tell.
-- Before: "Hooks are your CI — deterministic, fast — and they catch what review misses."
-- After: "Hooks are your CI: deterministic and fast. They catch what review misses."
+- Before: "Hooks run at the moment of the edit — deterministic, fast — and they catch what review misses."
+- After: "Hooks run at the moment of the edit: deterministic and fast. They catch what review misses."
 
 **Drop formulaic constructions.** These read as machine cadence; rewrite to a plain declarative:
 - "not just X, but Y"

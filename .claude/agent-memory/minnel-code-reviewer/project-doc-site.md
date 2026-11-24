@@ -6,88 +6,46 @@ metadata:
 ---
 
 The repo renders `docs/` as a site (ADR 0002 chose MkDocs Material; ADR 0003 moved the build to
-Zensical, which reads `mkdocs.yml` as-is). The site work added the repo's first CI
-(`.github/workflows/docs.yml`) and reconciled the old `no build, no runtime` invariant to "the
-*source* has no build; the site is an optional publish build".
+Zensical, which reads `mkdocs.yml` as-is). The source has no build; the site is an optional
+publish build. Since ADR 0005 (0.5.0) `docs.yml` deploys to GitHub Pages on each push to `main`
+(or a manual run on `main`), never from a pull request.
 
-**Why:** the methodology needs an owned public front-door. ADR 0002 deferred deploy until the
-brand was locked (the "Christen" backlog item); as of 2026-11-22 the site is live on GitHub Pages
-under the current repo name anyway, deployed by manual `workflow_dispatch`. ADR 0005 (branch
-`claude/auto-deploy-docs`, reviewed 2026-11-24) switches to deploy on every push to `main`.
-Re-verify which is current before relying on it.
+**Why:** the site is the methodology's public front door, and its build and CI add checks prose
+review doesn't cover.
 
-**Zensical facts verified 2026-11-22 against 0.1.3 in `.venv` (re-check on any upgrade):**
-- Link and anchor validation default to on (`zensical/config.py`, the "Initialize defaults for
-  validation" block); a `validation:` block in `mkdocs.yml` is optional.
-- `theme.variant` defaults to `modern`; `lucide/*` icons are what the modern variant uses.
-- `build --strict` exits 1 on a broken page link or anchor, and a cached (non-`--clean`) rebuild
-  still fails, so the cache does not mask warnings. `serve --strict` is accepted but unsupported.
-- Licence MIT (dist-info `LICENSE.md`), `Requires-Python >=3.11`.
+**Zensical facts (verified 2026-11-22 against 0.1.3; re-check on any upgrade):**
+- Link and anchor validation default to on; `build --strict` exits 1 on a broken page link or
+  anchor, cached rebuilds included. `serve --strict` is accepted but unsupported.
+- `theme.variant` defaults to `modern`, which uses `lucide/*` icons.
+- Licence MIT, `Requires-Python >=3.11`.
 
-**How to apply (recurring checks when these areas change):**
-- The reconciled wording must stay coherent across: `CLAUDE.md` intro, the DoD preamble
-  (`.claude/rules/definition-of-done.md`), README "Reading it as a site" and "Dogfooding", and
-  ADRs 0002/0003. If one is edited, check the others did not drift back to a bare "no build" or
-  to "not yet deployed".
-- The site build is the gate for any published doc / `mkdocs.yml` / `requirements.txt` change.
-  Published = under `docs/` minus the `exclude_docs` list in `mkdocs.yml` (`backlog.md`,
-  `plans/`, `design/`, and the gitignored notes folder). `exclude_docs` is a fixed
-  list, not keyed off git-ignore, so a new gitignored docs path the hook skips would still need
-  adding here. Run `.venv/bin/zensical build --strict --clean`.
-- The DoD is path-scoped (`paths:` frontmatter), so it only loads when a matching file is touched.
-  If a new site/build config file or CI file is introduced, check the DoD's `paths:` still covers
-  it, and that the site-build item's own trigger list agrees with what `paths:` loads it for.
-- `docs/worked-example.md` deliberately contains a dangling link (`does/not/exist.md`) inside a
-  code fence to demonstrate the consistency hook. It must stay inside a fence; if it leaves one,
-  `--strict` fails.
-- The site can't reach files outside `docs_dir`, so `worked-example.md` repoints a few refs to
-  absolute GitHub blob URLs at `tcrossland/claude-code-methodology`. Known rebrand debt, now on a
-  live site: flag if the repo is renamed. The 0.4.0 retitle to "Minnel: …" (Stage 4, 2026-11-23)
-  changed `site_name` and the H1s only; repo name, URL and blob URLs stay, and renaming the repo is
-  out of that plan's scope. So a claim that the retitle "settled" ADR 0002's brand/domain hold
-  over-reaches: the name is decided, the domain is not.
-- CI gate (as reviewed 2026-11-24, ADR 0005 branch): upload step and deploy job gated
-  `github.event_name != 'pull_request'`, `pages` concurrency group moved to the deploy job. Two
-  traps I flagged: (a) with no ref check, a manual run from a non-main branch reaches the deploy
-  job, enters `pages`, can replace a pending main deploy, then fails on the `github-pages`
-  environment's branch policy (custom policy, `main` only, verified via `gh api` that day);
-  (b) a job-level group orders deploys by build-finish time, not push time, so two close pushes
-  can publish the older one last. GitHub's Pages starter (`actions/starter-workflows`
-  `pages/static.yml`) keeps the group at workflow level. Re-check whichever shape merged.
-  Before ADR 0005: deploy job and upload step both gated to `workflow_dispatch`; top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
-  the deploy job. Pages action pair must stay matched majors. Actions are pinned to commit SHAs
-  with version comments; verify a SHA matches its tag via `gh api`.
-- Mermaid (0.5.0 Stage 3, reviewed 2026-11-24, re-check the shape): a vendored
-  `docs/assets/vendor/mermaid-<ver>/mermaid.min.js` (5.5 MB, one line up to ~330 KB) loads from a
-  raw `<script>` at the end of each page with a `mermaid` fence, not `extra_javascript`. Zensical
-  0.1.3's bundle fetches `unpkg.com/mermaid@12` whenever `typeof mermaid=="undefined"`, so a page
-  that gains a fence without the tag, or a broken `src`, silently falls back to the CDN and still
-  renders: `--strict` does not check script `src`. Check every page with a mermaid fence carries
-  the tag. Also flag grep/context cost of the minified file unless `.gitattributes`/`.ignore`
-  cover the vendor dir. On a Zensical upgrade, check the bundle's pinned mermaid major still matches.
-  Fix 2ec30d9 added a docs.yml step and ADR 0006. That step (as of 2026-11-24) only greps for the
-  src string: a page in a subdirectory with a wrong relative `src` passes both `--strict` and the
-  step, then 404s and falls back to unpkg (probed). Check whether the step resolves `src` against
-  the page dir. (Whole-branch review 2026-11-24: the step now resolves `src` against the page dir
-  and checks the major against the bundle's fallback; it passed on a clean `git archive` build.)
-  Licence: mermaid itself is MIT, but `mermaid.min.js` bundles DOMPurify (Apache-2.0 OR MPL-2.0),
-  lodash and cytoscape (MIT); their notices sit in a "Bundled license information" comment at the
-  file's end (read it with `python3 -I`, the line is too long for grep). ADR 0006 and the
-  CHANGELOG say only "MIT". On an upgrade, re-read that block and verify the vendored files with
-  `cmp` against `package/dist/mermaid.min.js` and `package/LICENSE` from the registry tarball
-  (tarball sha512 vs `dist.integrity`). `.gitattributes` marks the whole vendor dir `binary`, so
-  the vendored `LICENSE` shows as "Bin" in diffs too. Also: the site is not "own assets only". The theme links Google Fonts
-  (`fonts.googleapis.com` stylesheet) and the bundle loads a `resize-observer-polyfill` from unpkg
-  on old browsers, so a claim that the site loads only its own assets is false.
-- Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
-  auth (deploy uses OIDC, no checkout). Re-check if a step that pushes or fetches is added. Note
-  that checkout v6+ keeps the token "in a separate file under `$RUNNER_TEMP` instead of
-  directly in `.git/config`" (read from the pinned v7.0.0 README) — prose saying otherwise is off.
-- (Pre-ADR 0005.) Because deploy is manual, the live site lags `main` until someone dispatches. Prose that says
-  only "a change of look" waits for a manual run understates this.
-- The workflow header comment (and a backlog item copying it, 2026-11-23) says auto-deploy means
-  "drop the `workflow_dispatch` gates". The workflow also runs on `pull_request`, so removing the
-  `if:` gates outright would upload and attempt a Pages deploy from every PR. A push-deploy gate
-  needs to exclude PRs (e.g. `github.event_name != 'pull_request'`). Re-check when the workflow
-  triggers change. Carriers of the manual-deploy claim to sweep if it flips: README site section,
-  ADR 0003, the workflow comments, and the CI item in `.claude/rules/definition-of-done.md` (until 2026-11-23 the example sat in this repo's own reviewer, now retired).
+**How to apply:**
+- The "source has no build; the site is optional" wording must stay coherent across the
+  `CLAUDE.md` intro, the DoD preamble, README "Reading it as a site" and "Dogfooding", and ADRs
+  0002/0003. Watch for a bare "no build" or a stale "deployed by a manual run".
+- Published means `docs/` minus `exclude_docs` in `mkdocs.yml` (a fixed list, not keyed off
+  git-ignore). Build with the main checkout's `.venv/bin/zensical build --strict --clean`.
+- The DoD's `paths:` must cover any new site, build or CI config file, and agree with the
+  site-build item's trigger list.
+- `docs/worked-example.md` keeps a dangling link (`does/not/exist.md`) inside a code fence on
+  purpose; outside a fence `--strict` fails.
+- Files outside `docs_dir` (the template, the changelog, `.claude/` files) are linked by absolute
+  GitHub blob URLs at `tcrossland/claude-code-methodology`. Flag them if the repo is renamed: the
+  Minnel retitle changed the name, not the repo or domain.
+- **CI.** Deploy and upload are gated on `refs/heads/main` and push or dispatch; the `pages`
+  concurrency group is workflow-level for those runs, as in GitHub's Pages starter. Keep it that
+  way: a job-level group orders deploys by build-finish time. Least-privilege `permissions`,
+  write scopes only on the deploy job, actions pinned to SHAs with version comments (verify a SHA
+  against its tag with `gh api`), Pages action majors matched, `persist-credentials: false` on
+  checkouts (checkout v6+ keeps the token in a file under `$RUNNER_TEMP`, not `.git/config`).
+- **Mermaid.** A vendored `docs/assets/vendor/mermaid-<ver>/mermaid.min.js` loads from a raw
+  `<script>` at the end of each page with a `mermaid` fence. Zensical's bundle falls back to
+  `unpkg.com/mermaid@12` when `mermaid` is undefined, so a page missing the tag, or with a wrong
+  `src`, still renders and passes `--strict`. The `docs.yml` step resolves each `src` against the
+  page dir and checks the major against the bundle's fallback; on a Zensical upgrade, re-check that
+  major. Licence: mermaid is MIT, but the file bundles DOMPurify (Apache-2.0 OR MPL-2.0), lodash and
+  cytoscape (MIT), noted in a comment at its end (read it with `python3 -I`; the line is too long
+  for grep). On an upgrade, `cmp` the vendored files against the registry tarball after checking
+  its integrity hash. `.gitattributes` marks the vendor dir `binary`.
+- The site is not "own assets only": the theme links Google Fonts, and the bundle loads a
+  `resize-observer-polyfill` from unpkg on old browsers.

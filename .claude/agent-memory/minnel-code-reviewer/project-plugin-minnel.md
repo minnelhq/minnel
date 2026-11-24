@@ -1,128 +1,66 @@
 ---
 name: project-plugin-minnel
-description: The shipped plugin (Minnel, in plugin/) and the consistency hook's Check E that pins it to the appendices — what to check and the blind spots found
+description: The shipped plugin (Minnel, in plugin/), Check E pinning it to the appendices, install and update mechanics, and the plugin-cannot-ship-rules claim
 metadata:
   type: project
 ---
 
-The methodology ships as a plugin named **Minnel** in `plugin/`, listed by a root
-`.claude-plugin/marketplace.json` (install `minnel@minnel`). Built on branch `feat/plugin`
-(plan archived as `docs/plans/archive/plugin-build.md`, first reviewed 2026-11-23). The plugin
-files are the source; the appendices keep embedded copies, and Check E in
-`.claude/hooks/docs-consistency.sh` flags drift between each pair (A, B, both C guards, D–H, J–N,
-P from 2026-11-24, and `templates/CLAUDE.template.md` vs the scaffold's copy).
+The methodology ships as a plugin named **Minnel** in `plugin/`, listed by the root
+`.claude-plugin/marketplace.json` (install `minnel@minnel`). The plugin files are the source; the
+appendices keep embedded copies, and Check E in `.claude/hooks/docs-consistency.sh` flags drift
+between each pair (A, B, both C guards, D–H, J–N, P, and `templates/CLAUDE.template.md` vs the
+scaffold's copy). ADR 0004 records the decisions.
 
 **Why:** document and plugin ship under one version and one CHANGELOG, so drift between an
-appendix and its plugin file is now a defect class like a dangling §N.
+appendix and its plugin file is a defect class like a dangling §N.
 
 **How to apply:**
-- Plugin skills and agents are namespaced: a skill runs as `/minnel:<name>`, never bare
-  `/<name>` (skills docs, "plugin skills are namespaced as /plugin-name:skill-name", checked
-  2026-11-23). Grep tracked prose for bare `/scaffold`, `/plan` etc. used to mean the *plugin*
-  skill; the first review found both forms mixed.
-- Check E normalisers can hide drift. The first review (2026-11-23) found three gaps: a field
-  added after `hooks:` in Appendix B, an `allowed-tools` line added to an appendix command, and a
-  plugin skill losing `disable-model-invocation: true` all passed. Fixed the same day:
-  `drop_hooks` ends at the first unindented line, `skill_fm` became `drop_skill_keys` (a
-  plugin-side deny-list), and every skill's frontmatter must carry the flag. Re-test after any
-  normaliser edit. Later on 2026-11-23 the J–N appendix frontmatters gained
-  `disable-model-invocation: true` and `drop_skill_keys` stopped stripping it, so the flag is
-  compared within each J–N pair as well as by the every-skill check; if someone re-adds it to the
-  deny-list, an appendix losing the flag would pass again. Appendix H's example version headings are not compared either (hook header,
-  limitation 4; confirmed by mutation 2026-11-23), so a heading-format change there needs a manual
-  grep. Prose around the D and G skeletons in the scaffold templates is still not
-  compared (a listed limitation).
-- Mutation-test Check E in a `git archive <branch> | tar -x` copy in the scratchpad, running the
-  hook with `CLAUDE_PROJECT_DIR` set to that copy; never mutate the shared checkout.
-- With `plugin/scripts/tests/guards.sh` and `claude plugin validate` in the repo, "no build or
-  test step" carriers (CLAUDE.md intro, DoD preamble and its HTML comment, README Dogfooding) go
-  stale. Reconciled 2026-11-23, with a DoD plugin item; check new prose doesn't reintroduce them.
-- `hooks.json` command paths: the plugins reference quotes the root
-  (`"\"${CLAUDE_PLUGIN_ROOT}\"/scripts/x.sh"`); an unquoted root breaks on a path with a space
-  and the guard then fails open silently.
+- **Namespacing.** Plugin skills run as `/minnel:<name>`, agents as `minnel:<agent>`. Grep tracked
+  prose for bare `/scaffold`, `/plan` etc. meant as the *plugin* skill.
+- **Check E blind spots.** Appendix H's example version headings and the prose around the D and G
+  skeletons are not compared (hook header limitations), so check those by hand. `disable-model-invocation:
+  true` is compared within each J–N pair and by an every-skill check; if it returns to
+  `drop_skill_keys`, an appendix losing it would pass again. How to mutation-test: see
+  [[feedback-plugin-review]].
+- **Counts of pairs.** Prefer prose with no PAIRS count; when prose states one, count the heredoc
+  rows yourself (ADR 0004's first draft miscounted).
+- **"Has run here" claims** (packaging doc "Install this plugin", ADR 0004, README Dogfooding) must
+  match what `.claude/settings.json` wires (`minnel@minnel` from GitHub since 2026-11-23), not
+  what the plugin ships. The less-use list lives in the packaging doc and ADR 0004; a change to
+  one strands the other.
+- **Release lag.** The repo runs the published, version-pinned plugin, not the worktree's
+  `plugin/`, so "ran it here" is no evidence for a plugin edit on the same branch. Before accepting
+  that a guard version has had live use, check the cache's script or `installed_plugins.json`'s
+  `gitCommitSha`. This applies to me too: a merged reviewer change reaches me only after a release
+  and an update.
+- **Install and update facts (verified 2026-11-23 on v2.1.330).**
+  - `version` in `plugin.json` wins over the commit SHA, so installs keep their cached copy until it
+    changes. Raise it only in the release commit (DoD Release item).
+  - `claude plugin update minnel@minnel` refreshes the marketplace itself and moves the install
+    (observed in an isolated `CLAUDE_CONFIG_DIR`). The shell `claude plugin marketplace update`
+    only refreshes the catalogue; the in-session `/plugin` Marketplaces tab's update does move
+    installs. Prose saying "the marketplace update moves nothing" must name the shell command.
+  - The update moves only the most specific scope installed for the current project (from
+    2.1.281); each worktree path has its own project-scope entry. The new version loads next
+    session or after `/reload-plugins`.
+  - Auto-update is off by default for a third-party marketplace.
+  - Minimums (Claude Code CHANGELOG): in-session `/plugin install <p> --marketplace <src>` 2.1.275;
+    shell `claude plugin install --marketplace` 2.1.292.
+  - Unverified gap: a *fresh* install clones `main` at HEAD, so it can get unreleased plugin
+    commits under the old version label.
+- **"Read-only" reviewer.** `memory:` turns on Read, Write and Edit (unless auto memory is off),
+  and `Bash` can write anyway, so only the prompt keeps me from fixing. Re-grep for "read-only"
+  near the reviewer after any reviewer-prose edit.
+- **I am `minnel:code-reviewer`.** This memory lives in `.claude/agent-memory/minnel-code-reviewer/`
+  (observed, not documented). The repo-only checks (hook safety, CI least privilege, Zensical and
+  plugin commands) are DoD items, so read the DoD every review.
+- **A plugin can't ship `.claude/rules/`.** The packaging doc's claim was confirmed on v2.1.181
+  (2026-06-19) with two controls: a plugin command fired (load control) and a project rule fired
+  (mechanism control), while bundled `rules/` and `.claude/rules/` did not. The plugins reference
+  omits `rules/`; the 2026-11-23 docs check adds that a plugin's own `CLAUDE.md` isn't loaded. If
+  the bullet is reworded, it must still name both controls, a version and an ISO date. Plan:
+  `docs/plans/archive/verify-plugin-rules-bundling.md`.
+- **Claims beyond the recorded mechanics** (how an unversioned plugin updates, say) need their own
+  dated source.
 
-- ADR 0004 (`docs/design/0004-ship-the-plugin-from-this-repo.md`, drafted 2026-11-23) records
-  the plugin decisions; the plan's Decisions section is its source. Its first draft miscounted
-  the PAIRS rows (said 15 appendix pairs plus the template; it was 14 plus the template). Count
-  the heredoc rows yourself whenever prose states a pair count, and prefer prose with no count,
-  since every new row strands one.
-- "Has run on this repository" claims (packaging doc, "Install this plugin"; ADR 0004
-  Consequences; README Dogfooding) must match what `.claude/settings.json` wires, not what the
-  plugin ships. From 2026-11-23 (branch reconcile-claude-minnel-config) `.claude/settings.json`
-  enables `minnel@minnel` from the GitHub marketplace, so the rituals and both guards run here;
-  re-check the packaging doc's and ADR 0004's "less use" lists as that use accrues. The
-  pieces-with-less-use list lives in two places; a change to one strands the other.
-- Dogfooding caveat: a `github` marketplace source runs the published default branch, not the
-  worktree's `plugin/`. A branch that edits a plugin skill is not exercised by `/minnel:<skill>`
-  here until it merges, a release raises the version (pinned since 0.4.0), the marketplace is
-  refreshed and the install is updated (`claude plugin update`). Don't accept "ran it here" as evidence for a
-  plugin edit on the same branch.
-  The lag also bites "has had use" claims: on 2026-11-23 (claude/adr-0004-catch-up) every cached
-  install under `~/.claude/plugins/cache/minnel/minnel/` predated PR #25, so the guards that had
-  "run here" were the old phrase-matching ones; the segmenter rewrite shipping in 0.4.0 had run
-  only in `guards.sh`. Check the cache's `bash-guard.sh` (or `installed_plugins.json`'s
-  `gitCommitSha`) before accepting that a guard version has had live use.
-- Before PR #23 this repo's `.claude/` held the five ritual commands and the reviewer, but never
-  a bash or git guard (`.claude/hooks/` only ever had `docs-consistency.sh`; checked with
-  `git log --diff-filter=AD -- '.claude/hooks/*'` on 2026-11-23). Prose saying the repo "kept its
-  own copies of the guards" is false.
-- Since 2026-11-23 the repo has no reviewer of its own: you are `minnel:code-reviewer`, and this
-  memory moved from `.claude/agent-memory/code-reviewer/` to `minnel-code-reviewer/` (the folder
-  Claude Code uses for the namespaced agent; observed, not documented). The repo-only checks the
-  old tailored prompt carried (hook-script safety, CI least privilege, the Zensical and plugin
-  commands) are Definition of Done items now, so read the DoD every review. The installed copy
-  is whatever the last release pinned, so a merged reviewer change reaches you only after the next
-  release, a marketplace refresh and `claude plugin update`.
-- Claims in prose that go beyond the plan's recorded mechanics (e.g. how an unversioned plugin
-  updates) need their own dated source; the plan's "Plugin mechanics" decision is the verified set.
-- Install minimums (Claude Code CHANGELOG, read 2026-11-23): in-session
-  `/plugin install <p> --marketplace <src>` is 2.1.275; shell `claude plugin install --marketplace`
-  is 2.1.292. The validator's one-step advice quotes 2.1.275 (the slash form). Any doc giving a
-  minimum for the shell form must say 2.1.292; grep the raw changelog, it outranks `--help`.
-
-- **Pinned version (from 0.4.0).** Branch claude/stage-6 (2026-11-23) set `"version": "0.4.0"`.
-  Per the plugins docs ("Versions and updates", loading.md, read 2026-11-23) the manifest version
-  wins over the commit SHA, so every install, this repo's own included, keeps its cached copy until
-  the string changes. `/minnel:release` does not touch `plugin.json`, so the Definition of Done
-  has a "Release (when cutting one)" item: `version` equals the new CHANGELOG version. (It first
-  sat in the Plugin item, whose trigger a release commit doesn't fire; moved 2026-11-23.) Auto-update
-  is off by default for third-party marketplaces (discover-plugins docs, 2026-11-23); reject prose
-  saying installs update by themselves. **Corrected 2026-11-23 (claude/install-update-wording):**
-  `claude plugin marketplace update <mkt>` only refreshes the catalogue (observed: installs stayed
-  on the old cached copy); `claude plugin update <plugin>@<mkt>` moves the install, scope
-  auto-detected from v2.1.281, and the new version loads next session or after `/reload-plugins`
-  (`--help` on v2.1.330 says "restart required to apply"). Reject prose saying a marketplace
-  update alone moves an install; I had accepted that wording in the Stage 6 review.
-  **Corrected again 2026-11-23 (claude/0.4.1-fixes):** "order matters, refresh first" was never
-  verified and is false on v2.1.330. Tested in an isolated `CLAUDE_CONFIG_DIR`: catalogue clone
-  rewound to 97abce1, install by bare name, then `claude plugin update minnel@minnel` alone
-  refreshed the catalogue (clone moved to main, `lastUpdated` changed) and moved the install to
-  0.4.0. Docs back it indirectly: Claude Code CHANGELOG 2.1.101 ("show a warning when the
-  marketplace could not be refreshed") and cli-reference's "the run's own marketplace refresh".
-  Bare-name `plugin update` untested. Reject prose saying `plugin update` finds nothing until the
-  marketplace is refreshed. Also observed 2026-11-23: `installed_plugins.json` holds a
-  project-scope `minnel@minnel` entry per worktree path plus a user entry, so "the install" in
-  dogfooding prose is several installs; one `plugin update` does not move them all. Verified
-  2026-11-23: plugins cli-reference ("Which scope the command updates") says it updates only the
-  most specific scope installed "for your current project", and `installed_plugins.json` then held
-  the user entry at 0.4.0 but the main checkout's project entry still on a pre-0.4.0 SHA. Also
-  from discover-plugins ("Update plugins now"): the in-session `/plugin` Marketplaces tab's
-  **Update marketplace** does update installs; only the shell `marketplace update` leaves them.
-  Prose saying "the marketplace update moves nothing" must name the shell command.
-  Check dogfooding prose doesn't imply merged plugin edits run here before a release.
-  From 2026-11-23 (claude/wrap-0.4.0) ADR 0004 and the DoD say to raise `version` only in the
-  release commit. Evidence it happened: the user-scope entry in `installed_plugins.json` moved to
-  "0.4.0" at 96e9862, a minute before the release commit 01b414a (plugin content identical to
-  v0.4.0). (An earlier note here said `plugin update` needs a prior catalogue refresh; wrong, see
-  the 2026-11-23 correction above.) Unverified gap: a *fresh* install clones `main` at HEAD, so it gets
-  unreleased plugin commits under the old version label whatever the bump rule says.
-- **"Read-only" reviewer claims.** The sub-agents docs say `memory:` auto-enables Read, Write and
-  Edit (observed too: this reviewer's session has Write and Edit), and `Bash` can write anyway.
-  So "(no Edit/Write)" in §4's roster and any "can't change the code" wording is false; only the
-  prompt's instruction restrains it. Backlog item opened 2026-11-23; branch claude/0.4.1-fixes
-  (2026-11-23) rewords the agent, Appendix A, §4, §10, plugin README and manifests. Caveat the
-  docs add: with auto memory off (`autoMemoryEnabled`, `CLAUDE_CODE_DISABLE_AUTO_MEMORY`) the
-  `memory` field does nothing, so "turns on Write and Edit" is conditional. Re-grep for
-  "read-only" near the reviewer after any reviewer-prose edit.
-
-See [[feedback-hook-script-review]], [[project-plugin-rules-claim]], [[feedback-recurring-defects]].
+See [[feedback-hook-script-review]], [[feedback-recurring-defects]].

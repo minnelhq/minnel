@@ -31,7 +31,7 @@ context on 2026-11-23. Any prose asserting it rests on observation, not the cite
   invariants" (`CLAUDE.md`), but prose also uses it for `.claude/rules/`. Flag it where it matters.
 - The working-agreement wording ("apply alongside these; neither scope automatically overrides
   the other, so keep them consistent") lives in `CLAUDE.md`, `templates/CLAUDE.template.md` and
-  the scaffold's template copy (Check E pair). Grep `apply alongside` to catch a stranded copy.
-  The template's "live in `~/.claude/CLAUDE.md`" lagged §1 once §1 named `~/.claude/rules/` too.
+  the scaffold's template copy (Check E pair). Grep `apply alongside` to catch a stranded copy,
+  and check each names both `~/.claude/CLAUDE.md` and `~/.claude/rules/`, as §1 does.
 
-See [[feedback-recurring-defects]] item 10.
+See [[feedback-recurring-defects]] item 9.

@@ -14,10 +14,8 @@ also covers changelog entries and plan and backlog notes. Reference artefacts un
 `docs/appendices/` are exempt where structure/punctuation is deliberate. `CLAUDE.md` Conventions
 points at it in one line.
 
-Its rules: lead with the point (no throat-clearing openers), prefer short sentences, vary
-rhythm, em-dashes sparingly (one per paragraph max), drop formulaic constructions ("not just X
-but Y", "it's not X it's Y", default rule-of-three triads, "Note that"/"It's important to"/
-"Simply"), cut hedging ("quite"/"fairly"/"arguably"/"in many cases"), no emoji/decorative bold.
+The rules themselves are in the file, which loads with any Markdown file; read them there
+rather than from this note.
 
 **Why:** the public docs read as AI-generated, which undercut the "human judgement, not vibes"
 positioning. The guide gives future prose edits an acceptance criterion. It is explicitly *not*
@@ -31,7 +29,7 @@ about hiding that the repo is built with Claude.
   restrictor ("pin ... only when" lost its "only" in §4); a new framing that implies a contrast
   the doc elsewhere denies ("Without a plugin, everything ... lives scattered" in the packaging
   doc, though its own list includes the `.claude/rules/` DoD that a plugin cannot ship, see
-  [[project-plugin-rules-claim]]); an in-scope doc the pass skipped (`index.md` kept its bold
+  [[project-plugin-minnel]]); an in-scope doc the pass skipped (`index.md` kept its bold
   emphasis while README dropped it).
 - **Heading anchors.** Removing an em-dash from a heading does not change the site's anchor
   (Zensical's slug strips punctuation and collapses runs: `11-security-the-trust-boundary`
