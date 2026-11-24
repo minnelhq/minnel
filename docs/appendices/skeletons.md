@@ -46,21 +46,23 @@ The plugin's `/minnel:scaffold` skill writes this skeleton into a project's `doc
   <!-- If architecturally significant and costly to reverse, promote to docs/design/ as an ADR. -->
 ```
 
-Active-plan pointer — a single line kept current, e.g. in `CLAUDE.md`:
+Active-plan pointer: one line naming the plan file, in the one place `CLAUDE.md` names (§3). By
+default that is the backlog's Now section (Appendix F). Without a backlog, `CLAUDE.md` carries it:
 
 ```markdown
 ## Active plan
-docs/plans/<task-name>.md — Stage 2 of 3
+docs/plans/<task-name>.md
 ```
 
 When each stage merges on its own branch, write the status as it will read after that merge: the
-stage's last commit names the next stage, in the status line, the stage markers and the pointer.
-Record "awaiting review" in the pull request, not the plan, or the plan on the main branch goes
-stale at each merge.
+stage's last commit names the next stage, in the status line and the stage markers. Record
+"awaiting review" in the pull request, not the plan, or the plan on the main branch goes stale at
+each merge.
 
 On completion, set `**Status:** done (YYYY-MM-DD)`, clear the active-plan pointer, and move the
 file to `docs/plans/archive/`. The plan stays versioned as project history; only its location
-changes, so `docs/plans/` shows just what is live.
+changes, so `docs/plans/` shows just what is live. `/wrap` (Appendix N) closes a finished plan this
+way.
 
 ## Appendix E — Definition of Done
 
@@ -101,10 +103,11 @@ one-line "why now". Optional ID (BL-NN) only if you want plans or commits to
 reference items. A Next item may name the release it is meant for with
 "target: <version>"; the release ritual lists any still open when that version
 is cut. Later items carry no target. When an item ships, move its user-facing outcome to
-CHANGELOG.md (Unreleased), then delete the line here.
+CHANGELOG.md (Unreleased), then delete the line here. Now names the active plan's file, and
+reads "(none — no active plan)" when no plan is live.
 
 ## Now (this plan)
-- [ ] <item> — feat — value: H, effort: M — why now: <reason>
+- [ ] <item> — plan: docs/plans/<task-name>.md — feat — value: H, effort: M — why now: <reason>
 
 ## Next
 - [ ] <item> — fix — value: M, effort: L — target: <version> — why now: <reason>

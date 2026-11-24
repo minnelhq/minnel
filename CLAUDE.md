@@ -24,7 +24,7 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `co
 - `CHANGELOG.md` — user-facing changes.
 - `docs/backlog.md` — ordered candidate work (§8 / Appendix F); its `## Now (this plan)` section
   is the active-plan pointer (§3).
-- `.claude/` — this repo's Definition of Done, house-voice rule, consistency hook and skills.
+- `.claude/` — this repo's Definition of Done, house-voice rule, consistency hook and `add-section` skill.
   The rituals (`/minnel:plan`, `/minnel:accept`, …), the guards and `minnel:code-reviewer` come
   from the plugin, which `.claude/settings.json` enables.
 - `mkdocs.yml` + `requirements.txt` — optional doc-site build with Zensical (ADRs 0002, 0003);

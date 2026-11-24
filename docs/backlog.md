@@ -3,8 +3,9 @@
 Ordered top to bottom; the top item is what gets picked up next. Tag each — type
 (feat/fix/debt/chore), value (H/M/L), effort (H/M/L) — with a one-line *why now*. A Next item
 may name its release with `target: X.Y.Z`; Later items carry none. When an item ships, move its
-user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8). British
-English; dates ISO YYYY-MM-DD.
+user-facing outcome to `CHANGELOG.md [Unreleased]` and delete the line here (§8). Now is the
+active-plan pointer: it names the plan's file, with no stage count, or reads "(none — no active
+plan)". British English; dates ISO YYYY-MM-DD.
 
 ## Now (this plan)
 - (none — no active plan)
@@ -21,8 +22,8 @@ English; dates ISO YYYY-MM-DD.
   plugin file must match.
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
-  ask for language and spelling, date format, commit style, changelog format, private-notes path
-  and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
+  ask for language and spelling, date format, commit style, changelog format, private-notes path,
+  where the active-plan pointer lives and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
   `CHANGELOG.md` and `docs/backlog.md`. It answers the configurable-preferences stance.
 - Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on.
   The git guard now lets commits through and asks before a push, with a per-project setting for

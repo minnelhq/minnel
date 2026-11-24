@@ -17,6 +17,11 @@ versions follow SemVer.
   doesn't ship. §8 and Appendix L say where Claude Code's `/doctor prompt-audit` overlaps.
 - The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
   adding one, and updates or deletes a note that a finding contradicts.
+- `/wrap` (Appendix N, `/minnel:wrap` in the plugin) closes a finished plan. Once the active
+  plan's last stage has passed the Definition of Done, bar items pending until merge, it sets the
+  status to done with the date and outcome, marks every stage done, clears the active-plan pointer
+  where `CLAUDE.md` says it lives, and moves the file to `docs/plans/archive/`, creating the folder
+  if needed. §3, §9, §10, Appendix D and the scaffold's `docs/plans/README.md` point to it.
 
 ### Changed
 - The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
@@ -42,6 +47,14 @@ versions follow SemVer.
 - §7 assumed there is no PR reviewer. It now gives the reason to run the review subagent either
   way: without a reviewer it is the only second reader, and with one it checks the diff first.
   The `CLAUDE.md` template's review bullet offers both cases.
+- One active-plan pointer, in a place the project names. §3 asks you to pick one location and say
+  in `CLAUDE.md` which. With a backlog, its Now section is the default and the template's "Active
+  plan" section holds a fixed line saying so; without one, that section names the plan file. The
+  template and the scaffold's `docs/plans/README.md` no longer offer both at once, and
+  `/minnel:scaffold` reports which of the template's two lines to keep. The pointer names only the
+  file: the template and Appendix D drop the stage count, which the plan's status line already
+  carries. Appendix F's Now item names the plan file (`plan: docs/plans/<task-name>.md`) and reads
+  "(none — no active plan)" when no plan is live.
 
 ## [0.5.0] - 2026-11-24
 
