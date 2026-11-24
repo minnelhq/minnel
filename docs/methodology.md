@@ -1,6 +1,6 @@
 # Minnel: a file-first operating model for Claude Code
 
-*A single-developer discipline for driving Claude Code. Last updated 2026-11-24.*
+*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-24.*
 
 ---
 
@@ -40,7 +40,7 @@ The governing distinction is **always-loaded vs loaded-on-demand**. `CLAUDE.md` 
 
 **Split the architecture document out, but not the invariants with it.** A large architecture document has no business loading on every turn, so the explanatory bulk (components, diagrams, rationale) belongs in `docs/architecture.md`, referenced from `CLAUDE.md`. The trap: `CLAUDE.md` is *guaranteed* in context, whereas a linked doc is read only if Claude opens it. So the *hard constraints* (the rules that must hold on every change) have to stay as a short "Invariants" block in `CLAUDE.md`; a constraint sitting solely behind a link is one Claude will eventually violate because it never read the file. The line to cut along is "rules that must always be obeyed" (`CLAUDE.md`) versus "background consulted when relevant" (`docs/`). One caveat on mechanism: importing a file into `CLAUDE.md` (the `@`-style import) pulls its *full* content into the always-loaded path, reintroducing the cost you are avoiding. For a large doc, use a plain path reference Claude reads on demand, not an import. Confirm import-vs-reference behaviour in your installed version.
 
-**Keep a Working agreement in `CLAUDE.md`.** Alongside the invariants, the project `CLAUDE.md` carries a short *Working agreement*: the how-we-work rules (plan discipline, review-before-merge, verify-don't-assume) that the sections below justify. Cross-project rules that hold regardless of the repo (worktree hygiene, verify-before-asserting) belong in `~/.claude/CLAUDE.md` or a file under `~/.claude/rules/`; project-bound rules that name this repo's commands, branches, or subagents stay in the project file. The canonical text is in the template (`templates/CLAUDE.template.md`); this document explains those rules in the sections that follow rather than reproducing them, so the agreement has one source of truth, not three.
+**Keep a Working agreement in `CLAUDE.md`.** Alongside the invariants, the project `CLAUDE.md` carries a short *Working agreement*: the how-we-work rules (plan discipline, review-before-merge, verify-don't-assume) that the sections below justify. Cross-project rules that hold regardless of the repo (worktree hygiene, verify-before-asserting) belong in `~/.claude/CLAUDE.md` or a file under `~/.claude/rules/`; project-bound rules that name this repo's commands, branches, or subagents stay in the project file. The canonical text is in the template ([`templates/CLAUDE.template.md`](https://github.com/tcrossland/claude-code-methodology/blob/main/templates/CLAUDE.template.md)); this document explains those rules in the sections that follow rather than reproducing them, so the agreement has one source of truth, not three.
 
 **Treat the memory directory like `CLAUDE.md`, not a journal.** Agent memory (the `memory:` scope, §4) is real persistence, so it earns the same discipline as every layer above: write only the non-obvious, one fact per entry, and don't store what the repo, git history, or `CLAUDE.md` already record. Two hazards are specific to it. A *stale* recalled memory is worse than `CLAUDE.md` drift. It surfaces as authoritative background you may not think to question, so prune on contradiction, and re-verify any memory that names a file, flag, or version before acting on it. And recall is itself a context cost, so a speculative pile of memories taxes every session that triggers them. Periodic consolidation is the memory analogue of the retro (§8): the `consolidate-memory` skill merges duplicates, fixes stale facts, and prunes the index.
 
@@ -302,7 +302,7 @@ The six ritual commands map onto the loop (§2) and the session lifecycle (§9),
 
 **A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
-Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, *Packaging the Methodology as a Plugin*.
+Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Packaging the methodology as a plugin](packaging-as-a-plugin.md).
 
 ---
 

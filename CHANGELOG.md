@@ -5,6 +5,11 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Changed
+- The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
+  site's pages. The methodology and the home page name the same audience as the README: experienced
+  solo developers and small teams.
+
 ### Fixed
 - The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at
   `.claude/agents/` and a `code-reviewer` that a plugin install doesn't have. It now names
