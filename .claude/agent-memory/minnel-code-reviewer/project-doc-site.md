@@ -47,5 +47,10 @@ review doesn't cover.
   cytoscape (MIT), noted in a comment at its end (read it with `python3 -I`; the line is too long
   for grep). On an upgrade, `cmp` the vendored files against the registry tarball after checking
   its integrity hash. `.gitattributes` marks the vendor dir `binary`.
+- **Chart direction.** §8's lifecycle chart went `LR` → `TB` in b5729ea (2026-11-24): an
+  `LR` chart rendered in a short frame with labels illegible at 375 px, and the `TB` one got a
+  frame sized to the chart (the coordinator's observation on a scratch branch; I didn't see it).
+  So a `TB` chart here isn't a finding by default, even though the user's global rendered-docs
+  rule prefers `LR`. Ask for a render check at desktop and 375 px instead.
 - The site is not "own assets only": the theme links Google Fonts, and the bundle loads a
   `resize-observer-polyfill` from unpkg on old browsers.

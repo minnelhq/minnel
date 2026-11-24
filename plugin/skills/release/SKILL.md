@@ -27,9 +27,17 @@ and propose the closing steps at the end instead.
 5. If a version was given ($ARGUMENTS), also propose the format's version heading
    in place of the unreleased one. For Keep a Changelog:
    `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
-6. If a version was given, read the backlog (`docs/backlog.md`) and list any Next
-   item whose release target is that version at the top of the draft: work meant
-   for this release is still open. If none was given, suggest one from the changes.
+6. If a version was given, read the backlog (`docs/backlog.md`) and list any item still
+   under that version's heading in Next (or tagged `target: <version>`, the older
+   format) at the top of the draft: work meant for this release is still open. If the
+   conventions in context name a private-notes path (the template labels it
+   `Private/working notes:`) and `git check-ignore` confirms git ignores a file there,
+   check any backlog kept in it the same way, and name its items in this chat only. For
+   each item, propose deleting its line if the commits show the item has shipped;
+   otherwise propose finishing it before the cut, or moving it under a later release's
+   heading or Unscheduled (for a tagged item, changing or dropping its tag). Propose
+   removing the version's heading once it is empty. If no version was given, suggest one
+   from the changes.
    Under Conventional Commits a `feat` makes a minor release, a `fix` a patch, and
    a breaking change a major.
 
