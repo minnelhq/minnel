@@ -8,8 +8,8 @@ metadata:
 Completed plans move from `docs/plans/` to `docs/plans/archive/`, staying versioned as history so only live work shows in `docs/plans/`. Convention added 2026-06.
 
 Where it is described (keep these consistent on any future edit):
-- `docs/methodology.md` §3 closing paragraph (~line 85, after the appendix split) — "when a plan is done, move it to `docs/plans/archive/` and clear the active-plan pointer".
-- Appendix D — now in `docs/appendices/skeletons.md` (~line 54, moved out of methodology.md by the 2026-06 appendix split) — completion note: set `**Status:** done (YYYY-MM-DD)` (ISO since the date migration), clear pointer, move to archive.
+- `docs/methodology.md` §3, its closing paragraph — "when a plan is done, move it to `docs/plans/archive/` and clear the active-plan pointer".
+- Appendix D in `docs/appendices/skeletons.md`, the skeleton's completion note — set `**Status:** done (YYYY-MM-DD)`, clear the pointer, move to archive.
 
 **Why:** keeps the active plan set scannable for a cold-start session.
 
