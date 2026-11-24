@@ -3,7 +3,7 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.6.0] - 2026-11-24
 
 ### Added
 - `/retro` (Appendix L, `/minnel:retro`) prunes as well as adds. After proposing new rules, it
@@ -21,7 +21,8 @@ versions follow SemVer.
   plan's last stage has passed the Definition of Done, bar items pending until merge, it sets the
   status to done with the date and outcome, marks every stage done, clears the active-plan pointer
   where `CLAUDE.md` says it lives, and moves the file to `docs/plans/archive/`, creating the folder
-  if needed. §3, §9, §10, Appendix D and the scaffold's `docs/plans/README.md` point to it.
+  if needed. §3, §9, §10, Appendix D and the scaffold's `docs/plans/README.md` point to it. This
+  repository's own `close-plan` skill, which did the same job, is gone.
 
 ### Changed
 - The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
