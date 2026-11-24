@@ -3,6 +3,12 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
+## [Unreleased]
+
+### Added
+- The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
+  adding one, and updates or deletes a note that a finding contradicts.
+
 ## [0.5.0] - 2026-11-24
 
 ### Added
