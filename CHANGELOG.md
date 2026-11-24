@@ -19,7 +19,9 @@ versions follow SemVer.
   version, and a Next item ordered above one that targets an earlier release. §8 describes the view.
 - `/release` (Appendix M, `/minnel:release`) proposes what to do with each Next item still targeting
   the version being cut: delete its line if the commits show it has shipped, or else finish it
-  first, move its target to the next release or drop the target.
+  first, move its target to the next release or drop the target. `/release` also checks a backlog
+  kept in the project's gitignored notes, when the conventions name one, and names any of its items
+  that target the version in the chat only.
 
 ## [0.6.0] - 2026-11-24
 
