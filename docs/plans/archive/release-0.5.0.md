@@ -81,7 +81,7 @@ Check E pairs change together: Appendix F with the scaffold's `backlog.md`, Appe
 
 ## Stage 3 — Mermaid diagrams   [done]
 - [x] Read mermaid's licence from its own `LICENSE`; vendor one pinned `mermaid.min.js` under
-  `docs/` and load it with `extra_javascript`; add the `mermaid` custom fence to
+  `docs/` and load it with a `<script>` tag (see Deviations); add the `mermaid` custom fence to
   `pymdownx.superfences`. Confirm in a built page that no request goes to unpkg — files:
   `mkdocs.yml`, `docs/assets/…`
 - [x] Diagrams, left to right, short labels, `layout: dagre` in frontmatter, prose kept beside each:
@@ -118,7 +118,8 @@ On the maintainer's go only.
   not `extra_javascript`. The pinned file is 1.58 MB gzipped, and `extra_javascript` would load it
   on every page; only the methodology page has diagrams. The §2 diagram drops the "next task"
   back-edge, which made the layout put the build row above the planning row; the text after the
-  stage table says the loop repeats.
+  stage table says the loop repeats. It draws two left-to-right rows stacked top to bottom, since
+  one row of ten nodes was unreadable.
 - 2026-11-24 — Stage 4: the plan is archived in the PR that carries the release commit, so the
   post-merge step (tag `v0.5.0`, check the deploy and the live site) stays open here and is done
   after the merge.

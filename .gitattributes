@@ -1,2 +1,3 @@
-# Vendored, minified third-party code: no text diffs or grep hits, and no language stats.
-docs/assets/vendor/** binary linguist-vendored
+# Vendored third-party code: no language stats, and no text diffs or grep hits for minified files.
+docs/assets/vendor/** linguist-vendored
+docs/assets/vendor/**/*.min.js binary

@@ -18,11 +18,14 @@ load it from a `<script>` tag at the end of each page that draws a diagram. Toda
 - The tag sits before Zensical's bundle in the built page, so the bundle finds a global `mermaid`
   and fetches nothing. GitHub strips the tag from its own rendering.
 - The first copy is mermaid 12.3.0 (MIT, read from the package's own `LICENSE`), checked against
-  the sha512 the npm registry publishes for it.
+  the sha512 the npm registry publishes for it. The bundle also carries DOMPurify (Apache-2.0 or
+  MPL-2.0, at the user's choice), lodash and cytoscape (MIT). Their notices stay in the file's
+  closing comment; re-read that block on an upgrade.
 - The docs workflow fails when a built page draws a diagram and its vendored script is missing or
   doesn't resolve, or loads a major other than the one Zensical's bundle would fetch.
-- `.gitattributes` marks the vendored directory binary and `.ignore` lists it, so `git grep` and
-  ripgrep don't print its 300,000-character lines. A plain `grep -r` still does.
+- `.gitattributes` marks the minified file binary, so diffs and `git grep` skip it while its
+  `LICENSE` still diffs as text, and `.ignore` keeps ripgrep out of the directory. A plain
+  `grep -r` still prints the file's 300,000-character lines.
 
 ## Consequences
 - No page fetches Mermaid from a CDN, and only the page that draws diagrams loads the 1.58 MB. The

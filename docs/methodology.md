@@ -296,7 +296,7 @@ The six ritual commands map onto the loop (§2) and the session lifecycle (§9),
 | `/triage` | Next no longer matches what you'd pick up | between plans, and before a release | Appendix P |
 | `/release` | cutting a version | event-driven, off the per-task loop | Appendix M |
 
-`/plan` → (execute) → `/accept` is the per-task spine, with `/retro` at the boundary and `/wrap` at session close; `/release` fires only when you version, and `/triage` keeps current the backlog that `/plan` and `/release` read. Skip any of them for trivial work: the commands codify the discipline but do not mandate it.
+`/plan` → (execute) → `/accept` is the per-task spine, with `/retro` at the boundary and `/wrap` at session close; `/release` fires only when you version, and `/triage` keeps current the backlog that `/release` checks and the next `/plan` draws from. Skip any of them for trivial work: the commands codify the discipline but do not mandate it.
 
 **Skills vs commands: who drives.** Claude Code has merged commands into skills. A `.claude/commands/` file is the [older format and still works](https://code.claude.com/docs/en/skills), and it accepts the same frontmatter fields as a skill except `name` and `paths`. You start either one by typing its name; by default Claude can also start it when its description matches the task. Who drives is set in the frontmatter. Set `disable-model-invocation: true` (above) on *your* rituals (plan, accept, retro), so they run only when you call them by name; leave it off for *Claude's* capabilities (the importer, the migration). Prefer a skill for new work, since it can carry supporting files. This repository's plugin, Minnel, ships its six rituals as skills with that key set, such as `/minnel:plan`.
 
