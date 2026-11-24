@@ -1,6 +1,6 @@
 # Minnel: a file-first operating model for Claude Code
 
-*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-24.*
+*A discipline for driving Claude Code, written for experienced solo developers and small teams. Last updated 2026-11-25.*
 
 ---
 
@@ -304,7 +304,7 @@ The six ritual commands map onto the loop (§2) and the session lifecycle (§9),
 
 **A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
-Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Packaging the methodology as a plugin](plugin.md).
+Packaging all of this (agents, hooks, skills, commands, rules) into a single reusable, distributable unit is covered in the companion document, [Minnel as a plugin](plugin.md).
 
 ---
 

@@ -51,7 +51,7 @@ nav:
       - Hooks: appendices/hooks.md
       - Document skeletons: appendices/skeletons.md
       - Skills & commands: appendices/skills-and-commands.md
-  - Packaging as a plugin: plugin.md
+  - Plugin: plugin.md
 
 plugins:
   - search
