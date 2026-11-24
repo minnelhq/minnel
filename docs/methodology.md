@@ -229,7 +229,7 @@ Four things are worth folding in. Everything else (standups on a cadence, story 
 config:
   layout: dagre
 ---
-flowchart LR
+flowchart TB
   later[Later] --> next[Next] -- picked up --> now[Now: the plan]
   now -- ships --> unreleased[Unreleased] -- cut --> version[Release]
   triage(["/triage"]) -. order, releases .-> next

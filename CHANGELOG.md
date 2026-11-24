@@ -28,6 +28,10 @@ versions follow SemVer.
   proposes moving inline tags under headings, and `/release` still reads them. §8 describes the
   format.
 
+### Fixed
+- The §8 backlog-lifecycle diagram is drawn top to bottom, so its labels stay readable on GitHub at
+  phone width.
+
 ## [0.6.0] - 2026-11-24
 
 ### Added
