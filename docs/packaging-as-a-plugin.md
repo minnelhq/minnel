@@ -88,7 +88,9 @@ plugin/
     ├── command-segments.awk # splits a command line for the two guards
     ├── tests-dir-guard.sh
     ├── config-audit.sh      # read-only; /retro runs it before pruning
-    └── tests/guards.sh      # sample tool calls for each guard, and audit cases
+    └── tests/
+        ├── guards.sh        # sample tool calls for each guard, and audit cases
+        └── all-awks.sh      # runs guards.sh under each installed awk
 ```
 
 A plugin can also bundle `commands/`, `.mcp.json` (MCP servers), `.lsp.json`, `monitors/`, `output-styles/` and `bin/` (executables added to `PATH`); consult the plugin component reference for the full auto-discovered set.

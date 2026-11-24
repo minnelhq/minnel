@@ -47,10 +47,11 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       ADRs 0002 and 0003.
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
       `plugin/scripts/tests/all-awks.sh` passes (it runs `guards.sh` under each installed awk;
-      CI covers mawk and gawk, so install them to check before a push), and
-      `claude plugin validate plugin` and `claude plugin validate .` pass. Warnings are allowed
-      only where `main` gives them too. Each behaviour a plugin script gains, and each one a
-      commit message claims, has a `guards.sh` case that fails when the behaviour is removed.
+      CI covers mawk and gawk, so install them to check before a push, and report a `skip` line
+      as unchecked, not as a pass), and `claude plugin validate plugin` and
+      `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too.
+      Each behaviour a guard or plugin script (not the tests) gains, and each one a commit
+      message claims, has a `guards.sh` case that fails when the behaviour is removed.
       Leave `plugin.json`'s `version` alone outside a release commit (see the Release item).
 - [ ] **Release (when cutting one)** — `plugin/.claude-plugin/plugin.json`'s `version` equals the
       new CHANGELOG version (ADR 0004). Installs stay on the cached copy until it changes, so a
