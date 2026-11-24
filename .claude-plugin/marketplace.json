@@ -8,7 +8,7 @@
     {
       "name": "minnel",
       "source": "./plugin",
-      "description": "A file-first Claude Code operating model: a code reviewer, git and destructive-command guards, the plan/accept/retro/release/wrap rituals, and a scaffold for the project files they rely on."
+      "description": "A file-first Claude Code operating model: a code reviewer, git and destructive-command guards, the plan/accept/retro/release/wrap/triage rituals, and a scaffold for the project files they rely on."
     }
   ]
 }

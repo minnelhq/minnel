@@ -120,6 +120,7 @@ docs/appendices/skills-and-commands.md|`.claude/commands/accept.md`|-|plugin/ski
 docs/appendices/skills-and-commands.md|`.claude/commands/retro.md`|-|plugin/skills/retro/SKILL.md|whole|drop_skill_keys|Appendix L
 docs/appendices/skills-and-commands.md|`.claude/commands/release.md`|-|plugin/skills/release/SKILL.md|whole|drop_skill_keys|Appendix M
 docs/appendices/skills-and-commands.md|`.claude/commands/wrap.md`|-|plugin/skills/wrap/SKILL.md|whole|drop_skill_keys|Appendix N
+docs/appendices/skills-and-commands.md|`.claude/commands/triage.md`|-|plugin/skills/triage/SKILL.md|whole|drop_skill_keys|Appendix P
 templates/CLAUDE.template.md|whole|-|plugin/skills/scaffold/templates/CLAUDE.md|whole|-|CLAUDE template
 PAIRS
   for sk in "$ROOT"/plugin/skills/*/SKILL.md; do  # every plugin skill, frontmatter only

@@ -12,9 +12,9 @@ methodology's artefacts so a project can adopt them without copying files by han
 - Three guard hooks: `bash-guard` (forced recursive `rm`, force push, `DROP TABLE`), `git-guard`
   (blanket staging, `git commit -a` included; by default it also asks before each push) and a
   test-directory guard for `test-writer`. They catch slips, not a determined command.
-- Six skills: the rituals `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`
-  and `/minnel:wrap`, and `/minnel:scaffold`, which writes the project files a plugin cannot
-  ship.
+- Seven skills: the rituals `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`,
+  `/minnel:wrap` and `/minnel:triage`, and `/minnel:scaffold`, which writes the project files a
+  plugin cannot ship.
 
 ## Install
 

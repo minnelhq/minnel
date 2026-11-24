@@ -3,13 +3,26 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.5.0] - 2026-11-24
 
 ### Added
 - §9: what a `.worktreeinclude` copies and when. Claude Code copies the gitignored files it lists,
   such as local notes, once as it creates each worktree. Later edits don't pass between the
   worktree and the main checkout. A `.worktreeinclude` that names a private path can stay
   untracked.
+- Release targets in the backlog. A Next item in Appendix F, and in the backlog
+  `/minnel:scaffold` writes, may name the release it is meant for with `target: X.Y.Z`; Later
+  items carry none. When a version is given, `/minnel:release` (Appendix M) lists any Next item
+  still targeting it, and without one it suggests a version from the changes' types. §8 names the
+  Now–Next–Later shape the backlog follows and credits it to Janna Bastow at ProdPad.
+- Appendix P, a `/triage` ritual, shipped in the plugin as `/minnel:triage`. It drafts a backlog
+  triage for approval: which items have shipped, gone stale or duplicate another, a new order for
+  Next, and release targets. When the conventions name a gitignored notes path, a backlog kept
+  there is read too, but the combined view stays in the chat or those notes. §10's ritual table
+  lists it, and the counts and ranges now say six rituals and Appendices A–P.
+- Mermaid diagrams for the §2 loop, the §6 hook path and the §8 backlog-to-changelog lifecycle,
+  drawn on the site and on GitHub. The site loads a pinned copy of mermaid.js (12.3.0, MIT) from
+  its own assets, on the methodology page only, instead of fetching it from a CDN.
 
 ### Changed
 - The README's Status section says Minnel is maintained and that `CHANGELOG.md` lists each

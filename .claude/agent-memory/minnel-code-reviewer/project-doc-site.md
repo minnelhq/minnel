@@ -57,6 +57,28 @@ Re-verify which is current before relying on it.
   Before ADR 0005: deploy job and upload step both gated to `workflow_dispatch`; top-level `permissions: contents: read`, write perms (`pages: write`, `id-token: write`) only on
   the deploy job. Pages action pair must stay matched majors. Actions are pinned to commit SHAs
   with version comments; verify a SHA matches its tag via `gh api`.
+- Mermaid (0.5.0 Stage 3, reviewed 2026-11-24, re-check the shape): a vendored
+  `docs/assets/vendor/mermaid-<ver>/mermaid.min.js` (5.5 MB, one line up to ~330 KB) loads from a
+  raw `<script>` at the end of each page with a `mermaid` fence, not `extra_javascript`. Zensical
+  0.1.3's bundle fetches `unpkg.com/mermaid@12` whenever `typeof mermaid=="undefined"`, so a page
+  that gains a fence without the tag, or a broken `src`, silently falls back to the CDN and still
+  renders: `--strict` does not check script `src`. Check every page with a mermaid fence carries
+  the tag. Also flag grep/context cost of the minified file unless `.gitattributes`/`.ignore`
+  cover the vendor dir. On a Zensical upgrade, check the bundle's pinned mermaid major still matches.
+  Fix 2ec30d9 added a docs.yml step and ADR 0006. That step (as of 2026-11-24) only greps for the
+  src string: a page in a subdirectory with a wrong relative `src` passes both `--strict` and the
+  step, then 404s and falls back to unpkg (probed). Check whether the step resolves `src` against
+  the page dir. (Whole-branch review 2026-11-24: the step now resolves `src` against the page dir
+  and checks the major against the bundle's fallback; it passed on a clean `git archive` build.)
+  Licence: mermaid itself is MIT, but `mermaid.min.js` bundles DOMPurify (Apache-2.0 OR MPL-2.0),
+  lodash and cytoscape (MIT); their notices sit in a "Bundled license information" comment at the
+  file's end (read it with `python3 -I`, the line is too long for grep). ADR 0006 and the
+  CHANGELOG say only "MIT". On an upgrade, re-read that block and verify the vendored files with
+  `cmp` against `package/dist/mermaid.min.js` and `package/LICENSE` from the registry tarball
+  (tarball sha512 vs `dist.integrity`). `.gitattributes` marks the whole vendor dir `binary`, so
+  the vendored `LICENSE` shows as "Bin" in diffs too. Also: the site is not "own assets only". The theme links Google Fonts
+  (`fonts.googleapis.com` stylesheet) and the bundle loads a `resize-observer-polyfill` from unpkg
+  on old browsers, so a claim that the site loads only its own assets is false.
 - Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
   auth (deploy uses OIDC, no checkout). Re-check if a step that pushes or fetches is added. Note
   that checkout v6+ keeps the token "in a separate file under `$RUNNER_TEMP` instead of

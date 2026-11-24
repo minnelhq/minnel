@@ -1,6 +1,6 @@
 # Methodology appendices — skills and commands
 
-Drop-in skill and command definitions for the methodology — the example skill and the five ritual commands. Companion to `../methodology.md`; the full index is in this directory's `README.md`.
+Drop-in skill and command definitions for the methodology — the example skill and the six ritual commands. Companion to `../methodology.md`; the full index is in this directory's `README.md`.
 
 ## Appendix I — example skill
 
@@ -143,6 +143,11 @@ Prepare a changelog update — draft only, do not edit files until I approve.
 5. If a version was given ($ARGUMENTS), also propose the format's version heading
    in place of the unreleased one. For Keep a Changelog:
    `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
+6. If a version was given, read the backlog (`docs/backlog.md`) and list any Next
+   item whose release target is that version at the top of the draft: work meant
+   for this release is still open. If none was given, suggest one from the changes.
+   Under Conventional Commits a `feat` makes a minor release, a `fix` a patch, and
+   a breaking change a major.
 
 Exclude internal-only changes (refactors, test scaffolding, doc tweaks) unless an
 installer would notice. I will curate before anything is committed.
@@ -180,4 +185,42 @@ End-of-session wrap. Work in order; do not edit files until I confirm each write
 
 Produce all of the above yourself from the session and git history. Do not rely on the
 native /recap — it may be unavailable in this environment.
+```
+
+## Appendix P — `/triage` command
+
+The plugin ships this as the `triage` skill, `plugin/skills/triage/SKILL.md`.
+
+`.claude/commands/triage.md`
+
+```markdown
+---
+description: Triage the backlog — check each item still applies, reorder Next and propose release targets.
+disable-model-invocation: true
+---
+
+Triage the backlog in `docs/backlog.md`. Draft only: do not edit files until I approve.
+
+1. Read the backlog, the active plan, the changelog the conventions in context name
+   (`CHANGELOG.md` by default) and the commits since the last release tag. If those
+   conventions, in the project's `CLAUDE.md` or `.claude/rules/` or in `~/.claude/`,
+   name a private-notes path (the template labels it `Private/working notes:`), and
+   `git check-ignore` confirms git ignores a file there, read any backlog kept in it too.
+2. Check that each item still applies. Flag any that has shipped (its outcome is in the
+   changelog or the commits), is out of date (what it names has moved on), or duplicates
+   another; an item the active plan covers is in progress, not stale. Propose deleting a
+   shipped item, with an Unreleased line for its user-facing outcome if the changelog
+   lacks one; rewriting or parking a stale one; and merging duplicates.
+3. Re-tag what has changed (type, value, effort, why now). Propose an order for Next:
+   value against effort, with an item that others depend on ahead of them.
+4. Propose release targets (`target: <version>`) for the Next items due in the next
+   release or the one after; leave the rest, and Later, untargeted. Suggest each
+   release's version from its items' types: under Conventional Commits a `feat` makes a
+   minor release, a `fix` a patch and a breaking change a major. A `debt` or `chore`
+   item needs no release of its own unless an installer would notice it.
+5. Show a grouping that includes private items in this chat only, or write it to the
+   private notes. The tracked backlog groups tracked items only, and names a private
+   blocker in general terms.
+6. Present the draft as changes to the backlog, one line of reason each. I choose what
+   to apply.
 ```

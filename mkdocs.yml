@@ -62,7 +62,12 @@ markdown_extensions:
   - attr_list
   - toc:
       permalink: true
-  - pymdownx.superfences
+  # Mermaid diagrams. The site loads a pinned, vendored mermaid.js (docs/assets/vendor/) from a
+  # script tag on each page that has one, so Zensical never fetches it from a CDN.
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
   - pymdownx.details
 
 # Link checking: Zensical warns by default on a link to a missing page or anchor, and CI runs

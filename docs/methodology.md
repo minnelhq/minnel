@@ -52,9 +52,24 @@ The governing distinction is **always-loaded vs loaded-on-demand**. `CLAUDE.md` 
 
 ## 2. The core loop
 
-```
-Explore → Plan → Challenge → (persist plan) → Execute → Review → Accept → (update status) → repeat
-                                                                                  └─ at phase end: Retro → config changes
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart TB
+  subgraph before [Before you build]
+    direction LR
+    explore[Explore] --> plan[Plan] --> challenge[Challenge] --> persist[Persist plan]
+    challenge -. rethink .-> plan
+  end
+  subgraph build [Build]
+    direction LR
+    execute[Execute] --> review[Review] --> accept[Accept] --> status[Update status]
+    accept -. not done .-> execute
+  end
+  before --> build
+  build -. plan end .-> retro[Retro: config changes]
 ```
 
 | Stage | Mechanism |
@@ -159,6 +174,26 @@ With no pipeline, hooks are where determinism lives. The model can forget; an ex
 - **`PostToolUse`** — matcher `Edit|Write`: run formatter/linter, and a quick build or targeted test. Catches breakage at the moment of edit rather than three steps later. Can run async so it does not block the turn.
 - **Session/lifecycle hooks** — `SessionStart` for environment setup; `PreCompact`/`PostCompact` to protect and reload plan context; `SubagentStop` if you want an audit log of delegated work.
 
+One tool call meets the first two tiers in turn:
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+  call[Tool call] --> guard{PreToolUse guard}
+  guard -- "exit 2: reason to Claude" --> blocked[Blocked]
+  guard -- "ask: reason to you" --> you{You}
+  guard -- no decision --> perms{Permissions}
+  perms -- denied --> blocked
+  perms -- prompt --> you
+  perms -- allowed --> run[Tool runs]
+  you -- deny --> blocked
+  you -- allow --> run
+  run --> check[PostToolUse check] --> result[Result to Claude]
+```
+
 Hooks can also be scoped *inside* a subagent's frontmatter (they fire only while that agent runs and are cleaned up afterwards). This is the clean way to make `test-writer` physically unable to write outside `Tests/`, regardless of what it is asked. Use the `$CLAUDE_PROJECT_DIR` prefix for hook script paths so they resolve regardless of working directory, and quote it (`"$CLAUDE_PROJECT_DIR"/.claude/hooks/bash-guard.sh`) so a project path with a space still runs. See Appendix C.
 
 ---
@@ -185,7 +220,23 @@ Four things are worth folding in. Everything else (standups on a cadence, story 
 
 **A backlog as a persisted, ordered file.** The value is the externalised queue, not the ceremony: priorities out of your head, and a place to point the agent at "the next thing". Keep `docs/backlog.md` (Appendix F): each item tagged type/value/effort with a one-line *why now*. Keep the prioritisation *thinking*; drop the estimation theatre.
 
+**Order the backlog Now, Next, Later, and promise releases only for Next.** The sections follow the Now–Next–Later roadmap [Janna Bastow devised at ProdPad](https://www.prodpad.com/blog/invented-now-next-later-roadmap/). Now is the active plan. Next is ordered and expected. Later is deliberately undated, because the far end of a backlog can't keep promises. A Next item may name the release it is meant for with an optional `target: X.Y.Z`; a Later item never does. The type tag suggests the size of that release. Conventional Commits ties a `feat` to a minor version and a `fix` to a patch, and gives other types no effect on the version. A `debt` or `chore` item needs no release of its own unless an installer would notice it. A shipped item's line is deleted, so the check runs the other way: when you cut a version, `/release` (Appendix M) lists any Next item still targeting it. Keeping the backlog current is its own ritual: `/triage` (Appendix P) flags items that have shipped or gone stale and drafts a new order and release targets for Next.
+
 **Backlog, plan, and changelog are one lifecycle.** The same unit of work moves through three views: a backlog item (a candidate: *what might happen*), pulled into a plan (committed: *what's happening*, §3), and on completion recorded in the changelog (shipped: *what happened*, user-facing). Tag backlog items by type (`feat`/`fix`/`debt`/`chore`) so they pre-sort into changelog categories; when an item ships, its user-facing outcome lands in the changelog and the backlog line is removed. This closes the loop the methodology otherwise leaves open. It had a record of future and present work, but none of the past.
+
+```mermaid
+---
+config:
+  layout: dagre
+---
+flowchart LR
+  later[Later] --> next[Next] -- picked up --> now[Now: the plan]
+  now -- ships --> unreleased[Unreleased] -- cut --> version[Release]
+  triage(["/triage"]) -. order, targets .-> next
+  next -. target still open .-> version
+```
+
+The dotted edges are rituals that read the backlog: `/triage` orders Next and proposes targets, and `/release` lists any Next item still targeting the version being cut.
 
 **The changelog is a curated human artefact, not a generated one.** Name its format, and the commit style its entries are drafted from, in your conventions: the project's `CLAUDE.md` or `.claude/rules/`, or, for a default across projects, `~/.claude/CLAUDE.md` or `~/.claude/rules/` (§1). The recommended default is Keep a Changelog: categories Added/Changed/Deprecated/Removed/Fixed/Security, an `## [Unreleased]` section on top, and SemVer versions below with ISO dates (Appendix H). Keep `CHANGELOG.md` at the repo root, the one deliberate exception to the `docs/` rule, because tools and readers expect it there and a visible changelog signals a maintained project (which matters when you distribute the plugin). Don't auto-generate it from `git log`. At release time, have Claude draft Unreleased entries from the finished plan and its commits, then curate. The `/release` command (Appendix M) reads both and falls back to Keep a Changelog or Conventional Commits for whichever is left unnamed. Keep it distinct from its neighbours: the changelog says *what changed, user-facing*; the plan's decision log says *why, internally*; an ADR says *which architectural choice, and its consequences*. The rule of thumb: if a user or installer would care, it's a changelog line; if only a future maintainer would, it isn't.
 
@@ -234,7 +285,7 @@ This is the cleanest home for the institutional knowledge that currently lives o
 
 **Custom slash commands make the methodology's discipline muscle memory.** Right now the loop depends on you remembering to follow it. A command is a saved prompt in `.claude/commands/<name>.md`, invoked as `/<name>`, that can take arguments (`$ARGUMENTS` for all of them, or `$0`, `$1` and so on by position, counting from zero) and run bash or reference files. Codify the rituals: a `/plan` that enters plan mode with your house rules (Appendix J), an `/accept` that runs the Definition of Done against the diff (Appendix K), a `/retro` that runs the "what recurred?" sweep and proposes config changes (Appendix L). One keystroke instead of a remembered intention is the difference between a methodology you follow and one you mean to.
 
-The five ritual commands map onto the loop (§2) and the session lifecycle (§9), and run in this order:
+The six ritual commands map onto the loop (§2) and the session lifecycle (§9), and run in this order:
 
 | Command | Run when | Where in the rhythm | Drop-in |
 |---|---|---|---|
@@ -242,11 +293,12 @@ The five ritual commands map onto the loop (§2) and the session lifecycle (§9)
 | `/accept` | an increment looks finished | the Accept gate, before you call it done | Appendix K |
 | `/retro` | the same correction has recurred | at a plan or phase boundary | Appendix L |
 | `/wrap` | closing the session | session end | Appendix N |
+| `/triage` | Next no longer matches what you'd pick up | between plans, and before a release | Appendix P |
 | `/release` | cutting a version | event-driven, off the per-task loop | Appendix M |
 
-`/plan` → (execute) → `/accept` is the per-task spine, with `/retro` at the boundary and `/wrap` at session close; `/release` fires only when you version. Skip any of them for trivial work: the commands codify the discipline but do not mandate it.
+`/plan` → (execute) → `/accept` is the per-task spine, with `/retro` at the boundary and `/wrap` at session close; `/release` fires only when you version, and `/triage` keeps current the backlog that `/release` checks and the next `/plan` draws from. Skip any of them for trivial work: the commands codify the discipline but do not mandate it.
 
-**Skills vs commands: who drives.** Claude Code has merged commands into skills. A `.claude/commands/` file is the [older format and still works](https://code.claude.com/docs/en/skills), and it accepts the same frontmatter fields as a skill except `name` and `paths`. You start either one by typing its name; by default Claude can also start it when its description matches the task. Who drives is set in the frontmatter. Set `disable-model-invocation: true` (above) on *your* rituals (plan, accept, retro), so they run only when you call them by name; leave it off for *Claude's* capabilities (the importer, the migration). Prefer a skill for new work, since it can carry supporting files. This repository's plugin, Minnel, ships its five rituals as skills with that key set, such as `/minnel:plan`.
+**Skills vs commands: who drives.** Claude Code has merged commands into skills. A `.claude/commands/` file is the [older format and still works](https://code.claude.com/docs/en/skills), and it accepts the same frontmatter fields as a skill except `name` and `paths`. You start either one by typing its name; by default Claude can also start it when its description matches the task. Who drives is set in the frontmatter. Set `disable-model-invocation: true` (above) on *your* rituals (plan, accept, retro), so they run only when you call them by name; leave it off for *Claude's* capabilities (the importer, the migration). Prefer a skill for new work, since it can carry supporting files. This repository's plugin, Minnel, ships its six rituals as skills with that key set, such as `/minnel:plan`.
 
 **A command is not a subagent.** A command (or skill) is a prompt that runs in your *current* context; it does not hand work to a subagent unless its body explicitly delegates (via the Agent tool, an `@agent` mention, or `subagent_type`). So a `/review`-style command reviews in the main session. It does not dispatch your `code-reviewer` subagent (§4), and running one does not satisfy a "run the review subagent" gate (the working agreement's review-before-merge rule). When you want the isolated reviewer, invoke the subagent; when you want a command to *trigger* it, its body must delegate explicitly. `/accept` only gates on it: it checks a Definition of Done that requires the subagent run before merge.
 
@@ -279,4 +331,7 @@ A distributed, agentic harness executes code and pulls external content into its
 
 ---
 
-*The drop-in artefacts referenced above (the subagent definitions, project hooks, document skeletons, example skill and ritual commands; Appendices A–O) live under `docs/appendices/`, grouped by type. See `docs/appendices/README.md` for the letter-to-file index.*
+*The drop-in artefacts referenced above (the subagent definitions, project hooks, document skeletons, example skill and ritual commands; Appendices A–P) live under `docs/appendices/`, grouped by type. See `docs/appendices/README.md` for the letter-to-file index.*
+
+<!-- Loads the pinned Mermaid for the diagrams above; GitHub strips it and draws them itself. -->
+<script src="assets/vendor/mermaid-12.3.0/mermaid.min.js"></script>
