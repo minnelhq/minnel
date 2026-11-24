@@ -1,14 +1,14 @@
 # Plans
 
-One file per multi-stage task, `docs/plans/<task-name>.md`, with its status folded in. The
-backlog's "Now (this plan)" line or the `CLAUDE.md` "Active plan" line names the live one.
+One file per multi-stage task, `docs/plans/<task-name>.md`, with its status folded in. One
+pointer names the live plan, in the place `CLAUDE.md` says: by default the backlog's
+"Now (this plan)" item.
 When a plan is done, set `**Status:** done (YYYY-MM-DD)`, clear the pointer, and move the file
 to `docs/plans/archive/`. `/minnel:wrap` does this once the last stage has passed the Definition
 of Done.
 
 When each stage merges on its own branch, the stage's last commit names the next stage, in the
-status line, the stage markers and the pointer, so the plan on the main branch stays true after
-the merge. Record "awaiting review" in the pull request, not the plan.
+status line and the stage markers, so the plan on the main branch stays true after the merge. Record "awaiting review" in the pull request, not the plan.
 
 Skeleton:
 

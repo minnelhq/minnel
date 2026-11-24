@@ -6,10 +6,11 @@ one-line "why now". Optional ID (BL-NN) only if you want plans or commits to
 reference items. A Next item may name the release it is meant for with
 "target: <version>"; the release ritual lists any still open when that version
 is cut. Later items carry no target. When an item ships, move its user-facing outcome to
-CHANGELOG.md (Unreleased), then delete the line here.
+CHANGELOG.md (Unreleased), then delete the line here. Now names the active plan's file, and
+reads "(none — no active plan)" when no plan is live.
 
 ## Now (this plan)
-- [ ] <item> — feat — value: H, effort: M — why now: <reason>
+- [ ] <item> — plan: docs/plans/<task-name>.md — feat — value: H, effort: M — why now: <reason>
 
 ## Next
 - [ ] <item> — fix — value: M, effort: L — target: <version> — why now: <reason>

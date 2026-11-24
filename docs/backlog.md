@@ -21,8 +21,8 @@ English; dates ISO YYYY-MM-DD.
   plugin file must match.
 - Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
   · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
-  ask for language and spelling, date format, commit style, changelog format, private-notes path
-  and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
+  ask for language and spelling, date format, commit style, changelog format, private-notes path,
+  where the active-plan pointer lives and the review gate, then fill the `CLAUDE.md` Conventions block, the Definition of Done,
   `CHANGELOG.md` and `docs/backlog.md`. It answers the configurable-preferences stance.
 - Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on.
   The git guard now lets commits through and asks before a push, with a per-project setting for

@@ -14,7 +14,7 @@ Where it is described (keep these consistent on any future edit):
 
 **Why:** keeps the active plan set scannable for a cold-start session.
 
-**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D give a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. A doc naming this repo's concrete pointer should say `docs/backlog.md`; adopter-facing artefacts (Appendix N's close-out step, the plugin's wrap skill) deliberately name no single location and must not hard-code it.
+**Pointer location:** the live active-plan pointer is `## Now (this plan)` in `docs/backlog.md` (`- (none — no active plan)` when idle) — *not* `CLAUDE.md` or `docs/plans/README.md` (the latter does not exist). §3 point 3 and Appendix D give a non-exhaustive "e.g." list that names `docs/backlog.md` as this repo's instance. A doc naming this repo's concrete pointer should say `docs/backlog.md`; adopter-facing artefacts (Appendix N's close-out step, the plugin's wrap skill) say "where CLAUDE.md says it lives (by default the backlog's Now section)" and must not hard-code `docs/backlog.md`. Since 2026-11-24 §3 asks for one pointer location named in `CLAUDE.md`, defaulting to the backlog's Now; the template and Appendices D and F name the plan file with no stage count. Re-verify before relying on this.
 
 **Stage markers:** skeleton (Appendix D, `docs/appendices/skeletons.md`) uses three states — `[done]`, `[current]`, `[not started]`. A close-out grep that only looks for `[current]` and `[ ]` misses a leftover `[not started]` stage.
 

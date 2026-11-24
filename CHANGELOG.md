@@ -47,6 +47,12 @@ versions follow SemVer.
 - §7 assumed there is no PR reviewer. It now gives the reason to run the review subagent either
   way: without a reviewer it is the only second reader, and with one it checks the diff first.
   The `CLAUDE.md` template's review bullet offers both cases.
+- One active-plan pointer, in a place the project names. §3 asks you to pick one location and say
+  in `CLAUDE.md` which. With a backlog, its Now section is the default and the template's "Active
+  plan" section holds a fixed line saying so; without one, that section names the plan file. The
+  template and the scaffold's `docs/plans/README.md` no longer offer both at once. The pointer
+  names only the file: the template, Appendix D and Appendix F drop the stage count, which the
+  plan's status line already carries.
 
 ## [0.5.0] - 2026-11-24
 

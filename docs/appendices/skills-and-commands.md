@@ -203,8 +203,8 @@ End-of-session wrap. Work in order; do not edit files until I confirm each write
    - Mark every stage `[done]` and tick each completed step, then confirm with
      `grep -nE '\[current\]|\[not started\]|^- \[ \]' <plan>` that nothing is left
      but skipped steps. A skipped step stays unticked, with a deviation note.
-   - Clear the active-plan pointer wherever the conventions in context keep it (a
-     CLAUDE.md line, docs/plans/README.md or a backlog section), so it names no plan.
+   - Clear the active-plan pointer where CLAUDE.md says it lives (by default the
+     backlog's Now section), so it names no plan.
    - Move the file to docs/plans/archive/ with `git mv`. If the plan was never
      committed, use `mv` and then `git add` the new path.
 3. Retro signal: list anything I had to correct more than once, and propose the single

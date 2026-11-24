@@ -46,8 +46,12 @@ the whole document into every turn).
 
 ## Active plan
 
-<Kept current — a cold-start session lands here to resume the right plan.>
-docs/plans/<task-name>.md — Stage <N> of <M>
+<One pointer names the live plan, so a cold-start session resumes the right one. Keep one
+of the two lines below. With a backlog (the default), keep the first: it never changes.
+Without one, keep the second and update it as plans start and finish. It names only the
+file; the plan's own status line carries the stage.>
+The active plan is named under "Now (this plan)" in `docs/backlog.md`.
+docs/plans/<task-name>.md
 
 ## Working agreement
 
