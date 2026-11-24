@@ -141,6 +141,9 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   docs say `${CLAUDE_PROJECT_DIR}` is substituted in a skill body and `allowed-tools` Bash rules
   (not in synced or MCP skills). Run guards.sh as `./guards.sh` (bash shebang): `sh ./guards.sh`
   on macOS gives 8 false segmenter FAILs, the same on main.
+  Re-review of 5fdd231 (2026-11-24): each `list_files` entry, the old blanket `@` skip and the
+  git-remote regex `^[^\/@]+@[^\/:]+:` now fail guards.sh when mutated (scratch copy via
+  `git archive`; the bash guard blocks `rm -rf` of the scratch dir, so use a fresh dir name).
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
