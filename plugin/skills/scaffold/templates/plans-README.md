@@ -5,7 +5,7 @@ pointer names the live plan, in the place `CLAUDE.md` says: by default the backl
 "Now (this plan)" item.
 When a plan is done, set `**Status:** done (YYYY-MM-DD)`, clear the pointer, and move the file
 to `docs/plans/archive/`. `/minnel:wrap` does this once the last stage has passed the Definition
-of Done.
+of Done, bar items pending until merge such as the review.
 
 When each stage merges on its own branch, the stage's last commit names the next stage, in the
 status line and the stage markers, so the plan on the main branch stays true after the merge. Record "awaiting review" in the pull request, not the plan.

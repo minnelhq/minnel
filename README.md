@@ -37,8 +37,7 @@ artefacts can be adopted one at a time.
   - a `PostToolUse` consistency hook, a script Claude Code runs after each edit. It flags dangling
     §/appendix references, broken intra-repo links, US spellings, `DD/MM/YYYY` dates, and drift
     between an appendix and the plugin file it ships as;
-  - an `add-section` skill, for the section/appendix cross-reference ripple. Closing a finished
-    plan is part of the plugin's `/minnel:wrap`.
+  - an `add-section` skill, for the section/appendix cross-reference ripple.
 
 ## Using it
 

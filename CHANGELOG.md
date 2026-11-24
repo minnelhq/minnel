@@ -18,10 +18,11 @@ versions follow SemVer.
 - The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
   adding one, and updates or deletes a note that a finding contradicts.
 - `/wrap` (Appendix N, `/minnel:wrap` in the plugin) closes a finished plan. Once the active
-  plan's last stage has passed the Definition of Done, it sets the status to done with the date
-  and outcome, marks every stage done, clears the active-plan pointer wherever the project keeps
-  it, and moves the file to `docs/plans/archive/`. §3, §9, §10, Appendix D and the scaffold's
-  `docs/plans/README.md` point to it. This repo's own `close-plan` skill is retired.
+  plan's last stage has passed the Definition of Done, bar items pending until merge, it sets the
+  status to done with the date and outcome, marks every stage done, clears the active-plan pointer
+  where `CLAUDE.md` says it lives, and moves the file to `docs/plans/archive/`, creating the folder
+  if needed. §3, §9, §10, Appendix D and the scaffold's
+  `docs/plans/README.md` point to it.
 
 ### Changed
 - The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
