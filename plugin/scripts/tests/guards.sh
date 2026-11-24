@@ -3,7 +3,12 @@
 # payload on stdin and compares the result: 2 blocks, 0 allows, and ask means exit 0 with a
 # permissionDecision of "ask" on stdout, which prompts the user. The last section runs
 # config-audit.sh, the read-only script /retro starts from, against a throwaway project.
-# Run from anywhere: plugin/scripts/tests/guards.sh
+# Run from anywhere: plugin/scripts/tests/guards.sh. Run as "sh guards.sh", it restarts under
+# bash: the cases use bash quoting, which dash and bash's POSIX mode read differently.
+case ":${SHELLOPTS:-}:" in *:posix:*) posix=1 ;; *) posix= ;; esac
+if { [ -z "${BASH_VERSION:-}" ] || [ -n "$posix" ]; } && [ -z "${MINNEL_GUARDS_REEXEC:-}" ]; then
+  MINNEL_GUARDS_REEXEC=1 exec bash "$0" "$@"
+fi
 cd "$(dirname "$0")/.." || exit 1
 export CLAUDE_PROJECT_DIR=/proj
 unset MINNEL_GIT_GUARD_COMMITS MINNEL_GIT_GUARD_PUSHES   # test the defaults, not this project's settings
