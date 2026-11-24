@@ -3,9 +3,10 @@
 # as "awk", as the guards CI workflow does for mawk and gawk. An awk that isn't installed is named
 # and skipped, so a pass covers only the awks it lists. Exits 1 if any run fails.
 # Run from anywhere: plugin/scripts/tests/all-awks.sh
-cd "$(dirname "$0")" || exit 1
+CDPATH= cd -- "$(dirname -- "$0")" || exit 1
 tmp=$(mktemp -d) || exit 1
 trap 'rm -r "$tmp"' EXIT
+trap 'exit 130' INT; trap 'exit 143' TERM   # dash runs the EXIT trap only on a normal exit
 fail=0
 for a in awk mawk gawk; do
   path=$(command -v "$a") || { echo "skip $a: not installed"; continue; }
@@ -16,7 +17,7 @@ for a in awk mawk gawk; do
   if [ "$rc" = 0 ]; then
     echo "ok   $a (${version:-version unknown}): $(printf '%s\n' "$out" | grep -c '^ok') cases"
   else
-    printf '%s\n' "$out" | grep '^FAIL'
+    printf '%s\n' "$out" | grep '^FAIL' || printf '%s\n' "$out" | tail -n 3
     echo "FAIL $a (${version:-version unknown})"; fail=1
   fi
 done

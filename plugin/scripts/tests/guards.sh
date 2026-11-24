@@ -3,13 +3,14 @@
 # payload on stdin and compares the result: 2 blocks, 0 allows, and ask means exit 0 with a
 # permissionDecision of "ask" on stdout, which prompts the user. The last section runs
 # config-audit.sh, the read-only script /retro starts from, against a throwaway project.
-# Run from anywhere: plugin/scripts/tests/guards.sh. Run as "sh guards.sh", it restarts under
-# bash: the cases use bash quoting, which dash and bash's POSIX mode read differently.
+# Run from anywhere: plugin/scripts/tests/guards.sh. Run by another shell, it restarts under bash:
+# dash can't parse the cases' bash quoting, and bash in POSIX mode (macOS's sh, or
+# POSIXLY_CORRECT set) has an echo that expands the backslashes in the payloads.
 case ":${SHELLOPTS:-}:" in *:posix:*) posix=1 ;; *) posix= ;; esac
 if { [ -z "${BASH_VERSION:-}" ] || [ -n "$posix" ]; } && [ -z "${MINNEL_GUARDS_REEXEC:-}" ]; then
-  MINNEL_GUARDS_REEXEC=1 exec bash "$0" "$@"
+  unset POSIXLY_CORRECT; MINNEL_GUARDS_REEXEC=1 exec bash "$0" "$@"
 fi
-cd "$(dirname "$0")/.." || exit 1
+CDPATH= cd -- "$(dirname -- "$0")/.." || exit 1
 export CLAUDE_PROJECT_DIR=/proj
 unset MINNEL_GIT_GUARD_COMMITS MINNEL_GIT_GUARD_PUSHES   # test the defaults, not this project's settings
 fail=0
