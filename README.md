@@ -35,8 +35,8 @@ artefacts can be adopted one at a time.
     would for an adopter;
   - the Definition of Done rule, the bar a change must clear;
   - a `PostToolUse` consistency hook, a script Claude Code runs after each edit. It flags dangling
-    §/appendix references, broken intra-repo links, US spellings, `DD/MM/YYYY` dates, and drift
-    between an appendix and the plugin file it ships as;
+    §/appendix references, broken intra-repo links, US spellings, `DD/MM/YYYY` dates, a "Last
+    updated" date older than today, and drift between an appendix and the plugin file it ships as;
   - an `add-section` skill, for the section/appendix cross-reference ripple.
 
 ## Using it
