@@ -12,6 +12,12 @@ versions follow SemVer.
   version's changelog section as its notes. Given a version that is cut but not yet tagged,
   `/release` proposes these steps instead of a new draft. Pushing the tag and publishing the release
   wait for the user's go-ahead, and §10 lists the second run.
+- `/triage` (Appendix P, `/minnel:triage`) ends with a roadmap: Next grouped under each target
+  version with its suggested bump, then Next with no target, then Later undated. It is drawn from
+  the `target:` tags and not written to a file. Triage also flags a target that names a released
+  version, and a Next item ordered above one that targets an earlier release. §8 describes the view.
+- `/release` (Appendix M, `/minnel:release`) proposes what to do with each Next item still targeting
+  the version being cut: finish it first, move its target to the next release, or drop the target.
 
 ## [0.6.0] - 2026-11-24
 
