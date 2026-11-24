@@ -1,6 +1,6 @@
 # ADR 0003 — Build the doc site with Zensical
 
-**Status:** accepted; superseded in part by ADR 0005 (deploy)   **Date:** 2026-11-22   **Amended:** 2026-11-25 (the redirect)
+**Status:** accepted; superseded in part by ADR 0005 (deploy)   **Date:** 2026-11-22   **Amended:** 2026-11-25 (MkDocs would need `mkdocs-redirects`)
 
 ## Context
 ADR 0002 chose MkDocs Material to render `docs/` as a site. Its build now prints a notice that
@@ -36,9 +36,9 @@ Build the site with **Zensical** in place of MkDocs Material.
 - Beta churn is the cost: a flag or setting may change between releases. The pin contains it,
   and each upgrade is a deliberate edit with a local strict build first.
 - Reverting is small: `requirements.txt` back to `mkdocs-material` and the CI build command back
-  to `mkdocs build --strict`. The theme variant and Lucide icons would need reverting too, and
-  MkDocs needs the `mkdocs-redirects` plugin for the redirect in `mkdocs.yml`, which Zensical
-  handles itself.
+  to `mkdocs build --strict`. The theme variant and Lucide icons would need reverting too.
+  (Amended 2026-11-25: MkDocs would also need the `mkdocs-redirects` plugin for the redirect in
+  `mkdocs.yml`; Zensical handles redirects itself.)
 - The Definition of Done and the `code-reviewer` agent name the Zensical build command;
   `CLAUDE.md` names Zensical as the site tool.
 - The links in `worked-example.md` that point at GitHub blob URLs are now on a live site, so
