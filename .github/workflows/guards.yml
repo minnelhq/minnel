@@ -1,8 +1,9 @@
 name: guards
 
 # Run the plugin's guard tests on every PR and every push to main. The guards read commands
-# through plugin/scripts/command-segments.awk, which must work under any POSIX awk, so the tests
-# run once with each awk most Linux users have: mawk (Debian and Ubuntu's default) and gawk.
+# through plugin/scripts/command-segments.awk, and /retro's plugin/scripts/config-audit.sh uses
+# awk too. Both must work under any POSIX awk, so the tests run once with each awk most Linux
+# users have: mawk (Debian and Ubuntu's default) and gawk.
 on:
   push:
     branches: [main]

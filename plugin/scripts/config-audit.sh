@@ -2,13 +2,16 @@
 # Read-only input for /retro's pruning step (Appendix L): lists each configuration and memory
 # file with its line count, then every file path those files name that no longer exists.
 #
-# Files read: the project's CLAUDE.md, .claude/rules/, .claude/agent-memory/ and
-# .claude/agent-memory-local/, and the user's ~/.claude/CLAUDE.md and ~/.claude/rules/.
+# Files read: the project's CLAUDE.md, .claude/CLAUDE.md, CLAUDE.local.md, .claude/rules/,
+# .claude/agent-memory/ and .claude/agent-memory-local/, and the user's ~/.claude/CLAUDE.md,
+# ~/.claude/rules/ and ~/.claude/agent-memory/. Symlinked rules and directories are followed.
 # A path is a code span, a Markdown link target or an @import holding a "/" that starts with
 # "/", "~/" or ".", ends with "/", or has a dot in its last part; one bare name (plans/) is not. Globs, placeholders
-# (<name>), variables, URLs, slash commands and anything with a space are skipped. A project
+# (<name>), variables, URLs, git remotes (git@host:...), slash commands and anything with a
+# space are skipped. A project
 # file's relative path counts as present if it resolves against the project root or the file's
-# own directory, or ends some file in the project (add-section/SKILL.md). A user file applies to
+# own directory, or ends some file in the project (add-section/SKILL.md), or, for a directory
+# ending in "/", appears in a project file's path. A user file applies to
 # every project, so only its absolute and ~/ paths are checked. This is a heuristic: read each
 # hit before acting on it, since a note may name an old path on purpose.
 #
@@ -23,15 +26,15 @@ list_files() { # scope dir-or-file ... — prints "scope<TAB>path" for each Mark
   for p in "$@"; do
     if [ -f "$p" ]; then printf '%s\t%s\n' "$scope" "$p"
     elif [ -d "$p" ]; then
-      find "$p" -type f -name '*.md' 2>/dev/null | sort | sed "s|^|$scope	|"
+      find -L "$p" -type f -name '*.md' 2>/dev/null | sort | sed "s|^|$scope	|"
     fi
   done
 }
 
 files=$( {
-  list_files project "$ROOT/CLAUDE.md" "$ROOT/.claude/rules" \
-    "$ROOT/.claude/agent-memory" "$ROOT/.claude/agent-memory-local"
-  [ -n "${HOME:-}" ] && list_files user "$USER_DIR/CLAUDE.md" "$USER_DIR/rules"
+  list_files project "$ROOT/CLAUDE.md" "$ROOT/.claude/CLAUDE.md" "$ROOT/CLAUDE.local.md" \
+    "$ROOT/.claude/rules" "$ROOT/.claude/agent-memory" "$ROOT/.claude/agent-memory-local"
+  [ -n "${HOME:-}" ] && list_files user "$USER_DIR/CLAUDE.md" "$USER_DIR/rules" "$USER_DIR/agent-memory"
 } )
 
 show() { # absolute path -> path as printed: relative to the project, or ~/ for the user's
@@ -50,7 +53,7 @@ candidates() {
       sub(/:[0-9]+(-[0-9]+)?$/, "", t)        # drop a :line or :line-line suffix
       sub(/[.,;:)]+$/, "", t)                 # drop trailing punctuation
       if (t == "" || t !~ /\//) return
-      if (t ~ /[ *?<>{}$|=]/ || index(t, "[") || index(t, "]") || index(t, q) || index(t, "\"")) return
+      if (t ~ /[ *?<>{}$|=]/ || index(t, "[") || index(t, "]") || index(t, q) || index(t, "\"") || index(t, "@")) return
       if (t ~ /\.\.\./ || t ~ /^[A-Za-z][A-Za-z0-9+.-]*:/) return
       if (t ~ /^\.git\// || t ~ /^[A-Za-z0-9-]+\.[A-Za-z.]+\//) return  # git internals, a bare domain
       u = t; sub(/\/$/, "", u)
@@ -80,8 +83,15 @@ exists() { # scope file path — true when the path resolves
   case "$3" in
     \~/*) [ -n "${HOME:-}" ] && [ -e "$HOME/${3#??}" ] ;;
     /*)    [ -e "$3" ] ;;
-    *)     [ "$1" = user ] || [ -e "$ROOT/$3" ] || [ -e "$(dirname "$2")/$3" ] ||
-             printf '%s\n' "$repo_files" | grep -qF -- "/$3" ;;
+    *)     [ "$1" = user ] || [ -e "$ROOT/$3" ] || [ -e "$(dirname "$2")/$3" ] || in_repo "$3" ;;
+  esac
+}
+in_repo() { # path — a directory appears in a project file's path; a file ends one
+  case "$1" in
+    */) printf '%s\n' "$repo_files" | grep -qF -- "/$1" ;;
+    *)  printf '%s\n' "$repo_files" | t="/$1" awk 'BEGIN { t = ENVIRON["t"] }
+          length($0) >= length(t) && substr($0, length($0) - length(t) + 1) == t { f = 1; exit }
+          END { exit !f }' ;;
   esac
 }
 find_missing() {

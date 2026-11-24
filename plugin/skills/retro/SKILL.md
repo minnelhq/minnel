@@ -1,6 +1,6 @@
 ---
 name: retro
-description: Run a methodology retro — surface recurring friction, propose config changes and prune stale ones.
+description: Run a methodology retro — surface recurring friction, propose config changes and prunings.
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh)
 disable-model-invocation: true
 ---
@@ -14,9 +14,9 @@ propose the single most durable fix and say where it belongs:
 - a new or amended subagent or skill.
 
 Then prune. Run `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh` and start from its
-output: each file's line count and the paths they name that no longer exist. Read
-`CLAUDE.md`, `.claude/rules/`, `.claude/agent-memory/` and my `~/.claude/` rules, and
-list each entry that:
+output: each file's line count and the paths they name that no longer exist. Read the
+files it lists (`CLAUDE.md`, `.claude/rules/`, `.claude/agent-memory/` and my
+`~/.claude/` rules, among others) and list each entry that:
 
 - the finished plan made obsolete;
 - repeats another entry or a Definition of Done item;

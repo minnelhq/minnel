@@ -147,16 +147,19 @@ check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"  
 # config-audit.sh: a throwaway project and home, each naming paths that exist and paths that don't.
 audit_dir=$(mktemp -d) && mkdir -p "$audit_dir/proj/docs" "$audit_dir/proj/.claude/agent-memory/r" \
   "$audit_dir/proj/.claude/skills/x" "$audit_dir/home/.claude/rules"
-touch "$audit_dir/proj/docs/here.md" "$audit_dir/proj/.claude/skills/x/SKILL.md"
+touch "$audit_dir/proj/docs/here.md" "$audit_dir/proj/.claude/skills/x/SKILL.md" "$audit_dir/proj/docs/c.json"
 printf '%s\n' 'Gone: `docs/gone.md`, @docs/imported.md' \
   'Here: [h](docs/here.md), `docs/here.md:12`, `./docs/`' \
-  'Not paths: `/release`, `plans/`, `src/**/*.py`, `<name>/x.md`, `${CLAUDE_PLUGIN_ROOT}/x.sh`, `https://example.com/a.md`' \
+  'Not paths: `/release`, `plans/`, `src/**/*.py`, `<name>/x.md`, `${CLAUDE_PLUGIN_ROOT}/x.sh`, `https://example.com/a.md`, `git@example.com:o/r.git`' \
+  '@docs/linestart.md' \
   > "$audit_dir/proj/CLAUDE.md"
-printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`; gone: `.claude/agents/old.md`' \
+printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`' \
   > "$audit_dir/proj/.claude/agent-memory/r/note.md"
 printf '%s\n' 'Gone: `~/.claude/gone.sh`. Here: `~/.claude/rules/r.md`. Another project'"'"'s: `docs/other.md`' \
   > "$audit_dir/home/.claude/rules/r.md"
-git -C "$audit_dir/proj" init -q && git -C "$audit_dir/proj" add .claude/skills/x/SKILL.md
+git -C "$audit_dir/proj" init -q && git -C "$audit_dir/proj" add .claude/skills/x/SKILL.md docs/c.json
+mkdir -p "$audit_dir/shared" && printf '%s\n' 'Gone: `~/.claude/linked-gone.sh`' > "$audit_dir/shared/linked.md"
+ln -s "$audit_dir/shared/linked.md" "$audit_dir/home/.claude/rules/linked.md"
 audit_out=$(CLAUDE_PROJECT_DIR="$audit_dir/proj" HOME="$audit_dir/home" sh ./config-audit.sh 2>&1)
 audit_rc=$?
 audit() { # has|lacks text label
@@ -165,10 +168,13 @@ audit() { # has|lacks text label
   else echo "FAIL config-audit.sh  $3: output $found '$2'"; fail=1; fi
 }
 [ "$audit_rc" = 0 ] && echo "ok   config-audit.sh  exits 0" || { echo "FAIL config-audit.sh  exits 0: got $audit_rc"; fail=1; }
-audit has   '     3  CLAUDE.md'                                'line count of CLAUDE.md'
+audit has   '     4  CLAUDE.md'                                'line count of CLAUDE.md'
 audit has   '~/.claude/rules/r.md'                             'lists a user rule'
 audit has   'CLAUDE.md:1: docs/gone.md'                        'a missing code-span path'
 audit has   'CLAUDE.md:1: docs/imported.md'                    'a missing @import'
+audit has   'CLAUDE.md:4: docs/linestart.md'                   'a missing @import at the start of a line'
+audit has   'note.md:1: docs/c.js'                             'a file whose name only begins a project file'
+audit has   'linked.md:1: ~/.claude/linked-gone.sh'            'a symlinked user rule'
 audit has   'note.md:1: .claude/agents/old.md'                 'a missing path in agent memory'
 audit has   'r.md:1: ~/.claude/gone.sh'                        'a missing ~/ path in a user rule'
 audit lacks 'here.md'                                          'present paths, a :line suffix and ../ included'
@@ -179,7 +185,7 @@ audit lacks 'plans/'                                           'skips a bare dir
 audit lacks '*.py'                                             'skips a glob'
 audit lacks '<name>'                                           'skips a placeholder'
 audit lacks 'CLAUDE_PLUGIN_ROOT'                               'skips a variable'
-audit lacks 'example.com'                                      'skips a URL'
+audit lacks 'example.com'                                      'skips a URL and a git remote'
 audit lacks 'docs/other.md'                                    'skips a relative path in a user rule'
 empty_out=$(CLAUDE_PROJECT_DIR="$audit_dir/none" HOME="$audit_dir/none" sh ./config-audit.sh 2>&1); empty_rc=$?
 case "$empty_rc:$empty_out" in

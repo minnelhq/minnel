@@ -95,15 +95,17 @@ every item is verified — you will not do this for me unless asked, so I am ask
 The plugin ships this as the `retro` skill, `plugin/skills/retro/SKILL.md`. Its pruning step runs
 the plugin's `scripts/config-audit.sh`, which lists each configuration and memory file's line count
 and every path they name that no longer exists. It writes nothing and runs only when the retro asks,
-so it costs no context in other sessions. Without the plugin, copy the script from
-`plugin/scripts/config-audit.sh` into the project and point both `${CLAUDE_PLUGIN_ROOT}` paths at
-the copy.
+so it costs no context in other sessions. Without the plugin, copy `plugin/scripts/config-audit.sh`
+from this repository to `.claude/scripts/config-audit.sh`, keep it executable, and replace
+`${CLAUDE_PLUGIN_ROOT}` with `${CLAUDE_PROJECT_DIR}/.claude` in both places below. Claude Code's
+`/doctor prompt-audit` (v2.1.283 or later) audits the instruction files on its own; the retro's
+sweep adds agent memory and what the finished plan made obsolete.
 
 `.claude/commands/retro.md`
 
 ```markdown
 ---
-description: Run a methodology retro — surface recurring friction, propose config changes and prune stale ones.
+description: Run a methodology retro — surface recurring friction, propose config changes and prunings.
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh)
 disable-model-invocation: true
 ---
@@ -117,9 +119,9 @@ propose the single most durable fix and say where it belongs:
 - a new or amended subagent or skill.
 
 Then prune. Run `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh` and start from its
-output: each file's line count and the paths they name that no longer exist. Read
-`CLAUDE.md`, `.claude/rules/`, `.claude/agent-memory/` and my `~/.claude/` rules, and
-list each entry that:
+output: each file's line count and the paths they name that no longer exist. Read the
+files it lists (`CLAUDE.md`, `.claude/rules/`, `.claude/agent-memory/` and my
+`~/.claude/` rules, among others) and list each entry that:
 
 - the finished plan made obsolete;
 - repeats another entry or a Definition of Done item;
