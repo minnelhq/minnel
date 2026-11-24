@@ -13,7 +13,7 @@ The job is to engineer a repeatable environment around the model. The model's **
 1. **What you persist to files** — so intent survives compaction, session restarts, and your own forgetfulness.
 2. **What you enforce deterministically** — so correctness does not depend on the model remembering a rule.
 
-Everything below follows from that. As a solo developer with no CI pipeline, the second point matters more for you than for most: hooks and a review subagent *are* your CI.
+Everything below follows from that. The second point matters most when nothing else checks the work. Without a CI pipeline or a second reviewer, hooks and a review subagent are the checks you have. With CI, they move the same checks to the moment of the edit, where the agent can still act on them.
 
 > **Versioning note.** Claude Code's surface moves quickly and several features below are version-gated (forks, nested subagents, the `opusplan` setting, `.claude/rules/`). Confirm against your installed version with `claude --version` and the `/help` and `/hooks` menus before relying on any specific mechanic.
 
@@ -166,9 +166,9 @@ Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a fu
 
 ---
 
-## 6. Hooks: your CI substitute
+## 6. Hooks: checks at the moment of the edit
 
-With no pipeline, hooks are where determinism lives. The model can forget; an exit-code-2 hook cannot. Three tiers:
+Hooks are where determinism lives inside the session. The model can forget; an exit-code-2 hook cannot. Without a pipeline, they are your only automatic gate. With one, they catch the same failures earlier, and CI stays the authority: it runs on every push, including changes made outside Claude Code or in a session without the hooks. Three tiers:
 
 - **`PreToolUse` guards** — the generalised version of a path/command guard. The hook reads the tool input as JSON on stdin, inspects it, and exits `2` to block, feeding the message on stderr back to Claude. For a step you want to approve rather than forbid, it can instead ask: exit 0 with a `permissionDecision` of `"ask"` in its JSON output, and you get a permission prompt showing its reason ([hooks docs](https://code.claude.com/docs/en/hooks)). Natural matchers: `Bash` (block destructive commands, enforce read-only SQL) and `Edit|Write` (protect paths outside the working area). A guard like this catches the slips that matter, which is what makes `acceptEdits` reasonable. One that reads a command as text is a tripwire, not a sandbox: it stops an agent's slip, not a command built to get past it.
 - **`PostToolUse`** — matcher `Edit|Write`: run formatter/linter, and a quick build or targeted test. Catches breakage at the moment of edit rather than three steps later. Can run async so it does not block the turn.

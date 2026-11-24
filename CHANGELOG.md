@@ -9,6 +9,9 @@ versions follow SemVer.
 - The site's home page links the `CLAUDE.md` template and the changelog, which sit outside the
   site's pages. The methodology and the home page name the same audience as the README: experienced
   solo developers and small teams.
+- §6 and the operating principle present hooks as checks at the moment of the edit, which work
+  alongside CI. Without a pipeline they are still the only automatic gate. §6's heading changed to
+  match.
 
 ### Fixed
 - The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at

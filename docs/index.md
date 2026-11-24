@@ -8,7 +8,7 @@ for experienced solo developers and small teams.
 ## Start here
 
 - **[The methodology](methodology.md)** — the full reference: context architecture, the work
-  loop, plan and status persistence, subagents, the model/mode matrix, hooks as a CI substitute,
+  loop, plan and status persistence, subagents, the model/mode matrix, hooks for edit-time checks,
   sessions and git hygiene, skills and commands, solo product discipline, and a security stance.
 - **[Worked example](worked-example.md)** — one real task traced end to end through the loop.
 - **[Appendices](appendices/README.md)** — the drop-in artefacts: subagents, hooks, document
