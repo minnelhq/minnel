@@ -9,6 +9,10 @@ versions follow SemVer.
 - The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at
   `.claude/agents/` and a `code-reviewer` that a plugin install doesn't have. It now names
   `minnel:code-reviewer` and the `/minnel:` skills too.
+- §9: `.worktreeinclude` doesn't copy a listed folder that is a git repository of its own. §9 now
+  says so and suggests linking that folder into the worktree instead.
+- §9 called `/security-review` a plugin. It is a command built into Claude Code.
+- §5's example model IDs name the current models, `claude-opus-5-5` and `claude-sonnet-5-5`.
 
 ## [0.5.0] - 2026-11-24
 

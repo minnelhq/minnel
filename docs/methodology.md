@@ -1,6 +1,6 @@
 # Minnel: a file-first operating model for Claude Code
 
-*A single-developer discipline for driving Claude Code. Last updated 2026-11-23.*
+*A single-developer discipline for driving Claude Code. Last updated 2026-11-24.*
 
 ---
 
@@ -147,7 +147,7 @@ See Appendix A and B for drop-in definitions.
 
 ## 5. Model / mode decision matrix
 
-Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a full ID such as `claude-opus-4-8` or `claude-sonnet-4-6`. Effort runs `low → medium → high → xhigh → max`. Permission modes: `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`.
+Current aliases: `opus`, `sonnet`, `haiku`, plus `fable`. You can also pass a full ID such as `claude-opus-5-5` or `claude-sonnet-5-5`. Effort runs `low → medium → high → xhigh → max`. Permission modes: `default`, `acceptEdits`, `auto`, `dontAsk`, `bypassPermissions`, `plan`.
 
 | Task | Model | Effort | Permission mode | Plan first? |
 |---|---|---|---|---|
@@ -254,7 +254,7 @@ One rule prevents most of the trouble: **one session, one worktree**. Never run 
 
 Isolate with git worktrees. The CLI's `claude -w <branch>` (or `--worktree`) creates a linked worktree on its own branch and scopes the session to it; in-session, "work in a worktree" invokes the `EnterWorktree` tool. The desktop app creates a worktree only when its Worktree option is on, which is off by default, so check where a session is rather than assume: `pwd` in that session shows its checkout. The CLI does not do it by default, which is where people get caught. For subagents, `isolation: worktree` gives the same per-dispatch guarantee. Add `.claude/worktrees/` to `.gitignore` so worktrees don't show up as untracked files in your main checkout.
 
-Gitignored files (your `.env`, your local notes) won't exist in a fresh worktree until you copy them in. A `.worktreeinclude` at the repository root lists them in `.gitignore` syntax, and Claude Code copies each match that git ignores into every worktree it creates. The copy happens once, when the worktree is created, so a later edit in either place doesn't reach the other. Make lasting edits in the main checkout, or copy a worktree's edits back before you remove it: removing the worktree discards them. If the `.worktreeinclude` would name a path you keep private, leave it untracked and list it in `.git/info/exclude`: Claude Code still reads it (observed, v2.1.330).
+Gitignored files (your `.env`, your local notes) won't exist in a fresh worktree until you copy them in. A `.worktreeinclude` at the repository root lists them in `.gitignore` syntax, and Claude Code copies each match that git ignores into every worktree it creates. The copy happens once, when the worktree is created, so a later edit in either place doesn't reach the other. Make lasting edits in the main checkout, or copy a worktree's edits back before you remove it: removing the worktree discards them. A listed folder that is a git repository of its own isn't copied at all (observed, v2.1.330). Symlink it into each worktree from the main checkout instead, for example from a `SessionStart` hook. Ignore it with a pattern that has no trailing slash (`notes`, not `notes/`): a trailing slash matches only directories, so git would show the link as untracked. If the `.worktreeinclude` would name a path you keep private, leave it untracked and list it in `.git/info/exclude`: Claude Code still reads it (observed, v2.1.330).
 
 Two boundary rules stop parallel work turning into merge conflicts. Scope worktrees by module, not by task, so two sessions cannot edit the same file. And rebase between them rather than merge. Tasks in the same module share one worktree sequentially; only cross-module work goes parallel.
 
@@ -264,7 +264,7 @@ Two boundary rules stop parallel work turning into merge conflicts. Scope worktr
 
 Two safeguards, both reusing machinery already in the methodology:
 
-- A **`git` `PreToolUse` guard** (Appendix C) that blocks blanket staging (`git add -A`, `git add .`, `git add -u`) and `git commit -a`, and asks you to approve each `git push`: the §6 hook pattern pointed at the accidental-commit class. It lets an explicit `git commit` through, since a commit stays local until it is pushed and you commit at every green checkpoint (§7). A project can set either to allow, ask or block. The guard reads the command as text, so it catches a slip, not a push hidden in a variable or `sh -c`. Pair it with `.gitignore` discipline and the security-review plugin for credential leaks (secret hygiene is part of the security stance, §11).
+- A **`git` `PreToolUse` guard** (Appendix C) that blocks blanket staging (`git add -A`, `git add .`, `git add -u`) and `git commit -a`, and asks you to approve each `git push`: the §6 hook pattern pointed at the accidental-commit class. It lets an explicit `git commit` through, since a commit stays local until it is pushed and you commit at every green checkpoint (§7). A project can set either to allow, ask or block. The guard reads the command as text, so it catches a slip, not a push hidden in a variable or `sh -c`. Pair it with `.gitignore` discipline and the built-in `/security-review` command for credential leaks (secret hygiene is part of the security stance, §11).
 - **Real commits, not checkpoints, as the source of truth.** Claude's rewind/checkpoints don't track bash-driven or *external* changes and aren't a version-control replacement, so in any concurrent setup they will desync. Commit at each green checkpoint and treat rewind as in-session only.
 
 **Session close-out.** A session is ephemeral scratch; the files are the source of truth (§3). So the end-of-session ritual's first job is to guarantee the file-truth is current, with the summary and name as byproducts. Run a `/wrap` (Appendix N). It confirms the durable records are updated: plan status advanced, user-facing changes drafted into `CHANGELOG` Unreleased, decisions logged. It captures any retro signal (anything corrected twice becomes a config change, §8). Then it writes a one-line *pointer* summary naming which artefacts were touched and where things landed, and suggests a name. Keep the summary pointer-shaped: a verbose session summary becomes a fourth record that duplicates the plan, changelog and decision log, and a record that drifts is worse than none.
