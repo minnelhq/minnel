@@ -68,7 +68,15 @@ Re-verify which is current before relying on it.
   Fix 2ec30d9 added a docs.yml step and ADR 0006. That step (as of 2026-11-24) only greps for the
   src string: a page in a subdirectory with a wrong relative `src` passes both `--strict` and the
   step, then 404s and falls back to unpkg (probed). Check whether the step resolves `src` against
-  the page dir. Also: the site is not "own assets only". The theme links Google Fonts
+  the page dir. (Whole-branch review 2026-11-24: the step now resolves `src` against the page dir
+  and checks the major against the bundle's fallback; it passed on a clean `git archive` build.)
+  Licence: mermaid itself is MIT, but `mermaid.min.js` bundles DOMPurify (Apache-2.0 OR MPL-2.0),
+  lodash and cytoscape (MIT); their notices sit in a "Bundled license information" comment at the
+  file's end (read it with `python3 -I`, the line is too long for grep). ADR 0006 and the
+  CHANGELOG say only "MIT". On an upgrade, re-read that block and verify the vendored files with
+  `cmp` against `package/dist/mermaid.min.js` and `package/LICENSE` from the registry tarball
+  (tarball sha512 vs `dist.integrity`). `.gitattributes` marks the whole vendor dir `binary`, so
+  the vendored `LICENSE` shows as "Bin" in diffs too. Also: the site is not "own assets only". The theme links Google Fonts
   (`fonts.googleapis.com` stylesheet) and the bundle loads a `resize-observer-polyfill` from unpkg
   on old browsers, so a claim that the site loads only its own assets is false.
 - Both workflows' checkout steps set `persist-credentials: false` (2026-11-23); no step needs git
