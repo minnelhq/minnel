@@ -46,8 +46,11 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       `docs/worked-example.md` lives inside a code fence, so the build does not parse it.) See
       ADRs 0002 and 0003.
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
-      `plugin/scripts/tests/guards.sh` passes, and `claude plugin validate plugin` and
-      `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too.
+      `plugin/scripts/tests/all-awks.sh` passes (it runs `guards.sh` under each installed awk;
+      CI covers mawk and gawk, so install them to check before a push), and
+      `claude plugin validate plugin` and `claude plugin validate .` pass. Warnings are allowed
+      only where `main` gives them too. Each behaviour a plugin script gains, and each one a
+      commit message claims, has a `guards.sh` case that fails when the behaviour is removed.
       Leave `plugin.json`'s `version` alone outside a release commit (see the Release item).
 - [ ] **Release (when cutting one)** — `plugin/.claude-plugin/plugin.json`'s `version` equals the
       new CHANGELOG version (ADR 0004). Installs stay on the cached copy until it changes, so a
