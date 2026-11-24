@@ -1,11 +1,16 @@
 ---
 name: release
-description: Draft unreleased changelog entries from the completed plan and commits.
+description: Draft unreleased changelog entries from the completed plan and commits; once a release is merged, tag and publish it.
 argument-hint: "[version]"
 disable-model-invocation: true
 ---
 
 Prepare a changelog update — draft only, do not edit files until I approve.
+
+If the version given ($ARGUMENTS) already has its heading in the changelog on the
+remote's main branch (after `git fetch`) but no tag for that version on the remote
+(`git ls-remote --tags origin`), the release is cut but not closed: skip the steps below
+and propose the closing steps at the end instead.
 
 1. Read the active plan and the commits since the last release tag. Find the commit
    style and changelog format in the conventions in context: the project's `CLAUDE.md`
@@ -34,3 +39,14 @@ installer would notice. I will curate before anything is committed.
 When cutting a release, fold every intended change into the unreleased section and
 review it first, then cut once. Don't cut the release commit and amend later additions
 into it.
+
+To close a release once its commit is on the main branch, make an annotated tag on the
+commit that put it there (for a pull request, the merge or squash commit it made) and
+push it: `git tag -a v<version> -m v<version> <commit>`, then
+`git push origin v<version>`. If the tag already exists locally, push it rather than
+make it again. Use the tag format the conventions name, if they name one. Where the
+host publishes releases, publish one from the pushed tag with the version's changelog
+section as its notes; on GitHub,
+`gh release create v<version> --verify-tag --notes-file <file holding that section>`.
+Pushing the tag and publishing the release change shared state, so run both only with
+my go-ahead.
