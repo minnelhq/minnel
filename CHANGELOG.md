@@ -3,7 +3,7 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.6.0] - 2026-11-24
 
 ### Added
 - `/retro` (Appendix L, `/minnel:retro`) prunes as well as adds. After proposing new rules, it
