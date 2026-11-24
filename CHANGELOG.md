@@ -36,6 +36,8 @@ versions follow SemVer.
   format.
 
 ### Fixed
+- The worked example gives the plan's archived path, and says that `/wrap` archives the finished
+  plan, not the session.
 - The §8 backlog-lifecycle diagram is drawn top to bottom, so its labels stay readable on GitHub at
   phone width.
 

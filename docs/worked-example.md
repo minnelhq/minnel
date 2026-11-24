@@ -37,8 +37,8 @@ cross-reference graph, so map it *before* editing, not after.
 
 ## Plan, and Challenge
 
-The plan was persisted to `docs/plans/worked-example.md` because the work
-was multi-stage (§3). Before committing to it, the **Challenge** pass (§2) earned its keep twice:
+The plan was persisted to `docs/plans/worked-example.md` (now in `docs/plans/archive/`) because
+the work was multi-stage (§3). Before committing to it, the **Challenge** pass (§2) earned its keep twice:
 
 - *Is reusing an off-the-shelf checker the right call?* Mature, permissively-licensed tools
   exist (lychee, markdown-link-check). They were rejected. Each needs a runtime (a Rust
@@ -96,7 +96,7 @@ now a deterministic gate, and the friction that motivated it ("the reviewer keep
 links by hand") became configuration rather than a recurring note, the retro move (§8). Closing
 it out then surfaced a separate defect (the `/plan` ritual named the wrong place for the
 active-plan pointer), which became its own follow-up `fix`. The loop generated the next piece of
-work. The session is named to match its plan and archived (`/wrap`, Appendix N), so the thread is
-recoverable. That is the whole rhythm: explore the blast radius, plan and challenge, execute the
-small thing, verify it for real, accept against an explicit bar, and fold the lesson back into
-the tools.
+work. `/wrap` (Appendix N) moves the finished plan into `docs/plans/archive/` and suggests a session
+name to match it, so the thread is recoverable. That is the whole rhythm: explore the blast
+radius, plan and challenge, execute the small thing, verify it for real, accept against an
+explicit bar, and fold the lesson back into the tools.
