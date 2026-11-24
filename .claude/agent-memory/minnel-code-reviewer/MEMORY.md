@@ -6,7 +6,7 @@
 - [House voice guide](project-house-voice.md) — .claude/rules/house-voice.md: 6 narrative docs (incl. plugin/README.md) plus changelog/plan notes; `*.md` path matching, voice-pass slips and the GitHub-vs-site heading-anchor trap
 - [Minnel plugin and Check E](project-plugin-minnel.md) — Check E blind spots, namespacing, install and update facts, release lag, the plugin-cannot-ship-rules claim
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main
-- [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard escapes, git-guard cases, awk segmenter probes, guards CI logs, packaging script
+- [Reviewing the plugin and Check E](feedback-plugin-review.md) — mutation-test Check E, guard escapes, git-guard cases, awk segmenter probes, guards CI logs, packaging script, config-audit probes
 - [Memory-scope precedence and loading](project-memory-scope-precedence.md) — §1 table loading column and no-precedence note: what the docs state vs observed, traps
 - [Fetching docs as Markdown](reference-docs-fetch.md) — curl URLs for the Claude Code commands reference and the models overview, to verify claims
 - [Session-concurrency guidance](project-session-concurrency-guidance.md) — §9/§11 shared-checkout, approval and .worktreeinclude text: worktree-list misreading, desktop default, copy semantics, nested repos

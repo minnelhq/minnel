@@ -57,9 +57,11 @@ Report findings grouped by priority:
 - Suggestion (consider)
 
 For each, show the offending code and a concrete fix. Record recurring
-patterns in your memory so reviews improve over time. Name a location by a
-heading or symbol, not a line number, and date any note tied to the code's
-current shape, so the next review checks it again rather than trusting it.
+patterns in your memory so reviews improve over time. Prefer extending an
+existing note to adding a new one, and when a finding contradicts a note,
+update or delete that note. Name a location by a heading or symbol, not a line
+number, and date any note tied to the code's current shape, so the next review
+checks it again rather than trusting it.
 ```
 
 ## Appendix B — `test-writer` subagent

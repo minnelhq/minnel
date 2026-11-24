@@ -1,7 +1,8 @@
 #!/bin/bash
 # Table-driven check of the plugin's guard scripts: feeds each a sample PreToolUse
 # payload on stdin and compares the result: 2 blocks, 0 allows, and ask means exit 0 with a
-# permissionDecision of "ask" on stdout, which prompts the user.
+# permissionDecision of "ask" on stdout, which prompts the user. The last section runs
+# config-audit.sh, the read-only script /retro starts from, against a throwaway project.
 # Run from anywhere: plugin/scripts/tests/guards.sh
 cd "$(dirname "$0")/.." || exit 1
 export CLAUDE_PROJECT_DIR=/proj
@@ -142,5 +143,64 @@ check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /proj/tests/..)"    
 check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /tmp/tests/a.py)"          'test-writer, outside project'
 check 0 tests-dir-guard.sh "$(write_call '' /proj/src/a.py)"                             'main session, src/'
 check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"      'other agent, src/'
+
+# config-audit.sh: a throwaway project and home, each naming paths that exist and paths that don't.
+audit_dir=$(mktemp -d) && mkdir -p "$audit_dir/proj/docs" "$audit_dir/proj/.claude/agent-memory/r" \
+  "$audit_dir/proj/.claude/skills/x" "$audit_dir/home/.claude/rules"
+touch "$audit_dir/proj/docs/here.md" "$audit_dir/proj/.claude/skills/x/SKILL.md" "$audit_dir/proj/docs/c.json"
+printf '%s\n' 'Gone: `docs/gone.md`, @docs/imported.md' \
+  'Here: [h](docs/here.md), `docs/here.md:12`, `./docs/`' \
+  'Not paths: `/release`, `plans/`, `src/**/*.py`, `<name>/x.md`, `${CLAUDE_PLUGIN_ROOT}/x.sh`, `https://example.com/a.md`, `git@example.com:o/r.git`' \
+  '@docs/linestart.md' \
+  > "$audit_dir/proj/CLAUDE.md"
+printf '%s\n' 'Beside it: `../../../docs/here.md`; by its tail: `x/SKILL.md`, `./x/SKILL.md`; gone: `.claude/agents/old.md`, `docs/c.js`, `node_modules/@types/gone/index.d.ts`' \
+  > "$audit_dir/proj/.claude/agent-memory/r/note.md"
+printf '%s\n' 'Gone: `~/.claude/gone.sh`. Here: `~/.claude/rules/r.md`. Another project'"'"'s: `docs/other.md`' \
+  > "$audit_dir/home/.claude/rules/r.md"
+mkdir -p "$audit_dir/home/.claude/agent-memory/a"
+printf '%s\n' 'Gone: `docs/dotclaude-gone.md`' > "$audit_dir/proj/.claude/CLAUDE.md"
+printf '%s\n' 'Gone: `docs/gone-in-local-file.md`' > "$audit_dir/proj/CLAUDE.local.md"
+printf '%s\n' 'Gone: `~/.claude/am-gone.md`' > "$audit_dir/home/.claude/agent-memory/a/n.md"
+git -C "$audit_dir/proj" init -q && git -C "$audit_dir/proj" add .claude/skills/x/SKILL.md docs/c.json
+mkdir -p "$audit_dir/shared" && printf '%s\n' 'Gone: `~/.claude/linked-gone.sh`' > "$audit_dir/shared/linked.md"
+ln -s "$audit_dir/shared/linked.md" "$audit_dir/home/.claude/rules/linked.md"
+audit_out=$(CLAUDE_PROJECT_DIR="$audit_dir/proj" HOME="$audit_dir/home" sh ./config-audit.sh 2>&1)
+audit_rc=$?
+audit() { # has|lacks text label
+  case "$audit_out" in *"$2"*) found=has ;; *) found=lacks ;; esac
+  if [ "$found" = "$1" ]; then echo "ok   config-audit.sh  $3"
+  else echo "FAIL config-audit.sh  $3: output $found '$2'"; fail=1; fi
+}
+[ "$audit_rc" = 0 ] && echo "ok   config-audit.sh  exits 0" || { echo "FAIL config-audit.sh  exits 0: got $audit_rc"; fail=1; }
+audit has   '     4  CLAUDE.md'                                'line count of CLAUDE.md'
+audit has   '~/.claude/rules/r.md'                             'lists a user rule'
+audit has   'CLAUDE.md:1: docs/gone.md'                        'a missing code-span path'
+audit has   'CLAUDE.md:1: docs/imported.md'                    'a missing @import'
+audit has   'CLAUDE.md:4: docs/linestart.md'                   'a missing @import at the start of a line'
+audit has   'note.md:1: docs/c.js'                             'a file whose name only begins a project file'
+audit has   'linked.md:1: ~/.claude/linked-gone.sh'            'a symlinked user rule'
+audit has   '.claude/CLAUDE.md:1: docs/dotclaude-gone.md'      'reads .claude/CLAUDE.md'
+audit has   'CLAUDE.local.md:1: docs/gone-in-local-file.md'    'reads CLAUDE.local.md'
+audit has   'n.md:1: ~/.claude/am-gone.md'                     'reads user agent memory'
+audit has   'note.md:1: node_modules/@types/gone/index.d.ts'   'a missing path with an @ in it'
+audit has   'note.md:1: .claude/agents/old.md'                 'a missing path in agent memory'
+audit has   'r.md:1: ~/.claude/gone.sh'                        'a missing ~/ path in a user rule'
+audit lacks 'here.md'                                          'present paths, a :line suffix and ../ included'
+audit lacks 'x/SKILL.md'                                       'a path that ends a project file'
+audit lacks ': ./x/SKILL.md'                                   'a ./ path that ends a project file'
+audit lacks ': ./docs/'                                        'a present directory'
+audit lacks '/release'                                         'skips a slash command'
+audit lacks 'plans/'                                           'skips a bare directory name'
+audit lacks '*.py'                                             'skips a glob'
+audit lacks '<name>'                                           'skips a placeholder'
+audit lacks 'CLAUDE_PLUGIN_ROOT'                               'skips a variable'
+audit lacks 'example.com'                                      'skips a URL and a git remote'
+audit lacks 'docs/other.md'                                    'skips a relative path in a user rule'
+empty_out=$(CLAUDE_PROJECT_DIR="$audit_dir/none" HOME="$audit_dir/none" sh ./config-audit.sh 2>&1); empty_rc=$?
+case "$empty_rc:$empty_out" in
+  0:*"  none"*) echo "ok   config-audit.sh  no files: exits 0 and reports none" ;;
+  *) echo "FAIL config-audit.sh  no files: got $empty_rc"; fail=1 ;;
+esac
+rm -r "$audit_dir"
 
 exit $fail

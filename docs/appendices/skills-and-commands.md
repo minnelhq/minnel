@@ -92,13 +92,21 @@ every item is verified — you will not do this for me unless asked, so I am ask
 
 ## Appendix L — `/retro` command
 
-The plugin ships this as the `retro` skill, `plugin/skills/retro/SKILL.md`.
+The plugin ships this as the `retro` skill, `plugin/skills/retro/SKILL.md`. Its pruning step runs
+the plugin's `scripts/config-audit.sh`, which lists each configuration and memory file's line count
+and every path they name that no longer exists. It writes nothing and runs only when the retro asks,
+so it costs no context in other sessions. Without the plugin, copy `plugin/scripts/config-audit.sh`
+from this repository to `.claude/scripts/config-audit.sh`, keep it executable, and replace
+`${CLAUDE_PLUGIN_ROOT}` with `${CLAUDE_PROJECT_DIR}/.claude` in both places below. Claude Code's
+`/doctor prompt-audit` (v2.1.283 or later) audits `CLAUDE.md`, rules, skills and commands
+without the retro; the retro's sweep adds agent memory and what the finished plan made obsolete.
 
 `.claude/commands/retro.md`
 
 ```markdown
 ---
-description: Run a methodology retro — surface recurring friction and propose config changes.
+description: Run a methodology retro — surface recurring friction, propose config changes and prunings.
+allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh)
 disable-model-invocation: true
 ---
 
@@ -109,6 +117,18 @@ propose the single most durable fix and say where it belongs:
 - a `.claude/rules/` entry,
 - a PreToolUse/PostToolUse hook,
 - a new or amended subagent or skill.
+
+Then prune. Run `${CLAUDE_PLUGIN_ROOT}/scripts/config-audit.sh` and start from its
+output: each file's line count and the paths they name that no longer exist. Read the
+files it lists (`CLAUDE.md`, `.claude/rules/`, `.claude/agent-memory/` and my
+`~/.claude/` rules, among others) and list each entry that:
+
+- the finished plan made obsolete;
+- repeats another entry or a Definition of Done item;
+- names a file, flag or version that no longer holds;
+- contradicts an entry in another scope (no scope takes precedence, so one must go).
+
+Propose a delete, a merge or a rewrite for each.
 
 Output a short list of concrete changes only — no narrative. Do not apply them; I will
 review first.

@@ -82,12 +82,13 @@ plugin/
 │       └── templates/
 ├── hooks/
 │   └── hooks.json           # Same format as settings.json hooks
-└── scripts/                 # Hook scripts
+└── scripts/                 # Hook scripts, and the retro's audit
     ├── bash-guard.sh
     ├── git-guard.sh
     ├── command-segments.awk # splits a command line for the two guards
     ├── tests-dir-guard.sh
-    └── tests/guards.sh      # sample tool calls for each guard
+    ├── config-audit.sh      # read-only; /retro runs it before pruning
+    └── tests/guards.sh      # sample tool calls for each guard, and audit cases
 ```
 
 A plugin can also bundle `commands/`, `.mcp.json` (MCP servers), `.lsp.json`, `monitors/`, `output-styles/` and `bin/` (executables added to `PATH`); consult the plugin component reference for the full auto-discovered set.

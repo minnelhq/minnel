@@ -57,6 +57,15 @@ covers how to probe.
   `git archive origin/main` extraction, ignoring its README-missing warning).
 - **Version-gated claims:** check Claude Code's own CHANGELOG (see [[reference-docs-fetch]]), not
   the validator's hint; slash-command and CLI forms land in different versions.
+- **`config-audit.sh`, the retro's read-only audit (first reviewed 2026-11-24).** Mutate it in a
+  `git archive` copy: each `list_files` location, `find -L` (symlinked rules), the anchored tail
+  match (`docs/c.js` beside `docs/c.json`), the `./` strip, the git-remote skip (a blanket `@` skip
+  hid `node_modules/@types/...`) and a line-start `@import` must each fail a guards.sh case. A new
+  file location needs its own case. `${CLAUDE_PLUGIN_ROOT}` (and `${CLAUDE_PROJECT_DIR}`) are
+  substituted in a plugin skill's body and `allowed-tools` Bash rules, not in the Bash tool's
+  environment. To run it under dash, put an `sh -> /bin/dash` link first on PATH and run
+  `./guards.sh` (bash-only; `sh ./guards.sh` gives 8 false segmenter FAILs on macOS). Claude Code's
+  `/doctor prompt-audit` overlaps it for instruction files; check the docs keep that positioning.
 
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
