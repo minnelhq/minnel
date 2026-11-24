@@ -12,7 +12,7 @@ versions follow SemVer.
   of Done item, that name a file, flag or version that no longer holds, or that contradict another
   scope. It proposes a delete, merge or rewrite for each and applies nothing until approved. It
   starts from `config-audit.sh`, a new read-only plugin script that lists each of those files' line
-  count and the paths they name that no longer exist. §7, §8 and §10 say the retro prunes, and §1
+  count and the paths they name that no longer exist. §2, §7, §8 and §10 say the retro prunes, and §1
   now points memory pruning at the retro instead of the `consolidate-memory` skill, which Minnel
   doesn't ship. §8 and Appendix L say where Claude Code's `/doctor prompt-audit` overlaps.
 - The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
