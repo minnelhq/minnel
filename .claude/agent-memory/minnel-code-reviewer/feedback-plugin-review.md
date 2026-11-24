@@ -134,6 +134,13 @@ Check E in `.claude/hooks/docs-consistency.sh` (see [[feedback-hook-script-revie
   tool's environment. Building mawk/gawk from source in the scratchpad was refused by the
   auto-mode classifier (2026-11-24), so mawk/gawk behaviour is verifiable only from the guards CI
   job logs once the branch is pushed.
+  Re-review of f03377f (2026-11-24): mutating out `-L`, the `@` skip, the awk tail match and the
+  line-start `@import` each fails guards.sh, but dropping `.claude/CLAUDE.md`, `CLAUDE.local.md`
+  or `~/.claude/agent-memory` from `list_files` survives, so check new file locations get a case.
+  The blanket `index(t, "@")` skip also hides `node_modules/@types/…` and `logo@2x.png`. The skills
+  docs say `${CLAUDE_PROJECT_DIR}` is substituted in a skill body and `allowed-tools` Bash rules
+  (not in synced or MCP skills). Run guards.sh as `./guards.sh` (bash shebang): `sh ./guards.sh`
+  on macOS gives 8 false segmenter FAILs, the same on main.
 - **Worktree quirk (2026-11-23):** the `.venv` with Zensical lives in the main checkout, not in a
   `.claude/worktrees/*` worktree; run that binary from the worktree (read-only use) for the
   strict build.
