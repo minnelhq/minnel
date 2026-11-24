@@ -3,7 +3,7 @@
 All notable, user-facing changes to this methodology. Format: Keep a Changelog;
 versions follow SemVer.
 
-## [Unreleased]
+## [0.7.0] - 2026-11-25
 
 ### Added
 - `/release` (Appendix M, `/minnel:release`) and §8 close a release once its commit is on the main
@@ -12,14 +12,14 @@ versions follow SemVer.
   version's changelog section as its notes. Given a version that is cut but not yet tagged,
   `/release` proposes these steps instead of a new draft. Pushing the tag and publishing the release
   wait for the user's go-ahead, and §10 lists the second run.
-- `/triage` (Appendix P, `/minnel:triage`) proposes the backlog's grouping by release and ends with
-  the roadmap in the chat: the active plan under Now, then Next by release with each version's
-  suggested bump, then Later undated, with any private items included. It flags a release heading
-  that names a version already released.
 - `/release` (Appendix M, `/minnel:release`) proposes what to do with each item still under the
   version being cut: delete its line if the commits show it has shipped, or else finish it first or
   move it under a later release or Unscheduled. It also checks a backlog kept in the project's
   gitignored notes, when the conventions name one, and names any of its items in the chat only.
+- `/triage` (Appendix P, `/minnel:triage`) proposes the backlog's grouping by release and ends with
+  the roadmap in the chat: the active plan under Now, then Next by release with each version's
+  suggested bump, then Later undated, with any private items included. It flags a release heading
+  that names a version already released.
 - "Install this plugin" in `docs/plugin.md` says how to have Claude run one of Minnel's user-only
   skills: name it in full after other text in your message, as in "run /minnel:triage". For Claude
   to start one unprompted, copy the skill into `.claude/skills/` without `disable-model-invocation`,
