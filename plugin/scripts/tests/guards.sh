@@ -4,8 +4,8 @@
 # permissionDecision of "ask" on stdout, which prompts the user. The last section runs
 # config-audit.sh, the read-only script /retro starts from, against a throwaway project.
 # Run from anywhere: plugin/scripts/tests/guards.sh. Run by another shell, it restarts under bash:
-# dash can't parse the cases' bash quoting, and bash in POSIX mode (macOS's sh, or
-# POSIXLY_CORRECT set) has an echo that expands the backslashes in the payloads.
+# dash can't parse the cases' bash quoting, and on macOS bash in POSIX mode (its sh, or
+# POSIXLY_CORRECT set) expands the backslashes in the payloads' echo.
 case ":${SHELLOPTS:-}:" in *:posix:*) posix=1 ;; *) posix= ;; esac
 if { [ -z "${BASH_VERSION:-}" ] || [ -n "$posix" ]; } && [ -z "${MINNEL_GUARDS_REEXEC:-}" ]; then
   unset POSIXLY_CORRECT; MINNEL_GUARDS_REEXEC=1 exec bash "$0" "$@"
