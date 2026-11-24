@@ -24,6 +24,10 @@ versions follow SemVer.
   solo developers and small teams.
 
 ### Fixed
+- The guards (Appendix C, and the plugin's test-directory guard) let some calls through on macOS
+  when `POSIXLY_CORRECT` was set. Their `echo` then expanded the escapes in the tool call's JSON,
+  which stopped parsing, so a command such as `rm -rf` on a second line passed unchecked. They now
+  read the call with `printf`.
 - The `CLAUDE.md` template, and the copy `/minnel:scaffold` writes, pointed a plugin adopter at
   `.claude/agents/` and a `code-reviewer` that a plugin install doesn't have. It now names
   `minnel:code-reviewer` and the `/minnel:` skills too.

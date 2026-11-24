@@ -150,6 +150,12 @@ check 2 tests-dir-guard.sh "$(write_call minnel:test-writer /tmp/tests/a.py)"   
 check 0 tests-dir-guard.sh "$(write_call '' /proj/src/a.py)"                             'main session, src/'
 check 0 tests-dir-guard.sh "$(write_call minnel:code-reviewer /proj/src/a.py)"      'other agent, src/'
 
+# With POSIXLY_CORRECT set, macOS bash's echo expands the payload's \n and \t, the JSON stops
+# parsing and a guard reading it with echo lets the call through. The guards read it with printf.
+check 2 bash-guard.sh "$(bash_call $'cd x\nrm -rf build')" 'rm -rf on a second line, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
+check ask git-guard.sh "$(bash_call $'cd x\ngit push')"    'git push on a second line, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
+check 2 tests-dir-guard.sh "$(write_call minnel:test-writer $'/proj/src/a\tb.py')" 'test-writer, a tab in the path, POSIXLY_CORRECT set' POSIXLY_CORRECT=1
+
 # config-audit.sh: a throwaway project and home, each naming paths that exist and paths that don't.
 audit_dir=$(mktemp -d) && mkdir -p "$audit_dir/proj/docs" "$audit_dir/proj/.claude/agent-memory/r" \
   "$audit_dir/proj/.claude/skills/x" "$audit_dir/home/.claude/rules"
