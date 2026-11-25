@@ -5,6 +5,8 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-25
+
 ### Added
 - `CONTRIBUTING.md` covers how this repository uses Minnel, the checks a change runs and how to
   build the doc site locally.
