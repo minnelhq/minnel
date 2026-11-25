@@ -21,8 +21,17 @@ review doesn't cover.
 
 **How to apply:**
 - The "source has no build; the site is optional" wording must stay coherent across the
-  `CLAUDE.md` intro, the DoD preamble, README "Reading it as a site" and "Dogfooding", and ADRs
-  0002/0003. Watch for a bare "no build" or a stale "deployed by a manual run".
+  `CLAUDE.md` intro, the DoD preamble, the site-build and repo-setup text, and ADRs 0002/0003.
+  Watch for a bare "no build" or a stale "deployed by a manual run". That text sat in README
+  "Reading it as a site" and "Dogfooding" until the 2026-11-25 README rewrite moved it to
+  `CONTRIBUTING.md` (check which file holds it now).
+- **README and `docs/index.md` (2026-11-25 rewrite).** A first draft mirrored the README section
+  for section, against ADR 0002's "kept lean so the two do not drift"; the user chose to trim
+  `index.md` to the shared opening, quick start and a Read-more list. Those shared paragraphs
+  have no check pairing them: compare them on any edit to either, and sweep the install line's
+  version (2.1.292) across README, index, `plugin/README.md` and `docs/plugin.md`. A summary of
+  that pin must stay conditional ("On 2.1.292 or later, install…"), since older versions install
+  in two steps.
 - Published means `docs/` minus `exclude_docs` in `mkdocs.yml` (a fixed list, not keyed off
   git-ignore). Build with the main checkout's `.venv/bin/zensical build --strict --clean`.
 - The DoD's `paths:` must cover any new site, build or CI config file, and agree with the
