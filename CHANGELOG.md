@@ -13,6 +13,7 @@ versions follow SemVer.
 - The README is rewritten for a first-time reader: the problem Minnel solves, a quick start with
   the plugin, what it installs, and links to the docs. The site's front page gets the same opening
   and quick start. The repository's own setup and the site build move to `CONTRIBUTING.md`.
+- The doc site is titled "Minnel", matching its front page, in place of the full tagline.
 - The repository's consistency hook (Check D) flags any full date that isn't ISO `YYYY-MM-DD`,
   in numeric, slashed or written form, not only `DD/MM/YYYY`. It also checks `CONTRIBUTING.md`.
 
