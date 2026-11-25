@@ -79,6 +79,31 @@ covers how to probe.
   broken fake awk first on PATH (exit 1), a PATH holding only `/usr/bin:/bin` plus a jq link (skips,
   exit 0), `CDPATH` set, and `kill -TERM` under dash (EXIT trap doesn't run, temp dir leaks).
 
+- **The Appendix Q `commit-msg` hook (`plugin/skills/scaffold/templates/commit-msg`; 2026-11-25
+  shape).** Probe it with real `git commit` runs in throwaway repos via `core.hooksPath`, under
+  `sh` and a `#!/bin/dash` copy, from a script written with the Write tool. Cases that showed
+  defects or gaps: a *new* commit reusing HEAD's subject (`fix: lint` twice) passes with no
+  changelog line, because the amend leg can't tell an amend from a new commit (git exports
+  `GIT_AUTHOR_DATE`, which an amend keeps from HEAD: observed on 2.54, a possible signal);
+  `git merge --squash`'s "Squashed commit of the following:" and a conflicted revert-of-revert's
+  `Reapply "…"` are git-written yet refused; `core.commentChar`; `-v` with an empty message;
+  `echo "$MSG"` under dash eats `\c`. `git revert`/`cherry-pick` don't run commit-msg at all, so
+  "every commit in the clone" over-claims. For the scaffold's install step, Husky v9 sets
+  `core.hooksPath` to the generated, gitignored `.husky/_` (read from husky 9.1.7's `index.js`),
+  so "copy into the directory core.hooksPath names" overwrites its stub.
+  Re-review of the fixes (2026-11-25): Husky 9's `_/h` runner calls `sh -e .husky/<hook> "$@"`
+  (read from the registry tarball's `husky` file), so probe the hook under `sh -e` too: a bare
+  `X=$(git config unset.key)` exits 1 there and refused every commit. Git's merge titles come in
+  plurals (`Merge tags`, `Merge commits`, `Merge remote-tracking branches`) and `git pull <url>`
+  of HEAD writes `Merge <url>`; an allow-list needs each, with a test per form. An
+  "empty message, leave it to git" exit also passes `git commit -m '#42 x'` (no editor, so git
+  keeps the line). `git check-ignore .husky/_` reports *not* ignored (its `*` is inside it); check
+  a file path in it. `log.showSignature` only adds output for a signed HEAD (`gpg.format ssh` with
+  `ssh-keygen` is enough to test it). A test whose setup commit can fail (signing) passes vacuously
+  if the staged change still satisfies the hook: break the setup (`GIT_CONFIG_COUNT=1` with
+  `gpg.ssh.program` pointing at a script that exits 1) and rerun the mutant. The suite's repos
+  inherit global git config; this machine sets a global `core.hooksPath` (2026-11-25).
+
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
 visible by executing edge cases.

@@ -12,7 +12,8 @@ if { [ -z "${BASH_VERSION:-}" ] || [ -n "$posix" ]; } && [ -z "${MINNEL_GUARDS_R
 fi
 CDPATH= cd -- "$(dirname -- "$0")/.." || exit 1
 export CLAUDE_PROJECT_DIR=/proj
-unset MINNEL_GIT_GUARD_COMMITS MINNEL_GIT_GUARD_PUSHES   # test the defaults, not this project's settings
+# Test the defaults, not this project's settings.
+unset MINNEL_GIT_GUARD_STAGING MINNEL_GIT_GUARD_COMMITS MINNEL_GIT_GUARD_PUSHES MINNEL_BASH_GUARD
 fail=0
 
 bash_call() { jq -cn --arg c "$1" '{tool_name:"Bash", tool_input:{command:$c}}'; }
@@ -84,6 +85,13 @@ check 2 git-guard.sh  "$(bash_call 'git push')"            'git push, pushes blo
 check 2 git-guard.sh  "$(bash_call 'git push')"            'git push, unknown setting' MINNEL_GIT_GUARD_PUSHES=0
 check 2 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, pushes allow' MINNEL_GIT_GUARD_PUSHES=allow
 check 2 git-guard.sh  "$(bash_call 'git commit -m x && git push')" 'commit then push, commits block' MINNEL_GIT_GUARD_COMMITS=block
+check 0 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, staging allow' MINNEL_GIT_GUARD_STAGING=allow
+check ask git-guard.sh "$(bash_call 'git add -A')"         'git add -A, staging ask' MINNEL_GIT_GUARD_STAGING=ask
+check 2 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, staging block' MINNEL_GIT_GUARD_STAGING=block
+check 2 git-guard.sh  "$(bash_call 'git add -A')"          'git add -A, unknown setting' MINNEL_GIT_GUARD_STAGING=0
+check ask git-guard.sh "$(bash_call 'git commit -am x')"   'git commit -am, staging ask' MINNEL_GIT_GUARD_STAGING=ask
+check 0 git-guard.sh  "$(bash_call 'git commit -am x')"    'git commit -am, staging allow' MINNEL_GIT_GUARD_STAGING=allow
+check ask git-guard.sh "$(bash_call 'git add -A && git push')" 'git add -A then push, staging allow' MINNEL_GIT_GUARD_STAGING=allow
 
 check 2 bash-guard.sh "$(bash_call 'rm -rf /tmp/x')"       'rm -rf'
 check 2 bash-guard.sh "$(bash_call 'git push --force')"    'git push --force'
@@ -131,6 +139,12 @@ check 0 bash-guard.sh "$(bash_call "sh -c 'rm -rf x'")"    'accepted miss: rm in
 check 0 bash-guard.sh "$(bash_call 'eval "rm -rf x"')"     'accepted miss: rm inside eval'
 check 0 bash-guard.sh "$(bash_call $'bash <<EOF\nrm -rf x\nEOF')" 'accepted miss: rm in a script fed as a heredoc'
 check 0 bash-guard.sh "$(bash_call 'echo "$(case a in a) rm -rf x;; esac)"')" 'accepted miss: a case pattern inside "$(...)"'
+check 0 bash-guard.sh "$(bash_call 'rm -rf x')"            'rm -rf, bash guard allow' MINNEL_BASH_GUARD=allow
+check ask bash-guard.sh "$(bash_call 'rm -rf x')"          'rm -rf, bash guard ask' MINNEL_BASH_GUARD=ask
+check ask bash-guard.sh "$(bash_call 'git push --force')"  'git push --force, bash guard ask' MINNEL_BASH_GUARD=ask
+check 0 bash-guard.sh "$(bash_call 'ls -la')"              'ls -la, bash guard ask' MINNEL_BASH_GUARD=ask
+check 2 bash-guard.sh "$(bash_call 'rm -rf x')"            'rm -rf, bash guard block' MINNEL_BASH_GUARD=block
+check 2 bash-guard.sh "$(bash_call 'rm -rf x')"            'rm -rf, unknown setting' MINNEL_BASH_GUARD=0
 
 # Without command-segments.awk beside them, the guards block rather than pass everything.
 lone=$(mktemp -d) && cp bash-guard.sh git-guard.sh "$lone"/

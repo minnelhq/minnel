@@ -43,8 +43,8 @@ The command refreshes the marketplace before it looks for a new version; `claude
 
 Then, in each project that adopts it:
 
-1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any file that already exists, and the write under `.claude/` asks for your approval.
-2. Fill in the placeholders it reports. The build, test and lint commands in `CLAUDE.md` and the Definition of Done come first, because `/minnel:accept` checks against them.
+1. Run `/minnel:scaffold`. A plugin cannot ship project files, so this writes them: `CLAUDE.md`, the Definition of Done rule, `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. First it reads what the project shows (its manifests' commands, `git log`, an existing changelog, a gitignored notes folder) and asks you in one message for its conventions, each with a proposed answer. The questions cover the commands, language and dates, commit style, changelog format, private notes, where the active-plan pointer lives, the review gate, each guard's setting and the Appendix Q `commit-msg` hook. It fills the files with your answers, writes any guard you change under `env` in `.claude/settings.json`, and installs the hook if you ask for it. It skips any file that already exists, and each write under `.claude/` asks for your approval.
+2. Fill in the placeholders it reports. The invariants in `CLAUDE.md` come first: the scaffold can't know them.
 3. Use the rituals as §10 describes: `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`, `/minnel:wrap` and `/minnel:triage`.
 
 The rituals and `/minnel:scaffold` are user-only skills: each sets `disable-model-invocation: true`, so Claude never starts one by itself. A message that asks for one in words ("run triage") doesn't start it, and Claude may run another installed skill whose description matches instead. To have Claude run one as part of a request, name it in full after some other text, as a separate word with no punctuation attached: "run /minnel:triage", or "check the branch, then /minnel:accept". The [Claude Code skills docs](https://code.claude.com/docs/en/skills) count a skill named this way as your permission for that message. Claude can run it while it responds, if your wording asks for it. A message that starts with the name runs the skill straight away. Tested on Claude Code 2.1.330, in the CLI (2026-11-25) and the desktop app (2026-11-24).
@@ -59,7 +59,7 @@ The plugin keeps the key on all seven skills: §10 asks it of the rituals, and t
 What else is active once installed:
 
 - The `code-reviewer` and `test-writer` subagents, listed as `minnel:code-reviewer` and `minnel:test-writer`.
-- The Appendix C guards on every `Bash` call. `bash-guard` blocks a forced recursive `rm`, a force push and `DROP TABLE`, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git add -u`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes either by setting `MINNEL_GIT_GUARD_COMMITS` or `MINNEL_GIT_GUARD_PUSHES` to `"allow"`, `"ask"` or `"block"` under `env` in its `.claude/settings.json`; the block on blanket staging stays on. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused. Both guards read the command as text, so they catch slips, not a command hidden in a variable, an alias or `sh -c`.
+- The Appendix C guards on every `Bash` call. `bash-guard` blocks a forced recursive `rm`, a force push and `DROP TABLE`, and `git-guard` blocks blanket staging (`git add -A`, `git add .`, `git add -u`, `git commit -a`), lets other commits through and asks you to approve each `git push`. A project changes any of these under `env` in its `.claude/settings.json`, setting each to `"allow"`, `"ask"` or `"block"`: `MINNEL_GIT_GUARD_STAGING` for blanket staging, `MINNEL_GIT_GUARD_COMMITS` for other commits, `MINNEL_GIT_GUARD_PUSHES` for pushes, and `MINNEL_BASH_GUARD` for everything `bash-guard` catches. Any other value counts as `"block"`. Claude Code has no switch for one plugin's hooks (checked on 2.1.331), so these settings are how a project relaxes a guard without disabling the plugin. Like any `env` value, they apply once Claude Code trusts the project folder. Where nobody can answer the prompt, as in a `-p` run, an "ask" is refused. Both guards read the command as text, so they catch slips, not a command hidden in a variable, an alias or `sh -c`.
 - A test-directory guard that confines `test-writer`'s edits to `test/`, `tests/`, `__tests__/`, `spec/` or `specs/`. It catches slips rather than a determined workaround: a file written through `Bash` isn't covered.
 
 The guards need `jq`. Without it they cannot read the tool call, and they let it through rather than block everything. The bash and git guards also need `command-segments.awk`, which ships beside them; if it goes missing, they block every `Bash` call and say why.
@@ -88,7 +88,7 @@ plugin/
 │   ├── triage/SKILL.md
 │   └── scaffold/            # writes the project files
 │       ├── SKILL.md
-│       └── templates/
+│       └── templates/       # includes commit-msg, the Appendix Q git hook
 ├── hooks/
 │   └── hooks.json           # Same format as settings.json hooks
 └── scripts/                 # Hook scripts, and the retro's audit
@@ -99,7 +99,8 @@ plugin/
     ├── config-audit.sh      # read-only; /retro runs it before pruning
     └── tests/
         ├── guards.sh        # sample tool calls for each guard, and audit cases
-        └── all-awks.sh      # runs guards.sh under each installed awk
+        ├── commit-msg.sh    # the commit-msg hook in throwaway repositories
+        └── all-awks.sh      # runs both under each installed awk
 ```
 
 A plugin can also bundle `commands/`, `.mcp.json` (MCP servers), `.lsp.json`, `monitors/`, `output-styles/` and `bin/` (executables added to `PATH`); consult the plugin component reference for the full auto-discovered set.
@@ -136,6 +137,7 @@ How this plugin maps the methodology's appendices and its `CLAUDE.md` template:
 | `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so they run only when you name them |
 | Plan, Definition of Done, backlog, ADR and changelog skeletons (Appendices D–H) | `skills/scaffold/` | Writes them into the project; a plugin cannot bundle `.claude/rules/` |
 | `CLAUDE.md` starter template (`templates/CLAUDE.template.md`) | `skills/scaffold/` | Writes it into the project as `CLAUDE.md` |
+| Git `commit-msg` hook (Appendix Q) | `skills/scaffold/templates/commit-msg` | A git hook, not a plugin hook: it has to sit in the project's hooks directory to run |
 | `add-importer` and similar (Appendix I) | not shipped | An illustration; project-specific procedures stay in the project's `.claude/skills/` |
 | Security checklist (Appendix O) | not shipped | A judgement list to run, not an action to automate |
 

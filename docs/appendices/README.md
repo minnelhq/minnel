@@ -6,7 +6,7 @@ position — the security checklist is Appendix O (the next free letter when it 
 lives in the skeletons file, with its kind.
 
 - **[subagents.md](subagents.md)** — A code-reviewer, B test-writer
-- **[hooks.md](hooks.md)** — C project hooks
+- **[hooks.md](hooks.md)** — C project hooks, Q git `commit-msg` hook
 - **[skeletons.md](skeletons.md)** — D plan file, E Definition of Done, F backlog, G ADR,
   H changelog, O security checklist
 - **[skills-and-commands.md](skills-and-commands.md)** — I example skill, J /plan, K /accept,
@@ -14,4 +14,5 @@ lives in the skeletons file, with its kind.
 
 The plugin in `plugin/` ships Appendices A and B, the Appendix C guards, J–N and P, and its
 `/minnel:scaffold` skill writes D–H into a project (see
-[Minnel as a plugin](../plugin.md)). I and O stay as documentation.
+[Minnel as a plugin](../plugin.md)). It ships the Appendix Q hook beside the scaffold's
+templates. I and O stay as documentation.

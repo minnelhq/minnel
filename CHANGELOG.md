@@ -5,17 +5,45 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-25
+
 ### Added
 - `CONTRIBUTING.md` covers how this repository uses Minnel, the checks a change runs and how to
   build the doc site locally.
+- Every bash and git guard in the plugin can be relaxed per project. `MINNEL_GIT_GUARD_STAGING`
+  covers the block on blanket staging and `git commit -a`, and `MINNEL_BASH_GUARD` covers the
+  bash guard. Each takes `allow`, `ask` or `block` under `env` in `.claude/settings.json`, as the
+  commit and push settings do. The defaults are unchanged. Claude Code has no switch for one
+  plugin's hooks, so before this a project could turn these guards off only by disabling the
+  plugin.
+- Appendix Q, a git `commit-msg` hook. It checks each commit's subject against the commit style,
+  Conventional Commits by default, and that a `feat` or `fix` commit adds a line under
+  `## [Unreleased]` in the changelog. Git runs it on each `git commit` in a clone where it is
+  installed, so it catches human commits too, which a Claude Code hook can't. Its settings,
+  including turning off the changelog check, sit at the top of the script. §6 and §8 point to
+  it, and the plugin ships it beside the scaffold's templates with
+  `plugin/scripts/tests/commit-msg.sh` to check it. The appendix range is now A–Q.
 
 ### Changed
+- `/minnel:scaffold` asks for the project's conventions before it writes the project files, and
+  fills them in. It reads what the project already shows (its manifests' commands, `git log`, an
+  existing changelog, a gitignored notes folder) and proposes an answer to each question in one
+  message. It asks about the commands, language and dates, commit style, changelog format,
+  private notes, the active-plan pointer, the review gate, each guard's setting and the
+  `commit-msg` hook. It writes changed guard settings to `.claude/settings.json` and installs the
+  hook on request, into the repository's own hooks directory, never a global one. Placeholders
+  it can't fill, such as the invariants, are still reported.
 - The README is rewritten for a first-time reader: the problem Minnel solves, a quick start with
   the plugin, what it installs, and links to the docs. The site's front page gets the same opening
   and quick start. The repository's own setup and the site build move to `CONTRIBUTING.md`.
 - The doc site is titled "Minnel", matching its front page, in place of the full tagline.
 - The repository's consistency hook (Check D) flags any full date that isn't ISO `YYYY-MM-DD`,
   in numeric, slashed or written form, not only `DD/MM/YYYY`. It also checks `CONTRIBUTING.md`.
+
+### Fixed
+- `/release` (Appendix M, `/minnel:release`) proposes the new version heading below an empty
+  `## [Unreleased]`, as Keep a Changelog does. It used to propose the version heading in place of
+  the Unreleased one.
 
 ## [0.7.1] - 2026-11-25
 

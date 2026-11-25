@@ -23,7 +23,7 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
 0003.)
 
 - [ ] **British English throughout** — spelling, ISO `YYYY-MM-DD` dates, `£`/`€` before figures.
-- [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–P) touched
+- [ ] **Internal consistency** — every `§N` cross-reference and appendix letter (A–Q) touched
       by the change resolves to the right target; nothing dangling or mis-lettered. When a
       number or letter moved, every reference to it moved too.
 - [ ] **No contradiction or duplication** — new guidance does not conflict with, or silently
@@ -46,13 +46,14 @@ or lint step; the bar is consistency and review, not a green suite. The plugin h
       `docs/worked-example.md` lives inside a code fence, so the build does not parse it.) See
       ADRs 0002 and 0003.
 - [ ] **Plugin (when touched)** — if the change edits `plugin/` or `.claude-plugin/`,
-      `plugin/scripts/tests/all-awks.sh` passes (it runs `guards.sh` under each installed awk;
-      CI covers mawk and gawk, so install them to check before a push, and report a `skip` line
-      as unchecked, not as a pass), and `claude plugin validate plugin` and
+      `plugin/scripts/tests/all-awks.sh` passes (it runs `guards.sh` and `commit-msg.sh` under
+      each installed awk; CI covers mawk and gawk, so install them to check before a push, and
+      report a `skip` line as unchecked, not as a pass), and `claude plugin validate plugin` and
       `claude plugin validate .` pass. Warnings are allowed only where `main` gives them too.
-      Each behaviour a guard or plugin script (not the tests) gains, and each one a commit
-      message claims, has a `guards.sh` case that fails when the behaviour is removed.
-      Leave `plugin.json`'s `version` alone outside a release commit (see the Release item).
+      Each behaviour a guard, hook or plugin script (not the tests) gains, and each one a commit
+      message claims, has a `guards.sh` or `commit-msg.sh` case that fails when the behaviour is
+      removed. Leave `plugin.json`'s `version` alone outside a release commit (see the Release
+      item).
 - [ ] **Release (when cutting one)** — `plugin/.claude-plugin/plugin.json`'s `version` equals the
       new CHANGELOG version (ADR 0004). Installs stay on the cached copy until it changes, so a
       release that leaves it alone ships no plugin change. Raise it in the release commit, not

@@ -25,13 +25,13 @@ install is updated. To try an edit before then, start Claude Code with
 The Markdown has no build or test step. The `PostToolUse`
 [consistency hook](.claude/hooks/docs-consistency.sh), a script Claude Code runs after each edit,
 flags US spellings, full dates not in ISO `YYYY-MM-DD`, broken intra-repo links, and dangling §
-cross-references and appendix letters (A–P). It also flags a stale "Last updated" line, and an
+cross-references and appendix letters (A–Q). It also flags a stale "Last updated" line, and an
 appendix that has drifted from the plugin file it ships as. Review covers the rest.
 
 ## Checks
 
-Before merging a change to `plugin/` or `.claude-plugin/`, run the guard tests and both plugin
-validations:
+Before merging a change to `plugin/` or `.claude-plugin/`, run the guard and `commit-msg` hook
+tests and both plugin validations:
 
 ```sh
 plugin/scripts/tests/all-awks.sh

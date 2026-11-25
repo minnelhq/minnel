@@ -69,7 +69,7 @@ esac
 # right normaliser | label. A part is "whole" or a marker: the first fenced block after
 # the first line containing the marker. Normalisers remove the intended differences:
 #   drop_hooks       B's frontmatter hooks: block (plugin agents ignore it)
-#   drop_plugin_settings  git-guard's plugin settings block
+#   drop_plugin_settings  the guards' plugin settings blocks
 #   drop_skill_keys  the skill-only frontmatter keys (name, argument-hint); applied
 #                    to the plugin side only, so any other frontmatter field on either
 #                    side is still compared, disable-model-invocation included
@@ -111,9 +111,10 @@ check_e() {
   done <<'PAIRS'
 docs/appendices/subagents.md|`.claude/agents/code-reviewer.md`|-|plugin/agents/code-reviewer.md|whole|-|Appendix A
 docs/appendices/subagents.md|`.claude/agents/test-writer.md`|drop_hooks|plugin/agents/test-writer.md|whole|-|Appendix B
-docs/appendices/hooks.md|`.claude/hooks/bash-guard.sh`|-|plugin/scripts/bash-guard.sh|whole|-|Appendix C bash-guard
+docs/appendices/hooks.md|`.claude/hooks/bash-guard.sh`|-|plugin/scripts/bash-guard.sh|whole|drop_plugin_settings|Appendix C bash-guard
 docs/appendices/hooks.md|`.claude/hooks/git-guard.sh`|-|plugin/scripts/git-guard.sh|whole|drop_plugin_settings|Appendix C git-guard
 docs/appendices/hooks.md|`.claude/hooks/command-segments.awk`|-|plugin/scripts/command-segments.awk|whole|-|Appendix C command-segments
+docs/appendices/hooks.md|## Appendix Q|-|plugin/skills/scaffold/templates/commit-msg|whole|-|Appendix Q
 docs/appendices/skeletons.md|## Appendix D|-|plugin/skills/scaffold/templates/plans-README.md|Skeleton:|-|Appendix D
 docs/appendices/skeletons.md|## Appendix E|-|plugin/skills/scaffold/templates/definition-of-done.md|whole|-|Appendix E
 docs/appendices/skeletons.md|## Appendix F|-|plugin/skills/scaffold/templates/backlog.md|whole|-|Appendix F
