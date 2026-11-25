@@ -19,17 +19,20 @@ Decisions:
   `plugin/README.md`, `docs/index.md`, `docs/backlog.md` and live plans in `docs/plans/`.
 
 ## Out of scope
-- Bypasses the segment parser doesn't see: `git -c core.hooksPath=…`, aliases, `sh -c`. The guard
-  stays a tripwire.
+- Bypasses the segment parser doesn't see: `git -c core.hooksPath=…`, aliases, `sh -c`, a quoted
+  `'--no-verify'` (quoted text reads as Q, as a quoted `'--force'` does) and `HUSKY=0` (a
+  `VAR=value` word is dropped). The guard stays a tripwire.
+- `git am -n`, which skips the applypatch hooks but not `commit-msg`.
 - Check G for the docs that keep one paragraph per line (`methodology.md`, `plugin.md`,
-  `worked-example.md`, the appendices), ADRs, archived plans and `.claude/`.
+  `worked-example.md`, the appendices), ADRs, archived plans and `.claude/`; and for the
+  hard-wrapped plugin skills and agents and `templates/`, whose frontmatter holds long lines.
 - Cutting 0.9.0 before the maintainer says so (Stage 4).
 
 ---
 
 ## Stage 1 — Block `--no-verify` in the bash guard   [done]
 - [x] `plugin/scripts/bash-guard.sh`: after the force-push rule, block any `git` command with
-      `--no-verify` (or the shortest unambiguous abbreviation, `--no-veri`), and `git commit`
+      `--no-verify` (or an abbreviation of it down to `--no-v`), and `git commit`
       with `-n` in a short-option cluster, using the git guard's value-letter exclusion so `-mn`
       and `-uno` pass. `git push -n` (a dry run) passes.
 - [x] `docs/appendices/hooks.md`: the Appendix C copy gets the same lines; update its caption
@@ -63,9 +66,17 @@ Decisions:
   `plugin/README.md` case and a table-row case added. The hook is clean on every in-scope file.
 
 ## Stage 3 — Review   [in progress]
-- [ ] `minnel:code-reviewer` on the branch diff; fix its findings and re-run per the working
+- [x] `minnel:code-reviewer` on the branch diff; fix its findings and re-run per the working
       agreement.
-- [ ] `zensical build --strict`, since published docs changed.
+  - Round 1: no Critical. Two Warnings, fixed: pass cases for each value letter in the `-n`
+    cluster (cutting the class now fails five), and the bash guard's stance in §11 and
+    Appendix O. Suggestions taken: match abbreviations down to `--no-v` (`git am` takes it),
+    pass cases for `--no-verify-signatures` and `--no-verbose`, "backtick-fenced" in Check G's
+    wording, a reflowed scaffold question, §6's sentence split, and the accepted misses named
+    under Out of scope. Not taken: dropping "twice" from the Goal, which the local backlog
+    note backs with both files.
+  - [ ] Round 2 on the fix commit, since it changes plugin tests and published docs.
+- [x] `zensical build --strict`, since published docs changed: no issues.
 
 ## Stage 4 — Release 0.9.0   [pending]
 - [ ] On the maintainer's word, `/minnel:release`: the 0.9.0 changelog section, `plugin.json`'s

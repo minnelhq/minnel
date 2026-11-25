@@ -43,9 +43,9 @@ Set up this project for the methodology, filled in with its conventions. The tem
    8. Where the active-plan pointer lives (default: the backlog's Now section).
    9. The review gate: no second reviewer, or a human review after the subagent's; and which
       branches count as trivial and skip review, if any.
-   10. Each guard: allow, ask or block. Defaults: blanket staging block, commits allow, pushes
-       ask, the bash guard (forced recursive `rm`, force push, `DROP TABLE`, `--no-verify`)
-       block.
+   10. Each guard: allow, ask or block. Defaults: blanket staging block, commits allow,
+       pushes ask, and block for the bash guard (forced recursive `rm`, force push,
+       `DROP TABLE`, `--no-verify`).
    11. Whether to install the `commit-msg` hook (Appendix Q), and if so whether it checks that
        a `feat` or `fix` commit adds a changelog line (default: no hook; with the hook, the
        check is on when the commit style has `feat` and `fix` types and the changelog has an

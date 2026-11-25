@@ -13,7 +13,7 @@ versions follow SemVer.
 - The repository's consistency hook gains Check G: it flags a line over 100 columns in the
   hard-wrapped files (`CHANGELOG.md`, `CONTRIBUTING.md`, the READMEs, `docs/index.md`, the
   backlog and live plans), where a sentence swapped in without reflowing leaves a spliced line.
-  It counts characters, not bytes, and skips code blocks and tables.
+  It counts characters, not bytes, and skips backtick-fenced code blocks and table rows.
 
 ## [0.8.0] - 2026-11-25
 

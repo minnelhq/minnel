@@ -21,7 +21,7 @@
 #      is older than today's date (backtick-fenced code blocks skipped); and
 #   G) an over-long line in a hard-wrapped file — over 100 columns in CHANGELOG.md,
 #      CONTRIBUTING.md, README.md, plugin/README.md, docs/index.md, docs/backlog.md
-#      or a live plan (fenced code blocks and table rows skipped).
+#      or a live plan (backtick-fenced code blocks and table rows skipped).
 #
 # The edited file arrives as .tool_input.file_path in the JSON on stdin (the
 # field is identical for Edit, Write and MultiEdit). PostToolUse runs after the

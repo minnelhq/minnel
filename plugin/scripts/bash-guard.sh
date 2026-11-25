@@ -35,10 +35,11 @@ printf '%s\n' "$SEGMENTS" | grep -E '^rm ' | grep -E ' (-[a-zA-Z]*[rR][a-zA-Z]*|
 # A force push (--force, -f or a +refspec). --force-with-lease passes to the git guard's prompt.
 printf '%s\n' "$SEGMENTS" | grep -E '^git push ' |
   grep -E ' (--force|-[a-zA-Z]*f[a-zA-Z]*|\+[^ ]+)( |$)' > /dev/null && block "a force push"
-# Skipping git hooks: --no-verify on any git command (or --no-veri, the shortest form git takes),
-# and git commit -n. In a cluster, a letter after one that takes a value (-m, -F, -C, -c, -t,
-# -S, -u) is that value. git push -n is a dry run, so it passes.
-printf '%s\n' "$SEGMENTS" | grep -E '^git ' | grep -E ' --no-veri(f|fy)?( |$)' > /dev/null &&
+# Skipping git hooks: --no-verify on any git command, or an abbreviation of it down to --no-v
+# (git am takes --no-v; commit takes --no-veri), and git commit -n. In a cluster, a letter after
+# one that takes a value (-m, -F, -C, -c, -t, -S, -u) is that value. git push -n is a dry run,
+# so it passes.
+printf '%s\n' "$SEGMENTS" | grep -E '^git ' | grep -E ' --no-v(e(r(i(fy?)?)?)?)?( |$)' > /dev/null &&
   block "skipping git hooks with --no-verify"
 printf '%s\n' "$SEGMENTS" | grep -E '^git commit ' | grep -E ' -[^-mFCctSu ]*n[a-zA-Z]*( |$)' > /dev/null &&
   block "skipping git hooks with git commit -n"
