@@ -16,7 +16,7 @@ Set up this project for the methodology, filled in with its conventions. The tem
 | `backlog.md` | `docs/backlog.md` |
 | `design-README.md` | `docs/design/README.md` |
 | `CHANGELOG.md` | `CHANGELOG.md` |
-| `commit-msg` | `.githooks/commit-msg`, only if I ask for the hook in step 3 |
+| `commit-msg` | where step 6 says, only if I ask for the hook in step 3 |
 
 1. Check which project paths already exist. An existing file is skipped unless I name it here:
    $ARGUMENTS
@@ -27,8 +27,9 @@ Set up this project for the methodology, filled in with its conventions. The tem
    - the changelog's format, path and unreleased heading from an existing changelog;
    - a notes folder named in `.gitignore`, confirmed with `git check-ignore`;
    - whether this repository sets `core.hooksPath` (`git config --local core.hooksPath`), and
-     whether a global one is set; whether a `commit-msg` hook already exists there or in
-     `.git/hooks/`; and whether `.claude/settings.json` exists.
+     whether a global one is set; whether a `commit-msg` hook is already active
+     (`git rev-parse --git-path hooks/commit-msg` gives its path); and whether
+     `.claude/settings.json` exists.
 3. Ask me once, in one message: a numbered list, each question with its proposed answer, so I
    can accept them all or change some. Propose what step 2 found, else the default given here.
    1. The project's name, and one or two sentences on what it is and for whom.
@@ -69,11 +70,11 @@ Set up this project for the methodology, filled in with its conventions. The tem
    the file doesn't exist, create it with only that `env` block. If it exists, show me the edit
    and apply it once I approve; keep its other keys as they are. Write nothing for defaults.
 6. Hook, only if I asked for it. Choose where it goes:
-   - If this repository sets its own `core.hooksPath` to a tracked directory inside the
-     repository, use that directory. If that directory is gitignored (`git check-ignore`) or
-     outside the repository, as a hook manager's generated directory is, stop and ask me. For
-     Husky, the hook goes in `.husky/commit-msg`.
-   - Otherwise use `.githooks/`.
+   - If this repository sets no `core.hooksPath` of its own, use `.githooks/`.
+   - If it sets one to a directory inside the repository that holds tracked files, and
+     `git check-ignore <dir>/commit-msg` reports nothing, use that directory.
+   - Otherwise stop and ask me: the directory may be one a hook manager generates. For Husky,
+     the hook goes in `.husky/commit-msg`.
    - Never use a global hooks directory: the hook would run in every repository.
    - If a `commit-msg` already exists where it would go, skip it unless I named it, and say so.
 
