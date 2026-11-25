@@ -33,13 +33,20 @@ appendix and its plugin file is a defect class like a dangling §N.
   that a guard version has had live use, check the cache's script or `installed_plugins.json`'s
   `gitCommitSha`. This applies to me too: a merged reviewer change reaches me only after a release
   and an update.
-- **Reviewing a release cut (0.5.0, 0.6.0, 0.7.0, as of 2026-11-25).** The release commit touches only
+- **Reviewing a release cut (0.5.0 to 0.7.1, as of 2026-11-25).** The release commit touches only
   `CHANGELOG.md`'s heading (0.7.0 also reordered lines: prove "order only" by diffing the two
-  files' `sort`ed lines, which should differ only in the heading) and `plugin.json`'s `version`;
-  release commits carry no body (house precedent). The marketplace entry carries no version,
-  and no other tracked file names the current one (`git grep -nE '0\.[0-9]+\.0'`). Tags sit on the
+  files' `sort`ed lines, which should differ only in the heading) and `plugin.json`'s `version`.
+  A body is optional: 0.5.0 and 0.6.0 had none, 0.7.0 and 0.7.1 explain a reorder or the bump
+  choice; check any body's reason against the plugin diff since the last tag. The marketplace
+  entry carries no version, and no other tracked file names the current one
+  (`git grep -nE '0\.[0-9]+\.[0-9]+'`). Tags sit on the
   PR's *merge* commit, not the release commit (v0.5.0 = merge of #34, with fix commits after the
-  cut). CHANGELOG has never had link reference definitions and drops `## [Unreleased]` at the cut.
+  cut). CHANGELOG has never had link reference definitions. 0.5.0 to 0.7.0 renamed
+  `## [Unreleased]` to the version (the `/release` skill's step 5 says "in place of"); 0.7.1 kept an
+  empty one above (Keep a Changelog's and §8's form). Either passes; flag only a mix within one cut.
+  **Bump choice:** a `feat` touching only `.claude/hooks/docs-consistency.sh` is repo plumbing
+  (the plugin's `hooks.json` ships only the three guards; no appendix embeds that hook), so a
+  patch is right even though `/release` maps `feat` to minor (0.7.1, Check F).
   For coverage, diff `--stat v<prev> <branch>` and map every non-internal file to an entry: repo
   `.claude/` changes that the README describes (the `close-plan` removal in 0.6.0) slip through,
   though 0.1.0 and 0.4.0 entries counted them. Plugin DoD item applies (plugin.json touched).
