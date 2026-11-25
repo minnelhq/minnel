@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stages 1–4 done; Stage 5 of 6 next. Pending: an interactive check of the scaffold's writes under `.claude/`.
+**Status:** Stages 1–4 done; Stage 5 of 6 next.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -177,7 +177,10 @@ bootstrap has something to offer. The bootstrap comes last of the features.
     the answers covered and left the existing `CLAUDE.md` untouched. The hook landed executable
     and refused a bad subject and a `feat` with no changelog. Headless runs can't approve writes
     under `.claude/`. So the Definition of Done file and the `env` block in `.claude/settings.json`
-    (proposed correctly as the two changed guards) still need one interactive run.
+    (proposed correctly as the two changed guards) needed one interactive run. In that run the
+    maintainer approved both writes. `settings.json` held only the two changed guards, the
+    Definition of Done differed from its template only in the three commands, and the existing
+    `CLAUDE.md` was untouched.
   - The first trial found a global `core.hooksPath`, which the draft would have used as the
     install directory, so the hook would have run in every repository. The skill now reads only
     the repository's own setting and says a local one replaces the global one.
