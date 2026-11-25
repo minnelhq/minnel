@@ -5,6 +5,11 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Changed
+- The opening of the README and the site's home page says what hooks and subagents are where it
+  first names them.
+- The README's Status says Minnel is maintained and invites issues and feedback.
+
 ## [0.9.0] - 2026-11-25
 
 ### Added

@@ -6,8 +6,10 @@ experienced solo developers and small teams.
 Long Claude Code sessions lose things. Compaction, which summarises a long conversation to free
 context, can drop the plan. A restart forgets what was decided, and a rule in `CLAUDE.md` holds
 only while the model remembers it. Minnel answers with two habits. What must survive goes in
-files: the plan, the decisions, the backlog and the changelog. What must hold is checked by hooks,
-which don't depend on the model remembering, and by a review subagent before merge.
+files: the plan, the decisions, the backlog and the changelog. What must hold is checked by hooks
+and, before merge, by a review subagent. Hooks are scripts Claude Code runs at set points in a
+session, such as before or after a tool call, so they don't depend on the model remembering. The
+subagent is a separate AI assistant with its own context and instructions.
 
 ## Quick start
 
@@ -58,9 +60,10 @@ The same docs are on [the site](https://minnelhq.github.io/minnel/), with search
 
 ## Status
 
-Minnel is pre-1.0 (see the [changelog](CHANGELOG.md)), so a minor release can change how things
-work. I started it in June 2026 and run it on my own projects. It has had no outside adopters or
-feedback yet, and it may be too rigid to suit everyone.
+Minnel is maintained. It is pre-1.0 (see the [changelog](CHANGELOG.md)), so a minor release can
+change how things work. I started it in June 2026 and run it on my own projects. It has had no
+outside adopters or feedback yet, and it may be too rigid to suit everyone.
+[Issues](https://github.com/minnelhq/minnel/issues) and feedback are welcome.
 
 ## This repository
 
