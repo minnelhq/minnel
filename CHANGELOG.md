@@ -17,6 +17,11 @@ versions follow SemVer.
 - The repository's consistency hook (Check D) flags any full date that isn't ISO `YYYY-MM-DD`,
   in numeric, slashed or written form, not only `DD/MM/YYYY`. It also checks `CONTRIBUTING.md`.
 
+### Fixed
+- `/release` (Appendix M, `/minnel:release`) proposes the new version heading below an empty
+  `## [Unreleased]`, as Keep a Changelog does. It used to propose the version heading in place of
+  the Unreleased one.
+
 ## [0.7.1] - 2026-11-25
 
 ### Added

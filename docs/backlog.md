@@ -30,10 +30,6 @@ ISO YYYY-MM-DD.
   commit style (which the bootstrap records; Conventional Commits by default). It catches human
   commits too and must not clash with the git-guard. Add a check that a `feat`/`fix` commit also
   touches `[Unreleased]`.
-- Say whether a release cut keeps an empty Unreleased section — fix · value L · effort L — why
-  now: `/release` step 5 (and Appendix M) proposes the version heading "in place of" Unreleased,
-  but the 0.7.1 cut kept an empty `## [Unreleased]` above it, as Keep a Changelog and §8 do.
-  Reword the step to match, in both copies (Check E).
 
 ## Later / maybe
 - (none)

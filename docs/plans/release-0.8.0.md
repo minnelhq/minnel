@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stage 1 of 6, not started.
+**Status:** Stage 1 done; Stage 2 of 6 next.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -30,11 +30,11 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 
 ---
 
-## Stage 1 — `/release` keeps an empty Unreleased   [todo]
-- [ ] Appendix M step 5 and `plugin/skills/release/SKILL.md`: propose the version heading below
+## Stage 1 — `/release` keeps an empty Unreleased   [done]
+- [x] Appendix M step 5 and `plugin/skills/release/SKILL.md`: propose the version heading below
       `## [Unreleased]`, moving its entries under the new heading and leaving the Unreleased
       heading empty on top, as Keep a Changelog and §8 do. Change both copies together.
-- [ ] `CHANGELOG.md` Fixed line; delete the backlog item in the same commit.
+- [x] `CHANGELOG.md` Fixed line; delete the backlog item in the same commit.
 - Acceptance: Check E passes for Appendix M; `git grep -n 'in place of the unreleased'` finds
   nothing outside `docs/plans/archive`; Appendix H and §8 don't contradict the new wording.
 

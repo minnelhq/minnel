@@ -25,8 +25,9 @@ and propose the closing steps at the end instead.
 4. Propose these under the unreleased section of the changelog (`## [Unreleased]`
    in Keep a Changelog).
 5. If a version was given ($ARGUMENTS), also propose the format's version heading
-   in place of the unreleased one. For Keep a Changelog:
-   `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date.
+   over those entries, and keep the unreleased heading, now empty, above it. For Keep
+   a Changelog: `## [$ARGUMENTS] - YYYY-MM-DD`, with today's date, below an empty
+   `## [Unreleased]`.
 6. If a version was given, read the backlog (`docs/backlog.md`) and list any item still
    under that version's heading in Next (or tagged `target: <version>`, the older
    format) at the top of the draft: work meant for this release is still open. If the
