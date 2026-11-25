@@ -11,12 +11,12 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `co
 - Keep this file lean; it loads every turn. Detailed material lives under `docs/`.
 - Docs live under `docs/`; the curated changelog stays at the repo root as `CHANGELOG.md`.
 - The methodology must stay internally consistent: section cross-references (§N) and
-  appendix letters (A–P) are load-bearing — update them together when editing.
+  appendix letters (A–Q) are load-bearing — update them together when editing.
 
 ## Layout
 
 - `docs/methodology.md` — the main reference (narrative §1–§11).
-- `docs/appendices/` — the drop-in artefacts (Appendices A–P), grouped by type; `README.md` indexes them.
+- `docs/appendices/` — the drop-in artefacts (Appendices A–Q), grouped by type; `README.md` indexes them.
 - `docs/plugin.md` — the plugin companion: installing Minnel and packaging your own.
 - `templates/CLAUDE.template.md` — the starter template artefact.
 - `plugin/` — the installable plugin, the appendix artefacts packaged; `.claude-plugin/marketplace.json`

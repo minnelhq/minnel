@@ -12,5 +12,5 @@ gitignored local-only working notes may be present (not a defect), and `.claude/
 of the plugin's rituals, guards or agents (removed 2026-11-23). The plugin doc (`docs/plugin.md`, named `packaging-as-a-plugin.md` until 2026-11-25) does not
 discuss licensing.
 
-**Why:** the internal-consistency invariant is load-bearing — §N cross-refs and appendix letters A–P must all resolve, and a renumber must move every reference. Appendix refs now resolve cross-file (body in methodology.md → headings in docs/appendices/*.md); the consistency hook validates appendix letters against docs/appendices/.
+**Why:** the internal-consistency invariant is load-bearing — §N cross-refs and appendix letters A–Q must all resolve, and a renumber must move every reference. Appendix refs now resolve cross-file (body in methodology.md → headings in docs/appendices/*.md); the consistency hook validates appendix letters against docs/appendices/.
 **How to apply:** every review, verify §refs against actual `## N.` headings and appendix refs against actual `## Appendix X` headings, then work through the DoD and [[feedback-recurring-defects]].

@@ -2,8 +2,9 @@ name: guards
 
 # Run the plugin's guard tests on every PR and every push to main. The guards read commands
 # through plugin/scripts/command-segments.awk, and /retro's plugin/scripts/config-audit.sh uses
-# awk too. Both must work under any POSIX awk, so the tests run once with each awk most Linux
-# users have: mawk (Debian and Ubuntu's default) and gawk.
+# awk too, as does the commit-msg hook the scaffold installs (Appendix Q). They must work under
+# any POSIX awk, so the tests run once with each awk most Linux users have: mawk (Debian and
+# Ubuntu's default) and gawk.
 on:
   push:
     branches: [main]
@@ -45,3 +46,4 @@ jobs:
           test "$(readlink -f "$(command -v awk)")" = "$(readlink -f "$(command -v "$AWK_IMPL")")"
           awk -W version 2>&1 | head -n 1
       - run: plugin/scripts/tests/guards.sh
+      - run: plugin/scripts/tests/commit-msg.sh

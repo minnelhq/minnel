@@ -114,6 +114,7 @@ docs/appendices/subagents.md|`.claude/agents/test-writer.md`|drop_hooks|plugin/a
 docs/appendices/hooks.md|`.claude/hooks/bash-guard.sh`|-|plugin/scripts/bash-guard.sh|whole|drop_plugin_settings|Appendix C bash-guard
 docs/appendices/hooks.md|`.claude/hooks/git-guard.sh`|-|plugin/scripts/git-guard.sh|whole|drop_plugin_settings|Appendix C git-guard
 docs/appendices/hooks.md|`.claude/hooks/command-segments.awk`|-|plugin/scripts/command-segments.awk|whole|-|Appendix C command-segments
+docs/appendices/hooks.md|## Appendix Q|-|plugin/skills/scaffold/templates/commit-msg|whole|-|Appendix Q
 docs/appendices/skeletons.md|## Appendix D|-|plugin/skills/scaffold/templates/plans-README.md|Skeleton:|-|Appendix D
 docs/appendices/skeletons.md|## Appendix E|-|plugin/skills/scaffold/templates/definition-of-done.md|whole|-|Appendix E
 docs/appendices/skeletons.md|## Appendix F|-|plugin/skills/scaffold/templates/backlog.md|whole|-|Appendix F

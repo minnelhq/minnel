@@ -23,11 +23,6 @@ ISO YYYY-MM-DD.
 - Have the bootstrap offer the guards' settings — feat · value M · effort L — why now: every bash
   and git guard now takes allow, ask or block per project, but an adopter has to find the four
   `env` names. The bootstrap should ask for each and write the non-default ones.
-- Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
-  `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
-  commit style (which the bootstrap records; Conventional Commits by default). It catches human
-  commits too and must not clash with the git-guard. Add a check that a `feat`/`fix` commit also
-  touches `[Unreleased]`.
 
 ## Later / maybe
 - (none)

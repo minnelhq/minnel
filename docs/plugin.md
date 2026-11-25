@@ -88,7 +88,7 @@ plugin/
 │   ├── triage/SKILL.md
 │   └── scaffold/            # writes the project files
 │       ├── SKILL.md
-│       └── templates/
+│       └── templates/       # includes commit-msg, the Appendix Q git hook
 ├── hooks/
 │   └── hooks.json           # Same format as settings.json hooks
 └── scripts/                 # Hook scripts, and the retro's audit
@@ -99,7 +99,8 @@ plugin/
     ├── config-audit.sh      # read-only; /retro runs it before pruning
     └── tests/
         ├── guards.sh        # sample tool calls for each guard, and audit cases
-        └── all-awks.sh      # runs guards.sh under each installed awk
+        ├── commit-msg.sh    # the commit-msg hook in throwaway repositories
+        └── all-awks.sh      # runs both under each installed awk
 ```
 
 A plugin can also bundle `commands/`, `.mcp.json` (MCP servers), `.lsp.json`, `monitors/`, `output-styles/` and `bin/` (executables added to `PATH`); consult the plugin component reference for the full auto-discovered set.
@@ -136,6 +137,7 @@ How this plugin maps the methodology's appendices and its `CLAUDE.md` template:
 | `/plan`, `/accept`, `/retro`, `/release`, `/wrap`, `/triage` (Appendices J–N, P) | `skills/<name>/SKILL.md` | `disable-model-invocation: true`, so they run only when you name them |
 | Plan, Definition of Done, backlog, ADR and changelog skeletons (Appendices D–H) | `skills/scaffold/` | Writes them into the project; a plugin cannot bundle `.claude/rules/` |
 | `CLAUDE.md` starter template (`templates/CLAUDE.template.md`) | `skills/scaffold/` | Writes it into the project as `CLAUDE.md` |
+| Git `commit-msg` hook (Appendix Q) | `skills/scaffold/templates/commit-msg` | A git hook, not a plugin hook: it has to sit in the project's hooks directory to run |
 | `add-importer` and similar (Appendix I) | not shipped | An illustration; project-specific procedures stay in the project's `.claude/skills/` |
 | Security checklist (Appendix O) | not shipped | A judgement list to run, not an action to automate |
 

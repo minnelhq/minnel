@@ -8,7 +8,7 @@ metadata:
 The methodology ships as a plugin named **Minnel** in `plugin/`, listed by the root
 `.claude-plugin/marketplace.json` (install `minnel@minnel`). The plugin files are the source; the
 appendices keep embedded copies, and Check E in `.claude/hooks/docs-consistency.sh` flags drift
-between each pair (A, B, both C guards, D–H, J–N, P, and `templates/CLAUDE.template.md` vs the
+between each pair (A, B, both C guards, D–H, J–N, P, Q, and `templates/CLAUDE.template.md` vs the
 scaffold's copy). ADR 0004 records the decisions.
 
 **Why:** document and plugin ship under one version and one CHANGELOG, so drift between an

@@ -1,0 +1,64 @@
+#!/bin/sh
+# Git commit-msg hook: checks the subject against the project's commit style and, for a feat or
+# fix commit, that the commit adds a line under the changelog's Unreleased heading. Git passes
+# the message file as $1; a non-zero exit stops the commit. git commit --no-verify skips it.
+
+# Settings. SUBJECT is the extended regular expression a subject must match: Conventional
+# Commits by default. Set REQUIRE_CHANGELOG=no to drop the changelog check, as a project whose
+# commit style has no feat or fix type should.
+SUBJECT='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^)]+\))?!?: [^ ]'
+CHANGELOG=CHANGELOG.md
+UNRELEASED='## [Unreleased]'   # the heading's start, as written
+REQUIRE_CHANGELOG=yes
+
+# The subject is the first line that is neither blank nor a comment.
+MSG=$(grep -v '^#' "$1" | grep -v '^[[:space:]]*$' | head -n 1)
+case "$MSG" in
+  "Merge "* | 'Revert "'* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;  # git's own subjects
+esac
+if ! printf '%s\n' "$MSG" | grep -Eq "$SUBJECT"; then
+  echo "commit-msg: this subject doesn't follow the project's commit style." >&2
+  echo "  subject: $MSG" >&2
+  echo "  pattern: $SUBJECT" >&2
+  exit 1
+fi
+[ "$REQUIRE_CHANGELOG" = yes ] || exit 0
+printf '%s\n' "$MSG" | grep -Eq '^(feat|fix)(\([^)]+\))?!?:' || exit 0
+
+unreleased() { # rev prefix (":" for the index, "HEAD:"): the Unreleased section's first and last line
+  git show "$1$CHANGELOG" 2>/dev/null | h="$UNRELEASED" awk '
+    s && /^## / { print s, NR - 1; done = 1; exit }
+    !s && index($0, ENVIRON["h"]) == 1 { s = NR }
+    END { if (s && !done) print s, NR }'
+}
+adds_line() { # rev prefix, then a diff command: does its diff add a non-blank line there?
+  range=$(unreleased "$1"); shift
+  [ -n "$range" ] || return 1
+  "$@" -- "$CHANGELOG" | awk -v r="$range" '
+    BEGIN { split(r, u, " ") }
+    /^@@/ { split($3, n, ","); line = substr(n[1], 2) + 0; hunk = 1; next }
+    !hunk || /^-/ { next }
+    /^\+/ { if (line > u[1] && line <= u[2] && substr($0, 2) ~ /[^ \t]/) found = 1; line++ }
+    END { exit !found }'
+}
+
+if ! git cat-file -e ":$CHANGELOG" 2>/dev/null; then
+  echo "commit-msg: a feat or fix commit adds a line to $CHANGELOG, and the index has no $CHANGELOG." >&2
+  echo "  Set CHANGELOG to the changelog's path, or REQUIRE_CHANGELOG=no, at the top of this hook." >&2
+  exit 1
+fi
+# Plumbing diffs, which ignore the user's colour and external-diff settings.
+EMPTY=$(git hash-object -t tree /dev/null)
+adds_line : git diff-index --cached -p -U0 "$(git rev-parse -q --verify HEAD || echo "$EMPTY")" &&
+  exit 0
+# An amend keeps the changes of the commit it replaces. When the index matches that commit, or
+# the subject is unchanged, accept the line that commit added.
+if git rev-parse -q --verify HEAD > /dev/null; then
+  if git diff-index --cached --quiet HEAD || [ "$(git log -1 --format=%s HEAD)" = "$MSG" ]; then
+    adds_line HEAD: git diff-tree -p -U0 "$(git rev-parse -q --verify 'HEAD^' || echo "$EMPTY")" HEAD &&
+      exit 0
+  fi
+fi
+echo "commit-msg: a feat or fix commit adds a line under ## [Unreleased] in $CHANGELOG." >&2
+echo "  Stage that line with the change, or set REQUIRE_CHANGELOG=no at the top of this hook." >&2
+exit 1

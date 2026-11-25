@@ -14,6 +14,13 @@ versions follow SemVer.
   commit and push settings do. The defaults are unchanged. Claude Code has no switch for one
   plugin's hooks, so before this a project could turn these guards off only by disabling the
   plugin.
+- Appendix Q, a git `commit-msg` hook. It checks each commit's subject against the commit style,
+  Conventional Commits by default, and that a `feat` or `fix` commit adds a line under
+  `## [Unreleased]` in the changelog. Git runs it on every commit in the clone, so it catches
+  human commits too, which a Claude Code hook can't. Its settings, including turning off the
+  changelog check, sit at the top of the script. §6 and §8 point to it, and the plugin ships it
+  beside the scaffold's templates with `plugin/scripts/tests/commit-msg.sh` to check it. The
+  appendix range is now A–Q.
 
 ### Changed
 - The README is rewritten for a first-time reader: the problem Minnel solves, a quick start with

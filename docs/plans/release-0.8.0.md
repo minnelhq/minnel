@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stages 1–2 done; Stage 3 of 6 next.
+**Status:** Stages 1–3 done; Stage 4 of 6 next.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -59,11 +59,11 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   reported as unchecked); `claude plugin validate plugin` and `claude plugin validate .` pass;
   Check E passes for all three Appendix C pairs; removing either setting fails a test.
 
-## Stage 3 — Appendix Q, a `commit-msg` hook   [todo]
-- [ ] Add Appendix Q to `docs/appendices/hooks.md` with the `add-section` skill, so every
+## Stage 3 — Appendix Q, a `commit-msg` hook   [done]
+- [x] Add Appendix Q to `docs/appendices/hooks.md` with the `add-section` skill, so every
       "A–P" range becomes "A–Q": this repo's `CLAUDE.md`, the Definition of Done,
       `CONTRIBUTING.md`, `docs/appendices/README.md`, the methodology and `docs/plugin.md`.
-- [ ] The hook script, shipped as `plugin/skills/scaffold/templates/commit-msg` and paired whole
+- [x] The hook script, shipped as `plugin/skills/scaffold/templates/commit-msg` and paired whole
       with Appendix Q's fenced block in Check E. Settings at its top: the subject pattern
       (Conventional Commits by default), the `CHANGELOG` path, and `REQUIRE_CHANGELOG` (yes or
       no).
@@ -74,10 +74,10 @@ bootstrap has something to offer. The bootstrap comes last of the features.
         inside the changelog's Unreleased section. A missing changelog file fails with a message
         naming the setting.
       - `git commit --amend` passes when the commit being amended already made that change.
-- [ ] `plugin/scripts/tests/commit-msg.sh` drives the hook in throwaway repos, one case per rule
+- [x] `plugin/scripts/tests/commit-msg.sh` drives the hook in throwaway repos, one case per rule
       above. Add it to `.github/workflows/guards.yml`, the Definition of Done's plugin item and
       `CONTRIBUTING.md`'s "Checks".
-- [ ] Docs: §6 explains that a git hook also catches human commits, while a Claude Code hook sees
+- [x] Docs: §6 explains that a git hook also catches human commits, while a Claude Code hook sees
       only Claude's calls, and points to Appendix Q. §8 gets one sentence on the changelog check.
       Appendix Q says how it sits with the git guard: the guard decides before the call, the hook
       checks the message after, and `--no-verify` bypasses the hook. Add a `docs/plugin.md`
@@ -157,6 +157,19 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   name only `disableAllHooks` and disabling the plugin, so nothing was added beside the settings.
   The guards now read their settings before the tool call, and the bash guard's `allow` skips its
   checks. The git guard's ask reason now names staging, since staging can ask too.
+
+- 2026-11-25, Stage 3:
+  - The Unreleased setting is the heading's literal start, matched with awk's `index()`. A
+    regular expression passed with `awk -v` loses its backslashes, so `\[` became a bracket
+    expression and matched nothing.
+  - The hook diffs with `git diff-index` and `git diff-tree`, not `git diff --no-color`. Plumbing
+    ignores colour and external-diff settings, and Check B flags the US spelling inside the
+    appendix's fence.
+  - `all-awks.sh` runs `commit-msg.sh` as well as `guards.sh`, so one command covers both, and
+    the guards CI workflow runs it too.
+  - An amend is accepted when the index matches the amended commit or keeps its subject. An amend
+    that rewords and adds a change needs a line of its own, which the tests record as an accepted
+    miss.
 
 ## Decisions
 - 2026-11-25 — The `commit-msg` hook gets its own Appendix Q in `hooks.md`, not a part of
