@@ -10,8 +10,10 @@
 #      list flags the unambiguous American forms;
 #   C) broken intra-repo links — a [text](path) whose target file does not exist,
 #      resolved relative to the edited file (fenced code blocks are skipped);
-#   D) British DD/MM/YYYY dates — the repo's date format is ISO YYYY-MM-DD, so a
-#      dd/mm/yyyy date is a regression (fenced code blocks skipped, as for C);
+#   D) non-ISO dates — the repo's date format is ISO YYYY-MM-DD, so a numeric
+#      d/m/y or m/d/y date, a slashed or unpadded y/m/d date, a written date
+#      and, on a "Last updated" line, a dotted date or a month and year are
+#      flagged (fenced code blocks skipped, as for C);
 #   E) appendix–plugin drift — each artefact the plugin ships also appears in an
 #      appendix (or templates/), and the two copies must match once the intended
 #      differences in the PAIRS table are normalised away; and
@@ -24,11 +26,11 @@
 # feedback. Exit 0 when the file is clean or out of scope.
 #
 # Scope: docs/**/*.md (except gitignored files and docs/plans/), README.md,
-# CHANGELOG.md, templates/*.md. Check E also runs on edits under plugin/ (any file
-# type), and only Check E runs there. Out: .claude/** (quoted config and tool names
-# trip the spelling list), docs/plans/ (plans and meta-docs legitimately discuss
-# references that don't resolve yet), LICENSE/NOTICE (intentionally American),
-# non-Markdown.
+# CONTRIBUTING.md, CHANGELOG.md, templates/*.md. Check E also runs on edits
+# under plugin/ (any file type), and only Check E runs there. Out: .claude/**
+# (quoted config and tool names trip the spelling list), docs/plans/ (plans and
+# meta-docs legitimately discuss references that don't resolve yet),
+# LICENSE/NOTICE (intentionally American), non-Markdown.
 #
 # Known limitations: (1) runs per-file — a single batch that adds "## 11." to
 # methodology.md *and* a §11 reference elsewhere may flag the reference until
@@ -161,7 +163,7 @@ case "$REL" in
   docs/plans/*) exit 0 ;;        # plans/meta-docs legitimately discuss refs that don't resolve yet
 esac
 case "$REL" in
-  docs/*|README.md|CHANGELOG.md|templates/*) ;;
+  docs/*|README.md|CONTRIBUTING.md|CHANGELOG.md|templates/*) ;;
   *) exit 0 ;;
 esac
 
@@ -236,17 +238,36 @@ done <<EOF
 $c_hits
 EOF
 
-# --- Check D: dates are ISO YYYY-MM-DD, not British DD/MM/YYYY ---
-# The repo migrated from DD/MM/YYYY to ISO; a dd/mm/yyyy date in an in-scope file
-# is a regression. $stripped (from Check C) already blanks fenced code blocks, so
-# an illustrative DD/MM/YYYY inside a fence is not flagged. The pattern is
-# digits-only, so the literal "DD/MM/YYYY" format token (letters) never matches.
-d_hits=$(printf '%s\n' "$stripped" | grep -noE '[0-9]{2}/[0-9]{2}/[0-9]{4}' 2>/dev/null || true)
+# --- Check D: dates are ISO YYYY-MM-DD ---
+# Any other full date is ambiguous or off-style, so flag it:
+#   - numeric day-month-year or month-day-year: with slashes and a 2- or 4-digit
+#     year (5/11/2026, 25/11/26), or with hyphens and a 4-digit year (25-11-2026);
+#   - year-first with slashes (2026/11/25), or with hyphens and an unpadded
+#     month or day (2026-1-5);
+#   - written dates (25 November 2026, 25th Nov 2026, Nov 25, 2026);
+#   - on a "Last updated" line, a dotted date or a month and year (25.11.2026,
+#     November 2026).
+# A bare month and year in prose ("June 2026") is not a full date and passes.
+# Dotted dates are flagged only on "Last updated" lines, since a version such as
+# 0.7.10 reads as one; hyphenated numbers need a 4-digit year, so a range such as
+# 10-12-14 passes. The numeric patterns are bounded so they don't match inside an
+# ISO date, a version or a path. Known limits: month names are case-sensitive,
+# and of two dates on one line only the first is reported. $stripped (from
+# Check C) blanks fenced code blocks, and the patterns are digits and month names
+# only, so the "DD/MM/YYYY" format token never matches.
+d_months='January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec'
+d_re="(^|[^0-9A-Za-z.:/-])[0-9]{1,2}(/[0-9]{1,2}/([0-9]{4}|[0-9]{2})|-[0-9]{1,2}-[0-9]{4})(\$|[^0-9A-Za-z/-])"
+d_re="${d_re}|(^|[^0-9A-Za-z.:/-])[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}(\$|[^0-9/])"
+d_re="${d_re}|(^|[^0-9A-Za-z.:/-])[0-9]{4}-([0-9]-[0-9]{1,2}|[0-9]{2}-[0-9])(\$|[^0-9])"
+d_re="${d_re}|(^|[^0-9A-Za-z])[0-9]{1,2}(st|nd|rd|th)? (${d_months})\.?,? [0-9]{4}"
+d_re="${d_re}|(^|[^A-Za-z])(${d_months})\.? [0-9]{1,2}(st|nd|rd|th)?,? [0-9]{4}"
+d_re="${d_re}|Last updated ([0-9]{1,2}\.[0-9]{1,2}\.([0-9]{4}|[0-9]{2})(\$|[^0-9])|(${d_months})\.?,? [0-9]{4})"
+d_hits=$(printf '%s\n' "$stripped" | grep -noE "$d_re" 2>/dev/null || true)
 while IFS= read -r hit; do
   [ -n "$hit" ] || continue
   ln=${hit%%:*}
-  date=${hit#*:}
-  findings="${findings}  British date '${date}' — use ISO YYYY-MM-DD (line ${ln})\n"
+  date=$(printf '%s' "${hit#*:}" | sed -e 's/^Last updated //' -e 's/^[^0-9A-Za-z]*//' -e 's/[^0-9A-Za-z]*$//')
+  findings="${findings}  non-ISO date '${date}' — use YYYY-MM-DD (line ${ln})\n"
 done <<EOF
 $d_hits
 EOF

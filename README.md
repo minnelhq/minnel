@@ -1,102 +1,73 @@
-# Minnel: a file-first operating model for Claude Code
+# Minnel
 
-Written for experienced solo developers and small teams, it treats the harness,
-[Claude Code](https://code.claude.com/docs/en/overview)'s settings, subagents, hooks and commands,
-as an engineered environment: the discipline lives in
-what you persist to files and what you enforce deterministically, not in clever prompting.
+A file-first way of working with [Claude Code](https://code.claude.com/docs/en/overview), for
+experienced solo developers and small teams.
 
-Adopted, it keeps a plan alive through session restarts and through compaction, when Claude Code
-summarises a long conversation to free context. It also makes the rules that matter hold without
-the model having to remember them. Each piece comes with the reasoning behind it, and the drop-in
-artefacts can be adopted one at a time.
+Long Claude Code sessions lose things. Compaction, which summarises a long conversation to free
+context, can drop the plan. A restart forgets what was decided, and a rule in `CLAUDE.md` holds
+only while the model remembers it. Minnel answers with two habits. What must survive goes in
+files: the plan, the decisions, the backlog and the changelog. What must hold is checked by hooks,
+which don't depend on the model remembering, and by a review subagent before merge.
 
-## What's here
+## Quick start
 
-- `docs/methodology.md` — the full reference: context architecture, the work loop,
-  plan/status persistence, subagents, the model/mode matrix, hooks, sessions/concurrency
-  and git hygiene, skills and commands, solo product discipline (backlog, changelog,
-  Definition of Done, retro), and a security stance (least privilege, prompt-injection and
-  plugin/MCP trust).
-- `docs/appendices/` — the sixteen drop-in artefacts (subagents, hooks, document skeletons, the
-  example skill and the ritual commands; Appendices A–P), grouped by type. See its `README.md` index.
-- `docs/plugin.md` — how to install the plugin, how to package your own, and why a plugin is the
-  natural endpoint.
-- `docs/worked-example.md` — one real task (adding a link-resolution check) traced through the
-  loop, end to end.
-- `templates/CLAUDE.template.md` — a lean starter `CLAUDE.md`, with default conventions to keep or
-  replace.
-- `plugin/` — the methodology as an installable Claude Code plugin: the two subagents, the
-  guards, the six rituals as skills, and a `/minnel:scaffold` skill that writes the project files.
-  `.claude-plugin/marketplace.json` at the root lists it.
-- `.claude/` — the methodology running live, tuned for this docs project (see *Dogfooding*):
-  - settings that enable the plugin, so its six rituals (`/minnel:plan`, `/minnel:accept`,
-    `/minnel:retro`, `/minnel:release`, `/minnel:wrap`, `/minnel:triage`), its guards and the
-    `minnel:code-reviewer` subagent (a task-scoped helper with its own context) run here as they
-    would for an adopter;
-  - the Definition of Done rule, the bar a change must clear;
-  - a `PostToolUse` consistency hook, a script Claude Code runs after each edit. It flags dangling
-    §/appendix references, broken intra-repo links, US spellings, `DD/MM/YYYY` dates, a "Last
-    updated" date older than today, and drift between an appendix and the plugin file it ships as;
-  - an `add-section` skill, for the section/appendix cross-reference ripple.
+The guards need `jq`. On Claude Code 2.1.292 or later, install the plugin:
 
-## Using it
-
-1. Read `docs/methodology.md`.
-2. Drop `templates/CLAUDE.template.md` into a project as `CLAUDE.md` and fill it in.
-3. Adopt the loop, the file layout (`docs/plans/`, `docs/design/`, `CHANGELOG.md`) and the
-   appendix artefacts (subagents, hooks, skills, commands) as they earn their place, not
-   all at once.
-
-To skip the copying, install the plugin instead (see "Install this plugin" in `docs/plugin.md`).
-Its `/minnel:scaffold` writes the `CLAUDE.md` template and the file layout into a project for you.
-
-## Reading it as a site
-
-The docs are published as a site at <https://minnelhq.github.io/minnel/>, built with
-[Zensical](https://zensical.org/): the same Markdown, with search and navigation. To build it
-locally:
-
-```sh
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/zensical serve   # http://localhost:8000
+```bash
+claude plugin install minnel --marketplace minnelhq/minnel
 ```
 
-The site build is optional, never a prerequisite for reading or editing the Markdown (see
-`docs/design/0002-publish-as-doc-site.md` and `docs/design/0003-build-site-with-zensical.md`).
-CI builds and checks the site on every pull request and every push to `main`, and each push to
-`main` also publishes it to GitHub Pages (`docs/design/0005-deploy-the-site-on-push.md`). The site
-follows `main`, so it can show changes that no release includes yet. It draws the methodology's
-diagrams with a pinned mermaid.js kept under `docs/assets/vendor/`, not one fetched from a CDN
-(`docs/design/0006-self-host-mermaid.md`).
+Then, in a project, run `/minnel:scaffold` and fill in the placeholders it reports, starting with
+the build and test commands. [Install this plugin](docs/plugin.md#install-this-plugin) covers
+older versions, install scopes and updates.
 
-## Dogfooding
+## What you get
 
-This repository is built using the methodology it documents. The work here gets done through
-the lean root `CLAUDE.md`, the docs under `docs/`, the curated root `CHANGELOG.md`, the plugin's
-rituals, guards and reviewer, and the contents of `.claude/`.
+- **Project files**, written by the scaffold: a lean `CLAUDE.md`, a Definition of Done,
+  `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any that exist.
+- **Six rituals**, which only you start:
+  - `/minnel:plan` explores read-only and proposes a plan;
+  - `/minnel:accept` checks the diff against the Definition of Done;
+  - `/minnel:wrap` closes a session with the records current;
+  - `/minnel:retro` proposes configuration changes and prunings;
+  - `/minnel:triage` reorders the backlog and shows the roadmap;
+  - `/minnel:release` drafts changelog entries, then tags and publishes a merged release.
+- **Three guards** that catch slips such as a forced recursive `rm`, a force push or blanket
+  staging. By default the git guard also asks before each `git push`.
+- **Two subagents**: `minnel:code-reviewer`, which reviews a branch before merge, and
+  `minnel:test-writer`, which writes behaviour-driven tests.
 
-They are tuned to a documentation project. The Markdown source has no build or test step, and the
-doc site is an optional publish build. Verification of the Markdown rests on British English and
-the internal-consistency invariant (§ cross-references and appendix letters A–P), enforced by the
-`PostToolUse` consistency hook and review rather than a test suite. The plugin adds
-`plugin/scripts/tests/guards.sh` and `claude plugin validate`. That tuning doubles as a
-worked example: it adapts the appendix drop-ins to a real repo rather than pasting them verbatim.
-The plugin's rituals, guards and reviewer are the exception. This repo runs them unchanged, and
-the project detail they need comes from `CLAUDE.md` and the Definition of Done, as it would for an
-adopter. The settings install the plugin from GitHub's `main`, but a merged edit to `plugin/`
-reaches this repo only after a release raises the plugin's version and the install is updated
-("Install this plugin" in `docs/plugin.md`). To try an edit before then, start Claude Code with
-`claude --plugin-dir ./plugin`.
+## Without the plugin
+
+Every piece is also a drop-in file. Copy the [starter template](templates/CLAUDE.template.md)
+into a project as `CLAUDE.md`, then adopt the [appendix artefacts](docs/appendices/README.md) one
+at a time as they earn their place.
+
+## Read more
+
+- [The methodology](docs/methodology.md): what each piece is for, and why.
+- [Worked example](docs/worked-example.md): one real task traced end to end.
+- [Minnel as a plugin](docs/plugin.md): installing, updating and packaging your own.
+
+The same docs are on [the site](https://minnelhq.github.io/minnel/), with search. It follows
+`main`, so it can show changes no release includes yet.
 
 ## Status
 
-I maintain Minnel, and `CHANGELOG.md` lists each release. I started it in June 2026 and run it on
-my own projects. I'm its only adopter so far, so it has had no outside feedback yet, and it may be
-too rigid to suit everyone. Minnel comes two ways: the documents give the practices and the
-reasoning behind them, and the plugin (`plugin/`) installs the artefacts they describe.
+Minnel is pre-1.0 (see the [changelog](CHANGELOG.md)), so a minor release can change how things
+work. I started it in June 2026 and run it on my own projects. It has had no outside adopters or
+feedback yet, and it may be too rigid to suit everyone.
+
+## This repository
+
+Minnel is developed with Minnel. The repo runs the plugin unchanged, with its own
+[Definition of Done](.claude/rules/definition-of-done.md) and a
+[consistency hook](.claude/hooks/docs-consistency.sh) tuned to a documentation project: a working
+example of adapting the artefacts. [`CONTRIBUTING.md`](CONTRIBUTING.md) has the checks and the
+site build.
 
 ## Licence
 
-[Apache-2.0](LICENSE). Permissive: use, modify and redistribute freely, including
-commercially. The licence grants no rights to the project's name or marks (`LICENSE` §6) and
-carries an explicit patent grant (§3).
+[Apache-2.0](LICENSE): use, modify and redistribute freely, including commercially. The licence
+grants no rights to the project's name or marks (`LICENSE` §6) and carries an explicit patent
+grant (§3).

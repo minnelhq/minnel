@@ -1,32 +1,36 @@
-# Minnel: a file-first operating model for Claude Code
+# Minnel
 
-A discipline for driving Claude Code. It treats the harness, its settings,
-subagents, hooks and commands, as an engineered environment: the discipline lives in what you
-persist to files and what you enforce deterministically, not in clever prompting. Written
-for experienced solo developers and small teams.
+A file-first way of working with [Claude Code](https://code.claude.com/docs/en/overview), for
+experienced solo developers and small teams.
 
-## Start here
+Long Claude Code sessions lose things. Compaction, which summarises a long conversation to free
+context, can drop the plan. A restart forgets what was decided, and a rule in `CLAUDE.md` holds
+only while the model remembers it. Minnel answers with two habits. What must survive goes in
+files: the plan, the decisions, the backlog and the changelog. What must hold is checked by hooks,
+which don't depend on the model remembering, and by a review subagent before merge.
 
-- **[The methodology](methodology.md)** — the full reference: context architecture, the work
-  loop, plan and status persistence, subagents, the model/mode matrix, hooks for edit-time checks,
-  sessions and git hygiene, skills and commands, solo product discipline, and a security stance.
-- **[Worked example](worked-example.md)** — one real task traced end to end through the loop.
-- **[Appendices](appendices/README.md)** — the drop-in artefacts: subagents, hooks, document
-  skeletons, the example skill, and the ritual commands.
-- **[Minnel as a plugin](plugin.md)** — how to install the methodology as a Claude Code
-  plugin, how to package your own, and why that is the endpoint.
+## Quick start
 
-## Using it
+The guards need `jq`. On Claude Code 2.1.292 or later, install the plugin:
 
-1. Read [the methodology](methodology.md).
-2. Drop the [starter `CLAUDE.md` template](https://github.com/minnelhq/minnel/blob/main/templates/CLAUDE.template.md) into a project and
-   fill it in.
-3. Adopt the loop, the file layout, and the appendix artefacts as they earn their place, not
-   all at once.
+```bash
+claude plugin install minnel --marketplace minnelhq/minnel
+```
 
-Or install the plugin and let its `/minnel:scaffold` write the template and file layout for
-you: see [Minnel as a plugin](plugin.md#install-this-plugin).
+Then, in a project, run `/minnel:scaffold` and fill in the placeholders it reports, starting with
+the build and test commands. [Install this plugin](plugin.md#install-this-plugin) covers older
+versions, install scopes and updates.
 
-The source is plain Markdown, readable on its own; this site renders it. It is licensed
-Apache-2.0: free to use, modify and redistribute, including commercially. The
-[changelog](https://github.com/minnelhq/minnel/blob/main/CHANGELOG.md) lists each release.
+## Read more
+
+- [The methodology](methodology.md): what each piece is for, and why.
+- [Worked example](worked-example.md): one real task traced end to end.
+- [Appendices](appendices/README.md): the drop-in artefacts, for adopting Minnel without the
+  plugin.
+- [Minnel as a plugin](plugin.md): what the plugin installs, and how to update it or package your
+  own.
+
+This site follows `main`, so it can show changes no release includes yet. The source is on
+[GitHub](https://github.com/minnelhq/minnel), with the
+[changelog](https://github.com/minnelhq/minnel/blob/main/CHANGELOG.md), and is licensed
+Apache-2.0.

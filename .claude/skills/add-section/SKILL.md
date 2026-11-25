@@ -32,17 +32,17 @@ stale count ("sixteen") or range ("A–P"), so those are on you.
    ```bash
    git grep -nE 'A–[A-Z]|J–[A-Z]|[0-9]+ drop-in|[Ff]ifteen|[Ss]ixteen|[Ss]eventeen|([Ff]ive|[Ss]ix|[Ss]even) (ritual|skill)' -- '*.md' ':!docs/plans/archive'
    ```
-   Usual carriers: `README.md` (the count, the invariant mention, the What's-here entry),
-   `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the appendices pointer at the end of
-   `docs/methodology.md`, `.claude/rules/definition-of-done.md`, and the reviewer's
-   `.claude/agent-memory/minnel-code-reviewer/project-repo-shape.md`. A new ritual also
-   lands in lists that name the rituals without counting them, which the grep misses: both
-   plugin manifests' descriptions, `plugin/README.md`, and `docs/plugin.md`'s intro, install
+   Usual carriers: `README.md` ("What you get": the ritual count and the named ritual list, and
+   the guard and subagent counts), `CLAUDE.md` (Layout + the invariant), `CHANGELOG.md`, the
+   appendices pointer at the end of `docs/methodology.md`, `.claude/rules/definition-of-done.md`,
+   and the reviewer's `.claude/agent-memory/minnel-code-reviewer/project-repo-shape.md`. A new
+   ritual also lands in lists that name the rituals without counting them, which the grep misses:
+   both plugin manifests' descriptions, `plugin/README.md`, and `docs/plugin.md`'s intro, install
    steps, tree and table.
 3. **Add a `CHANGELOG.md` `[Unreleased]` line** if the change is user-facing (most are).
 4. **Run the consistency hook** on every edited *in-scope* Markdown file (`docs/` except
-   gitignored files and `docs/plans/`, plus `README.md`, `CHANGELOG.md`, `templates/`; it no-ops on
-   `.claude/`) — confirms no dangling reference:
+   gitignored files and `docs/plans/`, plus `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`,
+   `templates/`; it no-ops on `.claude/`) — confirms no dangling reference:
    ```bash
    printf '{"tool_input":{"file_path":"%s"}}' "$PWD/<file>" \
      | CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/docs-consistency.sh; echo "exit=$?"
