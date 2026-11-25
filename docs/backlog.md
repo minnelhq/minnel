@@ -13,11 +13,22 @@ ISO YYYY-MM-DD.
 
 ## Next
 
+### 0.9.0
+- Block `git commit --no-verify` in a guard — feat · value M · effort L — why now: the
+  Appendix Q `commit-msg` hook is a tripwire Claude can step over with `--no-verify`. A guard rule
+  for it would close that gap for Claude's commits while people keep the escape hatch. Decide the
+  home first: the git guard already parses `git commit` segments and blocks `-a`, while the bash
+  guard (`MINNEL_BASH_GUARD`) holds the destructive commands. Consider `git push --no-verify`
+  too, which skips pre-push hooks.
+- A line-length check in the consistency hook — feat · value L · effort L — why now: in the 0.8.0
+  review the reviewer caught spliced over-long lines twice (`plugin/README.md`, then
+  `CHANGELOG.md`), left by swapping a sentence in a hard-wrapped file without reflowing it. The
+  house-voice self-test names the defect, but nothing checks it. Flag any line over 100 columns
+  in the hard-wrapped files: `CHANGELOG.md`, `plugin/README.md`, `CONTRIBUTING.md`, plans and the
+  backlog. The narrative docs keep one paragraph per line, so they stay out of scope.
+
 ### Unscheduled
-- Block `git commit --no-verify` in the bash guard — feat · value M · effort L — why now: the
-  Appendix Q `commit-msg` hook is a tripwire Claude can step over with `--no-verify`. A
-  `bash-guard` rule for it, under `MINNEL_BASH_GUARD` like the others, would close that gap for
-  Claude's commits while people keep the escape hatch.
+- (none)
 
 ## Later / maybe
 - (none)
