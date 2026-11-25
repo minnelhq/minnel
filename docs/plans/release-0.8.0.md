@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stage 1 done; Stage 2 of 6 next.
+**Status:** Stages 1–2 done; Stage 3 of 6 next.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -38,20 +38,20 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 - Acceptance: Check E passes for Appendix M; `git grep -n 'in place of the unreleased'` finds
   nothing outside `docs/plans/archive`; Appendix H and §8 don't contradict the new wording.
 
-## Stage 2 — Settings for every guard   [todo]
-- [ ] Recheck the Claude Code hooks and plugin docs for a way to turn off one plugin's hooks (the
+## Stage 2 — Settings for every guard   [done]
+- [x] Recheck the Claude Code hooks and plugin docs for a way to turn off one plugin's hooks (the
       backlog last checked on 2026-11-23). If one exists, document it beside the settings.
-- [ ] `git-guard.sh`: the blanket-staging and `commit -a` blocks read a `STAGING` decision
+- [x] `git-guard.sh`: the blanket-staging and `commit -a` blocks read a `STAGING` decision
       (default `block`), with `MINNEL_GIT_GUARD_STAGING` overriding it inside the plugin
       settings block. Reuse `strictest()` and the existing ask JSON.
-- [ ] `bash-guard.sh`: its `block()` honours a `BASH_GUARD` decision (default `block`), with
+- [x] `bash-guard.sh`: its `block()` honours a `BASH_GUARD` decision (default `block`), with
       `MINNEL_BASH_GUARD` in a new `# Plugin settings:` block. An unknown value counts as block,
       as in the git guard.
-- [ ] Appendix C copies take the same logic with the defaults hard-coded; add
+- [x] Appendix C copies take the same logic with the defaults hard-coded; add
       `drop_plugin_settings` to the bash-guard pair in `.claude/hooks/docs-consistency.sh`.
-- [ ] `plugin/scripts/tests/guards.sh`: unset the new variables at the top; `check` cases for
+- [x] `plugin/scripts/tests/guards.sh`: unset the new variables at the top; `check` cases for
       allow, ask, block and an unknown value on each setting.
-- [ ] Docs: `docs/plugin.md` (the guards paragraph), §9's git-guard sentence, `plugin/README.md`,
+- [x] Docs: `docs/plugin.md` (the guards paragraph), §9's git-guard sentence, `plugin/README.md`,
       the README's "Three guards" entry in "What you get", `docs/appendices/hooks.md` intro, an
       amendment to ADR 0004's "Guards on by default". `CHANGELOG.md` Added; trim the backlog
       item to what Stage 4 still owes.
@@ -153,7 +153,10 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 ---
 
 ## Deviations
-(none yet)
+- 2026-11-25, Stage 2: Claude Code 2.1.331 still has no switch for one plugin's hooks. Its docs
+  name only `disableAllHooks` and disabling the plugin, so nothing was added beside the settings.
+  The guards now read their settings before the tool call, and the bash guard's `allow` skips its
+  checks. The git guard's ask reason now names staging, since staging can ask too.
 
 ## Decisions
 - 2026-11-25 — The `commit-msg` hook gets its own Appendix Q in `hooks.md`, not a part of
@@ -163,3 +166,6 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   ADR 0004 keeps the guards on.
 - 2026-11-25 — The hook installs through `.githooks/` and `core.hooksPath`, which the adopter
   sets, because the scaffold shouldn't change git config unasked.
+- 2026-11-25 — Guard settings stay in the project's `env`, not a plugin `userConfig` option,
+  because `userConfig` values are stored in `pluginConfigs` at user or managed scope, while a
+  setting such as pushes is a per-project choice.

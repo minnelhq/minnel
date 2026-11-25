@@ -33,7 +33,8 @@ older versions, install scopes and updates.
   - `/minnel:triage` reorders the backlog and shows the roadmap;
   - `/minnel:release` drafts changelog entries, then tags and publishes a merged release.
 - **Three guards** that catch slips such as a forced recursive `rm`, a force push or blanket
-  staging. By default the git guard also asks before each `git push`.
+  staging. By default the git guard also asks before each `git push`. A project can set what
+  the bash and git guards do to allow, ask or block.
 - **Two subagents**: `minnel:code-reviewer`, which reviews a branch before merge, and
   `minnel:test-writer`, which writes behaviour-driven tests.
 

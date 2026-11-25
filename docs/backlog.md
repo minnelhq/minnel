@@ -20,11 +20,9 @@ ISO YYYY-MM-DD.
   where the active-plan pointer lives and the review gate, then fill the `CLAUDE.md` Conventions
   block, the Definition of Done, `CHANGELOG.md` and `docs/backlog.md`. It answers the
   configurable-preferences stance, and the `commit-msg` hook and the guards' default build on it.
-- Revisit the guards' default — feat · value M · effort L — why now: the plugin ships the guards on.
-  The git guard now lets commits through and asks before a push, with a per-project setting for
-  each, but `bash-guard` and the blanket-staging block have no setting. Have the bootstrap offer the
-  guards and their settings. The hooks docs give no way to turn off one plugin's hooks: only
-  `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
+- Have the bootstrap offer the guards' settings — feat · value M · effort L — why now: every bash
+  and git guard now takes allow, ask or block per project, but an adopter has to find the four
+  `env` names. The bootstrap should ask for each and write the non-default ones.
 - Say how to enforce a stated convention, not only state it — feat · value M · effort M — why now: a
   `CLAUDE.md` line is advisory; describe a git `commit-msg` hook that validates the project's stated
   commit style (which the bootstrap records; Conventional Commits by default). It catches human

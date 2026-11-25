@@ -47,8 +47,12 @@ Ship the plugin, **Minnel**, from this repository.
   `MINNEL_GIT_GUARD_PUSHES` to `allow`, `ask` or `block` in its `.claude/settings.json` `env` to
   change either. (Amended: the guard first blocked both, with `MINNEL_GIT_GUARD_COMMITS=0` to
   turn both off. Blocking stopped commits and pushes the user had asked for. A commit stays local,
-  so it now passes; a push still waits for the user's approval.) The block on blanket staging
-  (`git add -A`, `--all`, `.`, `git commit -a`) can't be turned off.
+  so it now passes; a push still waits for the user's approval.) The guard blocks blanket staging
+  (`git add -A`, `--all`, `.`, `git commit -a`). (Amended in 0.8.0: that block could not be
+  turned off, and neither could the bash guard. `MINNEL_GIT_GUARD_STAGING` and
+  `MINNEL_BASH_GUARD` now take the same three values, because Claude Code has no switch for one
+  plugin's hooks, so a project could relax a guard only by disabling the whole plugin. The
+  defaults are unchanged.)
 - **Version.** `plugin.json` has no `version` until the release that first ships the plugin. That
   release sets it to the CHANGELOG version, and the two stay equal after that.
 

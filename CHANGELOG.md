@@ -8,6 +8,12 @@ versions follow SemVer.
 ### Added
 - `CONTRIBUTING.md` covers how this repository uses Minnel, the checks a change runs and how to
   build the doc site locally.
+- Every bash and git guard in the plugin can be relaxed per project. `MINNEL_GIT_GUARD_STAGING`
+  covers the block on blanket staging and `git commit -a`, and `MINNEL_BASH_GUARD` covers the
+  bash guard. Each takes `allow`, `ask` or `block` under `env` in `.claude/settings.json`, as the
+  commit and push settings do. The defaults are unchanged. Claude Code has no switch for one
+  plugin's hooks, so before this a project could turn these guards off only by disabling the
+  plugin.
 
 ### Changed
 - The README is rewritten for a first-time reader: the problem Minnel solves, a quick start with
