@@ -17,9 +17,10 @@ The guards need `jq`. On Claude Code 2.1.292 or later, install the plugin:
 claude plugin install minnel --marketplace minnelhq/minnel
 ```
 
-Then, in a project, run `/minnel:scaffold` and fill in the placeholders it reports, starting with
-the build and test commands. [Install this plugin](plugin.md#install-this-plugin) covers older
-versions, install scopes and updates.
+Then, in a project, run `/minnel:scaffold`. It asks for the project's conventions, fills in the
+project files with them, and reports what's left to fill, starting with the invariants.
+[Install this plugin](plugin.md#install-this-plugin) covers older versions, install scopes and
+updates.
 
 ## Read more
 

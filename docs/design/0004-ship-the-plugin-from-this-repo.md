@@ -41,6 +41,8 @@ Ship the plugin, **Minnel**, from this repository.
 - **Project files by scaffold.** What a plugin can't ship (`CLAUDE.md`, the Definition of Done
   rule, the plan, backlog, ADR and changelog skeletons) is written into the project by
   `/minnel:scaffold`, which skips any file that already exists unless the user names it.
+  (Amended in 0.8.0: the scaffold first asks for the project's conventions and fills the files
+  with them, and can write guard settings and install the Appendix Q `commit-msg` hook.)
 - **Guards on by default.** The bash and git guards from Appendix C, and the test-directory guard
   for `test-writer`, run in every project that installs the plugin. The git guard lets commits
   through and asks before a push; a project sets `MINNEL_GIT_GUARD_COMMITS` or

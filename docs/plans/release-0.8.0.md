@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stages 1–3 done; Stage 4 of 6 next.
+**Status:** Stages 1–4 done; Stage 5 of 6 next. Pending: an interactive check of the scaffold's writes under `.claude/`.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -86,8 +86,8 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   removed; Check E passes for the Q pair; the consistency hook finds no dangling §N or letter;
   `zensical build --strict` passes.
 
-## Stage 4 — `/minnel:scaffold` becomes a bootstrap   [todo]
-- [ ] Rewrite `plugin/skills/scaffold/SKILL.md`, keeping `disable-model-invocation: true` and the
+## Stage 4 — `/minnel:scaffold` becomes a bootstrap   [done]
+- [x] Rewrite `plugin/skills/scaffold/SKILL.md`, keeping `disable-model-invocation: true` and the
       `$ARGUMENTS` overwrite list:
   1. Check which project paths exist, as now.
   2. Read what the project already shows to propose answers:
@@ -118,8 +118,8 @@ bootstrap has something to offer. The bootstrap comes last of the features.
      already set, copy it there instead. Otherwise give the `git config core.hooksPath .githooks`
      command and say that it replaces `.git/hooks`.
   7. Report file by file what was written, skipped and left to fill.
-- [ ] Templates stay as they are: Check E pairs them with Appendices D–H and the root template.
-- [ ] Docs:
+- [x] Templates stay as they are: Check E pairs them with Appendices D–H and the root template.
+- [x] Docs:
   - `docs/plugin.md`: "Install this plugin" steps 1–2.
   - `README.md`: the quick start's "fill in the placeholders it reports" line and the "Project
     files" entry.
@@ -170,6 +170,19 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   - An amend is accepted when the index matches the amended commit or keeps its subject. An amend
     that rewords and adds a change needs a line of its own, which the tests record as an accepted
     miss.
+- 2026-11-25, Stage 4:
+  - Tried headless with `claude -p` and `--plugin-dir` in two throwaway repositories: one with
+    the defaults, one with an existing `CLAUDE.md`, two guards changed and the hook asked for.
+    Both runs proposed answers from the manifests, `git log` and `.gitignore`. They filled what
+    the answers covered and left the existing `CLAUDE.md` untouched. The hook landed executable
+    and refused a bad subject and a `feat` with no changelog. Headless runs can't approve writes
+    under `.claude/`. So the Definition of Done file and the `env` block in `.claude/settings.json`
+    (proposed correctly as the two changed guards) still need one interactive run.
+  - The first trial found a global `core.hooksPath`, which the draft would have used as the
+    install directory, so the hook would have run in every repository. The skill now reads only
+    the repository's own setting and says a local one replaces the global one.
+  - The backlog's `### 0.8.0` heading went with its last items here, and the `--no-verify` item
+    went under Unscheduled, ahead of Stage 5.
 
 ## Decisions
 - 2026-11-25 — The `commit-msg` hook gets its own Appendix Q in `hooks.md`, not a part of

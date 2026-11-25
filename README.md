@@ -17,14 +17,17 @@ The guards need `jq`. On Claude Code 2.1.292 or later, install the plugin:
 claude plugin install minnel --marketplace minnelhq/minnel
 ```
 
-Then, in a project, run `/minnel:scaffold` and fill in the placeholders it reports, starting with
-the build and test commands. [Install this plugin](docs/plugin.md#install-this-plugin) covers
+Then, in a project, run `/minnel:scaffold`. It asks for the project's conventions, fills in the
+project files with them, and reports what's left to fill, starting with the invariants.
+[Install this plugin](docs/plugin.md#install-this-plugin) covers
 older versions, install scopes and updates.
 
 ## What you get
 
 - **Project files**, written by the scaffold: a lean `CLAUDE.md`, a Definition of Done,
-  `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`. It skips any that exist.
+  `docs/plans/`, `docs/backlog.md`, `docs/design/` and `CHANGELOG.md`, filled in with the
+  conventions it asks you for. It skips any that exist, and can install a `commit-msg` hook that
+  checks the commit style.
 - **Six rituals**, which only you start:
   - `/minnel:plan` explores read-only and proposes a plan;
   - `/minnel:accept` checks the diff against the Definition of Done;

@@ -23,6 +23,14 @@ versions follow SemVer.
   appendix range is now A–Q.
 
 ### Changed
+- `/minnel:scaffold` asks for the project's conventions before it writes the project files, and
+  fills them in. It reads what the project already shows (its manifests' commands, `git log`, an
+  existing changelog, a gitignored notes folder) and proposes an answer to each question in one
+  message. It asks about the commands, language and dates, commit style, changelog format,
+  private notes, the active-plan pointer, the review gate, each guard's setting and the
+  `commit-msg` hook. It writes changed guard settings to `.claude/settings.json` and installs the
+  hook on request, into the repository's own hooks directory, never a global one. Placeholders
+  it can't fill, such as the invariants, are still reported.
 - The README is rewritten for a first-time reader: the problem Minnel solves, a quick start with
   the plugin, what it installs, and links to the docs. The site's front page gets the same opening
   and quick start. The repository's own setup and the site build move to `CONTRIBUTING.md`.

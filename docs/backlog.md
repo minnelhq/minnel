@@ -13,16 +13,11 @@ ISO YYYY-MM-DD.
 
 ## Next
 
-### 0.8.0
-- Grow `/minnel:scaffold` into a bootstrap that asks for the adopter's conventions — feat · value H
-  · effort H — why now: the scaffold copies templates and leaves the placeholders; a bootstrap would
-  ask for language and spelling, date format, commit style, changelog format, private-notes path,
-  where the active-plan pointer lives and the review gate, then fill the `CLAUDE.md` Conventions
-  block, the Definition of Done, `CHANGELOG.md` and `docs/backlog.md`. It answers the
-  configurable-preferences stance, and the `commit-msg` hook and the guards' default build on it.
-- Have the bootstrap offer the guards' settings — feat · value M · effort L — why now: every bash
-  and git guard now takes allow, ask or block per project, but an adopter has to find the four
-  `env` names. The bootstrap should ask for each and write the non-default ones.
+### Unscheduled
+- Block `git commit --no-verify` in the bash guard — feat · value M · effort L — why now: the
+  Appendix Q `commit-msg` hook is a tripwire Claude can step over with `--no-verify`. A
+  `bash-guard` rule for it, under `MINNEL_BASH_GUARD` like the others, would close that gap for
+  Claude's commits while people keep the escape hatch.
 
 ## Later / maybe
 - (none)
