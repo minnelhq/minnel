@@ -24,7 +24,8 @@ appendix and its plugin file is a defect class like a dangling §N.
   [[feedback-plugin-review]].
 - **Counts of pairs.** Prefer prose with no PAIRS count; when prose states one, count the heredoc
   rows yourself (ADR 0004's first draft miscounted).
-- **"Has run here" claims** (plugin doc "Install this plugin", ADR 0004, README Dogfooding) must
+- **"Has run here" claims** (plugin doc "Install this plugin", ADR 0004, and the repo-setup text that was README Dogfooding until the
+  2026-11-25 rewrite moved it to `CONTRIBUTING.md`) must
   match what `.claude/settings.json` wires (`minnel@minnel` from GitHub since 2026-11-23), not
   what the plugin ships. The less-use list lives in the plugin doc and ADR 0004; a change to
   one strands the other.
