@@ -79,6 +79,19 @@ covers how to probe.
   broken fake awk first on PATH (exit 1), a PATH holding only `/usr/bin:/bin` plus a jq link (skips,
   exit 0), `CDPATH` set, and `kill -TERM` under dash (EXIT trap doesn't run, temp dir leaks).
 
+- **The Appendix Q `commit-msg` hook (`plugin/skills/scaffold/templates/commit-msg`; 2026-11-25
+  shape).** Probe it with real `git commit` runs in throwaway repos via `core.hooksPath`, under
+  `sh` and a `#!/bin/dash` copy, from a script written with the Write tool. Cases that showed
+  defects or gaps: a *new* commit reusing HEAD's subject (`fix: lint` twice) passes with no
+  changelog line, because the amend leg can't tell an amend from a new commit (git exports
+  `GIT_AUTHOR_DATE`, which an amend keeps from HEAD: observed on 2.54, a possible signal);
+  `git merge --squash`'s "Squashed commit of the following:" and a conflicted revert-of-revert's
+  `Reapply "…"` are git-written yet refused; `core.commentChar`; `-v` with an empty message;
+  `echo "$MSG"` under dash eats `\c`. `git revert`/`cherry-pick` don't run commit-msg at all, so
+  "every commit in the clone" over-claims. For the scaffold's install step, Husky v9 sets
+  `core.hooksPath` to the generated, gitignored `.husky/_` (read from husky 9.1.7's `index.js`),
+  so "copy into the directory core.hooksPath names" overwrites its stub.
+
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
 visible by executing edge cases.

@@ -114,9 +114,10 @@ bootstrap has something to offer. The bootstrap comes last of the features.
      that another format needs its own.
   5. Write non-default guard choices as `env` in `.claude/settings.json`. If that file exists,
      show the edit and apply it on approval.
-  6. When asked, copy the hook to `.githooks/commit-msg` (executable). If `core.hooksPath` is
-     already set, copy it there instead. Otherwise give the `git config core.hooksPath .githooks`
-     command and say that it replaces `.git/hooks`.
+  6. When asked, copy the hook to `.githooks/commit-msg` (executable). If the repository's own
+     `core.hooksPath` is set, copy it there instead, never into a global hooks directory.
+     Otherwise give the `git config core.hooksPath .githooks` command and say that it replaces
+     `.git/hooks`.
   7. Report file by file what was written, skipped and left to fill.
 - [x] Templates stay as they are: Check E pairs them with Appendices D–H and the root template.
 - [x] Docs:
