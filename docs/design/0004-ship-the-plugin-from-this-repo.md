@@ -1,6 +1,6 @@
 # ADR 0004 — Ship the methodology as a plugin from this repository
 
-**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin; raise the version only in the release commit); 2026-11-25 (settings for staging and the bash guard; the scaffold asks for conventions)
+**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin; raise the version only in the release commit); 2026-11-25 (settings for staging and the bash guard; the scaffold asks for conventions; the commit-msg tests)
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.

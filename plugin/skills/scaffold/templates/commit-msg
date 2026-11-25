@@ -13,16 +13,19 @@ REQUIRE_CHANGELOG=yes
 
 # The subject is the first line that is neither blank nor a comment, above any scissors line
 # that git commit -v adds. core.commentChar sets the comment character; "auto" counts as #.
-CC=$(git config core.commentChar 2>/dev/null)
+CC=$(git config core.commentChar 2>/dev/null || :)  # unset by default; hook managers run sh -e
 case "$CC" in '' | auto) CC='#' ;; esac
 MSG=$(c="$CC" awk 'index($0, ENVIRON["c"] " ------------------------ >8 ------------------------") == 1 { exit }
   index($0, ENVIRON["c"]) == 1 || $0 ~ /^[ \t]*$/ { next }
   { print; exit }' "$1")
-[ -n "$MSG" ] || exit 0  # an empty message: git refuses it itself
+if [ -z "$MSG" ]; then
+  printf 'commit-msg: no subject line (lines starting with %s are comments).\n' "$CC" >&2
+  exit 1
+fi
 case "$MSG" in  # git's own subjects
-  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | "Merge tag "* | \
-  "Merge commit "* | "Merge pull request "* | 'Revert "'* | 'Reapply "'* | \
-  "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
+  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | \
+  "Merge remote-tracking branches "* | "Merge tag "* | "Merge tags "* | "Merge commit "* | \
+  "Merge commits "* | 'Revert "'* | 'Reapply "'* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
 esac
 if ! printf '%s\n' "$MSG" | grep -Eq "$SUBJECT"; then
   echo "commit-msg: this subject doesn't follow the project's commit style." >&2

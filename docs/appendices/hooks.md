@@ -260,7 +260,7 @@ function emit(line,    t, k, i, j, cmd, rest) {
 
 A Claude Code hook sees only Claude's tool calls. A git hook runs on each `git commit` in a clone where it is installed, whoever runs it, so it is where to enforce a convention that people follow too. This one checks two conventions the project names (§1, §8):
 
-- The subject follows the commit style, Conventional Commits by default. Subjects in git's own forms pass: merges (`Merge branch …`, `Merge tag …`, `Merge pull request …` and the like), `Revert "…"` and `Reapply "…"`, and `fixup!`, `squash!` and `amend!` commits.
+- The subject follows the commit style, Conventional Commits by default. Subjects in git's own forms pass: merges of branches, remote-tracking branches, tags and commits (`Merge branch …`, `Merge tags …` and the like), `Revert "…"` and `Reapply "…"`, and `fixup!`, `squash!` and `amend!` commits. A `git pull <url>` that merges the remote's default branch writes `Merge <url>`, which the hook refuses: pull a named branch instead.
 - A `feat` or `fix` commit adds a non-blank line under `## [Unreleased]` in `CHANGELOG.md`, so the changelog entry lands in the same commit as the change (§8).
 
 The settings sit at the top of the script: the subject pattern, the changelog's path, its Unreleased heading and `REQUIRE_CHANGELOG`. A project whose commit style has no `feat` or `fix` type changes the pattern and sets `REQUIRE_CHANGELOG=no`. An amend keeps the line the amended commit added, provided it keeps the subject or adds no change. An amend that rewords the subject and adds a change needs a line of its own in the index. A hook can't tell an amend from a new commit, so a new `feat` or `fix` commit that repeats the last commit's subject passes on that commit's line. The plugin ships the script as `plugin/skills/scaffold/templates/commit-msg`, and `plugin/scripts/tests/commit-msg.sh` checks it.
@@ -285,16 +285,19 @@ REQUIRE_CHANGELOG=yes
 
 # The subject is the first line that is neither blank nor a comment, above any scissors line
 # that git commit -v adds. core.commentChar sets the comment character; "auto" counts as #.
-CC=$(git config core.commentChar 2>/dev/null)
+CC=$(git config core.commentChar 2>/dev/null || :)  # unset by default; hook managers run sh -e
 case "$CC" in '' | auto) CC='#' ;; esac
 MSG=$(c="$CC" awk 'index($0, ENVIRON["c"] " ------------------------ >8 ------------------------") == 1 { exit }
   index($0, ENVIRON["c"]) == 1 || $0 ~ /^[ \t]*$/ { next }
   { print; exit }' "$1")
-[ -n "$MSG" ] || exit 0  # an empty message: git refuses it itself
+if [ -z "$MSG" ]; then
+  printf 'commit-msg: no subject line (lines starting with %s are comments).\n' "$CC" >&2
+  exit 1
+fi
 case "$MSG" in  # git's own subjects
-  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | "Merge tag "* | \
-  "Merge commit "* | "Merge pull request "* | 'Revert "'* | 'Reapply "'* | \
-  "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
+  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | \
+  "Merge remote-tracking branches "* | "Merge tag "* | "Merge tags "* | "Merge commit "* | \
+  "Merge commits "* | 'Revert "'* | 'Reapply "'* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
 esac
 if ! printf '%s\n' "$MSG" | grep -Eq "$SUBJECT"; then
   echo "commit-msg: this subject doesn't follow the project's commit style." >&2
