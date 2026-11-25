@@ -45,6 +45,10 @@ covers how to probe.
   which is not about hooks. Accepted misses: `git am -n` and `git am --no-v` to `--no-ver` (am
   skips applypatch hooks, not commit-msg), a quoted flag (`'--no-verify'` becomes Q), `HUSKY=0`
   and other env switches (VAR=value is dropped), `-c core.hooksPath=`.
+- **`commit-msg.sh` isolation (since f41f2a0, 2026-11-25).** It exports `GIT_CONFIG_GLOBAL=/dev/null`
+  and `GIT_CONFIG_NOSYSTEM=1`, so probe a hostile config through `HOME=<dir>` with a `.gitconfig`
+  (`core.commentChar = ";"` failed main's comment-lines case and passes since), not through
+  `GIT_CONFIG_GLOBAL`, which the script overrides.
 - **The segmenter (`plugin/scripts/command-segments.awk`).** Both guards match on its output, so a
   shape it mis-splits is a silent miss. Probe with `printf '%s\n' "$cmd" | awk -f …` from a scratch
   script built with the Write tool (spell `git` via a variable), and compare against `main`'s

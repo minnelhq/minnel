@@ -46,7 +46,11 @@ about hiding that the repo is built with Claude.
   right after it read a file under `.claude/agent-memory/`, which only `*.md` could match. So a
   bare `*.md` matches at any depth, `docs/**/*.md` beside it is redundant (as is the DoD's
   `**/*.md`), and the rule loads for every Markdown file, appendices and plugin skills included.
-  Rests on observation, not the docs; re-check before asserting it in published prose.
+  The memory docs' pattern table now confirms it (fetched 2026-11-25,
+  `https://code.claude.com/docs/en/memory.md`, "Path-specific rules"): `*.md` matches anywhere,
+  `/*.md` only at the base, and `dir/*.x` only directly in `dir/`, not subfolders (so
+  `plugin/scripts/*guard*.sh` misses `plugin/scripts/tests/guards.sh`). Rules load on Read, Write,
+  Edit, or a Bash read of a single file. Re-fetch before asserting it in published prose.
 - Moving it out of `docs/` took it out of the consistency hook's scope (`.claude/**` is out), so
   its own spelling and links are no longer checked at edit time; check them by hand.
 - It is internal authoring convention under `.claude/`, not published, so a change to it alone does not
