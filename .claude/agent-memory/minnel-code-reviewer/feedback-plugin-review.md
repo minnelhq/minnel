@@ -91,6 +91,15 @@ covers how to probe.
   "every commit in the clone" over-claims. For the scaffold's install step, Husky v9 sets
   `core.hooksPath` to the generated, gitignored `.husky/_` (read from husky 9.1.7's `index.js`),
   so "copy into the directory core.hooksPath names" overwrites its stub.
+  Re-review of the fixes (2026-11-25): Husky 9's `_/h` runner calls `sh -e .husky/<hook> "$@"`
+  (read from the registry tarball's `husky` file), so probe the hook under `sh -e` too: a bare
+  `X=$(git config unset.key)` exits 1 there and refused every commit. Git's merge titles come in
+  plurals (`Merge tags`, `Merge commits`, `Merge remote-tracking branches`) and `git pull <url>`
+  of HEAD writes `Merge <url>`; an allow-list needs each, with a test per form. An
+  "empty message, leave it to git" exit also passes `git commit -m '#42 x'` (no editor, so git
+  keeps the line). `git check-ignore .husky/_` reports *not* ignored (its `*` is inside it); check
+  a file path in it. `log.showSignature` only adds output for a signed HEAD (`gpg.format ssh` with
+  `ssh-keygen` is enough to test it).
 
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
