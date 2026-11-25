@@ -1,6 +1,6 @@
 # ADR 0004 — Ship the methodology as a plugin from this repository
 
-**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin; raise the version only in the release commit)
+**Status:** accepted   **Date:** 2026-11-23   **Amended:** 2026-11-23 (the git guard's settings; the `rm` match; this repo runs the plugin; raise the version only in the release commit); 2026-11-25 (settings for staging and the bash guard; the scaffold asks for conventions)
 
 ## Context
 Adopting the methodology meant copying its drop-in artefacts (Appendices A–O) into a project.
@@ -41,7 +41,7 @@ Ship the plugin, **Minnel**, from this repository.
 - **Project files by scaffold.** What a plugin can't ship (`CLAUDE.md`, the Definition of Done
   rule, the plan, backlog, ADR and changelog skeletons) is written into the project by
   `/minnel:scaffold`, which skips any file that already exists unless the user names it.
-  (Amended in 0.8.0: the scaffold first asks for the project's conventions and fills the files
+  (Amended 2026-11-25: the scaffold first asks for the project's conventions and fills the files
   with them, and can write guard settings and install the Appendix Q `commit-msg` hook.)
 - **Guards on by default.** The bash and git guards from Appendix C, and the test-directory guard
   for `test-writer`, run in every project that installs the plugin. The git guard lets commits
@@ -50,7 +50,7 @@ Ship the plugin, **Minnel**, from this repository.
   change either. (Amended: the guard first blocked both, with `MINNEL_GIT_GUARD_COMMITS=0` to
   turn both off. Blocking stopped commits and pushes the user had asked for. A commit stays local,
   so it now passes; a push still waits for the user's approval.) The guard blocks blanket staging
-  (`git add -A`, `--all`, `.`, `git commit -a`). (Amended in 0.8.0: that block could not be
+  (`git add -A`, `--all`, `.`, `git commit -a`). (Amended 2026-11-25: that block could not be
   turned off, and neither could the bash guard. `MINNEL_GIT_GUARD_STAGING` and
   `MINNEL_BASH_GUARD` now take the same three values, because Claude Code has no switch for one
   plugin's hooks, so a project could relax a guard only by disabling the whole plugin. The
@@ -73,7 +73,9 @@ Ship the plugin, **Minnel**, from this repository.
   moved to it before the release was cut.)
 - The repo now ships code to adopters, not only Markdown. `plugin/scripts/tests/guards.sh` checks
   the guards against sample tool calls, and the Definition of Done adds a plugin item: that check,
-  and `claude plugin validate` on `plugin` and on the root.
+  and `claude plugin validate` on `plugin` and on the root. (Amended 2026-11-25:
+  `plugin/scripts/tests/commit-msg.sh` checks the Appendix Q hook, and `all-awks.sh` runs both
+  suites under each installed awk.)
 - Every artefact has two copies, the appendix's and the plugin's. Check E keeps them equal, but
   its pairs table and normalisers are code to maintain: a new artefact needs a row, and a new
   intended difference needs a normaliser that doesn't hide real drift. (Amended: this repo also

@@ -54,7 +54,7 @@ case "$DECISION" in
     exit 2 ;;
   ask)
     # Exit 0 with this JSON shows the user a permission prompt instead of blocking the call.
-    jq -cn --arg why "Git guard: check what this stages, the branch, the remote and the commits before you approve." \
+    jq -cn --arg why "Git guard: check the staging, branch, remote and commits before you approve." \
       '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "ask", permissionDecisionReason: $why}}' \
       || { echo "Blocked: the git guard could not ask you about this command." >&2; exit 2; } ;;
 esac

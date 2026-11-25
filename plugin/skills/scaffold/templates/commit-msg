@@ -11,15 +11,22 @@ CHANGELOG=CHANGELOG.md
 UNRELEASED='## [Unreleased]'   # the heading's start, as written
 REQUIRE_CHANGELOG=yes
 
-# The subject is the first line that is neither blank nor a comment.
-MSG=$(grep -v '^#' "$1" | grep -v '^[[:space:]]*$' | head -n 1)
-case "$MSG" in
-  "Merge "* | 'Revert "'* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;  # git's own subjects
+# The subject is the first line that is neither blank nor a comment, above any scissors line
+# that git commit -v adds. core.commentChar sets the comment character; "auto" counts as #.
+CC=$(git config core.commentChar 2>/dev/null)
+case "$CC" in '' | auto) CC='#' ;; esac
+MSG=$(c="$CC" awk 'index($0, ENVIRON["c"] " ------------------------ >8 ------------------------") == 1 { exit }
+  index($0, ENVIRON["c"]) == 1 || $0 ~ /^[ \t]*$/ { next }
+  { print; exit }' "$1")
+[ -n "$MSG" ] || exit 0  # an empty message: git refuses it itself
+case "$MSG" in  # git's own subjects
+  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | "Merge tag "* | \
+  "Merge commit "* | "Merge pull request "* | 'Revert "'* | 'Reapply "'* | \
+  "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
 esac
 if ! printf '%s\n' "$MSG" | grep -Eq "$SUBJECT"; then
   echo "commit-msg: this subject doesn't follow the project's commit style." >&2
-  echo "  subject: $MSG" >&2
-  echo "  pattern: $SUBJECT" >&2
+  printf '  subject: %s\n  pattern: %s\n' "$MSG" "$SUBJECT" >&2
   exit 1
 fi
 [ "$REQUIRE_CHANGELOG" = yes ] || exit 0
@@ -52,13 +59,15 @@ EMPTY=$(git hash-object -t tree /dev/null)
 adds_line : git diff-index --cached -p -U0 "$(git rev-parse -q --verify HEAD || echo "$EMPTY")" &&
   exit 0
 # An amend keeps the changes of the commit it replaces. When the index matches that commit, or
-# the subject is unchanged, accept the line that commit added.
+# the subject is unchanged, accept the line that commit added. A hook can't tell an amend from
+# a new commit, so a new commit that repeats the last commit's subject passes too.
 if git rev-parse -q --verify HEAD > /dev/null; then
-  if git diff-index --cached --quiet HEAD || [ "$(git log -1 --format=%s HEAD)" = "$MSG" ]; then
+  if git diff-index --cached --quiet HEAD ||
+    [ "$(git log -1 --no-show-signature --format=%s HEAD)" = "$MSG" ]; then
     adds_line HEAD: git diff-tree -p -U0 "$(git rev-parse -q --verify 'HEAD^' || echo "$EMPTY")" HEAD &&
       exit 0
   fi
 fi
-echo "commit-msg: a feat or fix commit adds a line under ## [Unreleased] in $CHANGELOG." >&2
+printf 'commit-msg: a feat or fix commit adds a line under %s in %s.\n' "$UNRELEASED" "$CHANGELOG" >&2
 echo "  Stage that line with the change, or set REQUIRE_CHANGELOG=no at the top of this hook." >&2
 exit 1

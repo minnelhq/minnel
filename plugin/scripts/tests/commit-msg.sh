@@ -41,6 +41,11 @@ check() { # expected (0 or 1), message, label [hook to run in place of the shipp
   if [ "$got" = "$1" ]; then echo "ok   $3"
   else echo "FAIL $3: want $1, got $got"; fail=1; fi
 }
+says() { # message, text the hook's output must contain, label [hook]
+  printf '%s\n' "$1" > "$tmp/msg"
+  if "${4:-$HOOK}" "$tmp/msg" 2>&1 | grep -qF -- "$2"; then echo "ok   $3"
+  else echo "FAIL $3: no '$2' in the output"; fail=1; fi
+}
 
 # The subject follows the commit style: Conventional Commits by default.
 repo; change b
@@ -56,6 +61,18 @@ check 0 'Revert "feat: add x"'                   "git's revert subject"
 check 0 'fixup! feat: add x'                     'a fixup! commit'
 check 0 'squash! feat: add x'                    'a squash! commit'
 check 0 'amend! feat: add x'                     'an amend! commit'
+check 0 'Reapply "feat: add x"'                  "git's subject for a revert of a revert"
+check 0 "Merge branches 'a' and 'b'"             'an octopus merge'
+check 1 'Merge the two parsers'                  'a subject that only starts with Merge'
+# Comments follow core.commentChar, and the scissors line from git commit -v ends the message.
+git config core.commentChar ';'
+check 0 "$(printf '; a comment\ndocs: x')"       'a comment in core.commentChar'
+git config --unset core.commentChar
+check 0 "$(printf '\n# ------------------------ >8 ------------------------\ndiff --git a/x b/x')" \
+                                                 'an empty message above the scissors: left to git'
+check 1 "$(printf 'Update x\n# ------------------------ >8 ------------------------\ndocs: x')" \
+                                                 'a subject above the scissors, a valid one below'
+says 'Update a\cb then' 'subject: Update a\cb then' 'a backslash in the subject is echoed whole'
 
 # A feat or fix commit adds a line under Unreleased.
 repo; change b
@@ -80,12 +97,22 @@ check 1 'feat: add b'                            'the changelog line is written 
 # Without a changelog in the index, the message names the settings.
 repo; git rm -q --cached CHANGELOG.md; change b
 check 1 'feat: add b'                            'no changelog in the index'
-printf 'feat: add b\n' > "$tmp/msg"
-if "$HOOK" "$tmp/msg" 2>&1 | grep -q 'Set CHANGELOG'; then echo 'ok   no changelog in the index: the message names the settings'
-else echo 'FAIL no changelog in the index: the message names the settings'; fail=1; fi
+says 'feat: add b' 'Set CHANGELOG' 'no changelog in the index: the message names the settings'
 sed 's/^REQUIRE_CHANGELOG=yes$/REQUIRE_CHANGELOG=no/' "$HOOK" > "$tmp/no-changelog" && chmod +x "$tmp/no-changelog"
 check 0 'feat: add b'                            'REQUIRE_CHANGELOG=no' "$tmp/no-changelog"
 check 1 'Update b'                               'REQUIRE_CHANGELOG=no still checks the subject' "$tmp/no-changelog"
+
+# The changelog's path and its Unreleased heading are settings.
+repo; mkdir docs; printf '# Changelog\n\n## Unreleased\n\n## 0.1.0\n- The first release.\n' > docs/CHANGELOG.md
+git add docs/CHANGELOG.md; git commit -q --no-verify -m 'chore: move the changelog'; change b
+sed -e 's|^CHANGELOG=CHANGELOG.md$|CHANGELOG=docs/CHANGELOG.md|' \
+    -e "s|^UNRELEASED='## \\[Unreleased\\]'|UNRELEASED='## Unreleased'|" "$HOOK" > "$tmp/elsewhere"
+chmod +x "$tmp/elsewhere"
+check 1 'feat: add b'                            'another path and heading, no line' "$tmp/elsewhere"
+says 'feat: add b' 'under ## Unreleased in docs/CHANGELOG.md' 'the message names the heading set' "$tmp/elsewhere"
+printf '# Changelog\n\n## Unreleased\n- Added b.\n\n## 0.1.0\n- The first release.\n' > docs/CHANGELOG.md
+git add docs/CHANGELOG.md
+check 0 'feat: add b'                            'another path and heading, with the line' "$tmp/elsewhere"
 
 # An amend keeps the line the amended commit added.
 repo; change b; unreleased_line 'Added b.'; git commit -q --no-verify -m 'feat: add b'
@@ -95,6 +122,9 @@ check 0 'feat: add b'                            'amend that adds a change and k
 check 1 'feat: add b and c'                      'accepted miss: amend that rewords and adds a change'
 repo; change b; git commit -q --no-verify -m 'feat: add b'
 check 1 'feat: add b'                            'amend of a commit that added no line'
+# A hook can't tell an amend from a new commit, so one that repeats the subject passes.
+repo; change b; unreleased_line 'Fixed b.'; git commit -q --no-verify -m 'fix: lint'; change c
+check 0 'fix: lint'                              "accepted pass: a new commit that repeats HEAD's subject"
 # The first commit in a repository.
 n=$((n + 1)); git init -q "$tmp/r$n" && cd "$tmp/r$n" || exit 1
 git config user.name t; git config user.email t@example.invalid

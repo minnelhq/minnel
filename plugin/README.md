@@ -15,9 +15,10 @@ methodology's artefacts so a project can adopt them without copying files by han
   can set what the bash and git guards do to allow, ask or block.
 - Seven skills: the rituals `/minnel:plan`, `/minnel:accept`, `/minnel:retro`, `/minnel:release`,
   `/minnel:wrap` and `/minnel:triage`, and `/minnel:scaffold`, which asks for the project's
-  conventions and writes the project files a plugin cannot ship, filled in with them. `/minnel:retro` proposes additions to the project's configuration and
-  prunings of it, starting from `config-audit.sh`, a read-only script that lists each rule and
-  memory file's length and the paths they name that no longer exist.
+  conventions and writes the project files a plugin cannot ship, filled in with them.
+  `/minnel:retro` proposes additions to the project's configuration and prunings of it, starting
+  from `config-audit.sh`, a read-only script that lists each rule and memory file's length and
+  the paths they name that no longer exist.
 
 ## Install
 

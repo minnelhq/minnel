@@ -4,7 +4,7 @@ Drop-in project hooks for the methodology. Companion to `../methodology.md`; the
 
 ## Appendix C — project hooks
 
-The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/scripts/git-guard.sh`, wired in `plugin/hooks/hooks.json`. The copies below hard-code their defaults at the top of each script; the plugin's copies add per-project settings for each, which `docs/plugin.md` lists.
+The plugin ships the two guards as `plugin/scripts/bash-guard.sh` and `plugin/scripts/git-guard.sh`, wired in `plugin/hooks/hooks.json`. The copies below hard-code their defaults at the top of each script; the plugin's copies add per-project settings for each, which [Minnel as a plugin](../plugin.md) lists.
 
 Both guards read the command through `command-segments.awk`, which splits a command line into the commands it runs. So they match `rm` or `git push` where a command starts, not where a quoted string, a `grep` pattern, a comment or a heredoc mentions it. Keep the three files in one directory: without `command-segments.awk` beside them, the guards block every `Bash` call and say why.
 
@@ -129,7 +129,7 @@ case "$DECISION" in
     exit 2 ;;
   ask)
     # Exit 0 with this JSON shows the user a permission prompt instead of blocking the call.
-    jq -cn --arg why "Git guard: check what this stages, the branch, the remote and the commits before you approve." \
+    jq -cn --arg why "Git guard: check the staging, branch, remote and commits before you approve." \
       '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "ask", permissionDecisionReason: $why}}' \
       || { echo "Blocked: the git guard could not ask you about this command." >&2; exit 2; } ;;
 esac
@@ -258,12 +258,12 @@ function emit(line,    t, k, i, j, cmd, rest) {
 
 ## Appendix Q — git `commit-msg` hook
 
-A Claude Code hook sees only Claude's tool calls. A git hook runs on every commit in the clone, whoever makes it, so it is where to enforce a convention that people follow too. This one checks two conventions the project names (§1, §8):
+A Claude Code hook sees only Claude's tool calls. A git hook runs on each `git commit` in a clone where it is installed, whoever runs it, so it is where to enforce a convention that people follow too. This one checks two conventions the project names (§1, §8):
 
-- The subject follows the commit style, Conventional Commits by default. The subjects git writes itself pass: merges, reverts, and `fixup!`, `squash!` and `amend!` commits.
+- The subject follows the commit style, Conventional Commits by default. Subjects in git's own forms pass: merges (`Merge branch …`, `Merge tag …`, `Merge pull request …` and the like), `Revert "…"` and `Reapply "…"`, and `fixup!`, `squash!` and `amend!` commits.
 - A `feat` or `fix` commit adds a non-blank line under `## [Unreleased]` in `CHANGELOG.md`, so the changelog entry lands in the same commit as the change (§8).
 
-The settings sit at the top of the script: the subject pattern, the changelog's path, its Unreleased heading and `REQUIRE_CHANGELOG`. A project whose commit style has no `feat` or `fix` type changes the pattern and sets `REQUIRE_CHANGELOG=no`. An amend keeps the line the amended commit added, provided it keeps the subject or adds no change. An amend that rewords the subject and adds a change needs a line of its own in the index. The plugin ships the script as `plugin/skills/scaffold/templates/commit-msg`, and `plugin/scripts/tests/commit-msg.sh` checks it.
+The settings sit at the top of the script: the subject pattern, the changelog's path, its Unreleased heading and `REQUIRE_CHANGELOG`. A project whose commit style has no `feat` or `fix` type changes the pattern and sets `REQUIRE_CHANGELOG=no`. An amend keeps the line the amended commit added, provided it keeps the subject or adds no change. An amend that rewords the subject and adds a change needs a line of its own in the index. A hook can't tell an amend from a new commit, so a new `feat` or `fix` commit that repeats the last commit's subject passes on that commit's line. The plugin ships the script as `plugin/skills/scaffold/templates/commit-msg`, and `plugin/scripts/tests/commit-msg.sh` checks it.
 
 The hook runs after the git guard (Appendix C). The guard decides whether Claude may run `git commit` at all; the hook checks the message git is about to record. `git commit --no-verify` skips the hook, so like the guards it catches slips, not a determined bypass.
 
@@ -283,15 +283,22 @@ CHANGELOG=CHANGELOG.md
 UNRELEASED='## [Unreleased]'   # the heading's start, as written
 REQUIRE_CHANGELOG=yes
 
-# The subject is the first line that is neither blank nor a comment.
-MSG=$(grep -v '^#' "$1" | grep -v '^[[:space:]]*$' | head -n 1)
-case "$MSG" in
-  "Merge "* | 'Revert "'* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;  # git's own subjects
+# The subject is the first line that is neither blank nor a comment, above any scissors line
+# that git commit -v adds. core.commentChar sets the comment character; "auto" counts as #.
+CC=$(git config core.commentChar 2>/dev/null)
+case "$CC" in '' | auto) CC='#' ;; esac
+MSG=$(c="$CC" awk 'index($0, ENVIRON["c"] " ------------------------ >8 ------------------------") == 1 { exit }
+  index($0, ENVIRON["c"]) == 1 || $0 ~ /^[ \t]*$/ { next }
+  { print; exit }' "$1")
+[ -n "$MSG" ] || exit 0  # an empty message: git refuses it itself
+case "$MSG" in  # git's own subjects
+  "Merge branch "* | "Merge branches "* | "Merge remote-tracking branch "* | "Merge tag "* | \
+  "Merge commit "* | "Merge pull request "* | 'Revert "'* | 'Reapply "'* | \
+  "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
 esac
 if ! printf '%s\n' "$MSG" | grep -Eq "$SUBJECT"; then
   echo "commit-msg: this subject doesn't follow the project's commit style." >&2
-  echo "  subject: $MSG" >&2
-  echo "  pattern: $SUBJECT" >&2
+  printf '  subject: %s\n  pattern: %s\n' "$MSG" "$SUBJECT" >&2
   exit 1
 fi
 [ "$REQUIRE_CHANGELOG" = yes ] || exit 0
@@ -324,14 +331,16 @@ EMPTY=$(git hash-object -t tree /dev/null)
 adds_line : git diff-index --cached -p -U0 "$(git rev-parse -q --verify HEAD || echo "$EMPTY")" &&
   exit 0
 # An amend keeps the changes of the commit it replaces. When the index matches that commit, or
-# the subject is unchanged, accept the line that commit added.
+# the subject is unchanged, accept the line that commit added. A hook can't tell an amend from
+# a new commit, so a new commit that repeats the last commit's subject passes too.
 if git rev-parse -q --verify HEAD > /dev/null; then
-  if git diff-index --cached --quiet HEAD || [ "$(git log -1 --format=%s HEAD)" = "$MSG" ]; then
+  if git diff-index --cached --quiet HEAD ||
+    [ "$(git log -1 --no-show-signature --format=%s HEAD)" = "$MSG" ]; then
     adds_line HEAD: git diff-tree -p -U0 "$(git rev-parse -q --verify 'HEAD^' || echo "$EMPTY")" HEAD &&
       exit 0
   fi
 fi
-echo "commit-msg: a feat or fix commit adds a line under ## [Unreleased] in $CHANGELOG." >&2
+printf 'commit-msg: a feat or fix commit adds a line under %s in %s.\n' "$UNRELEASED" "$CHANGELOG" >&2
 echo "  Stage that line with the change, or set REQUIRE_CHANGELOG=no at the top of this hook." >&2
 exit 1
 ```
@@ -346,4 +355,4 @@ chmod +x .githooks/commit-msg
 git config core.hooksPath .githooks
 ```
 
-`core.hooksPath` replaces `.git/hooks`, so move any hooks already there into `.githooks/`. If the project already sets `core.hooksPath`, as a hook manager such as Husky does, put the script in that directory instead. Each clone runs the `git config` line once.
+`core.hooksPath` replaces `.git/hooks` and any global hooks path, so move any hooks already there into `.githooks/`. If the project already uses a hook manager, put the script where that manager keeps its hooks (for Husky, `.husky/commit-msg`) rather than in a directory it generates. If a `commit-msg` hook exists already, merge the two by hand. Each clone runs the `git config` line once.

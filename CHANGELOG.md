@@ -16,8 +16,8 @@ versions follow SemVer.
   plugin.
 - Appendix Q, a git `commit-msg` hook. It checks each commit's subject against the commit style,
   Conventional Commits by default, and that a `feat` or `fix` commit adds a line under
-  `## [Unreleased]` in the changelog. Git runs it on every commit in the clone, so it catches
-  human commits too, which a Claude Code hook can't. Its settings, including turning off the
+  `## [Unreleased]` in the changelog. Git runs it on each commit in a clone where it is installed,
+  so it catches human commits too, which a Claude Code hook can't. Its settings, including turning off the
   changelog check, sit at the top of the script. §6 and §8 point to it, and the plugin ships it
   beside the scaffold's templates with `plugin/scripts/tests/commit-msg.sh` to check it. The
   appendix range is now A–Q.
