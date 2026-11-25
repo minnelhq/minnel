@@ -9,7 +9,7 @@ the plan's file, with no stage count, or reads "(none — no active plan)". Brit
 ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- (none — no active plan)
+- Release 0.9.0: the --no-verify guard and a line-length check — plan: docs/plans/release-0.9.0.md
 
 ## Next
 
