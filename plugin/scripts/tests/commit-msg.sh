@@ -93,7 +93,7 @@ unreleased_line 'Added b.'
 check 0 'feat: add b'                            'feat with a line under Unreleased'
 check 0 'fix(io)!: handle b'                     'fix with a scope and !, with the line'
 
-# Hook managers such as Husky run the hook with sh -e, where any failing command ends it.
+# Husky runs the hook with sh -e, where any failing command ends it.
 printf '#!/bin/sh\nexec sh -e "%s" "$@"\n' "$HOOK" > "$tmp/husky" && chmod +x "$tmp/husky"
 repo; change b
 check 0 'docs: x'                                'run under sh -e, as Husky does' "$tmp/husky"
@@ -145,10 +145,13 @@ check 0 'fix: lint'                              "accepted pass: a new commit th
 # log.showSignature adds lines before the subject of a signed HEAD; the amend check ignores them.
 if command -v ssh-keygen > /dev/null; then
   repo; ssh-keygen -q -t ed25519 -N '' -f "$tmp/key" > /dev/null
-  git config gpg.format ssh; git config user.signingkey "$tmp/key.pub"
-  change b; unreleased_line 'Added b.'; git commit -q --no-verify -S -m 'feat: add b'
-  git config log.showSignature true; change c
-  check 0 'feat: add b'                          'amend of a signed HEAD with log.showSignature on'
+  git config gpg.format ssh; git config gpg.ssh.program ssh-keygen
+  git config user.signingkey "$tmp/key.pub"; change b; unreleased_line 'Added b.'
+  if git commit -q --no-verify -S -m 'feat: add b' 2>/dev/null &&
+    [ "$(git log -1 --no-show-signature --format=%s)" = 'feat: add b' ]; then
+    git config log.showSignature true; change c
+    check 0 'feat: add b'                        'amend of a signed HEAD with log.showSignature on'
+  else echo 'skip amend of a signed HEAD: signing failed'; fi
 else echo 'skip amend of a signed HEAD: no ssh-keygen'; fi
 # The first commit in a repository.
 n=$((n + 1)); git init -q "$tmp/r$n" && cd "$tmp/r$n" || exit 1

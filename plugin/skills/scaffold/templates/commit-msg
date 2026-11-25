@@ -13,7 +13,7 @@ REQUIRE_CHANGELOG=yes
 
 # The subject is the first line that is neither blank nor a comment, above any scissors line
 # that git commit -v adds. core.commentChar sets the comment character; "auto" counts as #.
-CC=$(git config core.commentChar 2>/dev/null || :)  # unset by default; hook managers run sh -e
+CC=$(git config core.commentChar 2>/dev/null || :)  # unset by default; Husky runs hooks with sh -e
 case "$CC" in '' | auto) CC='#' ;; esac
 MSG=$(c="$CC" awk 'index($0, ENVIRON["c"] " ------------------------ >8 ------------------------") == 1 { exit }
   index($0, ENVIRON["c"]) == 1 || $0 ~ /^[ \t]*$/ { next }

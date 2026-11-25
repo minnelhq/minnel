@@ -99,7 +99,10 @@ covers how to probe.
   "empty message, leave it to git" exit also passes `git commit -m '#42 x'` (no editor, so git
   keeps the line). `git check-ignore .husky/_` reports *not* ignored (its `*` is inside it); check
   a file path in it. `log.showSignature` only adds output for a signed HEAD (`gpg.format ssh` with
-  `ssh-keygen` is enough to test it).
+  `ssh-keygen` is enough to test it). A test whose setup commit can fail (signing) passes vacuously
+  if the staged change still satisfies the hook: break the setup (`GIT_CONFIG_COUNT=1` with
+  `gpg.ssh.program` pointing at a script that exits 1) and rerun the mutant. The suite's repos
+  inherit global git config; this machine sets a global `core.hooksPath` (2026-11-25).
 
 **Why:** the plugin's correctness lives in shell and awk that prose review misses; the defects
 found so far (normalisers hiding drift, guard path escapes, unquoted plugin root) were only
