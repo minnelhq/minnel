@@ -5,6 +5,8 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-25
+
 ### Added
 - The bash guard (Appendix C) blocks Claude from skipping git hooks: `--no-verify` on any git
   command, and `git commit -n`. Appendix Q's `commit-msg` hook could otherwise be stepped over.
