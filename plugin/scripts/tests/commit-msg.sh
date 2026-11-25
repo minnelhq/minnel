@@ -8,6 +8,9 @@ HOOK="$PWD/commit-msg"
 tmp=$(mktemp -d) || exit 1
 trap 'rm -r "$tmp"' EXIT
 trap 'exit 130' INT; trap 'exit 143' TERM
+# Ignore the caller's global and system git config (a core.hooksPath, signing or colour
+# setting would change what the cases test); each repository sets what its case needs.
+GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1; export GIT_CONFIG_GLOBAL GIT_CONFIG_NOSYSTEM
 fail=0
 n=0
 
