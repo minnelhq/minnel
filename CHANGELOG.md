@@ -5,6 +5,18 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-25
+
+### Added
+- The bash guard (Appendix C) blocks Claude from skipping git hooks: `--no-verify` on any git
+  command, and `git commit -n`. Appendix Q's `commit-msg` hook could otherwise be stepped over.
+  People can still run these themselves, and `MINNEL_BASH_GUARD` sets the rule to ask or allow
+  with the guard's other rules. `git push -n`, a dry run, still passes.
+- The repository's consistency hook gains Check G: it flags a line over 100 columns in the
+  hard-wrapped files (`CHANGELOG.md`, `CONTRIBUTING.md`, the READMEs, `docs/index.md`, the
+  backlog and live plans), where a sentence swapped in without reflowing leaves a spliced line.
+  It counts characters, not bytes, and skips backtick-fenced code blocks and table rows.
+
 ## [0.8.0] - 2026-11-25
 
 ### Added
@@ -113,9 +125,9 @@ versions follow SemVer.
   of Done item, that name a file, flag or version that no longer holds, or that contradict another
   scope. It proposes a delete, merge or rewrite for each and applies nothing until approved. It
   starts from `config-audit.sh`, a new read-only plugin script that lists each of those files' line
-  count and the paths they name that no longer exist. §2, §7, §8 and §10 say the retro prunes, and §1
-  now points memory pruning at the retro instead of the `consolidate-memory` skill, which Minnel
-  doesn't ship. §8 and Appendix L say where Claude Code's `/doctor prompt-audit` overlaps.
+  count and the paths they name that no longer exist. §2, §7, §8 and §10 say the retro prunes, and
+  §1 now points memory pruning at the retro instead of the `consolidate-memory` skill, which
+  Minnel doesn't ship. §8 and Appendix L say where Claude Code's `/doctor prompt-audit` overlaps.
 - The `code-reviewer` (Appendix A) keeps its memory short: it extends an existing note rather than
   adding one, and updates or deletes a note that a finding contradicts.
 - `/wrap` (Appendix N, `/minnel:wrap` in the plugin) closes a finished plan. Once the active

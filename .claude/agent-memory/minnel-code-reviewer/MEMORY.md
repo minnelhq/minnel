@@ -1,6 +1,6 @@
 - [Repo shape and review focus](project-repo-shape.md) — what this repo is and the load-bearing invariants to check every review
 - [Recurring defect patterns](feedback-recurring-defects.md) — the prose/consistency defect classes that actually show up here (incl. retiring tailored copies)
-- [Reviewing the bash hooks](feedback-hook-script-review.md) — portability, exec-bit, scope-gate and fail-open traps to check in `.claude/hooks/`
+- [Reviewing the bash hooks](feedback-hook-script-review.md) — portability, exec-bit, scope-gate and fail-open traps in `.claude/hooks/`; Checks C, D, F, G shapes
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
 - [Doc-site (Zensical)](project-doc-site.md) — README/index shared quick start, site build, push-to-main deploy gating, fenced broken link, minnelhq/minnel move, vendored Mermaid CDN fallback, native redirects
 - [House voice guide](project-house-voice.md) — .claude/rules/house-voice.md: 7 narrative docs (incl. CONTRIBUTING.md) plus changelog/plan notes; `*.md` path matching, voice-pass slips and the GitHub-vs-site heading-anchor trap

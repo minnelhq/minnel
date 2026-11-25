@@ -14,10 +14,7 @@ ISO YYYY-MM-DD.
 ## Next
 
 ### Unscheduled
-- Block `git commit --no-verify` in the bash guard — feat · value M · effort L — why now: the
-  Appendix Q `commit-msg` hook is a tripwire Claude can step over with `--no-verify`. A
-  `bash-guard` rule for it, under `MINNEL_BASH_GUARD` like the others, would close that gap for
-  Claude's commits while people keep the escape hatch.
+- (none)
 
 ## Later / maybe
 - (none)
