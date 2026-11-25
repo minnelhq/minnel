@@ -1,8 +1,8 @@
 # Built with Zensical, which reads this MkDocs-format config as-is (ADR 0003).
 site_name: "Minnel: a file-first operating model for Claude Code"
 site_description: A file-first Claude Code operating model for solo developers and small teams.
-repo_url: https://github.com/tcrossland/claude-code-methodology
-repo_name: tcrossland/claude-code-methodology
+repo_url: https://github.com/minnelhq/minnel
+repo_name: minnelhq/minnel
 
 # The existing docs/ tree is the source — rendered, not restructured (ADR 0002).
 docs_dir: docs

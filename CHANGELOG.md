@@ -9,6 +9,12 @@ versions follow SemVer.
 - The repository's consistency hook gains Check F: it flags an edited doc whose "Last updated"
   date is older than today.
 
+### Changed
+- The repository moved to `minnelhq/minnel`. The doc site is now at
+  <https://minnelhq.github.io/minnel/>, and the install commands name `minnelhq/minnel`. GitHub
+  redirects the old repository's web and git links, but not the old site address. Existing
+  installs keep updating through that redirect.
+
 ### Fixed
 - `/release` (Appendix M, `/minnel:release`) joins each changelog entry onto one line in the
   release-notes file before publishing on GitHub, which shows a single newline in release notes

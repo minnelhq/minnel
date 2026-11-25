@@ -54,7 +54,7 @@ appendix and its plugin file is a defect class like a dangling §N.
   Release notes and wrapped lines: `gh api markdown -f mode=gfm` renders a soft break inside a
   list item as `<br>` (2026-11-24). The release page does too: the coordinator counted 5 `<br>` in
   one wrapped v0.7.0 item and 0 after `gh release edit` with joined notes (2026-11-25, its report).
-  The GitHub repo is `tcrossland/claude-code-methodology` (not the folder name) for `gh api`.
+  The GitHub repo is `minnelhq/minnel` (not the folder name) for `gh api`.
   A "cut but not tagged" check must read the remote (`git ls-remote --tags origin`, `origin/main`),
   as §9 says, or a local unpushed tag hides it.
 - **Install and update facts (verified 2026-11-23 on v2.1.330).**

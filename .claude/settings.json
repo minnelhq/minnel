@@ -3,7 +3,7 @@
     "minnel": {
       "source": {
         "source": "github",
-        "repo": "tcrossland/claude-code-methodology"
+        "repo": "minnelhq/minnel"
       }
     }
   },

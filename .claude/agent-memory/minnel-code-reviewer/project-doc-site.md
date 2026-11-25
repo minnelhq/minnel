@@ -30,8 +30,12 @@ review doesn't cover.
 - `docs/worked-example.md` keeps a dangling link (`does/not/exist.md`) inside a code fence on
   purpose; outside a fence `--strict` fails.
 - Files outside `docs_dir` (the template, the changelog, `.claude/` files) are linked by absolute
-  GitHub blob URLs at `tcrossland/claude-code-methodology`. Flag them if the repo is renamed: the
-  Minnel retitle changed the name, not the repo or domain.
+  GitHub blob URLs at `minnelhq/minnel`. The repo moved there from
+  `tcrossland/claude-code-methodology` on 2026-11-25; ADRs, archived plans and released changelog
+  entries keep the old path as records. Flag a live doc that still names it. Checked 2026-11-25:
+  the old Pages host 404s, old web and git URLs 301 to the new repo (existing marketplace entries
+  with the old source still refresh), and the `github-pages` environment kept its `main` branch
+  policy. Released plugin copies (0.7.0 and earlier) link the old Pages host until a release.
 - **CI.** Deploy and upload are gated on `refs/heads/main` and push or dispatch; the `pages`
   concurrency group is workflow-level for those runs, as in GitHub's Pages starter. Keep it that
   way: a job-level group orders deploys by build-finish time. Least-privilege `permissions`,
@@ -54,9 +58,10 @@ review doesn't cover.
   top-to-bottom past four nodes too (read 2026-11-25). Ask for a render check at desktop and 375 px.
 - **Redirects (2026-11-25, `docs/plugin.md` rename).** `mkdocs.yml` has a `redirects` plugin with
   `packaging-as-a-plugin.md: plugin.md`. Zensical 0.1.3 implements it natively (`zensical/config.py`
-  normalises `redirect_maps`); no new dependency, and the page keeps the `#anchor`. Keep the
-  redirect while any install runs v0.6.0 or earlier: that `plugin/README.md` links the old Pages
-  URL. No MkDocs-compatibility notes: the user's Zensical rule in `~/.claude/rules/` says so, and
+  normalises `redirect_maps`); no new dependency, and the page keeps the `#anchor`. Its first
+  reason (v0.6.0 installs' `plugin/README.md` links it) lapsed with the 2026-11-25 move: those
+  links name the old Pages host, which 404s. Keeping or dropping it is the user's call. No
+  MkDocs-compatibility notes: the user's Zensical rule in `~/.claude/rules/` says so, and
   keeps ADRs and released changelog entries that name MkDocs as records (added 2026-11-25).
 - The site is not "own assets only": the theme links Google Fonts, and the bundle loads a
   `resize-observer-polyfill` from unpkg on old browsers.
