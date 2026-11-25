@@ -60,9 +60,9 @@ The same docs are on [the site](https://minnelhq.github.io/minnel/), with search
 
 ## Status
 
-Minnel is pre-1.0 (see the [changelog](CHANGELOG.md)), so a minor release can change how things
-work. I started it in June 2026 and run it on my own projects. It has had no outside adopters or
-feedback yet, and it may be too rigid to suit everyone.
+Minnel is maintained and pre-1.0 (see the [changelog](CHANGELOG.md)), so a minor release can change
+how things work. I started it in June 2026 and run it on my own projects. It has had no outside
+adopters or feedback yet, and it may be too rigid to suit everyone. Issues and feedback are welcome.
 
 ## This repository
 
