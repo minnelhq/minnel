@@ -1,6 +1,6 @@
 # Plan: Release 0.9.0, the --no-verify guard and a line-length check   (approved 2026-11-25)
 
-**Status:** Stage 1 in progress.
+**Status:** Stage 1 done; Stage 2 in progress.
 
 ## Goal
 The bash guard blocks Claude from skipping git hooks with `--no-verify`, and the repository's
@@ -27,23 +27,26 @@ Decisions:
 
 ---
 
-## Stage 1 — Block `--no-verify` in the bash guard   [in progress]
-- [ ] `plugin/scripts/bash-guard.sh`: after the force-push rule, block any `git` command with
+## Stage 1 — Block `--no-verify` in the bash guard   [done]
+- [x] `plugin/scripts/bash-guard.sh`: after the force-push rule, block any `git` command with
       `--no-verify` (or the shortest unambiguous abbreviation, `--no-veri`), and `git commit`
       with `-n` in a short-option cluster, using the git guard's value-letter exclusion so `-mn`
       and `-uno` pass. `git push -n` (a dry run) passes.
-- [ ] `docs/appendices/hooks.md`: the Appendix C copy gets the same lines; update its caption
+- [x] `docs/appendices/hooks.md`: the Appendix C copy gets the same lines; update its caption
       and the Appendix Q paragraph on `--no-verify`.
-- [ ] `plugin/scripts/tests/guards.sh`: block, ask and pass cases.
-- [ ] Docs that list what the bash guard catches: `docs/plugin.md`, `plugin/README.md`,
+- [x] `plugin/scripts/tests/guards.sh`: block, ask and pass cases.
+- [x] Docs that list what the bash guard catches: `docs/plugin.md`, `plugin/README.md`,
       `README.md`, `plugin/skills/scaffold/SKILL.md` and the `plugin/hooks/hooks.json`
-      description.
-- [ ] `CHANGELOG.md` Added line; delete the backlog item.
+      description. `README.md` lists the guards only as examples ("such as"), so it stays as
+      it is; §6's sentence on `--no-verify` names the guard instead.
+- [x] `CHANGELOG.md` Added line; delete the backlog item.
 - Acceptance: `plugin/scripts/tests/all-awks.sh` passes under each installed awk (a `skip` is
   reported as unchecked); Check E passes for Appendix C; `claude plugin validate plugin` and
   `claude plugin validate .` give no warnings beyond `main`'s.
+  Result: 214 cases pass under awk 20200816, mawk 1.3.4 and gawk 5.4.2; both validations pass
+  with nothing to report.
 
-## Stage 2 — Check G, lines over 100 columns   [pending]
+## Stage 2 — Check G, lines over 100 columns   [in progress]
 - [ ] `.claude/hooks/docs-consistency.sh`: a `check_g` that counts characters, not bytes (awk
       under `LC_ALL=C`, UTF-8 continuation bytes removed before `length()`), skipping fenced
       blocks and table rows. Run it on the files under Decisions, including `plugin/README.md`

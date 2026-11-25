@@ -5,6 +5,12 @@ versions follow SemVer.
 
 ## [Unreleased]
 
+### Added
+- The bash guard (Appendix C) blocks Claude from skipping git hooks: `--no-verify` on any git
+  command, and `git commit -n`. Appendix Q's `commit-msg` hook could otherwise be stepped over.
+  People can still run these themselves, and `MINNEL_BASH_GUARD` sets the rule to ask or allow
+  with the guard's other rules. `git push -n`, a dry run, still passes.
+
 ## [0.8.0] - 2026-11-25
 
 ### Added

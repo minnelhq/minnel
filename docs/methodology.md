@@ -196,7 +196,7 @@ flowchart LR
 
 Hooks can also be scoped *inside* a subagent's frontmatter (they fire only while that agent runs and are cleaned up afterwards). This is the clean way to make `test-writer` physically unable to write outside `Tests/`, regardless of what it is asked. Use the `$CLAUDE_PROJECT_DIR` prefix for hook script paths so they resolve regardless of working directory, and quote it (`"$CLAUDE_PROJECT_DIR"/.claude/hooks/bash-guard.sh`) so a project path with a space still runs. See Appendix C.
 
-A Claude Code hook sees only Claude's tool calls. A convention that people follow too, such as the commit style, needs a git hook as well, because git runs it on each `git commit` in a clone where it is installed, whoever runs it. Appendix Q is a `commit-msg` hook that checks the subject against the commit style and, unless the project turns the check off, that a `feat` or `fix` commit adds its changelog line (§8). It is a tripwire like the guards: `git commit --no-verify` skips it, and CI stays the check nobody skips.
+A Claude Code hook sees only Claude's tool calls. A convention that people follow too, such as the commit style, needs a git hook as well, because git runs it on each `git commit` in a clone where it is installed, whoever runs it. Appendix Q is a `commit-msg` hook that checks the subject against the commit style and, unless the project turns the check off, that a `feat` or `fix` commit adds its changelog line (§8). It is a tripwire like the guards: `git commit --no-verify` skips it, though the bash guard (Appendix C) blocks Claude from doing so, and CI stays the check nobody skips.
 
 ---
 

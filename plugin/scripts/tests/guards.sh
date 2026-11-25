@@ -115,6 +115,23 @@ check 2 bash-guard.sh "$(bash_call 'git push -f')"         'git push -f'
 check 2 bash-guard.sh "$(bash_call 'git push origin +main')" 'git push +refspec'
 check 2 bash-guard.sh "$(bash_call 'git -C x push --force')" 'git -C x push --force'
 check 0 bash-guard.sh "$(bash_call 'git push --force-with-lease')" 'git push --force-with-lease'
+# Skipping git hooks: --no-verify on any git command, and git commit -n.
+check 2 bash-guard.sh "$(bash_call 'git commit --no-verify -m x')" 'git commit --no-verify'
+check 2 bash-guard.sh "$(bash_call 'git commit --no-veri -m x')" 'git commit --no-veri'
+check 2 bash-guard.sh "$(bash_call 'git commit -n -m x')"  'git commit -n'
+check 2 bash-guard.sh "$(bash_call 'git commit -qn -m x')" 'git commit -qn'
+check 2 bash-guard.sh "$(bash_call 'git push --no-verify')" 'git push --no-verify'
+check 2 bash-guard.sh "$(bash_call 'git merge --no-verify b')" 'git merge --no-verify'
+check 2 bash-guard.sh "$(bash_call 'git -C d commit --no-verify -m x')" 'git -C d commit --no-verify'
+check 2 bash-guard.sh "$(bash_call 'git add x && git commit -n -m x')" 'git commit -n after &&'
+check ask bash-guard.sh "$(bash_call 'git commit --no-verify -m x')" 'git commit --no-verify, ask' MINNEL_BASH_GUARD=ask
+check 0 bash-guard.sh "$(bash_call 'git commit --no-verify -m x')" 'git commit --no-verify, allow' MINNEL_BASH_GUARD=allow
+check 0 bash-guard.sh "$(bash_call 'git commit -m "skip --no-verify"')" '--no-verify in a quoted message'
+check 0 bash-guard.sh "$(bash_call 'git commit -mn')"      'git commit -m with the message n'
+check 0 bash-guard.sh "$(bash_call 'git commit -uno -m x')" 'git commit -uno'
+check 0 bash-guard.sh "$(bash_call 'git commit --no-edit')" 'git commit --no-edit'
+check 0 bash-guard.sh "$(bash_call 'git push -n')"         'git push -n, a dry run'
+check 0 bash-guard.sh "$(bash_call 'echo git commit --no-verify')" 'git commit --no-verify as an argument'
 # Mentions aren't commands (the false positives seen on 2026-11-23).
 check 0 bash-guard.sh "$(bash_call "grep -E '\\brm -rf\\b' f")" 'rm -rf as a grep pattern'
 check 0 bash-guard.sh "$(bash_call 'echo rm -rf x')"       'rm -rf as an argument'
