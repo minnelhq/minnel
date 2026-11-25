@@ -9,7 +9,7 @@ the plan's file, with no stage count, or reads "(none — no active plan)". Brit
 ISO YYYY-MM-DD.
 
 ## Now (this plan)
-- (none — no active plan)
+- Release 0.8.0: the bootstrap with its guard and hook settings — plan: docs/plans/release-0.8.0.md
 
 ## Next
 
