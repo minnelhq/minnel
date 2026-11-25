@@ -13,14 +13,6 @@ ISO YYYY-MM-DD.
 
 ## Next
 
-### 0.9.0
-- A line-length check in the consistency hook — feat · value L · effort L — why now: in the 0.8.0
-  review the reviewer caught spliced over-long lines twice (`plugin/README.md`, then
-  `CHANGELOG.md`), left by swapping a sentence in a hard-wrapped file without reflowing it. The
-  house-voice self-test names the defect, but nothing checks it. Flag any line over 100 columns
-  in the hard-wrapped files: `CHANGELOG.md`, `plugin/README.md`, `CONTRIBUTING.md`, plans and the
-  backlog. The narrative docs keep one paragraph per line, so they stay out of scope.
-
 ### Unscheduled
 - (none)
 

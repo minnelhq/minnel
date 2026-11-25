@@ -1,6 +1,6 @@
 # Plan: Release 0.9.0, the --no-verify guard and a line-length check   (approved 2026-11-25)
 
-**Status:** Stage 1 done; Stage 2 in progress.
+**Status:** Stages 1–2 done; Stage 3 (review) in progress.
 
 ## Goal
 The bash guard blocks Claude from skipping git hooks with `--no-verify`, and the repository's
@@ -46,19 +46,23 @@ Decisions:
   Result: 214 cases pass under awk 20200816, mawk 1.3.4 and gawk 5.4.2; both validations pass
   with nothing to report.
 
-## Stage 2 — Check G, lines over 100 columns   [in progress]
-- [ ] `.claude/hooks/docs-consistency.sh`: a `check_g` that counts characters, not bytes (awk
+## Stage 2 — Check G, lines over 100 columns   [done]
+- [x] `.claude/hooks/docs-consistency.sh`: a `check_g` that counts characters, not bytes (awk
       under `LC_ALL=C`, UTF-8 continuation bytes removed before `length()`), skipping fenced
       blocks and table rows. Run it on the files under Decisions, including `plugin/README.md`
       and live plans, which the hook otherwise leaves early. Update the header comment.
-- [ ] Reflow `CHANGELOG.md` line 116, the one line in scope over 100 today.
-- [ ] Name Check G wherever `CONTRIBUTING.md` or the house-voice rule lists the hook's checks.
-- [ ] `CHANGELOG.md` Added line; delete the backlog item.
+- [x] Reflow `CHANGELOG.md` line 116, the one line in scope over 100 today.
+- [x] Name Check G wherever `CONTRIBUTING.md` or the house-voice rule lists the hook's checks.
+      `CONTRIBUTING.md` lists them; the house-voice self-test names the spliced-line defect, so
+      it gains a sentence pointing to Check G.
+- [x] `CHANGELOG.md` Added line; delete the backlog item.
 - Acceptance: under each installed awk, the hook flags a 101-column line in `CHANGELOG.md` and
   in a live plan, and passes a 100-column line with em-dashes, a long line in a fence, and long
   lines in `docs/methodology.md` and in an archived plan.
+  Result: all eight cases pass under awk 20200816, mawk 1.3.4 and gawk 5.4.2, with a
+  `plugin/README.md` case and a table-row case added. The hook is clean on every in-scope file.
 
-## Stage 3 — Review   [pending]
+## Stage 3 — Review   [in progress]
 - [ ] `minnel:code-reviewer` on the branch diff; fix its findings and re-run per the working
       agreement.
 - [ ] `zensical build --strict`, since published docs changed.

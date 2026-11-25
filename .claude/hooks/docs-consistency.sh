@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # docs-consistency.sh — PostToolUse hook (matcher: Edit|Write|MultiEdit).
 #
-# Catches, at edit time, six defect classes the code-reviewer keeps finding by
+# Catches, at edit time, seven defect classes the code-reviewer keeps finding by
 # hand in the product docs:
 #   A) dangling cross-references — a §N or "Appendix X" that points at no real
 #      heading (sections validated against methodology.md, appendices against
@@ -16,9 +16,12 @@
 #      flagged (fenced code blocks skipped, as for C);
 #   E) appendix–plugin drift — each artefact the plugin ships also appears in an
 #      appendix (or templates/), and the two copies must match once the intended
-#      differences in the PAIRS table are normalised away; and
+#      differences in the PAIRS table are normalised away;
 #   F) a stale "Last updated" line — an edited doc whose "Last updated YYYY-MM-DD"
-#      is older than today's date (backtick-fenced code blocks skipped).
+#      is older than today's date (backtick-fenced code blocks skipped); and
+#   G) an over-long line in a hard-wrapped file — over 100 columns in CHANGELOG.md,
+#      CONTRIBUTING.md, README.md, plugin/README.md, docs/index.md, docs/backlog.md
+#      or a live plan (fenced code blocks and table rows skipped).
 #
 # The edited file arrives as .tool_input.file_path in the JSON on stdin (the
 # field is identical for Edit, Write and MultiEdit). PostToolUse runs after the
@@ -27,9 +30,10 @@
 #
 # Scope: docs/**/*.md (except gitignored files and docs/plans/), README.md,
 # CONTRIBUTING.md, CHANGELOG.md, templates/*.md. Check E also runs on edits
-# under plugin/ (any file type), and only Check E runs there. Out: .claude/**
+# under plugin/ (any file type), and only Checks E and G run there. Out: .claude/**
 # (quoted config and tool names trip the spelling list), docs/plans/ (plans and
-# meta-docs legitimately discuss references that don't resolve yet),
+# meta-docs legitimately discuss references that don't resolve yet; only Check G
+# runs on a live plan),
 # LICENSE/NOTICE (intentionally American), non-Markdown.
 #
 # Known limitations: (1) runs per-file — a single batch that adds "## 11." to
@@ -135,15 +139,42 @@ PAIRS
       e_out="${e_out}  drift: ${sk#"$ROOT"/} lacks disable-model-invocation: true in its frontmatter\n"
   done
 }
+# --- Check G: no line over 100 columns in the hard-wrapped files ---
+# These files wrap at 100 columns; swapping a sentence in without reflowing leaves a
+# spliced line far longer than its neighbours. The narrative docs keep one paragraph
+# per line, so they are out of scope. awk runs in the C locale and drops UTF-8
+# continuation bytes before measuring, so an em-dash counts as one column in every
+# awk. Backtick-fenced blocks and table rows are skipped.
+G_MAX=100
+hard_wrapped() { # rel path
+  case "$1" in
+    docs/plans/archive/*) return 1 ;;
+    CHANGELOG.md|CONTRIBUTING.md|README.md|plugin/README.md|docs/index.md|docs/backlog.md|docs/plans/*.md) return 0 ;;
+  esac
+  return 1
+}
+check_g() { # prints one finding per line
+  LC_ALL=C awk -v max="$G_MAX" '
+    /^[[:space:]]*```/ { f = !f; next }
+    f || /^[[:space:]]*\|/ { next }
+    { s = $0; gsub(/[\200-\277]/, "", s)
+      if (length(s) > max) printf "  %d-column line, over %d — reflow the paragraph (line %d)\n", length(s), max, NR }' "$FILE"
+}
+g_findings=""
+if hard_wrapped "$REL"; then
+  g_out=$(check_g)
+  [ -z "$g_out" ] || g_findings="${g_out}\n"
+fi
+
 e_findings=""
 case "$REL" in
   docs/appendices/*|plugin/*|templates/CLAUDE.template.md)
     if [ -d "$ROOT/plugin" ]; then check_e; e_findings=$e_out; fi ;;
 esac
 case "$REL" in
-  plugin/*)                      # only Check E applies to plugin files
-    if [ -n "$e_findings" ]; then
-      { echo "docs-consistency: appendix–plugin drift after editing ${REL}:"; printf '%b' "$e_findings"; } >&2
+  plugin/*)                      # only Checks E and G apply to plugin files
+    if [ -n "$e_findings$g_findings" ]; then
+      { echo "docs-consistency: issues in ${REL}:"; printf '%b' "$e_findings$g_findings"; } >&2
       exit 2
     fi
     exit 0 ;;
@@ -161,14 +192,19 @@ if command -v git >/dev/null 2>&1; then
   git -C "$ROOT" check-ignore -q -- "$REL" 2>/dev/null && exit 0
 fi
 case "$REL" in
-  docs/plans/*) exit 0 ;;        # plans/meta-docs legitimately discuss refs that don't resolve yet
+  docs/plans/*)                  # plans/meta-docs legitimately discuss refs that don't resolve yet
+    if [ -n "$g_findings" ]; then  # but live plans are hard-wrapped (Check G)
+      { echo "docs-consistency: issues in ${REL}:"; printf '%b' "$g_findings"; } >&2
+      exit 2
+    fi
+    exit 0 ;;
 esac
 case "$REL" in
   docs/*|README.md|CONTRIBUTING.md|CHANGELOG.md|templates/*) ;;
   *) exit 0 ;;
 esac
 
-findings="$e_findings"
+findings="$e_findings$g_findings"
 
 # --- Check A: §N / Appendix-X cross-references resolve to real headings ---
 # Sections are defined in methodology.md; appendices live in docs/appendices/*.md.
@@ -297,7 +333,7 @@ if [ -n "$findings" ]; then
   {
     echo "docs-consistency: issues in ${REL}:"
     printf '%b' "$findings"
-    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD, and an edited doc's \"Last updated\" line is today's; appendix copies match the plugin files they ship as."
+    echo "Fix these, or proceed if a flag is a false positive. § refs must resolve to methodology.md sections, Appendix refs to docs/appendices/ headings, and [text](path) links to existing files; prose is British English; dates are ISO YYYY-MM-DD, and an edited doc's \"Last updated\" line is today's; appendix copies match the plugin files they ship as; hard-wrapped files stay within ${G_MAX} columns."
   } >&2
   exit 2
 fi
