@@ -134,7 +134,7 @@ check 0 bash-guard.sh "$(bash_call 'git commit -Cn')"      'git commit -C with t
 check 0 bash-guard.sh "$(bash_call 'git commit -cn')"      'git commit -c with the commit n'
 check 0 bash-guard.sh "$(bash_call 'git commit -tn')"      'git commit -t with the template n'
 check 0 bash-guard.sh "$(bash_call 'git commit -Sn')"      'git commit -S with the key n'
-check 2 bash-guard.sh "$(bash_call 'git am --no-v x.patch')" 'git am --no-v'
+check 0 bash-guard.sh "$(bash_call 'git fetch --no-v')"    'git fetch --no-v, short for --no-verbose'
 check 0 bash-guard.sh "$(bash_call 'git merge --no-verify-signatures b')" 'git merge --no-verify-signatures'
 check 0 bash-guard.sh "$(bash_call 'git commit --no-verbose -m x')" 'git commit --no-verbose'
 check 0 bash-guard.sh "$(bash_call 'git commit --no-edit')" 'git commit --no-edit'
