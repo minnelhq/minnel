@@ -32,7 +32,10 @@ ISO YYYY-MM-DD.
   `disableAllHooks`, or disabling the plugin (checked 2026-11-23).
 
 ## Later / maybe
-- (none)
+- Say whether a release cut keeps an empty Unreleased section — fix · value L · effort L — why
+  now: `/release` step 5 (and Appendix M) proposes the version heading "in place of" Unreleased,
+  but the 0.7.1 cut kept an empty `## [Unreleased]` above it, as Keep a Changelog and §8 do.
+  Reword the step to match, in both copies (Check E).
 
 ## Parked (with reason)
 - (none)
