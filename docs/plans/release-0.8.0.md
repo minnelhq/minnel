@@ -1,6 +1,6 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stages 1–4 done; Stage 5 of 6 next.
+**Status:** Stages 1–5 done; Stage 6 (the release) waits on the maintainer's word.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -139,11 +139,11 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 
   `claude plugin validate` passes.
 
-## Stage 5 — Records and review   [todo]
-- [ ] Every user-facing change has its `[Unreleased]` line, written in the commit that made it.
+## Stage 5 — Records and review   [done]
+- [x] Every user-facing change has its `[Unreleased]` line, written in the commit that made it.
       The four 0.8.0 backlog items are gone and `### 0.8.0` is removed. The `--no-verify` item
       is added under Unscheduled.
-- [ ] `zensical build --strict`; `minnel:code-reviewer` on the branch diff; `/minnel:accept`.
+- [x] `zensical build --strict`; `minnel:code-reviewer` on the branch diff; `/minnel:accept`.
 - Acceptance: no Critical findings; every Definition of Done item has evidence.
 
 ## Stage 6 — Cut 0.8.0 (on the maintainer's word)   [todo]
@@ -188,6 +188,18 @@ bootstrap has something to offer. The bootstrap comes last of the features.
     the repository's own setting and says a local one replaces the global one.
   - The backlog's `### 0.8.0` heading went with its last items here, and the `--no-verify` item
     went under Unscheduled, ahead of Stage 5.
+- 2026-11-25, Stage 5: the reviewer ran three times, each later run on the fix commits only.
+  - The first run had no Critical. Its Warnings: a new commit repeating HEAD's subject passed
+    the hook (now a documented, tested accepted pass), and the scaffold could overwrite an
+    existing hook or skip the hook's changelog settings. The ADR's amendment dates were also
+    stale.
+  - The second found one Critical: under Husky, which runs hooks with `sh -e`, the hook refused
+    every commit because `git config` exits 1 for an unset `core.commentChar`. Fixed, with cases
+    run under `sh -e`. It also found an all-comment message slipping through, plural merge
+    subjects refused, and a scaffold gap for an untracked hooks directory.
+  - The third had no Critical. Its Warning, a signed-commit case that passed when signing
+    failed, now reports a skip instead.
+  - The `CLAUDE.md` line naming only `guards.sh` is left for the maintainer.
 
 ## Decisions
 - 2026-11-25 — The `commit-msg` hook gets its own Appendix Q in `hooks.md`, not a part of
