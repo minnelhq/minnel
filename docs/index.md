@@ -7,9 +7,9 @@ Long Claude Code sessions lose things. Compaction, which summarises a long conve
 context, can drop the plan. A restart forgets what was decided, and a rule in `CLAUDE.md` holds
 only while the model remembers it. Minnel answers with two habits. What must survive goes in
 files: the plan, the decisions, the backlog and the changelog. What must hold is checked by hooks
-(scripts Claude Code runs at set points in a session, such as before or after a tool call), which
-don't depend on the model remembering, and by a review subagent (a separate AI assistant with its
-own context and instructions) before merge.
+and, before merge, by a review subagent. Hooks are scripts Claude Code runs at set points in a
+session, such as before or after a tool call, so they don't depend on the model remembering. The
+subagent is a separate AI assistant with its own context and instructions.
 
 ## Quick start
 
