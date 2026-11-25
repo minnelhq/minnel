@@ -33,17 +33,22 @@ covers how to probe.
 - **When the guards change**, check each pattern still has a way to fire (`DROP TABLE` lives in an
   argument; `rm -rf` also runs via `xargs`, `find -exec`, `/bin/rm`, `\rm`), that the tests pin the
   accepted misses as documented passes, and that a flag check stops at `;`, `&&`, `|`.
-- **The bash guard's hook-skipping rule (feat/0.9.0, 2026-11-25 shape after 97ec1c6).**
-  ` --no-v(e(r(i(fy?)?)?)?)?( |$)` on any `git` segment, plus a `git commit` `-n` cluster with a
-  value-letter exclusion class (each letter now has a pass case). To map what git accepts, run
+- **The bash guard's hook-skipping rule (shipped in 0.9.0, 2026-11-25).**
+  ` --no-veri(fy?)?( |$)` on any `git` segment, plus a `git commit` `-n` cluster with a
+  value-letter exclusion class (each letter has a pass case). To map what git accepts, run
   `git <sub> <opt> --definitely-bogus` in a scratch repo: an "unknown option" error about the
   bogus flag means `<opt>` parsed (git 2.54). `--no-veri` is shortest for commit, push and rebase;
-  `git am` takes `--no-v`; merge/pull take only the full form. Accepted false positives of the
-  `--no-v` prefix: `--no-v`/`--no-ve`/`--no-ver` mean `--no-verbose` on add, apply, archive,
-  branch, clone, fetch, fsck, mv, remote, status, verify-commit/-tag, send-pack, read-tree; and
-  `git show-ref --no-verify` is not about hooks. Accepted misses: a quoted flag (`'--no-verify'`
-  becomes Q), `HUSKY=0` and other env switches (VAR=value is dropped), `-c core.hooksPath=`,
-  `git am -n`.
+  merge/pull take only the full form. A round-2 fix widened the match to `--no-v` for `git am`,
+  then dropped it: `--no-v`/`--no-ve`/`--no-ver` mean `--no-verbose` on add, apply, archive,
+  branch, clone, fetch, fsck, mv, remote, status, verify-commit/-tag, send-pack and read-tree
+  (`git fetch --no-v` is pinned as a pass). Accepted false positive: `git show-ref --no-verify`,
+  which is not about hooks. Accepted misses: `git am -n` and `git am --no-v` to `--no-ver` (am
+  skips applypatch hooks, not commit-msg), a quoted flag (`'--no-verify'` becomes Q), `HUSKY=0`
+  and other env switches (VAR=value is dropped), `-c core.hooksPath=`.
+- **`commit-msg.sh` isolation (since f41f2a0, 2026-11-25).** It exports `GIT_CONFIG_GLOBAL=/dev/null`
+  and `GIT_CONFIG_NOSYSTEM=1`, so probe a hostile config through `HOME=<dir>` with a `.gitconfig`
+  (`core.commentChar = ";"` failed main's comment-lines case and passes since), not through
+  `GIT_CONFIG_GLOBAL`, which the script overrides.
 - **The segmenter (`plugin/scripts/command-segments.awk`).** Both guards match on its output, so a
   shape it mis-splits is a silent miss. Probe with `printf '%s\n' "$cmd" | awk -f …` from a scratch
   script built with the Write tool (spell `git` via a variable), and compare against `main`'s
