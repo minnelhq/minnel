@@ -21,13 +21,13 @@ The strategic payoff matters more, and it is the reason to treat this as the nat
 This repository ships the methodology as a plugin in `plugin/`, listed by a marketplace at the repository root. From a terminal, on Claude Code 2.1.292 or later:
 
 ```bash
-claude plugin install minnel --marketplace tcrossland/claude-code-methodology
+claude plugin install minnel --marketplace minnelhq/minnel
 ```
 
-This adds the marketplace to your user settings if you haven't added it yet, then installs the plugin. Inside a session, `/plugin install minnel --marketplace tcrossland/claude-code-methodology` does the same from 2.1.275, after asking you to confirm the marketplace. From the shell before 2.1.292, add the marketplace first:
+This adds the marketplace to your user settings if you haven't added it yet, then installs the plugin. Inside a session, `/plugin install minnel --marketplace minnelhq/minnel` does the same from 2.1.275, after asking you to confirm the marketplace. From the shell before 2.1.292, add the marketplace first:
 
 ```bash
-claude plugin marketplace add tcrossland/claude-code-methodology
+claude plugin marketplace add minnelhq/minnel
 claude plugin install minnel@minnel
 ```
 

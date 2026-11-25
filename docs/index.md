@@ -19,7 +19,7 @@ for experienced solo developers and small teams.
 ## Using it
 
 1. Read [the methodology](methodology.md).
-2. Drop the [starter `CLAUDE.md` template](https://github.com/tcrossland/claude-code-methodology/blob/main/templates/CLAUDE.template.md) into a project and
+2. Drop the [starter `CLAUDE.md` template](https://github.com/minnelhq/minnel/blob/main/templates/CLAUDE.template.md) into a project and
    fill it in.
 3. Adopt the loop, the file layout, and the appendix artefacts as they earn their place, not
    all at once.
@@ -29,4 +29,4 @@ you: see [Minnel as a plugin](plugin.md#install-this-plugin).
 
 The source is plain Markdown, readable on its own; this site renders it. It is licensed
 Apache-2.0: free to use, modify and redistribute, including commercially. The
-[changelog](https://github.com/tcrossland/claude-code-methodology/blob/main/CHANGELOG.md) lists each release.
+[changelog](https://github.com/minnelhq/minnel/blob/main/CHANGELOG.md) lists each release.

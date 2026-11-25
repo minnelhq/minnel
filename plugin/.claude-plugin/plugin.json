@@ -6,8 +6,8 @@
   "author": {
     "name": "Tomas Crossland"
   },
-  "homepage": "https://github.com/tcrossland/claude-code-methodology",
-  "repository": "https://github.com/tcrossland/claude-code-methodology",
+  "homepage": "https://github.com/minnelhq/minnel",
+  "repository": "https://github.com/minnelhq/minnel",
   "license": "Apache-2.0",
   "network": {
     "hosts": []

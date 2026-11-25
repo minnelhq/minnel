@@ -23,14 +23,14 @@ methodology's artefacts so a project can adopt them without copying files by han
 On Claude Code 2.1.292 or later:
 
 ```bash
-claude plugin install minnel --marketplace tcrossland/claude-code-methodology
+claude plugin install minnel --marketplace minnelhq/minnel
 ```
 
-Inside a session, `/plugin install minnel --marketplace tcrossland/claude-code-methodology` works
+Inside a session, `/plugin install minnel --marketplace minnelhq/minnel` works
 from 2.1.275. From the shell before 2.1.292, add the marketplace first:
 
 ```bash
-claude plugin marketplace add tcrossland/claude-code-methodology
+claude plugin marketplace add minnelhq/minnel
 claude plugin install minnel@minnel
 ```
 
@@ -45,8 +45,8 @@ claude plugin update minnel@minnel
 
 ## More
 
-- [The methodology](https://tcrossland.github.io/claude-code-methodology/methodology/) explains
+- [The methodology](https://minnelhq.github.io/minnel/methodology/) explains
   what each piece is for.
-- [Install this plugin](https://tcrossland.github.io/claude-code-methodology/plugin/#install-this-plugin)
+- [Install this plugin](https://minnelhq.github.io/minnel/plugin/#install-this-plugin)
   covers install scopes, updates, the scaffold's steps, the guards' settings and which pieces have
   had less use.

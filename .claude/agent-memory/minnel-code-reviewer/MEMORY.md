@@ -2,7 +2,7 @@
 - [Recurring defect patterns](feedback-recurring-defects.md) — the prose/consistency defect classes that actually show up here (incl. retiring tailored copies)
 - [Reviewing the bash hooks](feedback-hook-script-review.md) — portability, exec-bit, scope-gate and fail-open traps to check in `.claude/hooks/`
 - [Plan archiving convention](project-plan-archiving.md) — completed plans move to docs/plans/archive/; where it's documented and why generic docs/plans/ refs stay correct
-- [Doc-site (Zensical)](project-doc-site.md) — site build, push-to-main deploy gating, fenced broken link, blob-URL rebrand debt, vendored Mermaid CDN fallback, native redirects
+- [Doc-site (Zensical)](project-doc-site.md) — site build, push-to-main deploy gating, fenced broken link, minnelhq/minnel move, vendored Mermaid CDN fallback, native redirects
 - [House voice guide](project-house-voice.md) — .claude/rules/house-voice.md: 6 narrative docs (incl. plugin/README.md) plus changelog/plan notes; `*.md` path matching, voice-pass slips and the GitHub-vs-site heading-anchor trap
 - [Minnel plugin and Check E](project-plugin-minnel.md) — Check E blind spots, install and update facts, release lag, release-cut checks, plugin-cannot-ship-rules
 - [Review from git objects](feedback-review-from-archive.md) — shared checkout gets switched mid-review; use git archive, check merge-tree vs origin/main

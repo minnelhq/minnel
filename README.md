@@ -52,9 +52,9 @@ Its `/minnel:scaffold` writes the `CLAUDE.md` template and the file layout into 
 
 ## Reading it as a site
 
-The docs are published as a site at <https://tcrossland.github.io/claude-code-methodology/>,
-built with [Zensical](https://zensical.org/): the same Markdown, with search and navigation. To
-build it locally:
+The docs are published as a site at <https://minnelhq.github.io/minnel/>, built with
+[Zensical](https://zensical.org/): the same Markdown, with search and navigation. To build it
+locally:
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
