@@ -1,6 +1,8 @@
 # Plan: Release 0.9.0, the --no-verify guard and a line-length check   (approved 2026-11-25)
 
-**Status:** Stages 1–3 done; Stage 4 (the release) waits on the maintainer.
+**Status:** done (2026-11-25). Stages 1–4 are complete on one branch: the `--no-verify` block,
+Check G, two review rounds and the 0.9.0 release commit. Tagging `v0.9.0` and the GitHub release
+follow the merge.
 
 ## Goal
 The bash guard blocks Claude from skipping git hooks with `--no-verify`, and the repository's
@@ -83,7 +85,8 @@ Decisions:
     touches only this plan.
 - [x] `zensical build --strict`, since published docs changed: no issues.
 
-## Stage 4 — Release 0.9.0   [pending]
-- [ ] On the maintainer's word, `/minnel:release`: the 0.9.0 changelog section, `plugin.json`'s
+## Stage 4 — Release 0.9.0   [done]
+- [x] On the maintainer's word, `/minnel:release`: the 0.9.0 changelog section, `plugin.json`'s
       `version`, this plan closed and archived, and Now reset. The tag and GitHub release follow
       the merge.
+  - Neither backlog held an item under 0.9.0 at the cut. Release commit e0a8568.
