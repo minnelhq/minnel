@@ -1,6 +1,8 @@
 # Plan: Release 0.8.0, the bootstrap with its guard and hook settings   (approved 2026-11-25)
 
-**Status:** Stages 1–5 done; Stage 6 (the release) waits on the maintainer's word.
+**Status:** done (2026-11-25) — Stages 1–6 complete on one branch: the `/release` fix, settings
+for every guard, Appendix Q, the scaffold bootstrap, review, and the 0.8.0 release commit.
+Tagging `v0.8.0` and the GitHub release follow the merge.
 
 ## Goal
 `/minnel:scaffold` asks for the adopter's conventions and writes the project files with those
@@ -146,8 +148,8 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 - [x] `zensical build --strict`; `minnel:code-reviewer` on the branch diff; `/minnel:accept`.
 - Acceptance: no Critical findings; every Definition of Done item has evidence.
 
-## Stage 6 — Cut 0.8.0 (on the maintainer's word)   [todo]
-- [ ] `/minnel:release 0.8.0`: the version heading, and `plugin.json` `version` to 0.8.0, both in
+## Stage 6 — Cut 0.8.0 (on the maintainer's word)   [done]
+- [x] `/minnel:release 0.8.0`: the version heading, and `plugin.json` `version` to 0.8.0, both in
       the release commit. After the merge, the annotated tag and the GitHub release, each with
       the maintainer's go-ahead.
 - Acceptance: the Definition of Done's release item, with tag and release *pending* until merge.
@@ -200,6 +202,9 @@ bootstrap has something to offer. The bootstrap comes last of the features.
   - The third had no Critical. Its Warning, a signed-commit case that passed when signing
     failed, now reports a skip instead.
   - The `CLAUDE.md` line naming only `guards.sh` is left for the maintainer.
+- 2026-11-25, Stage 6: the release commit landed before the merge, on the feature branch, so PR
+  minnelhq/minnel#50 carries it. The tag and the GitHub release stay pending until the merge, as
+  the stage's acceptance says.
 
 ## Decisions
 - 2026-11-25 — The `commit-msg` hook gets its own Appendix Q in `hooks.md`, not a part of
@@ -212,3 +217,12 @@ bootstrap has something to offer. The bootstrap comes last of the features.
 - 2026-11-25 — Guard settings stay in the project's `env`, not a plugin `userConfig` option,
   because `userConfig` values are stored in `pluginConfigs` at user or managed scope, while a
   setting such as pushes is a per-project choice.
+- 2026-11-25 — A new commit that repeats HEAD's subject passes the hook on that commit's
+  changelog line. A commit-msg hook can't tell an amend from a new commit, so this is documented
+  and tested as an accepted pass rather than fixed.
+- 2026-11-25 — The hook passes only the merge subjects git writes. It refuses `Merge <url>` from
+  `git pull <url>` (Appendix Q says so), and it leaves out GitHub's `Merge pull request`, since
+  GitHub's merges don't run local hooks.
+- 2026-11-25 — The scaffold installs the hook only into `.githooks/` or a tracked, non-ignored
+  `core.hooksPath` directory, and asks otherwise. A hook manager's generated directory would
+  lose it, and a global one would run it in every repository.
