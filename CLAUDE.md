@@ -1,10 +1,11 @@
 # Minnel: a file-first operating model for Claude Code
 
 This repository is the methodology itself: reference docs, a CLAUDE.md template, and the
-methodology as a Claude Code plugin (`plugin/`). It is a documentation project: the Markdown source has no build or
-runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `config-audit.sh`;
-`all-awks.sh` runs it and `commit-msg.sh` under each awk. (The doc site is an
-*optional* publish build — never a prerequisite for reading or editing the Markdown; see `docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
+methodology as a Claude Code plugin (`plugin/`). It is a documentation project: the Markdown
+source has no build or runtime; `plugin/scripts/tests/all-awks.sh` runs every plugin test under
+each installed awk, and `CONTRIBUTING.md` says when to run it. (The doc site is an *optional*
+publish build — never a prerequisite for reading or editing the Markdown; see
+`docs/design/0002-publish-as-doc-site.md` and ADR 0003.)
 
 ## Invariants
 
@@ -41,8 +42,9 @@ runtime; `plugin/scripts/tests/guards.sh` checks the plugin's guards and its `co
 - Changelog: Keep a Changelog, SemVer, ISO dates. The docs are the product, so changed guidance,
   new appendices, renumbering or re-lettering, template changes and `refactor` restructuring a
   reader would notice are all user-facing.
-- Internal/private material lives in a gitignored local-notes folder; never name it or describe its
-  contents in tracked files or commit messages — use neutral "local" terminology.
+- Internal/private material lives in a gitignored local-notes folder; never name it, describe its
+  contents or cite it as evidence in tracked files or commit messages. State the evidence itself,
+  in neutral "local" terminology.
 - Prose follows the house voice in `.claude/rules/house-voice.md` (its scope line says where),
   which loads when a Markdown file is read or edited.
 - A correction that recurs (`/minnel:retro`, `/minnel:wrap`) may mean the documented guidance is
